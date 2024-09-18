@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-[#000] text-white;
+}
+
+.ql-toolbar {
+  background-color: #0A090F;
+  border: none !important;
+}
+
+.ql-container {
+  background-color: #0A090F;
+  color: white;
+  border: none !important;
+}
+
+.ql-editor {
+  min-height: 250px;
+  color: white;
+}
+
+.custom-input::placeholder {
+  color: #404042; 
+  font-size: small; 
+}
+
+/* Custom styles for checkbox */
+input[type='checkbox'] {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  background-color: black;
+  border: 1px solid gray;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+input[type='checkbox']:checked {
+  background-color: #DF841C;
+}
+
+input[type='checkbox']:checked::after {
+  content: '✔'; 
+  color: white;
+  font-size: 0.75rem;
+  display: block;
+  line-height: 1rem;
+  text-align: center;
+}
+
+
+/* Custom checkbox styling */
+.custom-checkbox {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background-color: black;
+  border: 1px solid gray;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.custom-checkbox:checked {
+  background-color: #DF841C;
+}
+
+.custom-checkbox:checked::after {
+  content: '✔'; 
+  color: white;
+  font-size: 0.75rem;
+  display: block;
+  line-height: 1rem;
+  text-align: center;
+}
