@@ -27,10 +27,10 @@ const Sidebar = () => {
             {/* Dashboard */}
             <li
               onClick={() => router.push( "/dashboard" )}
-              className="flex items-center justify-between w-full text-left px-4 hover:bg-[#1D1D21] py-2 rounded-none"
+              className="flex border-b border-gray-700 items-center justify-between w-full text-left px-4 hover:bg-[#1D1D21] py-2 rounded-none"
             >
               <div className="flex items-center">
-                <img src="/asset/dashboardIcon.svg" alt="" className="mr-2 px-1" />
+                <img src="/asset/home.svg" alt="" className="mr-1 px-1 " />
                 <span className="text-[#999999] font-semibold">Dashboard</span>
               </div>
             </li>
@@ -42,7 +42,7 @@ const Sidebar = () => {
                 onClick={() => toggleMenu( "blog" )}
               >
                 <div className="flex items-center">
-                  <img src="/asset/Group 12856.svg" alt="" className="mr-2 px-1" />
+                  <img src="/asset/Group 12856.svg" alt="" className="mr-1 px-1" />
                   <span className="text-[#999999] font-semibold">Blog</span>
                 </div>
                 <MdOutlineKeyboardArrowDown
@@ -178,14 +178,14 @@ const Sidebar = () => {
           </ul>
         </div>
 
-        <div className="flex-1"></div>
+        {/* <div className="flex-1"></div> */}
       </div>
-      <button
+      {/* <button
         className="lg:hidden fixed top-4 left-4 text-white bg-[#1D1D21] p-2 rounded"
         onClick={() => setIsSidebarOpen( true )}
       >
         &#9776;
-      </button>
+      </button> */}
     </aside>
   );
 };

@@ -200,7 +200,7 @@ const AddPostPage = () => {
   };
 
   return (
-    <div className=" ml-64 bg-[#0A090F] text-white m-4 w-full  rounded-2xl border border-[#28272D]">
+    <div className=" lg:ml-64 bg-[#0A090F] text-white m-4 w-full  rounded-2xl border border-[#28272D]">
       {!user.contributor ? (
         <div className="flex h-[40rem] justify-center items-center">
         <div className="flex flex-col items-center justify-center">

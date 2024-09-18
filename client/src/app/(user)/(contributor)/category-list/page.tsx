@@ -38,7 +38,7 @@ const PostsTable = () => {
 
   return (
 
-    <div className="ml-64 m-4 py-4 bg-[#0A090F] rounded-2xl shadow-md w-full border border-[#28272D]">
+    <div className="lg:ml-64 m-4 py-4 bg-[#0A090F] rounded-2xl shadow-md w-full border border-[#28272D]">
       {/* Header */}
       <div className="flex justify-between items-center mb-4 px-8 py-2 border-b border-[#28272D]">
         <h1 className="text-white text-xl font-semibold">Category List</h1>

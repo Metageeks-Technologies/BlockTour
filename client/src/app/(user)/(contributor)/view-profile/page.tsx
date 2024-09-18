@@ -7,7 +7,7 @@ import {FaEdit} from "react-icons/fa";
 
 const ViewProfile = () => {
   return ( 
-    <div className="ml-64 bg-[#0A090F]  text-white m-4 rounded-2xl w-full border border-[#28272D]  ">
+    <div className="lg:ml-64 bg-[#0A090F]  text-white m-4 rounded-2xl w-full border border-[#28272D]  ">
       <div className="border-b border-[#28272D] px-4 py-4">
         <h1 className="text-xl px-6 ">View Profile</h1>
       </div>

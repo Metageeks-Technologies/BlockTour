@@ -46,7 +46,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   if (!post) {
     return (
-      <div className="ml-64 bg-[#0A090F] px-8 py-8 text-white m-4 rounded-2xl w-full border border-[#28272D]">
+      <div className="lg:ml-64 bg-[#0A090F] px-8 py-8 text-white m-4 rounded-2xl w-full border border-[#28272D]">
         <div className="flex gap-2 items-center">
           <img src="/asset/Group 12856.svg" alt="" className="h-10 w-10" />
           <h1 className="text-[#999999] font-semibold text-2xl">
