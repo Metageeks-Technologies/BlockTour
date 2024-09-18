@@ -28,6 +28,7 @@ const CardDetails = () => {
   const {id} = useParams();
   const [card, setCard] = useState<CardData>();
   const [status, setStatus] = useState<string | undefined>( card?.status );
+  const admin = useAppSelector( ( state: any ) => state.superAdmin.admin );
   const author = useAppSelector( ( state: any ) => state?.contributor?.author );
   // console.log( "author:-", author );
   const dispatch = useAppDispatch();
@@ -53,8 +54,20 @@ const CardDetails = () => {
       const response = await instance.put( `/post/post/${id}`, {status: newStatus} );
       console.log( "response in updating:-", response );
       notifySuccess( response.data?.message );
+      if ( response.status === 200 ) {
+        createNotifcation( author?._id, admin?._id, newStatus );
+      }
     } catch ( error ) {
       console.log( "error in updating:-", error );
+    }
+  };
+
+  const createNotifcation = async ( receiver: string, sender: string, status: string ) => {
+    try {
+      const response = await instance.post( "/notification/create-notification", {sender, receiver, message: `Your post ${card?.title}  has been ${status.toLowerCase() === "published" ? "published" : "rejected"} by ${admin?.name} on behalf of admin`} );
+      console.log( "response after creating notification:-", response );
+    } catch ( error ) {
+      console.error( "Error creating notification:", error );
     }
   };
 

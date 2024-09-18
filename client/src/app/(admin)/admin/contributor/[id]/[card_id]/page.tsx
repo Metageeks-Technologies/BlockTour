@@ -29,6 +29,8 @@ const CardDetails = () => {
   const [card, setCard] = useState<CardData>();
   const [status, setStatus] = useState<string | undefined>( card?.status );
   const author = useAppSelector( ( state: any ) => state?.contributor?.author );
+  const admin = useAppSelector( ( state: any ) => state.superAdmin.admin );
+
   console.log( "author:-", author );
   const dispatch = useAppDispatch();
 
@@ -53,12 +55,22 @@ const CardDetails = () => {
       const response = await instance.put( `/post/post/${card_id}`, {status: newStatus} );
       console.log( "response in updating:-", response );
       notifySuccess( response.data?.message );
+      if ( response.status === 200 ) {
+        createNotifcation( author?._id, admin?._id, newStatus );
+      }
     } catch ( error ) {
       console.log( "error in updating:-", error );
     }
   };
 
-
+  const createNotifcation = async ( receiver: string, sender: string, status: string ) => {
+    try {
+      const response = await instance.post( "/notification/create-notification", {sender, receiver, message: `Your post ${card?.title}  has been ${status.toLowerCase() === "published" ? "published" : "rejected"} by ${admin?.name} on behalf of admin`} );
+      console.log( "response after creating notification:-", response );
+    } catch ( error ) {
+      console.error( "Error creating notification:", error );
+    }
+  };
 
   if ( !card ) {
     return (
@@ -104,18 +116,18 @@ const CardDetails = () => {
                 className="w-12 h-12 object-cover rounded-full"
               />
               <div className="text-sm text-neutral-400 py-4 ">
-            <button className="bg-[#DF841C] py-1 px-4 my-2 rounded-md text-white font-semibold text-sm">
-              {card.category.join( ", " )}
-            </button>
+                <button className="bg-[#DF841C] py-1 px-4 my-2 rounded-md text-white font-semibold text-sm">
+                  {card.category.join( ", " )}
+                </button>
                 <p className="font-medium text-white">
                   <span
                     className="text-neutral-400"
-                  > 
-                  By :-
+                  >
+                    By :-
                   </span>
                   {" "} {author?.name || "Unknown Author"}</p>
                 {/* <p className="text-neutral-400">{author?.bio || "No bio available"}</p> */}
-            {/* <p className="text-sm text-neutral-400">Status: {status}</p> */}
+                {/* <p className="text-sm text-neutral-400">Status: {status}</p> */}
               </div>
             </div>
 
