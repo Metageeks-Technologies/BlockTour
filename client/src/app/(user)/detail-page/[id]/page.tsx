@@ -1,6 +1,7 @@
 "use client";
 import {getPostById} from "@/app/redux/feature/posts/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
+import DiscussionEmbedComponent from "@/components/DiscussionEmbed";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import {useParams} from "next/navigation";
@@ -461,33 +462,12 @@ const CardDetails = () => {
         <div className="flex shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" />
 
         <div className="mt-20 max-w-full w-[1192px] max-md:mt-10 ">
-          <div className="flex gap-5 max-md:flex-col">
-            <div className="flex flex-col w-[69%] max-md:ml-0 max-md:w-full">
-              <div className="flex flex-col mt-6 w-full font-medium max-md:mt-10 max-md:max-w-full">
-                <div className="self-start text-2xl leading-loose text-neutral-400">
-                  Leave a reply
-                </div>
-                <div className="flex shrink-0 mt-5 rounded border border-solid border-neutral-700 h-[168px] max-md:max-w-full" />
-                <div className="flex flex-wrap gap-5 mt-5 text-sm whitespace-nowrap text-neutral-500 max-md:max-w-full">
-                  <div className="px-2.5 py-5 rounded border border-solid border-neutral-700 max-md:pr-5">
-                    Name:*
-                  </div>
-                  <div className="px-2.5 py-5 rounded border border-solid border-neutral-700 max-md:pr-5">
-                    Email:*
-                  </div>
-                  <div className="px-2.5 py-5 rounded border border-solid border-neutral-700 max-md:pr-5">
-                    Website:
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="lg:h-72 md:h-60 lg:w-[31%] md:w-80 w-full h-72 mt-10 bg-[#604C4C] flex justify-center items-center">
-              <h1 className="text-white text-xl">Advertisement</h1>
-            </div>
-          </div>
+        
+          {card && <DiscussionEmbedComponent article={card} />}
         </div>
 
-        <div className="flex items-center gap-2 mt-6 text-xs font-medium  text-neutral-500">
+
+        {/* <div className="flex items-center gap-2 mt-6 text-xs font-medium  text-neutral-500">
           <input
             type="checkbox"
             id="checkbox"
@@ -497,11 +477,11 @@ const CardDetails = () => {
             Save my name, email, and website in this browser for the next time I
             comment.
           </p>
-        </div>
-
+        </div> */}
+{/* 
         <button className="px-4 py-4 cursor-pointer mt-6 text-sm font-medium leading-3 hover:bg-neutral-900 text-center text-white rounded bg-neutral-800">
           Post Comment
-        </button>
+        </button> */}
         <div className="flex  shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" />
         <Footer />
       </div>
