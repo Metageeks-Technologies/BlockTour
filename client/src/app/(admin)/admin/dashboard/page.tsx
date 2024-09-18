@@ -13,7 +13,7 @@ interface Post {
   category: string[];
   tags: string[];
   status: 'published' | 'draft' | 'trash';
-  publishedDate: string;
+  createdAt: string; // Changed from publishedDate to createdAt
 }
 
 interface Contributor {
@@ -65,10 +65,10 @@ const Dashboard: React.FC = () => {
 
   const filteredAndSortedItems = useMemo( () => {
     let items: any = activeTab === 'posts' ? [...posts] : [...contributors];
-  
+
     // Apply search
     if ( searchTerm ) {
-      items = items.filter( ( item:any ) => {
+      items = items.filter( ( item: any ) => {
         if ( activeTab === 'posts' ) {
           const post = item as Post;
           return (
@@ -93,12 +93,12 @@ const Dashboard: React.FC = () => {
     }
 
     // Apply sorting
-    items.sort( ( a:any, b:any ) => {
+    items.sort( ( a: any, b: any ) => {
       if ( activeTab === 'posts' ) {
         const postA = a as Post;
         const postB = b as Post;
         if ( sortBy === 'date' ) {
-          return new Date( postB.publishedDate ).getTime() - new Date( postA.publishedDate ).getTime();
+          return new Date( postB.createdAt ).getTime() - new Date( postA.createdAt ).getTime();
         } else if ( sortBy === 'title' ) {
           return postA.title.localeCompare( postB.title );
         }
@@ -122,8 +122,6 @@ const Dashboard: React.FC = () => {
     currentPage * itemsPerPage
   );
 
-  console.log("recentItms:-",currentItems)
-
   const totalItems = filteredAndSortedItems.length;
 
   const paginate = ( pageNumber: number ) => setCurrentPage( pageNumber );
@@ -131,12 +129,6 @@ const Dashboard: React.FC = () => {
   const handleSearch = () => {
     setCurrentPage( 1 );  // Reset to first page when searching
   };
-
-  const uniqueCategories = useMemo( () => {
-    const categories = new Set<string>();
-    posts.forEach( post => post.category.forEach( cat => categories.add( cat ) ) );
-    return Array.from( categories );
-  }, [posts] );
 
   return (
     <div className="ml-64 mx-4 py-4 bg-[#0A090F] rounded-2xl shadow-md w-full border border-[#28272D]">
