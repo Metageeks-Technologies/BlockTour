@@ -89,7 +89,8 @@ const ProfilePage = () => {
       };
 
       const response = await instance.put( `auth/user/${user._id}`, updatedData );
-      notifySuccess( 'Profile updated successfully!' );
+      // notifySuccess( 'Profile updated successfully!' );
+      alert("'Profile updated successfully!")
       console.log( 'Profile updated:', response.data );
       // Update the user state in Redux here if necessary
     } catch ( error: any ) {
