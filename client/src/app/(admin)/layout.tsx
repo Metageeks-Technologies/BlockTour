@@ -5,8 +5,7 @@ const inter = Inter( {subsets: ["latin"]} );
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
-
+import Sidebar from "@/components/Sidebar"; 
 
 export const metadata: Metadata = {
     title: "Block Tour Admin",
