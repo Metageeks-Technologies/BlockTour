@@ -1,7 +1,5 @@
 "use client";
 import { useAppSelector } from "@/app/redux/hooks";
-import Sidebar from "@/components/contributor/Sidebar";
-import UserHearder from "@/components/UserHearder";
 import instance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -76,12 +74,6 @@ const Page = () => {
   };
 
   return (
-    <div>
-      <UserHearder />
-
-      <div className="flex ">
-        <Sidebar />
-
         <div className="ml-64 m-4 py-4 bg-[#0A090F] rounded-2xl shadow-md  w-full border border-[#28272D]">
           {filteredPosts.length ? (
             <div>
@@ -232,8 +224,6 @@ const Page = () => {
             </div>
           )}
         </div>
-      </div>
-    </div>
   );
 };
 

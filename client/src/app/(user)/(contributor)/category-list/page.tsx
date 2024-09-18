@@ -1,9 +1,6 @@
 "use client";
-
 import {getAllCategories} from "@/app/redux/feature/category/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
-import Sidebar from "@/components/contributor/Sidebar";
-import UserHearder from "@/components/UserHearder";
 import React, {useEffect, useState} from "react";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {IoSearchOutline} from "react-icons/io5";

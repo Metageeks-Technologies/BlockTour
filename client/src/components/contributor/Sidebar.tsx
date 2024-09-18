@@ -18,8 +18,7 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`fixed h-screen lg:block sm:hidden hidden bg-[#0A090F] text-white transition-transform transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 w-60`}
+      className="fixed h-screen lg:block sm:hidden hidden bg-[#0A090F] text-white w-60"
     >
       <div className="flex flex-col items-start justify-between h-full">
         {/* Menu Items */}
