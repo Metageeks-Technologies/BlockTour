@@ -200,7 +200,7 @@ const AddPostPage = () => {
   };
 
   return (
-    <div className=" lg:ml-64 bg-[#0A090F] text-white m-4 w-full  rounded-2xl border border-[#28272D]">
+    <div className=" lg:ml-64  bg-[#0A090F] text-white sm:m-4 sm:my-4 my-2  py-4 w-full  sm:rounded-2xl border border-[#28272D]">
       {!user.contributor ? (
         <div className="flex h-[40rem] justify-center items-center">
         <div className="flex flex-col items-center justify-center">
@@ -221,13 +221,13 @@ const AddPostPage = () => {
       </div>
       ) : (
         <div>
-          <div className="border-b border-[#28272D] px-4 py-4">
-            <h1 className="text-2xl px-6">Add New Post</h1>
+          <div className="border-b border-[#28272D] sm:px-4 py-4">
+            <h1 className="text-2xl px-4">Add New Post</h1>
           </div>
 
-          <form onSubmit={handleSubmit} className="flex p-8 gap-5">
+          <form onSubmit={handleSubmit} className="flex sm:flex-row flex-col sm:p-8 p-4 gap-5">
             {/* Left Column (Form Fields) */}
-            <div className="basis-[70%]">
+            <div className="lg:basis-[70%] sm:basis-[60%] w-full">
               {/* Post Title */}
               <div className="mb-4">
                 <label className="block font-medium mb-1 text-[#7B7A7F]">
@@ -383,7 +383,7 @@ const AddPostPage = () => {
             </div>
 
             {/* Right Column (Post Settings) */}
-            <div className="basis-[30%] mt-5">
+            <div className="lg:basis-[30%] sm:basis-[40%] w-full mt-5">
               <div className="flex flex-col gap-2">
                 {/* <button
               type="button"
@@ -428,7 +428,7 @@ const AddPostPage = () => {
               {/* Categories */}
               <div className="flex flex-col rounded-none max-w-md mx-auto mt-5">
                 <div className="flex flex-col py-5 w-full rounded-md border border-solid border-neutral-700">
-                  <header className="flex gap-3 self-center w-full text-base whitespace-nowrap max-w-[317px] text-[#7B7A7F]">
+                  <header className="flex lg:px-0  px-4 gap-3 self-center w-full text-base whitespace-nowrap max-w-[317px] text-[#7B7A7F]">
                     <h2 className="grow my-auto">Categories</h2>
                     <MdKeyboardArrowDown className="h-6 w-6" />
                   </header>
@@ -483,7 +483,7 @@ const AddPostPage = () => {
               {/* Post Type */}
               <div className="flex flex-col rounded-none max-w-md mx-auto mt-5">
                 <div className="flex flex-col py-5 w-full rounded-md border border-solid border-neutral-700">
-                  <header className="flex gap-3 self-center w-full text-base whitespace-nowrap max-w-[317px] text-zinc-500">
+                  <header className="flex gap-3 lg:px-0 px-4 self-center w-full text-base whitespace-nowrap max-w-[317px] text-zinc-500">
                     <h2 className="grow my-auto">Post Type</h2>
                     <MdKeyboardArrowDown className="h-6 w-6" />
                   </header>
@@ -525,7 +525,7 @@ const AddPostPage = () => {
               {/* Preview Image */}
               <div className="flex flex-col rounded-none max-w-md mx-auto mt-5">
                 <div className="flex flex-col py-5 w-full rounded-md border border-solid border-neutral-700">
-                  <header className="flex gap-3 self-center w-full text-base whitespace-nowrap max-w-[317px] text-zinc-500">
+                  <header className="flex  lg:px-0  px-4 gap-3 self-center w-full text-base whitespace-nowrap max-w-[317px] text-zinc-500">
                     <h2 className="grow my-auto">Preview Image</h2>
                     <MdKeyboardArrowDown className="h-6 w-6" />
                   </header>
@@ -537,11 +537,11 @@ const AddPostPage = () => {
                     >
                       <div className="flex flex-col items-center justify-center pb-4">
                         <MdOutlineCloudUpload className="h-8 w-8 text-neutral-600 mt-2" />
-                        <p className="mb-2 text-sm text-[#7B7A7F]">
+                        <p className="mb-2 text-sm text-center text-[#7B7A7F]">
                           <span className="font-semibold">Choose a file</span>{" "}
                           or drag & drop it here
                         </p>
-                        <p className="text-xs text-[#808089]">
+                        <p className="text-xs text-center text-[#808089]">
                           Select a preview image for your post
                         </p>
                       </div>
@@ -569,6 +569,7 @@ const AddPostPage = () => {
                 </div>
               </div>
             </div>
+            
           </form>
         </div>
       )}
