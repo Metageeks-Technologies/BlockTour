@@ -74,7 +74,7 @@ const Page = () => {
   };
 
   return (
-    <div className="lg:ml-64 sm:m-4 sm:my-4 my-2  py-4 bg-[#0A090F] sm:rounded-2xl shadow-md w-full border border-[#28272D]">
+    <div className="lg:ml-64 sm:m-4 sm:my-4 my-2  bg-[#0A090F] sm:rounded-2xl shadow-md w-full border border-[#28272D]">
       {!user.contributor ? (
         <div className="flex h-[38rem] justify-center items-center">
           <div className="flex flex-col items-center justify-center">
@@ -108,12 +108,12 @@ const Page = () => {
           {filteredPosts.length ? (
             <div>
               {/* Header and Add New Post */}
-              <div className="flex justify-between items-center mb-4 sm:px-8 px-4 py-2 border-b border-[#28272D]">
+              <div className="flex justify-between items-center mb-4 sm:px-8 px-4 py-4 border-b border-[#28272D]">
                 <div className="flex gap-2 items-center">
                   <img
                     src="/asset/Group 12856.svg"
                     alt="My Blog"
-                    className="h-10 w-10 sm:block hidden"
+                    className="h-8 w-8 sm:block hidden"
                   />
                   <h1 className="text-white text-2xl sm:text-xl font-semibold">My Blog</h1>
                 </div>
@@ -123,7 +123,7 @@ const Page = () => {
               </div>
 
               {/* Search and Filters */}
-              <div className="flex justify-between items-center mb-4 sm:px-8 px-4 flex-wrap sm:space-y-0 space-y-3">
+              <div className="flex justify-between pt-2 items-center mb-4 sm:px-8 px-4 flex-wrap sm:space-y-0 space-y-1">
                 <div className="relative border border-neutral-600 rounded flex justify-between">
                   <input
                     type="text"
@@ -204,7 +204,7 @@ const Page = () => {
               </div>
 
               {/* Pagination */}
-              <div className="flex justify-between items-center mt-4 sm:px-8 px-4">
+              <div className="flex justify-between items-center mt-4 sm:px-8 px-4 mb-4">
                 <div className="text-[#7B7A7F]">
                   Showing {indexOfFirstItem + 1} to{" "}
                   {Math.min(indexOfLastItem, filteredPosts.length)} of{" "}

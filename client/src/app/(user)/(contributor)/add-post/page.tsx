@@ -200,7 +200,7 @@ const AddPostPage = () => {
   };
 
   return (
-    <div className=" lg:ml-64  bg-[#0A090F] text-white sm:m-4 sm:my-4 my-2  py-4 w-full  sm:rounded-2xl border border-[#28272D]">
+    <div className=" lg:ml-64  bg-[#0A090F] text-white sm:m-4 sm:my-4 my-2 w-full  sm:rounded-2xl border border-[#28272D]">
       {!user.contributor ? (
         <div className="flex h-[40rem] justify-center items-center">
         <div className="flex flex-col items-center justify-center">
@@ -383,8 +383,8 @@ const AddPostPage = () => {
             </div>
 
             {/* Right Column (Post Settings) */}
-            <div className="lg:basis-[30%] sm:basis-[40%] w-full mt-5">
-              <div className="flex flex-col gap-2">
+            <div className="lg:basis-[30%] sm:basis-[40%] w-full sm:mt-7">
+              <div className="flex flex-col gap-2 ">
                 {/* <button
               type="button"
               className="bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-600"
@@ -394,7 +394,7 @@ const AddPostPage = () => {
             </button> */}
                 <button
                   type="submit"
-                  className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-400"
+                  className="bg-orange-500 sm:block hidden text-white py-2 px-4 rounded hover:bg-orange-400"
                   disabled={isLoading}
                 >
                   {isLoading ? "Publishing..." : "Publish"}
@@ -402,7 +402,7 @@ const AddPostPage = () => {
               </div>
 
               {/* Post Settings */}
-              <div className="border border-neutral-700 p-4 rounded-lg max-w-md mx-auto mt-5">
+              <div className="border border-neutral-700 p-4 rounded-lg   mt-5">
                 {/* Published Date */}
                 <div className="mb-4">
                   <label
@@ -426,9 +426,9 @@ const AddPostPage = () => {
               </div>
 
               {/* Categories */}
-              <div className="flex flex-col rounded-none max-w-md mx-auto mt-5">
+              <div className="flex flex-col rounded-none  mt-5">
                 <div className="flex flex-col py-5 w-full rounded-md border border-solid border-neutral-700">
-                  <header className="flex lg:px-0  px-4 gap-3 self-center w-full text-base whitespace-nowrap max-w-[317px] text-[#7B7A7F]">
+                  <header className="flex px-4 gap-3 self-center w-full text-base whitespace-nowrap text-[#7B7A7F]">
                     <h2 className="grow my-auto">Categories</h2>
                     <MdKeyboardArrowDown className="h-6 w-6" />
                   </header>
@@ -481,9 +481,9 @@ const AddPostPage = () => {
               </div>
 
               {/* Post Type */}
-              <div className="flex flex-col rounded-none max-w-md mx-auto mt-5">
+              <div className="flex flex-col rounded-none mt-5">
                 <div className="flex flex-col py-5 w-full rounded-md border border-solid border-neutral-700">
-                  <header className="flex gap-3 lg:px-0 px-4 self-center w-full text-base whitespace-nowrap max-w-[317px] text-zinc-500">
+                  <header className="flex gap-3 px-4 self-center w-full text-base whitespace-nowrap  text-zinc-500">
                     <h2 className="grow my-auto">Post Type</h2>
                     <MdKeyboardArrowDown className="h-6 w-6" />
                   </header>
@@ -523,9 +523,9 @@ const AddPostPage = () => {
               </div>
 
               {/* Preview Image */}
-              <div className="flex flex-col rounded-none max-w-md mx-auto mt-5">
+              <div className="flex flex-col rounded-none mt-5">
                 <div className="flex flex-col py-5 w-full rounded-md border border-solid border-neutral-700">
-                  <header className="flex  lg:px-0  px-4 gap-3 self-center w-full text-base whitespace-nowrap max-w-[317px] text-zinc-500">
+                  <header className="flex px-4 gap-3 self-center w-full text-base whitespace-nowrap  text-zinc-500">
                     <h2 className="grow my-auto">Preview Image</h2>
                     <MdKeyboardArrowDown className="h-6 w-6" />
                   </header>
@@ -568,6 +568,24 @@ const AddPostPage = () => {
                   )}
                 </div>
               </div>
+              
+              <div className="flex flex-col gap-2 mt-5 ">
+                {/* <button
+              type="button"
+              className="bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-600"
+              disabled={isLoading}
+            >
+              Preview Changes
+            </button> */}
+                <button
+                  type="submit"
+                  className="bg-orange-500 sm:hidden  text-white py-2 px-4 rounded hover:bg-orange-400"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Publishing..." : "Publish"}
+                </button>
+              </div>
+
             </div>
             
           </form>

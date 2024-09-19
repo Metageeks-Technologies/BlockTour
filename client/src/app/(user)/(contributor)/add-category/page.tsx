@@ -53,16 +53,16 @@ const AddCategoryPage = () => {
 
   return (
   
-        <div className="lg:ml-64 h-screen bg-[#0A090F] text-white m-4 rounded-2xl w-full border border-[#28272D]">
+        <div className="lg:ml-64 h-screen bg-[#0A090F] text-white sm:m-4  my-2  sm:rounded-2xl w-full border border-[#28272D]">
           <div className="border-b border-[#28272D] px-4 py-4">
-            <h1 className="text-xl px-6">Add New Category</h1>
+            <h1 className="text-xl sm:px-4">Add New Category</h1>
           </div>
           <form onSubmit={handleSubmit}>
             {" "}
             {/* Wrap form in onSubmit */}
-            <div className="flex px-8 py-6 gap-5">
+            <div className="flex sm:px-8 px-4 py-6 gap-5">
               <div className="w-full">
-                <div className="flex gap-3 w-full mb-4 text-[#7B7A7F]">
+                <div className="flex sm:flex-row flex-col gap-3 w-full mb-4 text-[#7B7A7F]">
                   <div className="w-full">
                     <label className="block text-sm font-medium mb-2">
                       Name
@@ -94,8 +94,8 @@ const AddCategoryPage = () => {
                   <label className="block text-sm font-medium mb-3 text-[#7B7A7F]">
                     Description
                   </label>
-                  <div className="bg-[#0A090F] rounded p-2 border border-[#414141]">
-                    <div className="px-4 flex gap-4">
+                  <div className="bg-[#0A090F] rounded py-2 border border-[#414141]">
+                    {/* <div className="px-4 flex sm:gap-4 gap-2">
                       <p className="text-neutral-500 text-xs">File</p>
                       <p className="text-neutral-500 text-xs">Edit</p>
                       <p className="text-neutral-500 text-xs">View</p>
@@ -104,7 +104,7 @@ const AddCategoryPage = () => {
                       <p className="text-neutral-500 text-xs">Tools</p>
                       <p className="text-neutral-500 text-xs">Table</p>
                       <p className="text-neutral-500 text-xs">Help</p>
-                    </div>
+                    </div> */}
                     <ReactQuill
                       theme="snow"
                       value={value}
@@ -148,7 +148,7 @@ const AddCategoryPage = () => {
                 </div>
               </div>
             </div>
-            <div className="px-8 flex justify-end">
+            <div className="sm:px-8 px-4 flex justify-end">
               <button
                 type="submit" // Set button type to submit
                 className="py-2 px-6 bg-[#DF841C] rounded text-[#000000] shadow-md"
