@@ -1,9 +1,6 @@
 "use client";
-
 import {getAllCategories} from "@/app/redux/feature/category/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
-import Sidebar from "@/components/contributor/Sidebar";
-import UserHearder from "@/components/UserHearder";
 import React, {useEffect, useState} from "react";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {IoSearchOutline} from "react-icons/io5";
@@ -41,26 +38,29 @@ const PostsTable = () => {
 
   return (
 
-    <div className="ml-64 m-4 py-4 bg-[#0A090F] rounded-2xl shadow-md w-full border border-[#28272D]">
+    <div className="lg:ml-64 sm:m-4 sm:my-4 my-2 bg-[#0A090F] sm:rounded-2xl shadow-md w-full border border-[#28272D]">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4 px-8 py-2 border-b border-[#28272D]">
+      <div className="flex justify-between items-center mb-4 sm:px-8 px-4 py-4 border-b border-[#28272D]">
         <h1 className="text-white text-xl font-semibold">Category List</h1>
       </div>
 
       {/* Filters and Search */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center space-x-4 px-8">
+      <div className="flex justify-between items-center mb-4 ">
+        <div className=" space-x-4 px-8 sm:block hidden">
           <select className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded">
             <option>Bulk actions</option>
           </select>
+          {/* <button className="bg-[#7B7A7F] py-1.5 px-4 rounded">
+            Apply
+          </button> */}
         </div>
 
-        <div className="flex gap-2 items-center px-4">
+        <div className="flex gap-5 items-center px-4">
           <div className="relative border border-neutral-600 rounded flex justify-between">
             <input
               type="text"
               placeholder="Search"
-              className="bg-[#0A090F] text-[#7B7A7F] px-4 py-2 rounded border-none focus:outline-none"
+              className="bg-[#0A090F] text-[#7B7A7F] px-4 py-2 sm:w-72 w-40  rounded border-none focus:outline-none"
               value={searchTerm}
               onChange={( e ) => setSearchTerm( e.target.value )}
             />
@@ -68,6 +68,8 @@ const PostsTable = () => {
               <IoSearchOutline className="h-6 w-6" />
             </button>
           </div>
+
+          <div className="flex items-center gap-2">
           <p>View</p>
           <select
             className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded"
@@ -78,6 +80,8 @@ const PostsTable = () => {
             <option>20</option>
             <option>50</option>
           </select>
+          </div>
+
         </div>
       </div>
 
@@ -93,7 +97,7 @@ const PostsTable = () => {
           <table className="min-w-full bg-[#0A090F] text-[#7B7A7F] rounded-md">
             <thead>
               <tr className="bg-[#0A090F] border-b border-[#28272D] text-white text-left">
-                <th className="py-3 px-8">
+                <th className="py-3 sm:px-8 px-4">
                   <input type="checkbox" />
                 </th>
                 <th className="py-3 px-4">Name</th>
@@ -109,7 +113,7 @@ const PostsTable = () => {
                   key={cate._id}
                   className="border-b border-[#28272D] hover:bg-[#28272D]"
                 >
-                  <td className="py-3 px-8">
+                  <td className="py-3 sm:px-8 px-4">
                     <input type="checkbox" />
                   </td>
                   <td className="py-3 px-4">{cate.name}</td>
@@ -129,7 +133,7 @@ const PostsTable = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-between items-center mt-4 px-8">
+      <div className="flex justify-between items-center mt-4 sm:px-8 px-4 mb-4">
         <div className="text-[#7B7A7F]">
           Showing {indexOfFirstItem + 1} to{" "}
           {Math.min( indexOfLastItem, filteredCategories.length )} of{" "}

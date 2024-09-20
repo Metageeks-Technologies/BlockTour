@@ -103,21 +103,21 @@ const ProfilePage = () => {
 
   return (
 
-    <div className="ml-64 m-4 py-4 bg-[#0A090F] rounded-2xl shadow-md w-full border border-[#28272D]">
-      <div className="border-b border-[#28272D] px-4 py-4">
-        <h2 className="text-xl px-6">Update Profile</h2>
+    <div className="lg:ml-64 sm:m-4 sm:my-4 my-2  bg-[#0A090F] sm:rounded-2xl shadow-md w-full border border-[#28272D]">
+      <div className="border-b border-[#28272D] sm:px-4 py-4">
+        <h2 className="text-xl px-4">Update Profile</h2>
       </div>
 
-      <form onSubmit={handleSubmit} className="p-8">
-        <div className="flex items-center justify-start mb-6 border border-[#28272D] rounded-lg px-4 py-3 bg-[#1B1923]">
+      <form onSubmit={handleSubmit} className="sm:p-8 p-4">
+        <div className="flex items-center gap-4 mb-6 border border-[#28272D] rounded-lg px-4 py-3 bg-[#1B1923]">
           <div className="relative">
             <img
               src={user?.profileImage || "/asset/Vector3.svg"}
               alt="Profile Photo"
-              className="w-32 h-32 cursor-pointer rounded-full object-cover bg-gray-700"
+              className="sm:w-32 sm:h-32 w-24 h-24 cursor-pointer rounded-full object-cover bg-gray-700"
             />
-            <label htmlFor="profile-image-upload" className="absolute border bottom-0 right-0 bg-orange-500 p-2 rounded-full cursor-pointer">
-              <IoCamera className="h-5 w-5" />
+            <label htmlFor="profile-image-upload" className="absolute border bottom-0 right-0 bg-orange-500 sm:p-2 p-1 rounded-full cursor-pointer">
+              <IoCamera className="sm:h-5 sm:w-5 h-4 w-4" />
             </label>
             <input
               id="profile-image-upload"
@@ -127,9 +127,13 @@ const ProfilePage = () => {
               className="hidden"
             />
           </div>
+          <div className='flex flex-col gap-1'>
+            <h1 className='sm:text-2xl text-lg font-semibold text-[#999999]'>Profile Photo </h1>
+            <p className='sm:text-sm text-xs text-[#999999]'>This will be displayed on your profile.</p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="grid lg:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-4 mb-6">
           <div>
             <label className="block text-[#7B7A7F] mb-1">First Name</label>
             <input
@@ -226,7 +230,7 @@ const ProfilePage = () => {
             <h1 className='mb-2 ' >Password</h1>
           </div>
           <form>
-            <div className='grid grid-cols-3 gap-4'>
+            <div className='grid lg:grid-cols-3 sm:grid-cols-3 grid-cols-1 gap-4'>
               <div className="mt-4">
                 <label className="block text-[#7B7A7F] mb-1"> Current Password</label>
                 <input
@@ -267,7 +271,7 @@ const ProfilePage = () => {
           </form>
         </div>
 
-        <div className="flex justify-end space-x-4">
+        <div className="flex justify-end space-x-4 mb-4">
           <button
             type="button"
             className="px-4 py-2 bg-gray-600 text-white rounded-md"

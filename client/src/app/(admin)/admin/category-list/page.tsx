@@ -91,14 +91,14 @@ const PostsTable = () => {
         ) : (
           <table className="min-w-full bg-[#0A090F] text-[#7B7A7F] rounded-md">
             <thead>
-              <tr className="bg-[#0A090F] border-b border-[#28272D] text-white text-left">
-                <th className="py-3 px-8">
+              <tr className="bg-[#0A090F] border-b  border-[#28272D] text-white text-left">
+                {/* <th className="py-3 px-8">
                   <input type="checkbox" />
-                </th>
+                </th> */}
+                <th className="py-3 px-4">S.No</th>
                 <th className="py-3 px-4">Name</th>
                 <th className="py-3 px-4">Description</th>
                 <th className="py-3 px-4">Slug</th>
-                <th className="py-3 px-4">Count</th>
                 <th className="py-3 px-4">Actions</th>
               </tr>
             </thead>
@@ -106,16 +106,20 @@ const PostsTable = () => {
               {currentItems.map( ( cate:any, idx ) => (
                 <tr
                   key={cate._id}
-                  className="border-b border-[#28272D] hover:bg-[#28272D]"
+                  className="border-b border-[#28272D] text-left hover:bg-[#28272D]"
                 >
-                  <td className="py-3 px-8">
+                  {/* <td className="py-3 px-8">
                     <input type="checkbox" />
-                  </td>
-                  <td className="py-3 px-4">{cate.name}</td>
-                  <td className="py-3 px-4">{cate.description}</td>
-                  <td className="py-3 px-4">{cate.slug}</td>
+                  </td> */}
                   <td className="py-3 px-4">{idx + 1}</td>
-                  <td className="py-3 px-4 text-center flex items-center justify-center">
+                  <td className="py-3 px-4">{cate.name}</td>
+                  {/* <td className="py-3 px-4">{cate.description}</td> */}
+                  <td
+                    className="text-neutral-400 mt-5"
+                    dangerouslySetInnerHTML={{__html: cate?.description || ""}}
+                  />
+                  <td className="py-3 px-4">{cate.slug}</td>
+                  <td className="py-3 px-4 text-center flex items-left justify-left">
                     <button className="text-white flex items-center justify-center h-8 w-8 bg-[#28272D] rounded-full">
                       <BiDotsVerticalRounded className="h-6 w-6" />
                     </button>

@@ -22,11 +22,11 @@ interface IPost extends Document {
 // Define the schema
 const PostSchema: Schema = new Schema({
     title: { type: String, required: true },
-    permaLink: { type: String, required: true },
+    permaLink: { type: String },
     description: { type: String, required: true },
     publishedDate: { type: Date },
     visibility: { type: String },
-    status: { type: String, default: "draft" },
+    status: { type: String, default: "Draft" },
     category: { type: [String], required: false },
     tags: { type: [String] }, 
     postSliderImageUrl: [{ type: String }],

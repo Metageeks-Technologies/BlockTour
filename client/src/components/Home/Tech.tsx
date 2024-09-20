@@ -1,64 +1,11 @@
 import {useAppSelector} from '@/app/redux/hooks';
-import React from 'react';
-type CardData = {
-  id: number;
-  imgSrc: string;
-  title: string;
-  category: string;
-  date: string;
-  description: string;
-};
-
-const cardData: CardData[] = [
-  {
-    id: 1,
-    imgSrc:
-      "https://s3-alpha-sig.figma.com/img/005f/4736/6495135ba9397ac4a60079d072ea26c5?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GUKMONuuHSE7ZI3pH~pSbVNwfeoRLSf2s-FVRIlxF8tqHnpA-DAIWDNCyTptSwdjsiqEkyt-~mECz7ybBDxRhqhY2MRFy4awwSufxSPb1LK94KuFC4ZR2uzUIlsVX0YYaEHRfruFVzJectt0lQf3ejgdU3pqJhUr3wnlXcvu5CxkBmD1x9gFrITNb1Y~FgTNMQIJGJ9fjB134snW6u34LMf8IHG5E6i-B6RzdfYzY4Rp1gz3mzcKrOkLpp2EHNoDZZ9pA9fCCuNDiRdQrfJyw3hzW5lLL9xilhSfBg7DgTUPo5hwVNHA47tL-wgzywli0hkyKEa7xUvD3rxL5B-tuw__",
-    title:
-      "Is Crypto on the Brink of a Bull Market or Bear Market? Utilizing Consensus 2024 as a Gauge",
-    category: "Crypto",
-    date: "May 29, 2024",
-    description:
-      "Consensus 2024: Market Sentiment in Question Bitcoin ETFs Lead to Market Speculation At Consensus 2024, the prevailing question on everyone's…",
-  },
-  {
-    id: 1,
-    imgSrc:
-      "https://s3-alpha-sig.figma.com/img/c57b/e6aa/5741ee0e5a86f1971e61e2b66d13c10e?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=aKyxpeeapwncPJFj9oeay16LiCx8GOjSqWQO1LCXTR-X4zvdgpJX8OjGeFuDCV6R9Irw7UproeYHuCFZ9SSSG0OoVGImKp8wG6~mf8kcPRmnnxD4VFxwIBe052Boo8dxv685l5ODZG6P20kZDY9sfPiKOUKF8BGd656quzUb-lIznHri4CpOVFH--63k3kpE5QFaL5Gai2YZKDI~O1Ug2f9RSI7c04Fny1V80XsJs5YrjNbMmz1png-EONiwJAwv489EFmRx64pZtByGFgjkLS~pNpaCuePqQtZPz4Cv7Sx27SPdZVgYmCgsjKVHV6YRF0zvtg0cZrUcQ-Glr5EpFw__",
-    title: "College Campus Protests Exploited by Russian Influence Campaign",
-    category: "NFT",
-    date: "May 17, 2024",
-    description:
-      "Covert Doppelganger Campaign Echoes Russian Narratives The covert Doppelganger campaign, believed to be originating from Russia, has been spreading disinformation around the ongoing campus protests in the United States...",
-  },
-  {
-    id: 1,
-    imgSrc:
-      "https://s3-alpha-sig.figma.com/img/0496/07ff/6e0f7abc0558dc5948fdb1910f880f9e?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=UTaGqrTDAApO6PaCq5DP9uiCHalkOUXzX~AnSEl18KavaKOXelA5ZHn5dTn9THJw0d-WqqblPuBJFbXWRrxh-jPMCQx1G7NCy54S1nI0E4~XeBluWaCuE5B1x3UWo6Y5oYJVuixv2sBE3vMCVDhqlpIXYjG7DWuf6KDHTu0TO70f9mmtzjqxIJLWKQzasA4DpF231wBTKRwJQwsdOHtfnJ3kahSRgcuOQpru7OymGC6uS6tEiSfHSa0taRoWHEamjdAt8jCfRhLQX6GYWW86l450oJp7NwZ68dou1JRH6uVQeo47iB6AAMDxthgjr71NY35QbY70NsPXRc5W7bZweg__",
-    title: "Coinbase Veterans Raise $21M For NPC Labs Gaming Startup ",
-    category: "Blockchain",
-    date: "july 29, 2024",
-    description:
-      "Covert Doppelganger Campaign Echoes Russian Narratives The covert Doppelganger campaign, believed to be originating from Russia, has been spreading disinformation around the ongoing campus protests in the United States...",
-  },
-  {
-    id: 1,
-    imgSrc:
-      "https://s3-alpha-sig.figma.com/img/2505/edd4/ccae0c6963d23eebf918276146b8c765?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=bxZ3uN~Vnpb-Gpavg1Zq9YAlWeCAEL4Oc8fADS4D3B--1x31lIgUXVuXbFW~fctA1F6mpybS6JPSukoTewe6GRPPECWsPrpsGA9broNQMsnwa-49AsjBnQeHfFJtyBz~nwDvKcOOwgrzjn5vlCcIs~JzQsNZRJ3r3oO48LTEPs99en1IfOH~s59boqF1GTTJxkmQWuZoMGoxBYSjcgqFtyAISDMyz6RhgWhpprVbEtgPWwDjWowuvX5iJuAVsLb929ax8-XZ3zIA~xJ9LV~MH7kMZDRQNgj80V3tpUMcAbH~YsyPC6nVdmZD6ggR~VjzBlZiv995OEKH~pBxFZh36w__",
-    title:
-      "The changing role of Ethereum faucets within an expanding blockchain environment",
-    category: "Crypto",
-    date: "May 29, 2024",
-    description:
-      "Ethereum faucets have been an integral part of the Ethereum network since its inception, providing beginners with a small amount of Ether for free...",
-  },
-  // Add 4 more cards similarly
-];
-
+import {useRouter} from 'next/navigation';
+import React from 'react'; 
 
 const Tech = () => {
   const posts = useAppSelector( ( state: any ) => state.post.posts );
   const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).reverse().slice( 0, 4 );
+  const router = useRouter();
   return (
     <>
       <div className="flex flex-col gap-y-10  lg:basis-[69%] md:basis-[60%]">
@@ -80,14 +27,21 @@ const Tech = () => {
           </div>
         </div>
 
-        {publishedPosts.map( ( card:any ) => (
-          <div key={card.id} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full">
-            <img
-              loading="lazy"
-              src={card.previewImageUrl}
-              className="h-56 lg:w-80 md:w-full object-cover"
-              alt={card.title}
-            />
+        {publishedPosts.map( ( card: any ) => (
+          <div key={card.id} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {
+            router.push( `/detail-page/${card._id}` );
+          }}>
+            {card.postType?.toLowerCase() === "video post" ?
+              <video
+                src={card.previewImageUrl}
+                controls
+                className="h-56 lg:w-80 md:w-full object-cover" /> :
+              <img
+                loading="lazy"
+                src={card.previewImageUrl}
+                alt={card.title}
+                className="h-56 lg:w-80 md:w-full object-cover" />
+            }
 
             <div>
               <h1 className="text-2xl text-white font-semibold">
@@ -95,11 +49,11 @@ const Tech = () => {
               </h1>
               <div className="mt-1 flex gap-3 items-center">
                 <button className="bg-[#DF841C] py-0.5 px-3">
-                  {card.category.join(", ")}
+                  {card.category.join( ", " )}
                 </button>
                 <p className="text-sm text-neutral-400">{card.date}</p>
               </div>
-              <div className="text-neutral-400 mt-5 line-clamp-6" dangerouslySetInnerHTML={{__html: card?.description}} /> 
+              <div className="text-neutral-400 mt-5 line-clamp-6" dangerouslySetInnerHTML={{__html: card?.description}} />
             </div>
           </div>
         ) )}

@@ -38,6 +38,7 @@ export const getAuthor = async ( dispatch: AppDispatch,id:string ) => {
   dispatch( requestStart() ); 
   try {
     const response = await instance.get( `/auth/user/${id}` );
+    console.log("response of author contributor:-",response)
     dispatch( setAuthor( response.data ) );
   } catch ( error ) {
     const e = error as AxiosError;
