@@ -483,8 +483,9 @@ const CardDetails = () => {
           Post Comment
         </button> */}
         <div className="flex  shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" />
-        <Footer />
+        
       </div>
+      <Footer />
     </div>
   );
 };

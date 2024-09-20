@@ -5,11 +5,11 @@ import React from "react";
 const page = () => {
   return (
     <div className="h-[40rem] bg-gradient-to-r from-[#000000] to-[#333333]">
-      <div className="w-[70%] border m-auto">
+      <div className="w-[80%] m-auto">
         <Navbar />
 
-        <div className=" flex gap-10 mt-12 ">
-          <div className="border basis-[50%] py-8 ">
+        <div className=" flex gap-16 mt-12 ">
+          <div className="w-full py-8  ">
             <h1 className="text-3xl ">Welcome to BlockTour.org</h1>
             <h4 className=" font text-lg  mt-5">
               Your Gateway to the Blockchain World
@@ -25,13 +25,13 @@ const page = () => {
               showcase the transformative potential of blockchain.
             </p>
           </div>
-          <div className="basis-[50%]">
+          <div className="w-full">
             <img src="/asset/banner.jpg" alt="" className="rounded-xl" />
           </div>
         </div>
       </div>
 
-      <div className=" w-[70%] m-auto">
+      <div className=" w-[80%] m-auto">
         <div className="bg-[#000000] my-12 p-12 border rounded-md border-[#333333]">
           <h1 className="text-4xl text-center">Our Journey</h1>
           <p className="text-center text-[#ADADAD] mt-6 ">
@@ -93,21 +93,22 @@ const page = () => {
           </div>
         </div>
 
-        <div className="h-60 border flex justify-center items-center ">
-          <div className="flex flex-col justify-center">
-          <h1 className="text-4xl">Join Us</h1>
-          <p className="mt-6">
-            Whether you’re a blockchain novice, a seasoned developer, or simply
-            curious about new technologies, BlockTour.org is your starting
-            point. Join us on this exciting journey to explore and shape the
-            future of blockchain. Let’s discover the endless possibilities
-            together!
-          </p>
+        <div className="h-60 bg-gradient-to-r from-[#000000] via-[#333333] to-[#000000] flex items-center ">
+          <div className="flex flex-col">
+            <h1 className="text-4xl text-center">Join Us</h1>
+            <p className="mt-6 px-12 text-[#ADADAD]">
+              Whether you’re a blockchain novice, a seasoned developer, or
+              simply curious about new technologies, BlockTour.org is your
+              starting point. Join us on this exciting journey to explore and
+              shape the future of blockchain. Let’s discover the endless
+              possibilities together!
+            </p>
           </div>
         </div>
 
-        <Footer />
+       
       </div>
+      <Footer />
     </div>
   );
 };
