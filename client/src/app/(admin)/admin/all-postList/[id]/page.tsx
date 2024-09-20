@@ -33,7 +33,7 @@ const CardDetails = () => {
   const [status, setStatus] = useState<string | undefined>( card?.status );
   const admin = useAppSelector( ( state: any ) => state.superAdmin.admin );
   const author = useAppSelector( ( state: any ) => state?.contributor?.author );
-  const adminAuthor = useAppSelector((state:any)=>state?.superAdmin?.admin)
+  const adminAuthor = useAppSelector( ( state: any ) => state?.superAdmin?.admin );
   const dispatch = useAppDispatch();
 
   useEffect( () => {
@@ -66,17 +66,19 @@ const CardDetails = () => {
           ...prevCard!,
           status: newStatus,
         } ) );
-        createNotification( author?._id, admin?._id, newStatus );
+        createNotification( author?._id, admin?.name, admin?.profileImage, admin?._id, newStatus );
       }
     } catch ( error ) {
       console.log( "error in updating:-", error );
     }
   };
 
-  const createNotification = async ( receiver: string, sender: string, status: string ) => {
+  const createNotification = async ( receiver: string, senderName: string, senderImage: string, sender: string, status: string ) => {
     try {
       const response = await instance.post( "/notification/create-notification", {
         sender,
+        senderName,
+        senderImage,
         receiver,
         message: `Your post ${card?.title} has been ${status.toLowerCase() === "published" ? "published" : "rejected"} by ${admin?.name} on behalf of admin`,
       } );
@@ -114,7 +116,7 @@ const CardDetails = () => {
             <div className="flex items-center gap-3">
               <img
                 loading="lazy"
-                src={author?.profileImage || adminAuthor?.profileImage }
+                src={author?.profileImage || adminAuthor?.profileImage}
                 alt={author?.name || adminAuthor?.name}
                 className="w-12 h-12 object-cover rounded-full"
               />
@@ -130,7 +132,7 @@ const CardDetails = () => {
           </div>
 
           {card.postType?.toLowerCase() === "video post" ?
-            <video 
+            <video
               src={card.previewImageUrl}
               controls
               className="w-full object-cover rounded mt-4"

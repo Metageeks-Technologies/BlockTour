@@ -20,8 +20,7 @@ const UserHearder = () => {
     setIsPopupOpen(!isPopupOpen);
   };
 
-  const user =
-    useAppSelector( ( state: RootState ) => state.contributor.currentUser ) || {};
+  const user = useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
   const dispatch = useAppDispatch();
   console.log( "user:-", user );
   const router = useRouter();
@@ -90,7 +89,7 @@ const UserHearder = () => {
         <div className="flex items-center space-x-5">
         <div>
         <IoMdNotificationsOutline onClick={togglePopup} className="h-7 w-7 cursor-pointer lg:block hidden" />
-        <NotificationPopup isOpen={isPopupOpen} togglePopup={togglePopup} />
+            <NotificationPopup isOpen={isPopupOpen} togglePopup={togglePopup} ids={user?.notifications} />
         </div>
           <div className="relative lg:block hidden">
             <img
@@ -136,7 +135,7 @@ const UserHearder = () => {
        <div className="lg:hidden flex gap-3 items-center">        
        <div>
         <IoMdNotificationsOutline onClick={togglePopup} className="h-7 w-7 cursor-pointer lg:hidden" />
-        <NotificationPopup isOpen={isPopupOpen} togglePopup={togglePopup} />
+            <NotificationPopup isOpen={isPopupOpen} togglePopup={togglePopup} ids={user?.notifications} />
         </div>
         {/* <button
           className="bg-gray-800  px-4 py-2 rounded hover:bg-gray-700"

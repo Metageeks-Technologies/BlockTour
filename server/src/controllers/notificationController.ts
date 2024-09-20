@@ -1,12 +1,17 @@
+import User from "../models/user/user";
 import Notification ,{INotification} from "../models/notification/notification";
 import { Request, Response } from "express";
 
 // Create a notification
 export const createNotification = async (req: Request, res: Response) => {
-    const { sender, receiver, message } = req.body as { sender: string, receiver: string, message: string };
-
-    try {
-        const newNotification: INotification = new Notification({ sender, receiver, message });
+    const {sender, receiver, senderName, senderImage, message} = req.body as {sender: string, senderName: string, senderImage: string, receiver: string, message: string;}; 
+        try {
+        const newNotification: INotification = new Notification( {sender, receiver,senderImage,senderName, message} );
+        const user = await User.findById( {_id: receiver} )
+        if ( user ) {
+            user?.notifications?.push( newNotification._id )
+            await user.save();
+        }
         const savedNotification = await newNotification.save();
 
         res.status(200).json({ message: 'Notification created successfully', savedNotification });
@@ -40,14 +45,28 @@ export const getNotificationsByReceiver = async (req: Request, res: Response) =>
     }
 };
 
+// Get notifications by ids
+export const getNotificationsByIds = async ( req: Request, res: Response ) => {
+    const {ids} = req.body;
+    try {
+        const notifications = await Notification.find( {
+            _id: {$in: ids}
+        } );
+        res.status( 200 ).json( {message: 'Notifications retrieved successfully', notifications} );
+    } catch ( error: any ) {
+        console.error( error );
+        res.status( 500 ).json( {
+            message: 'Unable to retrieve notifications', error: error
+        } );
+    }
+};
+    
+
 // Update a notification
 export const updateNotification = async ( req: Request, res: Response ) => {
-    const {id} = req.params;
-    const {read} = req.body;
-
+    const {notificationId,read} = req.body; 
     try {
-        const notification = await Notification.findByIdAndUpdate( id, {read}, {new: true} ).exec();
-
+        const notification = await Notification.findByIdAndUpdate( notificationId, {read}, {new: true} ).exec(); 
         res.status( 200 ).json( {message: 'Notification updated successfully', notification} );
     } catch ( error: any ) {
         console.error( error );

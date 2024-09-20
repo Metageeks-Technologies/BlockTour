@@ -61,16 +61,16 @@ const CardDetails = () => {
       // console.log( "response in updating:-", response );
       notifySuccess( response.data?.message );
       if ( response.status === 200 ) {
-        createNotifcation( author?._id, admin?._id, newStatus );
+        createNotifcation( author?._id, admin?._id, admin?.name, admin?.profileImage, newStatus );
       }
     } catch ( error ) {
       console.log( "error in updating:-", error );
     }
   };
 
-  const createNotifcation = async ( receiver: string, sender: string, status: string ) => {
+  const createNotifcation = async ( receiver: string, sender: string, senderName:string, senderImage:string, status: string ) => {
     try {
-      const response = await instance.post( "/notification/create-notification", {sender, receiver, message: `Your post ${card?.title}  has been ${status.toLowerCase() === "published" ? "published" : "rejected"} by ${admin?.name} on behalf of admin`} );
+      const response = await instance.post( "/notification/create-notification", {sender, receiver, senderImage,senderName, message: `Your post ${card?.title}  has been ${status.toLowerCase() === "published" ? "published" : "rejected"} by ${admin?.name} on behalf of admin`} );
       console.log( "response after creating notification:-", response );
     } catch ( error ) {
       console.error( "Error creating notification:", error );
