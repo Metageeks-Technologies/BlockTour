@@ -6,7 +6,7 @@ interface NotificationPopupProps {
   togglePopup: () => void;
 }
 
-const NotificationPopup: React.FC<NotificationPopupProps> = ({ isOpen, togglePopup }) => {
+const AdminNotificationPopUp: React.FC<NotificationPopupProps> = ({ isOpen, togglePopup }) => {
   return (
     <>
       {isOpen && (
@@ -14,7 +14,7 @@ const NotificationPopup: React.FC<NotificationPopupProps> = ({ isOpen, togglePop
           <div className="p-4 border-b border-gray-700 flex justify-between items-center">
             <h2 className="text-lg font-semibold">Notifications</h2>
             <p className="text-sm  flex items-center gap-0.5 text-[#7B7A7F]">
-               <IoCheckmarkDone className='text-blue-500 h-5 w-5' />
+               <IoCheckmarkDone className='text-[#7B7A7F] h-5 w-5' />
                 Mark As Read
             </p>
             
@@ -34,12 +34,16 @@ const NotificationPopup: React.FC<NotificationPopupProps> = ({ isOpen, togglePop
                 />
                 <div>
                     <div className='flex'>
-                  <p className="text-sm font-semibold">Shivam</p>
+                  <p className="text-sm font-semibold">Aarushi</p>
                   <p className="text-sm text-[#CCCCCC]">
                     - has approved your blog.
                   </p>
                   </div>
                   <span className="text-xs text-[#7B7A7F]">2 hours ago | 11:10PM</span>
+                  <div className='flex gap-2 mt-1'>
+                   <button className='border border-[#2F2D33] py-1 px-2 rounded text-xs bg-[#000000]'>Approve</button>
+                   <button className='border border-[#2F2D33] py-1 px-4 rounded text-xs bg-[#0A090F] text-[#7B7A7F]'>Deny</button>
+                  </div>
                 </div>
                 <span className="ml-auto mt-1 w-2 h-2 bg-blue-500 rounded-full"></span>
               </div>
@@ -58,4 +62,4 @@ const NotificationPopup: React.FC<NotificationPopupProps> = ({ isOpen, togglePop
   );
 };
 
-export default NotificationPopup;
+export default AdminNotificationPopUp;

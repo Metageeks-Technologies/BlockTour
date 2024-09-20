@@ -8,11 +8,18 @@ import {useEffect, useState} from "react";
 import {BiLogInCircle, BiLogOutCircle} from "react-icons/bi";
 import {FaUserCircle} from "react-icons/fa";
 import {IoMdNotificationsOutline} from "react-icons/io";
+import AdminNotificationPopUp from "./AdminNotificationPopUp";
 
 export default function Header () {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isUserOpen, setIsUserOpen] = useState<boolean>( false );
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
+
   const currentAdmin = useAppSelector( ( state: any ) => state?.superAdmin?.admin );
 
   const handleLogout = async () => {
@@ -47,7 +54,12 @@ export default function Header () {
       </div>
 
       <div className="flex items-center space-x-5">
-        <IoMdNotificationsOutline className="h-7 w-7" />
+
+        <div>
+        <IoMdNotificationsOutline onClick={togglePopup} className="h-7 w-7 cursor-pointer" />
+        <AdminNotificationPopUp isOpen={isPopupOpen} togglePopup={togglePopup} />
+        </div>
+
         <div className="relative">
           <FaUserCircle className="w-7 h-7 text-gray-300 cursor-pointer" onClick={handleUserIconClick} />
           {isUserOpen && (
