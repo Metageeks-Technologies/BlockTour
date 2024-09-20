@@ -68,7 +68,7 @@ const NotificationPopup: React.FC<NotificationPopupProps> = ( {isOpen, togglePop
   return (
     <>
       {isOpen && (
-        <div className="absolute sm:right-7 right-0 top-16 w-96 bg-[#000000] border border-[#2F2D33] text-white shadow-lg rounded-lg z-50">
+        <div className="absolute sm:right-7 right-0 top-16 w-96  bg-[#0A090F] border border-[#2F2D33] text-white shadow-lg rounded-lg z-50">
           <div className="p-4 border-b border-gray-700 flex justify-between items-center">
             <h2 className="text-lg font-semibold">Notifications</h2>
             <p

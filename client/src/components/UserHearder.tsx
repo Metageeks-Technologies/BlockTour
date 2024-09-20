@@ -1,18 +1,18 @@
 "use client";
-import {getCurrentUser, logout} from "@/app/redux/feature/contributor/api";
-import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
-import {RootState} from "@/app/redux/store";
+import { getCurrentUser, logout } from "@/app/redux/feature/contributor/api";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import { RootState } from "@/app/redux/store";
 import Cookies from "js-cookie";
-import {useRouter} from "next/navigation";
-import React, {useEffect, useState} from "react";
-import {BiLogInCircle, BiLogOutCircle} from "react-icons/bi";
-import {FaUserCircle} from "react-icons/fa";
-import {IoMdNotificationsOutline} from "react-icons/io";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
+import { FaUserCircle } from "react-icons/fa";
+import { IoMdNotificationsOutline } from "react-icons/io";
 import Sidebarpop from "./contributor/SidebarPopUp";
-import NotificationPopup from "./contributor/NotificationPopUp";
+// import NotificationPopup from "./contributor/NotificationPopUp";
 
 const UserHearder = () => {
-  const [isUserOpen, setIsUserOpen] = useState<boolean>( false );
+  const [isUserOpen, setIsUserOpen] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -22,7 +22,7 @@ const UserHearder = () => {
 
   const user = useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
   const dispatch = useAppDispatch();
-  console.log( "user:-", user );
+  console.log("user:-", user);
   const router = useRouter();
 
   const toggleSidebar = () => {
@@ -30,26 +30,24 @@ const UserHearder = () => {
   };
 
   const handleLogout = async () => {
-    await logout( dispatch );
-    router.push( "/login" );
+    await logout(dispatch);
+    router.push("/login");
   };
 
-  useEffect( () => {
-    if ( !Cookies.get( "Token" ) ) {
-      router.push( "/login" );
+  useEffect(() => {
+    if (!Cookies.get("Token")) {
+      router.push("/login");
     }
-    getCurrentUser( dispatch );
-  }, [] );
+    getCurrentUser(dispatch);
+  }, []);
 
   const handleUserIconClick = () => {
-    setIsUserOpen( !isUserOpen );
+    setIsUserOpen(!isUserOpen);
   };
 
   return (
     <div className="sticky z-30 top-0">
-    <header className="bg-[#0A090F] text-white  flex items-center justify-between px-6 py-2">
-      <div className="flex items-center">
-        {/* Logo */}
+      <header className="bg-[#0A090F] text-white  flex items-center justify-between px-6 py-2">
         <div className="flex items-center">
           <img
             src="/asset/Block-logo.svg"
@@ -58,9 +56,7 @@ const UserHearder = () => {
               onClick={()=>router.push("/")}
           />
         </div>
-      </div>
 
-   
         {/* <ul className="flex space-x-4">
           <li
             className="cursor-pointer text-[#bdbcc0] font-bold hover:text-[#DF841C]"
@@ -84,13 +80,19 @@ const UserHearder = () => {
             Contribute
           </li>
         </ul> */}
-        
+
         {/* for desktop */}
         <div className="flex items-center space-x-5">
-        <div>
-        <IoMdNotificationsOutline onClick={togglePopup} className="h-7 w-7 cursor-pointer lg:block hidden" />
+          <div>
+            <div onClick={togglePopup} className="relative cursor-pointer">
+              <IoMdNotificationsOutline className="h-7 w-7 cursor-pointer lg:block hidden" />
+              <span className="absolute -top-1 -right-[3px] text-center lg:block hidden bg-[#F6911D] rounded-full h-4 w-4  text-xs">
+                6
+              </span>
+            </div>
+
             <NotificationPopup isOpen={isPopupOpen} togglePopup={togglePopup} ids={user?.notifications} />
-        </div>
+          </div>
           <div className="relative lg:block hidden">
             <img
               src="/asset/Vector1.svg"
@@ -111,7 +113,7 @@ const UserHearder = () => {
                     </button>
                     <button
                       className="flex items-center w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
-                      onClick={() => router.push( "/user-profile" )}
+                      onClick={() => router.push("/user-profile")}
                     >
                       <FaUserCircle className="w-5 h-5 mr-3" />
                       User Profile
@@ -119,7 +121,7 @@ const UserHearder = () => {
                   </>
                 ) : (
                   <button
-                    onClick={() => router.push( "/admin/login" )}
+                    onClick={() => router.push("/admin/login")}
                     className="flex items-center w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
                   >
                     <BiLogInCircle className="w-5 h-5 mr-3" />
@@ -132,25 +134,28 @@ const UserHearder = () => {
         </div>
 
         {/* for mobile*/}
-       <div className="lg:hidden flex gap-3 items-center">        
-       <div>
-        <IoMdNotificationsOutline onClick={togglePopup} className="h-7 w-7 cursor-pointer lg:hidden" />
+        <div className="lg:hidden flex gap-3 items-center">
+          <div>
+            <div onClick={togglePopup} className="relative cursor-pointer">
+              <IoMdNotificationsOutline className="h-7 w-7 cursor-pointer lg:hidden" />
+              <span className="absolute -top-1 -right-1 text-center bg-[#F6911D] rounded-full h-4 w-4  text-xs">
+                6
+              </span>
+            </div>
+
             <NotificationPopup isOpen={isPopupOpen} togglePopup={togglePopup} ids={user?.notifications} />
-        </div>
-        {/* <button
+          </div>
+          {/* <button
           className="bg-gray-800  px-4 py-2 rounded hover:bg-gray-700"
           onClick={toggleSidebar}
         >
           Open 
           
         </button> */}
-        <img src="/asset/sink.svg" alt="" 
-         onClick={toggleSidebar}
-        />
+          <img src="/asset/sink.svg" alt="" onClick={toggleSidebar} />
         </div>
-
-    </header>
-    <Sidebarpop isOpen={isOpen} toggleSidebar={toggleSidebar} />
+      </header>
+      <Sidebarpop isOpen={isOpen} toggleSidebar={toggleSidebar} />
     </div>
   );
 };
