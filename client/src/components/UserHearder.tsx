@@ -48,7 +48,8 @@ const UserHearder = () => {
           <img
             src="/asset/Block-logo.svg"
             alt="Block Tour Logo"
-            className="mx-auto h-14 w-auto"
+              className="mx-auto h-14 w-auto cursor-pointer"
+              onClick={()=>router.push("/")}
           />
         </div>
       </div>

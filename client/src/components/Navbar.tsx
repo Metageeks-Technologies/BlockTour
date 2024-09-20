@@ -1,10 +1,21 @@
-"use client"
-import { useRouter } from "next/navigation";
-import React from "react";
-import { IoMenu } from "react-icons/io5";
+"use client";
+import {getCurrentUser} from "@/app/redux/feature/contributor/api";
+import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
+import Cookies from "js-cookie";
+import {useRouter} from "next/navigation";
+import React, {useEffect} from "react";
+import {IoMenu} from "react-icons/io5";
 
 const Navbar = () => {
   const router = useRouter();
+  const user = useAppSelector( ( state ) => state.contributor.currentUser );
+  const dispatch = useAppDispatch();
+  useEffect( () => {
+    if ( Cookies.get( "Token" ) && !user ) {
+      getCurrentUser( dispatch );
+    }
+  }, [] );
+
   return (
     <>
       <nav className="w-full flex justify-between items-center gap-5">
@@ -24,36 +35,37 @@ const Navbar = () => {
           <li className="hover:text-amber-600 my-auto">NFT</li>
           <li className="hover:text-amber-600 my-auto">Web3</li>
           <li className="hover:text-amber-600 my-auto">Press Release</li>
-          <li className="hover:text-amber-600 leading-[75px]" onClick={() => router.push("/login")}>
-            Sign in
-            </li>
+          {user ?
+            <li className="hover:text-amber-600 my-auto" onClick={() => router.push( "/dashboard" )}>Dashboard</li> :
+            <li className="hover:text-amber-600 leading-[75px]" onClick={() => router.push( "/login" )}>  Sign in </li>
+          }
         </ul>
 
         {/* Social Icons - Always visible */}
         <div className="flex items-center gap-8 my-auto cursor-pointer text-black">
           <div className="flex items-center">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/863d331eefa993b31b8aed224ade35e698451eb9e531bb98438ad4e8a4696a65?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-            className="object-contain shrink-0 aspect-square w-[43px]"
-            alt="Icon 1"
-          />
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/4ab764a4c5c85468612bb76154a6adbea87eabf588ffb5e70f6791fc892d2c54?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-            className="object-contain shrink-0 aspect-[0.98] w-[42px]"
-            alt="Icon 2"
-          />
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/8846ea92b5c844b974e62a7c282808454ee6ab4f992a9d991027152d2e7bd9d2?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-            className="object-contain shrink-0 aspect-[0.88] w-[38px]"
-            alt="Icon 3"
-          />
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/863d331eefa993b31b8aed224ade35e698451eb9e531bb98438ad4e8a4696a65?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
+              className="object-contain shrink-0 aspect-square w-[43px]"
+              alt="Icon 1"
+            />
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/4ab764a4c5c85468612bb76154a6adbea87eabf588ffb5e70f6791fc892d2c54?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
+              className="object-contain shrink-0 aspect-[0.98] w-[42px]"
+              alt="Icon 2"
+            />
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/8846ea92b5c844b974e62a7c282808454ee6ab4f992a9d991027152d2e7bd9d2?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
+              className="object-contain shrink-0 aspect-[0.88] w-[38px]"
+              alt="Icon 3"
+            />
           </div>
-        <div className="flex lg:hidden items-center">
-        <IoMenu className="h-10 w-10 text-white" />
-        </div>
+          <div className="flex lg:hidden items-center">
+            <IoMenu className="h-10 w-10 text-white" />
+          </div>
         </div>
       </nav>
     </>
