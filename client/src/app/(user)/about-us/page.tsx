@@ -94,7 +94,7 @@ const page = () => {
         </div>
 
         <div className="h-60 border flex justify-center items-center ">
-          <div>
+          <div className="flex flex-col justify-center">
           <h1 className="text-4xl">Join Us</h1>
           <p className="mt-6">
             Whether you’re a blockchain novice, a seasoned developer, or simply
