@@ -1,7 +1,5 @@
 "use client";
 import { useAppSelector } from "@/app/redux/hooks";
-import Sidebar from "@/components/contributor/Sidebar";
-import UserHearder from "@/components/UserHearder";
 import instance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -76,7 +74,7 @@ const Page = () => {
   };
 
   return (
-    <div className="ml-64 m-4 py-4 bg-[#0A090F] rounded-2xl shadow-md w-full border border-[#28272D]">
+    <div className="lg:ml-64 sm:m-4 sm:my-4 my-2  bg-[#0A090F] sm:rounded-2xl shadow-md w-full border border-[#28272D]">
       {!user.contributor ? (
         <div className="flex h-[38rem] justify-center items-center">
           <div className="flex flex-col items-center justify-center">
@@ -85,10 +83,10 @@ const Page = () => {
               alt="Not a contributor"
               className="h-30 w-30"
             />
-            <h1 className="font-semibold text-2xl mt-6">
+            <h1 className="font-semibold sm:text-2xl text-xl mt-6">
               You are not a contributor.
             </h1>
-            <p className="text-center text-sm text-[#999999] mt-0.5">
+            <p className="text-center sm:text-sm text-xs text-[#999999] mt-0.5 ">
               Once admin approves you then you can make a post,
               <br />
               it takes up to 48 hrs.
@@ -110,14 +108,14 @@ const Page = () => {
           {filteredPosts.length ? (
             <div>
               {/* Header and Add New Post */}
-              <div className="flex justify-between items-center mb-4 px-8 py-2 border-b border-[#28272D]">
+              <div className="flex justify-between items-center mb-4 sm:px-8 px-4 py-4 border-b border-[#28272D]">
                 <div className="flex gap-2 items-center">
                   <img
                     src="/asset/Group 12856.svg"
                     alt="My Blog"
-                    className="h-10 w-10"
+                    className="h-8 w-8 sm:block hidden"
                   />
-                  <h1 className="text-white text-xl font-semibold">My Blog</h1>
+                  <h1 className="text-white text-2xl sm:text-xl font-semibold">My Blog</h1>
                 </div>
                 <button className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-1.5 rounded">
                   + Add New Post
@@ -125,15 +123,15 @@ const Page = () => {
               </div>
 
               {/* Search and Filters */}
-              <div className="flex justify-between items-center mb-4 px-8">
+              <div className="flex justify-between pt-2 items-center mb-4 sm:px-8 px-4 flex-wrap sm:space-y-0 space-y-1">
                 <div className="relative border border-neutral-600 rounded flex justify-between">
                   <input
                     type="text"
                     placeholder="Search"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="bg-[#0A090F] text-[#7B7A7F] w-80 px-4 py-2 rounded border-none focus:outline-none"
-                  />
+                    className="bg-[#0A090F] text-[#7B7A7F] sm:w-80 w-40 px-4 py-2 rounded border-none focus:outline-none"
+                  /> 
                   <button className="bg-[#DF841C] text-white px-3 py-1.5 rounded">
                     <IoSearchOutline className="h-6 w-6" />
                   </button>
@@ -154,8 +152,8 @@ const Page = () => {
               </div>
 
               {/* Post Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4 px-8 py-4">
-                {currentPosts.map((post) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4 sm:px-8 px-4 py-4">
+                {currentPosts.map((post) => ( 
                   <div
                     key={post._id}
                     className="cursor-pointer rounded-xl border border-neutral-700 overflow-hidden bg-[#000000]"
@@ -206,7 +204,7 @@ const Page = () => {
               </div>
 
               {/* Pagination */}
-              <div className="flex justify-between items-center mt-4 px-8">
+              <div className="flex justify-between items-center mt-4 sm:px-8 px-4 mb-4">
                 <div className="text-[#7B7A7F]">
                   Showing {indexOfFirstItem + 1} to{" "}
                   {Math.min(indexOfLastItem, filteredPosts.length)} of{" "}

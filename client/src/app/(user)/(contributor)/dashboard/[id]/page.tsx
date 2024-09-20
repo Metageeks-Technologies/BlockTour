@@ -46,7 +46,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   if (!post) {
     return (
-      <div className="ml-64 bg-[#0A090F] px-8 py-8 text-white m-4 rounded-2xl w-full border border-[#28272D]">
+      <div className="lg:ml-64 bg-[#0A090F] px-8 py-8 text-white m-4 rounded-2xl w-full border border-[#28272D]">
         <div className="flex gap-2 items-center">
           <img src="/asset/Group 12856.svg" alt="" className="h-10 w-10" />
           <h1 className="text-[#999999] font-semibold text-2xl">
@@ -64,39 +64,39 @@ const Page = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div className="ml-64 bg-[#0A090F]  py-4 text-white m-4 rounded-2xl w-full border border-[#28272D]">
+    <div className="lg:ml-64 bg-[#0A090F] sm:m-4 sm:my-4 my-2 text-white  sm:rounded-2xl w-full border border-[#28272D]">
 
-      <div className="flex items-center mb-4 px-8 py-2 border-b border-[#28272D] ">
+      <div className="flex items-center mb-4 sm:px-8 px-4 py-4 border-b border-[#28272D] ">
         <div className="flex gap-2 items-center">
-          <img src="/asset/Group 12856.svg" alt="" className="h-10 w-10" />
+          <img src="/asset/Group 12856.svg" alt="" className="h-8 w-8" />
           <h1 className="text-white text-xl font-semibold">Blog Details</h1>
         </div>
       </div>
-      <div className="flex flex-col mt-5 px-28">
+      <div className="flex flex-col mt-5 lg:px-28 sm:px-8 px-4">
         <div className="flex flex-col">
           {/* Title */}
-          <h1 className="mt-5 lg:text-3xl md:text-2xl text-2xl font-medium text-white max-md:mt-10 max-md:max-w-full line-clamp-2">
+          <h1 className="sm:mt-2 lg:text-3xl md:text-2xl text-2xl font-medium text-white  max-md:max-w-full line-clamp-2">
             {post.title}
           </h1>
 
-          <div className="mt-3 flex flex-wrap gap-4 items-center">
+          <div className=" flex mt-1 flex-wrap gap-4 items-center">
             <div className="flex items-center gap-3">
               <img
                 loading="lazy"
-                src=""
+                src="https://th.bing.com/th/id/R.c6ce4ef394413869bb06283db819c628?rik=dsxV%2b0CdNNsOmA&riu=http%3a%2f%2fsfsco.net%2fwp-content%2fuploads%2f2016%2f04%2f6140989632_1c8066563d_b.jpg&ehk=uLWHPAmp35gMcoEmYFZKjh1wg8vpPdCZcGGtPh72e7w%3d&risl=&pid=ImgRaw&r=0"
                 alt={post.authorName}
-                className="w-12 h-12 object-cover rounded-full"
+                className="w-14 h-14 object-cover rounded-full"
               />
               <div className="text-sm text-neutral-400 py-4">
                 <div className="flex gap-2 items-center">
-                <button className="bg-[#DF841C] py-1 px-4 my-2 rounded-md text-white font-semibold text-sm">
+                <button className="bg-[#DF841C] py-0.5 px-3 my-0.5 text-[#230E00] font-semibold text-sm">
                   {post.category.join(", ")}
                 </button>
                 <p className="text-sm text-neutral-400">
                           {new Date(post.publishedDate).toLocaleDateString()}
                         </p>
                 </div>
-                <p className="font-medium text-white">
+                <p className="font-medium text-neutral-400">
                   <span className="text-neutral-400">By:</span>{" "}
                   {post.authorName || "Unknown Author"}
                 </p>
