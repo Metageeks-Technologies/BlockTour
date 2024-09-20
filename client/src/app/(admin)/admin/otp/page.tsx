@@ -1,5 +1,5 @@
 import React from 'react';
-import { IoArrowBackOutline } from 'react-icons/io5';
+import {IoArrowBackOutline} from 'react-icons/io5';
 
 const OTPVerification = () => {
   return (
@@ -44,7 +44,7 @@ const OTPVerification = () => {
           Verify
         </button>
         <div className="mt-8 flex items-center justify-center gap-2">
-        <IoArrowBackOutline className='h-5 w-5 text-neutral-400'/>
+          <IoArrowBackOutline className='h-5 w-5 text-neutral-400' />
           <a href="/admin/signup" className="text-gray-400 text-sm cursor-pointer"> Back to Sign Up</a>
         </div>
       </div>
