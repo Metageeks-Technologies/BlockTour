@@ -28,6 +28,12 @@ const HtmlContent: React.FC<HtmlContentProps> = ( {htmlContent} ) => {
                         className="w-full aspect-video"
                         allowFullScreen
                         frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        title="Embedded youtube video"
+                        aria-label="Embedded youtube video"
+                        aria-describedby="Embedded youtube video"
+                        tabIndex={0}
+                        role="button" 
                     />
                 </div>
             );

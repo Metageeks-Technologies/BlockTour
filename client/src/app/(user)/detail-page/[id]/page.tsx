@@ -1,9 +1,14 @@
 "use client";
+import {getAdminAuthor} from "@/app/redux/feature/admin/api";
+import {getAuthor} from "@/app/redux/feature/contributor/api";
 import {getPostById} from "@/app/redux/feature/posts/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
+import {RootState} from "@/app/redux/store";
 import DiscussionEmbedComponent from "@/components/DiscussionEmbed";
 import Footer from "@/components/Footer";
+import HtmlContent from "@/components/HtmlContent";
 import Navbar from "@/components/Navbar";
+import {formatDateTime} from "@/utils/DateFormat";
 import {useParams} from "next/navigation";
 import React, {useEffect} from "react";
 type CardData = {
@@ -21,7 +26,7 @@ const Data: CardData[] = [
   {
     id: 1,
     imgSrc:
-      "https://s3-alpha-sig.figma.com/img/005f/4736/6495135ba9397ac4a60079d072ea26c5?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GUKMONuuHSE7ZI3pH~pSbVNwfeoRLSf2s-FVRIlxF8tqHnpA-DAIWDNCyTptSwdjsiqEkyt-~mECz7ybBDxRhqhY2MRFy4awwSufxSPb1LK94KuFC4ZR2uzUIlsVX0YYaEHRfruFVzJectt0lQf3ejgdU3pqJhUr3wnlXcvu5CxkBmD1x9gFrITNb1Y~FgTNMQIJGJ9fjB134snW6u34LMf8IHG5E6i-B6RzdfYzY4Rp1gz3mzcKrOkLpp2EHNoDZZ9pA9fCCuNDiRdQrfJyw3hzW5lLL9xilhSfBg7DgTUPo5hwVNHA47tL-wgzywli0hkyKEa7xUvD3rxL5B-tuw__",
+      "https://s3-alpha-sig.figma.com/img/005f/4736/6495135ba9397ac4a60079d072ea26c5?Expires=1725840000000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GUKMONuuHSE7ZI3pH~pSbVNwfeoRLSf2s-FVRIlxF8tqHnpA-DAIWDNCyTptSwdjsiqEkyt-~mECz7ybBDxRhqhY2MRFy4awwSufxSPb1LK94KuFC4ZR2uzUIlsVX0YYaEHRfruFVzJectt0lQf3ejgdU3pqJhUr3wnlXcvu5CxkBmD1x9gFrITNb1Y~FgTNMQIJGJ9fjB134snW6u34LMf8IHG5E6i-B6RzdfYzY4Rp1gz3mzcKrOkLpp2EHNoDZZ9pA9fCCuNDiRdQrfJyw3hzW5lLL9xilhSfBg7DgTUPo5hwVNHA47tL-wgzywli0hkyKEa7xUvD3rxL5B-tuw__",
     title:
       "Is Crypto on the Brink of a Bull Market or Bear Market? Utilizing Consensus 2024 as a Gauge",
     category: "Crypto",
@@ -30,7 +35,7 @@ const Data: CardData[] = [
       "Consensus 2024: Market Sentiment in Question Bitcoin ETFs Lead to Market Speculation At Consensus 2024, the prevailing question on everyone's…",
   },
   {
-    id: 1,
+    id: 2,
     imgSrc:
       "https://s3-alpha-sig.figma.com/img/c57b/e6aa/5741ee0e5a86f1971e61e2b66d13c10e?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=aKyxpeeapwncPJFj9oeay16LiCx8GOjSqWQO1LCXTR-X4zvdgpJX8OjGeFuDCV6R9Irw7UproeYHuCFZ9SSSG0OoVGImKp8wG6~mf8kcPRmnnxD4VFxwIBe052Boo8dxv685l5ODZG6P20kZDY9sfPiKOUKF8BGd656quzUb-lIznHri4CpOVFH--63k3kpE5QFaL5Gai2YZKDI~O1Ug2f9RSI7c04Fny1V80XsJs5YrjNbMmz1png-EONiwJAwv489EFmRx64pZtByGFgjkLS~pNpaCuePqQtZPz4Cv7Sx27SPdZVgYmCgsjKVHV6YRF0zvtg0cZrUcQ-Glr5EpFw__",
     title: "College Campus Protests Exploited by Russian Influence Campaign",
@@ -40,7 +45,7 @@ const Data: CardData[] = [
       "Covert Doppelganger Campaign Echoes Russian Narratives The covert Doppelganger campaign, believed to be originating from Russia, has been spreading disinformation around the ongoing campus protests in the United States...",
   },
   {
-    id: 1,
+    id: 3,
     imgSrc:
       "https://s3-alpha-sig.figma.com/img/0496/07ff/6e0f7abc0558dc5948fdb1910f880f9e?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=UTaGqrTDAApO6PaCq5DP9uiCHalkOUXzX~AnSEl18KavaKOXelA5ZHn5dTn9THJw0d-WqqblPuBJFbXWRrxh-jPMCQx1G7NCy54S1nI0E4~XeBluWaCuE5B1x3UWo6Y5oYJVuixv2sBE3vMCVDhqlpIXYjG7DWuf6KDHTu0TO70f9mmtzjqxIJLWKQzasA4DpF231wBTKRwJQwsdOHtfnJ3kahSRgcuOQpru7OymGC6uS6tEiSfHSa0taRoWHEamjdAt8jCfRhLQX6GYWW86l450oJp7NwZ68dou1JRH6uVQeo47iB6AAMDxthgjr71NY35QbY70NsPXRc5W7bZweg__",
     title: "Coinbase Veterans Raise $21M For NPC Labs Gaming Startup ",
@@ -53,14 +58,32 @@ const Data: CardData[] = [
 
 
 const CardDetails = () => {
-  const {id} = useParams();
+  const {id} = useParams<{id: string;}>();
   const dispatch = useAppDispatch();
-  const card = useAppSelector((state)=>state.post.currentPost)
-  // const card = cardData.find( ( item ) => item.id === Number( id ) );
-// console.log(post)
+  const card = useAppSelector( ( state: any ) => state.post.currentPost );
+  const author = useAppSelector( ( state: any ) => state.contributor?.author || state.superAdmin?.author );
+
   useEffect( () => {
-  getPostById(dispatch,id as string)
-},[id])
+    if ( id ) {
+      // dispatch( getPostById( id ) );
+      getPostById( dispatch, id );
+    }
+  }, [dispatch, id] );
+
+  useEffect( () => {
+    if ( card ) {
+      if ( card.creatorId ) {
+        // dispatch( getAuthor( card.creatorId ) );
+        getAuthor( dispatch, card.creatorId );
+      } else if ( card.authorId ) {
+        // dispatch( getAdminAuthor( card.authorId ) );
+        getAdminAuthor( dispatch, card.authorId );
+      }
+    }
+  }, [dispatch, card] );
+
+  console.log( author, card );
+
 
   return (
     <div className="flex overflow-hidden flex-col items-center lg:px-20 md:px-4 pb-6 bg-black max-md:px-5">
@@ -73,7 +96,7 @@ const CardDetails = () => {
         <div className="flex gap-2.5 mt-3 text-sm font-bold leading-none">
           <img
             loading="lazy"
-            srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/f325f5b8c5f4f2ca62316431c8d29b982ce87cd0e56d72386f52626cdaa639f3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/f325f5b8c5f4f2ca62316431c8d29b982ce87cd0e56d72386f52626cdaa639f3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/f325f5b8c5f4f2ca62316431c8d29b982ce87cd0e56d72386f52626cdaa639f3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/f325f5b8c5f4f2ca62316431c8d29b982ce87cd0e56d72386f52626cdaa639f3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/f325f5b8c5f4f2ca62316431c8d29b982ce87cd0e56d72386f52626cdaa639f3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/f325f5b8c5f4f2ca62316431c8d29b982ce87cd0e56d72386f52626cdaa639f3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/f325f5b8c5f4f2ca62316431c8d29b982ce87cd0e56d72386f52626cdaa639f3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/f325f5b8c5f4f2ca62316431c8d29b982ce87cd0e56d72386f52626cdaa639f3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
+            srcSet={author?.profileImage}
             className="object-contain shrink-0 rounded-full aspect-square w-[60px]"
           />
           <div className="flex flex-col grow shrink-0 my-auto basis-0 w-fit">
@@ -83,10 +106,10 @@ const CardDetails = () => {
               </div>
               <p className="my-auto basis-auto text-white text-opacity-50">
                 {/* {card?.date} */}
-              </p> 
+              </p>
             </div>
             <div className="mt-2.5 text-white text-opacity-50">
-              {card?.authorName} | Last updated: 2024/05/29 at 11:08 PM
+              {card?.authorName} | {formatDateTime( card?.createdAt )}
             </div>
           </div>
         </div>
@@ -95,8 +118,20 @@ const CardDetails = () => {
             <div className="flex flex-col w-[69%] max-md:ml-0 max-md:w-full">
               <div className="flex flex-col w-full max-md:mt-10 max-md:max-w-full">
                 <div className="flex overflow-hidden relative flex-col flex-wrap gap-1.5 items-start pt-96 pr-20 w-full min-h-[450px] max-md:pt-24 max-md:pr-5 max-md:max-w-full">
-                  <img loading="lazy"  src={card?.previewImageUrl}  className="object-cover absolute inset-0 size-full"  />
-                  <div className="lg:block md:hidden hidden ">
+                  {card?.postType?.toLowerCase() === "video post" ?
+                    <video
+                      src={card?.previewImageUrl}
+                      controls
+                      className="object-cover absolute inset-0 size-full"
+                    /> :
+                    <img
+                      loading="lazy"
+                      src={card?.previewImageUrl}
+                      alt={card?.title}
+                      className="object-cover absolute inset-0 size-full"
+                    />
+                  }
+                  {/* <div className="lg:block md:hidden hidden ">
                     <div className="absolute bottom-0 left-0 flex gap-1 ">
                       <div className="h-10  bg-black gap-3 border cursor-pointer border-[#444444] rounded flex items-center px-2">
                         <img src="/asset/Share.svg" alt="" className="h-5 w-5" />
@@ -123,17 +158,22 @@ const CardDetails = () => {
                         <p className="text-sm text-[#7BBF6A] px-2">WhatsApp</p>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="mt-5 text-base leading-7 text-zinc-400 max-md:mr-2 max-md:max-w-full">
                   <h1 className=" text-2xl font-medium text-white ">
                     {card?.title}
                   </h1>
-                  <div
+                  {/* <div
                     className="text-neutral-400 mt-5"
                     dangerouslySetInnerHTML={{__html: card?.description || ""}}
-                  />
+                  /> */}
+
+                  <div className="mt-5">
+                    <HtmlContent htmlContent={card?.description || ""} />
+                  </div>
+
                   {/* <h1 className=" mt-8 text-2xl font-medium text-white">
                     Key Investors Leading the Round
                   </h1>
@@ -199,7 +239,7 @@ const CardDetails = () => {
                       optionality for ETH stakers through restaking.
                     </p>
                   </div>
-                </div>  
+                </div>
 
                 <div className="text-[#ADADAD] mt-4 ">
                   <h1 className="text-white text-2xl">
@@ -218,18 +258,14 @@ const CardDetails = () => {
 
                 <div className="mt-8 flex  gap-4">
                   <img
-                    src="https://s3-alpha-sig.figma.com/img/55b9/7f30/16108c6007d512d29730703665b3de24?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=LSTkyJYCap3B11v2GSjDzRk1~ghJ0TfS8oi5NhZbuYUQvNiSFccwjh2kf0gmCZSlB05GAqr2z~Guv8hh59GZADdTMnYPepDAMYywWHNLxcJur5kWi97nkC~-sAjFaaJqfi~J1sTIDPA18bWiLeX0T89knEWIf0hQkstc1U2ag1qWc-e6PrVedgb1iJiEeuBH~~CYIIKLfGus2-YW4CvWKovn5lrKjw6tWDG799BpyN8UpKwPYOrM8HG03qVZbNl-St1U1P7z9lLZGH7Uc7pnwsH5BGHPfqvpv1EFuln4WM0-euxjLozuqY7Hit5yZmtIWLCkK-InesGr6-VKbFxCsQ__"
-                    alt=""
-                    className="w-24 lg:h-24 md:h-24 h-36 object-cover border"
+                    src={author?.profileImage}
+                    alt={author?.name}
+                    className="w-24 lg:h-24 md:h-24 h-36 object-cover shrink-0 rounded-full aspect-square" 
                   />
                   <div>
-                    <h1 className="text-sm text-white">Tanisha</h1>
+                    <h1 className="text-sm text-white">{author?.name}</h1>
                     <p className="text-[#ADADAD] text-xs">
-                      Tanisha is a renowned author and thought leader in the
-                      blockchain industry. With a decade of experience in the
-                      field, Tanisha has established herself as a trusted voice
-                      in the world of decentralized technologies and digital
-                      currencies.
+                      {author?.bio}
                     </p>
                     <div className="flex gap-3 text-white mt-1">
                       <img src="/asset/Link.svg" alt="" className="h-4 w-4" />
@@ -438,20 +474,10 @@ const CardDetails = () => {
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-4">
             {Data.map( ( card ) => (
               <div key={card.id} className=" flex flex-col gap-5  ">
-                <img
-                  loading="lazy"
-                  src={card.imgSrc}
-                  className="w-full h-40 object-cover"
-                  alt={card.title}
-                />
-
-                <h1 className="text-xl text-white font-semibold">
-                  {card.title}
-                </h1>
+                <img loading="lazy" src={card.imgSrc} className="w-full h-40 object-cover" alt={card.title} />
+                <h1 className="text-xl text-white font-semibold"> {card.title} </h1>
                 <div className="mt-1 flex gap-3 items-center">
-                  <button className="bg-[#DF841C] py-0.5 px-3">
-                    {card.category}
-                  </button>
+                  <button className="bg-[#DF841C] py-0.5 px-3"> {card.category} </button>
                   <p className="text-sm text-neutral-400">{card.date}</p>
                 </div>
               </div>
@@ -462,7 +488,7 @@ const CardDetails = () => {
         <div className="flex shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" />
 
         <div className="mt-20 max-w-full w-[1192px] max-md:mt-10 ">
-        
+
           {card && <DiscussionEmbedComponent article={card} />}
         </div>
 
@@ -478,7 +504,7 @@ const CardDetails = () => {
             comment.
           </p>
         </div> */}
-{/* 
+        {/* 
         <button className="px-4 py-4 cursor-pointer mt-6 text-sm font-medium leading-3 hover:bg-neutral-900 text-center text-white rounded bg-neutral-800">
           Post Comment
         </button> */}

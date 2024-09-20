@@ -27,8 +27,7 @@ export const currentUserSlice = createSlice({
     setAuthor: ( state, action: any ) => {
       state.author = action.payload.user;
       state.loading = false;
-      state.error = "";
-      
+      state.error = ""; 
     },
     requestStart: (state) => {
       state.loading = true;

@@ -145,12 +145,19 @@ const CardDetails = () => {
           </div>
 
           {/* Preview image */}
-          <img
-            loading="lazy"
-            src={card.previewImageUrl}
-            alt={card.title}
-            className="w-full object-cover rounded mt-4"
-          />
+          {card.postType?.toLowerCase() === "video post" ?
+            <video
+              src={card.previewImageUrl}
+              controls
+              className="w-full object-cover rounded mt-4"
+            /> :
+            <img
+              loading="lazy"
+              src={card.previewImageUrl}
+              alt={card.title}
+              className="w-full object-cover rounded mt-4"
+            />
+          }
         </div>
 
         {/* <div className="mt-4 ">

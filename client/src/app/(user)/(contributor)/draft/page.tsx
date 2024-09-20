@@ -9,6 +9,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { IoSearchOutline } from "react-icons/io5";
 
 type PostData = {
+  postType: any;
   _id: string;
   previewImageUrl: string;
   title: string;
@@ -138,12 +139,19 @@ const Page = () => {
                       className="cursor-pointer rounded-xl border border-neutral-700 overflow-hidden bg-[#000000]"
                       onClick={() => router.push(`/dashboard/${post._id}`)}
                     >
-                      <img
-                        loading="lazy"
-                        src={post?.previewImageUrl}
-                        className="h-44 w-full object-cover"
-                        alt={post.title}
-                      />
+                      {post?.postType?.toLowerCase() === "video post" ?
+                        <video
+                          src={post?.previewImageUrl}
+                          controls
+                          className="w-full object-cover rounded mt-4"
+                        /> :
+                        <img
+                          loading="lazy"
+                          src={post?.previewImageUrl}
+                          alt={post?.title}
+                          className="w-full object-cover rounded mt-4"
+                        />
+                      }
                       <div className="flex gap-2 items-center p-4">
                         <button className="bg-[#DF841C] py-0.5 px-3 text-sm  text-[#230E00] font-semibold">
                           {post.category.join(", ")}

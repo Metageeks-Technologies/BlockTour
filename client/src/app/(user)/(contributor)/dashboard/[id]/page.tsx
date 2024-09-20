@@ -105,12 +105,19 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
 
           {/* Preview image */}
-          <img
-            loading="lazy"
-            src={post.previewImageUrl}
-            alt={post.title}
-            className="w-full object-cover rounded mt-4"
-          />
+          {post?.postType?.toLowerCase() === "video post" ?
+            <video
+              src={post?.previewImageUrl}
+              controls
+              className="w-full object-cover rounded mt-4"
+            /> :
+            <img
+              loading="lazy"
+              src={post?.previewImageUrl}
+              alt={post?.title}
+              className="w-full object-cover rounded mt-4"
+            />
+          }
         </div>
 
         {/* Description */}

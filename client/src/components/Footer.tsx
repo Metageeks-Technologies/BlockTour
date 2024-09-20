@@ -9,13 +9,13 @@ const Footer = () => {
   const CreateSubscriber = async () => {
     try {
 
-      const response = await instance.post( '/v1/subscriber/subscribers', {email} );
+      const response = await instance.post( '/subscriber/subscribers', {email} );
       console.log( response );
       // provide alerts from response.data
       alert( `${response.data.message}` );
     } catch ( error: any ) {
       console.error( error );
-      alert( `${error?.response?.data?.message}` );
+      alert( 'There is some error in creating subscriber' );
     }
   };
 

@@ -25,8 +25,7 @@ export const adminSlice = createSlice({
       state.error = "";
     },
     setAuthor: ( state, action: any ) => {
-      console.log( "action:-", action );
-      state.author = action.payload;
+      state.author = action.payload.admin;
       state.loading = false;
       state.error = ""; 
     },
@@ -49,6 +48,7 @@ export const adminSlice = createSlice({
 
 export const {
   setCurrAdmin,
+  setAuthor,
   requestStart,
   requestFail, 
 } = adminSlice.actions;
