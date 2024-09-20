@@ -17,9 +17,10 @@ interface NotificationPopupProps {
   isOpen: boolean;
   togglePopup: () => void;
   ids: string[];
+  setNoOfNotifications: any;
 }
 
-const NotificationPopup: React.FC<NotificationPopupProps> = ( {isOpen, togglePopup, ids} ) => {
+const NotificationPopup: React.FC<NotificationPopupProps> = ( {isOpen, togglePopup, ids, setNoOfNotifications} ) => {
   const [notifications, setNotifications] = useState<Notification[]>( [] );
   const [isMarkingAll, setIsMarkingAll] = useState( false );
 
@@ -31,11 +32,12 @@ const NotificationPopup: React.FC<NotificationPopupProps> = ( {isOpen, togglePop
     try {
       const response = await instance.post( '/notification/my-all-notification', {ids} );
       console.log( "response after notification:", response );
-      setNotifications( response.data.notifications.filter( ( noti: Notification ) => !noti.read ) );
+      setNotifications( response.data.notifications.filter( ( noti: Notification ) => !noti.read ) ); 
     } catch ( error ) {
       console.log( "Error in getting notifications:", error );
     }
   };
+  setNoOfNotifications( notifications.length );
 
   const markAsRead = async ( notificationId: string ) => {
     try {

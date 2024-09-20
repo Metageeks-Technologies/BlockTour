@@ -9,10 +9,12 @@ import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import Sidebarpop from "./contributor/SidebarPopUp";
+import NotificationPopup from "./contributor/NotificationPopUp";
 // import NotificationPopup from "./contributor/NotificationPopUp";
 
 const UserHearder = () => {
-  const [isUserOpen, setIsUserOpen] = useState<boolean>(false);
+  const [isUserOpen, setIsUserOpen] = useState<boolean>( false );
+  const [noOfNotifications,setNoOfNotifications] = useState<number>(0)
   const [isOpen, setIsOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -87,11 +89,11 @@ const UserHearder = () => {
             <div onClick={togglePopup} className="relative cursor-pointer">
               <IoMdNotificationsOutline className="h-7 w-7 cursor-pointer lg:block hidden" />
               <span className="absolute -top-1 -right-[3px] text-center lg:block hidden bg-[#F6911D] rounded-full h-4 w-4  text-xs">
-                6
+                {noOfNotifications}
               </span>
             </div>
 
-            <NotificationPopup isOpen={isPopupOpen} togglePopup={togglePopup} ids={user?.notifications} />
+            <NotificationPopup isOpen={isPopupOpen} togglePopup={togglePopup} ids={user?.notifications} setNoOfNotifications={setNoOfNotifications} />
           </div>
           <div className="relative lg:block hidden">
             <img
@@ -143,7 +145,7 @@ const UserHearder = () => {
               </span>
             </div>
 
-            <NotificationPopup isOpen={isPopupOpen} togglePopup={togglePopup} ids={user?.notifications} />
+            <NotificationPopup isOpen={isPopupOpen} togglePopup={togglePopup} ids={user?.notifications} setNoOfNotifications={setNoOfNotifications} />
           </div>
           {/* <button
           className="bg-gray-800  px-4 py-2 rounded hover:bg-gray-700"
