@@ -9,10 +9,17 @@ import {BiLogInCircle, BiLogOutCircle} from "react-icons/bi";
 import {FaUserCircle} from "react-icons/fa";
 import {IoMdNotificationsOutline} from "react-icons/io";
 import Sidebarpop from "./contributor/SidebarPopUp";
+import NotificationPopup from "./contributor/NotificationPopUp";
 
 const UserHearder = () => {
   const [isUserOpen, setIsUserOpen] = useState<boolean>( false );
   const [isOpen, setIsOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
+
   const user =
     useAppSelector( ( state: RootState ) => state.contributor.currentUser ) || {};
   const dispatch = useAppDispatch();
@@ -78,10 +85,13 @@ const UserHearder = () => {
             Contribute
           </li>
         </ul> */}
-
+        
+        {/* for desktop */}
         <div className="flex items-center space-x-5">
-
-        <IoMdNotificationsOutline className="h-7 w-7 cursor-pointer lg:block hidden" />
+        <div>
+        <IoMdNotificationsOutline onClick={togglePopup} className="h-7 w-7 cursor-pointer lg:block hidden" />
+        <NotificationPopup isOpen={isPopupOpen} togglePopup={togglePopup} />
+        </div>
           <div className="relative lg:block hidden">
             <img
               src="/asset/Vector1.svg"
@@ -121,9 +131,13 @@ const UserHearder = () => {
             )}
           </div>
         </div>
-       
-       <div className="lg:hidden flex gap-3 items-center">
-       <IoMdNotificationsOutline className="h-7 w-7 cursor-pointer lg:hidden" />
+
+        {/* for mobile*/}
+       <div className="lg:hidden flex gap-3 items-center">        
+       <div>
+        <IoMdNotificationsOutline onClick={togglePopup} className="h-7 w-7 cursor-pointer lg:hidden" />
+        <NotificationPopup isOpen={isPopupOpen} togglePopup={togglePopup} />
+        </div>
         {/* <button
           className="bg-gray-800  px-4 py-2 rounded hover:bg-gray-700"
           onClick={toggleSidebar}
