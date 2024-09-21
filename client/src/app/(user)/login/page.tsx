@@ -28,13 +28,11 @@ const Page = () => {
       // Store the token in cookies
       Cookies.set( "Token", response.data.token, {expires: 7} );
 
-      toast.success( "Login successful!" );
-      setTimeout( () => {
-        router.push( "/dashboard" );
-      }, 1000 );
+      toast.success( "Login successful!" ); 
+      router.push( "/dashboard" ); 
     } catch ( error ) {
       toast.error( "Login failed. Please try again." );
-      console.log("error:-",error)
+      console.log( "error:-", error );
     } finally {
       setLoading( false );
     }

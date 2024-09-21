@@ -82,3 +82,18 @@ input[type='checkbox']:checked::after {
   line-height: 1rem;
   text-align: center;
 }
+
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #DF841C; 
+  border-radius: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #17161B; 
+}

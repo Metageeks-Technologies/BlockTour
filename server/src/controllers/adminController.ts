@@ -103,6 +103,21 @@ export const updateAdmin = async (req: Request, res: Response) => {
     res.status( 500 ).json( {message: 'Server error'} );
   }
 }
+
+// admin by id
+export const getAdminById = async ( req: Request, res: Response ) => {
+  const { id } = req.params;
+  try {
+    const
+      admin = await Admin.findById( id );
+    if ( !admin ) {
+      return res.status( 404 ).json( {message: 'Admin not found'} );
+    }
+    res.status( 200 ).json( {admin} );
+  } catch ( error ) { 
+    res.status( 500 ).json( {message: 'Server error'} );
+  }
+};
   
 
 

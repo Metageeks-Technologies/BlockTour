@@ -64,7 +64,7 @@ const PostsTable: React.FC = () => {
 
     // Apply status filter
     if ( statusFilter !== "all" ) {
-      filtered = filtered.filter( post => post.status === statusFilter );
+      filtered = filtered.filter( post => post.status.toLowerCase() === statusFilter );
     }
 
     // Apply search filter
@@ -113,9 +113,9 @@ const PostsTable: React.FC = () => {
 
       <div className="border-b border-[#17161B] mt-8 mb-4 flex gap-8 px-8 font-semibold">
         <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'all' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'all' )}>All posts</p>
-        <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'Published' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'Published' )}>Published</p>
-        <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'Draft' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'Draft' )}>Draft</p>
-        <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'Archived' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'Archived' )}>Archived</p>
+        <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'published' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'published' )}>Published</p>
+        <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'draft' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'draft' )}>Draft</p>
+        <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'archived' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'archived' )}>Archived</p>
       </div>
 
       {/* Filters and Search */}

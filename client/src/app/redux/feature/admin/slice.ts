@@ -5,12 +5,14 @@ export interface InitialState {
   admin: undefined;
   loading?: boolean;
   error?: string; 
+  author?: undefined;
 }
 
 const initialState: InitialState = {
   admin: undefined,
   loading: false,
   error: "",
+  author: undefined,
 };
 
 export const adminSlice = createSlice({
@@ -21,6 +23,11 @@ export const adminSlice = createSlice({
       state.admin = action.payload.admin;
       state.loading = false;
       state.error = "";
+    },
+    setAuthor: ( state, action: any ) => {
+      state.author = action.payload.admin;
+      state.loading = false;
+      state.error = ""; 
     },
     requestStart: (state) => {
       state.loading = true;
@@ -41,6 +48,7 @@ export const adminSlice = createSlice({
 
 export const {
   setCurrAdmin,
+  setAuthor,
   requestStart,
   requestFail, 
 } = adminSlice.actions;

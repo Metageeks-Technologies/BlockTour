@@ -6,6 +6,7 @@ import {
 } from "./slice";
 import type { AppDispatch } from "@/app/redux/store";
 import type { AxiosError } from "axios";
+import {setAuthor} from "../admin/slice";
 
 export const getCurrentAdmin = async (dispatch: AppDispatch) => {
   dispatch(requestStart()); 
@@ -33,4 +34,17 @@ export const logout = async (dispatch: AppDispatch) => {
     dispatch(requestFail(e.message));
   }
 };
+
+// get author 
+export const getAdminAuthor = async ( dispatch: AppDispatch, id: string ) => {
+  dispatch( requestStart() );
+  try {
+    const response = await instance.get( `/auth/admin/get-admin/${id}` );
+    console.log("response of admin author:-",response)
+    dispatch( setAuthor( response.data ) ); 
+  } catch ( error ) {
+    const e = error as AxiosError;
+    dispatch( requestFail( e.message ) );
+  }
+}
 

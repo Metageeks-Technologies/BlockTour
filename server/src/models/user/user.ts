@@ -8,7 +8,8 @@ interface IUser extends Document {
     profileImage?: string;  
     posts?: [type: Schema.Types.ObjectId]; 
     bio?: string,
-    contributor?:boolean
+  contributor?: boolean;
+  notifications?: [type: Schema.Types.ObjectId];
 }
 
 // Create the User schema
@@ -20,7 +21,8 @@ const UserSchema: Schema = new Schema(
     posts: { type: [{ type: Schema.Types.ObjectId, ref: "Post" }] },
     profileImage: { type: String, default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHBp3gsQdFjO_r7zsVr0d-gs8n86rXGbmp3w&s" },
     bio: { type: String },
-    contributor: { type: Boolean, default: false },
+    contributor: {type: Boolean, default: false},
+    notifications: {type: [{type: Schema.Types.ObjectId, ref: "Notification"}]}
   },
   {
     timestamps: true,

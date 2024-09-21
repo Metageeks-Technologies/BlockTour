@@ -1,6 +1,8 @@
 "use client";
+import {getAdminAuthor} from "@/app/redux/feature/admin/api";
 import {getAuthor} from "@/app/redux/feature/contributor/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
+import HtmlContent from "@/components/HtmlContent";
 import instance from "@/utils/axios";
 import {notifySuccess} from "@/utils/toast";
 import {useParams} from "next/navigation";
@@ -28,8 +30,9 @@ const CardDetails = () => {
   const {card_id} = useParams();
   const [card, setCard] = useState<CardData>();
   const [status, setStatus] = useState<string | undefined>( card?.status );
-  const author = useAppSelector( ( state: any ) => state?.contributor?.author );
-  console.log( "author:-", author );
+  const author = useAppSelector( ( state: any ) => state?.contributor?.author || state?.superAdmin?.author );
+  const admin = useAppSelector( ( state: any ) => state?.superAdmin?.admin );
+
   const dispatch = useAppDispatch();
 
   useEffect( () => {
@@ -39,8 +42,12 @@ const CardDetails = () => {
   const fetchCurrentPost = async ( id: string ) => {
     try {
       const response = await instance.get( `/post/post/${id}` );
-      console.log( "response:-", response );
-      getAuthor( dispatch, response?.data?.post?.creatorId );
+      // console.log( "response:-", response );
+      if ( response?.data?.post?.creatorId ) {
+        getAuthor( dispatch, response?.data?.post?.creatorId );
+      } else {
+        getAdminAuthor( dispatch, response?.data?.post?.authorId );
+      }
       setCard( response?.data?.post );
       setStatus( response?.data?.post?.status.toLowerCase() );
     } catch ( error ) {
@@ -51,14 +58,24 @@ const CardDetails = () => {
   const updateStatus = async ( newStatus: string ) => {
     try {
       const response = await instance.put( `/post/post/${card_id}`, {status: newStatus} );
-      console.log( "response in updating:-", response );
+      // console.log( "response in updating:-", response );
       notifySuccess( response.data?.message );
+      if ( response.status === 200 ) {
+        createNotifcation( author?._id, admin?._id, admin?.name, admin?.profileImage, newStatus );
+      }
     } catch ( error ) {
       console.log( "error in updating:-", error );
     }
   };
 
-
+  const createNotifcation = async ( receiver: string, sender: string, senderName:string, senderImage:string, status: string ) => {
+    try {
+      const response = await instance.post( "/notification/create-notification", {sender, receiver, senderImage,senderName, message: `Your post ${card?.title}  has been ${status.toLowerCase() === "published" ? "published" : "rejected"} by ${admin?.name} on behalf of admin`} );
+      console.log( "response after creating notification:-", response );
+    } catch ( error ) {
+      console.error( "Error creating notification:", error );
+    }
+  };
 
   if ( !card ) {
     return (
@@ -104,18 +121,18 @@ const CardDetails = () => {
                 className="w-12 h-12 object-cover rounded-full"
               />
               <div className="text-sm text-neutral-400 py-4 ">
-            <button className="bg-[#DF841C] py-1 px-4 my-2 rounded-md text-white font-semibold text-sm">
-              {card.category.join( ", " )}
-            </button>
+                <button className="bg-[#DF841C] py-1 px-4 my-2 rounded-md text-white font-semibold text-sm">
+                  {card.category.join( ", " )}
+                </button>
                 <p className="font-medium text-white">
                   <span
                     className="text-neutral-400"
-                  > 
-                  By :-
+                  >
+                    By :-
                   </span>
                   {" "} {author?.name || "Unknown Author"}</p>
                 {/* <p className="text-neutral-400">{author?.bio || "No bio available"}</p> */}
-            {/* <p className="text-sm text-neutral-400">Status: {status}</p> */}
+                {/* <p className="text-sm text-neutral-400">Status: {status}</p> */}
               </div>
             </div>
 
@@ -128,20 +145,34 @@ const CardDetails = () => {
           </div>
 
           {/* Preview image */}
-          <img
-            loading="lazy"
-            src={card.previewImageUrl}
-            alt={card.title}
-            className="w-full object-cover rounded mt-4"
-          />
+          {card.postType?.toLowerCase() === "video post" ?
+            <video
+              src={card.previewImageUrl}
+              controls
+              className="w-full object-cover rounded mt-4"
+            /> :
+            <img
+              loading="lazy"
+              src={card.previewImageUrl}
+              alt={card.title}
+              className="w-full object-cover rounded mt-4"
+            />
+          }
         </div>
 
-        <div className="mt-4 "> <div className="text-neutral-400 mt-3" dangerouslySetInnerHTML={{__html: card?.description || ""}} />
+        {/* <div className="mt-4 ">
+          <div className="text-neutral-400 mt-3" dangerouslySetInnerHTML={{__html: card?.description || ""}} />
+        </div> */}
+        <div className="mt-4">
+          <HtmlContent htmlContent={card?.description || ""} />
         </div>
 
         <div className="flex justify-end mt-5 gap-5 font-roboto">
-          <button className="bg-[#7B7A7F] py-2 px-5 rounded-lg" onClick={() => updateStatus( 'draft' )} > Draft </button>
-          <button className="bg-[#DF841C] py-2 px-5 rounded-lg" onClick={() => updateStatus( 'published' )} > Publish </button>
+          {/* disable the buttons if there status is alreafdy that */}
+          {status === 'draft' ? null : <button className="bg-[#7B7A7F] py-2 px-5 rounded-lg" onClick={() => updateStatus( 'draft' )} > Draft </button>}
+          {status === 'published' ? null : <button className="bg-[#DF841C] py-2 px-5 rounded-lg" onClick={() => updateStatus( 'published' )} > Publish </button>}
+          {/* <button className="bg-[#7B7A7F] py-2 px-5 rounded-lg" onClick={() => updateStatus( 'draft' )} > Draft </button>
+          <button className="bg-[#DF841C] py-2 px-5 rounded-lg" onClick={() => updateStatus( 'published' )} > Publish </button> */}
         </div>
       </div>
     </div>

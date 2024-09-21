@@ -7,21 +7,21 @@ const Footer = () => {
   const [email, setEmail] = useState( "" );
 
   const CreateSubscriber = async () => {
-    try {
-
-      const response = await instance.post( '/v1/subscriber/subscribers', {email} );
+    try { 
+      const response = await instance.post( '/subscriber/subscribers', {email} );
       console.log( response );
-      // provide alerts from response.data
       alert( `${response.data.message}` );
     } catch ( error: any ) {
       console.error( error );
-      alert( `${error?.response?.data?.message}` );
+      alert( 'There is some error in creating subscriber' );
     }
   };
 
   return (
     <>
-      <div className="flex gap-5 justify-between self-center mt-20 max-w-full text-sm font-medium leading-loose text-center text-amber-500 whitespace-nowrap w-[474px] max-md:mt-10">
+    <div className='bg-black w-full'>
+    <div className=' w-[80%] m-auto pt-10'>
+      <div className="flex gap-5 justify-between self-center max-w-full text-sm font-medium leading-loose text-center text-amber-500 whitespace-nowrap w-[474px] max-md:mt-10">
         <div className="flex gap-3.5">
           <img
             loading="lazy"
@@ -174,18 +174,18 @@ const Footer = () => {
         </div>
       </div>
       <div className="flex shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" />
-      <div className="flex flex-wrap gap-5 justify-between mt-4 pb-4 max-w-full text-sm font-medium leading-relaxed text-neutral-500 w-[1192px]">
-        <div>© Copyright - 2024 Block Tour. All rights reserved.</div>
-        <div className="flex gap-4 items-center text-center whitespace-nowrap">
-          <div className="grow self-stretch text-amber-500">Home</div>
-          <div className="self-stretch my-auto">Tech</div>
-          <div className="self-stretch my-auto">Politics</div>
-          <div className="self-stretch my-auto">Entertainment</div>
-          <div className="self-stretch my-auto">Finance</div>
-          <div className="self-stretch my-auto">Music</div>
-          <div className="self-stretch my-auto">Life</div>
-        </div>
-      </div>
+
+    <div className="flex pb-2 flex-wrap gap-5 justify-between self-center mt-4 max-w-full text-sm font-medium leading-relaxed text-neutral-500 w-[1199px]">
+      <div>© Copyright - 2024 Block Tour. All rights reserved.</div>
+      <ul className="max-md:max-w-full flex gap-2 cursor-pointer">
+        <li> About us | </li>
+        <li>Contact us | </li>
+        <li>Privacy Policy | </li>
+        <li> Terms & Conditions</li>
+      </ul>
+    </div>
+    </div>
+    </div>
     </>
   );
 };

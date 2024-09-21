@@ -4,6 +4,8 @@ import {useParams, useRouter} from 'next/navigation';
 import instance from "@/utils/axios";
 import {notifyError, notifySuccess} from "@/utils/toast";
 import {ClipLoader} from 'react-spinners';
+import {useAppSelector} from '@/app/redux/hooks';
+import {RootState} from '@/app/redux/store';
 
 type CardData = {
   _id: string;
@@ -44,8 +46,10 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState<number>( 1 );
   const [postsPerPage, setPostsPerPage] = useState<number>( 8 );
   const [totalPages, setTotalPages] = useState<number>( 1 );
+  const admin = useAppSelector( ( state: any ) => state.superAdmin.admin );
   const router = useRouter();
   const {id} = useParams();
+  // console.log("admin:-",admin)
 
   const fetchUserById = async ( _id: string ) => {
     try {
@@ -93,7 +97,20 @@ const Page = () => {
   };
 
   const handleUpdate = async ( newStatus: boolean ) => {
-    await instance.put( `/auth/user/${id}`, {isContributor: newStatus} );
+    const response = await instance.put( `/auth/user/${id}`, {isContributor: newStatus} );
+    console.log( "response:-", response );
+    if ( response.status === 200 && admin ) {
+      createNotifcation( id as string, admin?._id, admin?.name, admin?.profileImage );
+    }
+  };
+
+  const createNotifcation = async ( receiver: string, sender: string, senderName:string,senderImage:string ) => {
+    try {
+      const response = await instance.post( "/notification/create-notification", {sender, receiver, senderName,senderImage, message: !contributor ? "You are now a contributor  and can create your own block" : "You are no longer a contributor and now you will not able to create the block "} );
+      console.log( "response after creating notification:-", response );
+    } catch ( error ) {
+      console.error( "Error creating notification:", error );
+    }
   };
 
   const handlePageChange = ( newPage: number ) => {

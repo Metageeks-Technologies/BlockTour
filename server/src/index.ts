@@ -10,6 +10,7 @@ import postRoutes from "./routes/post/post";
 import subscriberRouter from "./routes/subscriber/subscriber";
 import s3Router from "./routes/s3Services/s3services";
 import categoryRouter from "./routes/category/category";
+import notificationRouter from "./routes/notification/notification";
 
 dotenv.config();
 
@@ -34,7 +35,8 @@ app.use("/api/v1/auth/admin", adminRoutes);
 app.use("/api/v1/auth/user", userRoutes);
 app.use( "/api/v1/post", postRoutes );
 app.use( "/api/v1/aws", s3Router );
-app.use('/api/v1/category',categoryRouter)
+app.use( '/api/v1/category', categoryRouter )
+app.use( '/api/v1/notification', notificationRouter );
 
 
 // Database connection and server start
