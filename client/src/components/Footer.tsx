@@ -7,11 +7,9 @@ const Footer = () => {
   const [email, setEmail] = useState( "" );
 
   const CreateSubscriber = async () => {
-    try {
-
+    try { 
       const response = await instance.post( '/subscriber/subscribers', {email} );
       console.log( response );
-      // provide alerts from response.data
       alert( `${response.data.message}` );
     } catch ( error: any ) {
       console.error( error );
