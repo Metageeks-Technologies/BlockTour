@@ -1,13 +1,19 @@
 import User from "../models/user/user";
 import Notification ,{INotification} from "../models/notification/notification";
 import { Request, Response } from "express";
+import Admin from "@src/models/admin/admin";
 
 // Create a notification
 export const createNotification = async (req: Request, res: Response) => {
     const {sender, receiver, senderName, senderImage, message} = req.body as {sender: string, senderName: string, senderImage: string, receiver: string, message: string;}; 
         try {
         const newNotification: INotification = new Notification( {sender, receiver,senderImage,senderName, message} );
-        const user = await User.findById( {_id: receiver} )
+            const user = await User.findById( {_id: receiver} )
+            const admin = await Admin.findById( {_id: receiver} );
+            if ( admin ) {
+                admin?.notifications?.push( newNotification._id )
+                await admin.save();
+            }
         if ( user ) {
             user?.notifications?.push( newNotification._id )
             await user.save();

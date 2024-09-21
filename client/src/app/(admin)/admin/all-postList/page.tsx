@@ -9,6 +9,8 @@ import axios from "axios";
 import {ClipLoader} from "react-spinners";
 import instance from "@/utils/axios";
 import {formatDateTime} from "@/utils/DateFormat";
+import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
+import {getAllCategories} from "@/app/redux/feature/category/api";
 
 interface Post {
   _id: string;
@@ -21,7 +23,7 @@ interface Post {
   authorName: string;
   tags: string[];
   status: 'published' | 'draft' | 'trash';
-  date: string;
+  createdAt: string;
   publishedDate: string; // Add the 'publishedDate' property
 }
 
@@ -36,9 +38,11 @@ const PostsTable: React.FC = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>( "all" );
   const [itemsPerPage, setItemsPerPage] = useState<number>( 10 );
   const [currentPage, setCurrentPage] = useState<number>( 1 );
-
+  const dispatch = useAppDispatch();
+  const categories = useAppSelector( ( state: any ) => state.category.categories );
   useEffect( () => {
     fetchPosts();
+    getAllCategories( dispatch );
   }, [] );
 
   useEffect( () => {
@@ -49,8 +53,10 @@ const PostsTable: React.FC = () => {
     setIsLoading( true );
     try {
       const response = await instance.get( '/post/all-posts' );
-      console.log( "response", response );
-      setPosts( response?.data?.posts );
+      const episods = await instance.get( '/podcast/all-podcasts' );
+      setPosts( [...response?.data?.posts, ...episods?.data?.podcasts] );
+      console.log( "response", episods );
+      // setPosts( response?.data?.posts );
     } catch ( error ) {
       console.error( error );
       setPosts( [] );
@@ -82,16 +88,18 @@ const PostsTable: React.FC = () => {
 
     // Apply sorting
     filtered.sort( ( a, b ) => {
-      if ( sortBy === "date" ) {
-        return new Date( b.date ).getTime() - new Date( a.date ).getTime();
-      } else if ( sortBy === "title" ) {
-        return a.title.localeCompare( b.title );
+      const postA = a as Post;
+      const postB = b as Post;
+      if ( sortBy === 'date' ) {
+        return new Date( postB.createdAt ).getTime() - new Date( postA.createdAt ).getTime();
+      } else if ( sortBy === 'title' ) {
+        return postA.title.localeCompare( postB.title );
       }
       return 0;
     } );
-
+    console.log( filtered );
     setFilteredPosts( filtered );
-  }; 
+  };
 
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -116,17 +124,12 @@ const PostsTable: React.FC = () => {
         <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'published' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'published' )}>Published</p>
         <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'draft' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'draft' )}>Draft</p>
         <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'archived' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'archived' )}>Archived</p>
+        <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'deleted' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'deleted' )}>Deleted</p>
       </div>
 
       {/* Filters and Search */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center space-x-4 px-8">
-          <select className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded">
-            <option>Bulk actions</option>
-          </select>
-          <button className="bg-[#2E2E3E] text-white px-4 py-2 rounded">
-            Apply
-          </button>
           <div className="flex gap-2 items-center">
             <p>Sort by</p>
             <select
@@ -144,14 +147,11 @@ const PostsTable: React.FC = () => {
             onChange={( e ) => setCategoryFilter( e.target.value )}
           >
             <option value="all">All Categories</option>
-            <option value="all">All Categories</option>
-            <option value="design">Design</option>
-            <option value="development">Development</option>
-            <option value="technology">Technology</option>
-            <option value="business">Business</option>
-            <option value="social-media">Social Media</option>
-            <option value="sports">Sports</option>
-            <option value="writing">Writing</option>
+            {categories.map( ( category: any ) => (
+              <option key={category._id} value={category.name}>
+                {category.name}
+              </option>
+            ) )}
           </select>
         </div>
 
@@ -211,7 +211,7 @@ const PostsTable: React.FC = () => {
                 <tr>
                   <td colSpan={10} className="text-center py-4">No Posts Found</td>
                 </tr>
-              )  : currentItems.map( ( post,index ) => (
+              ) : currentItems.map( ( post, index ) => (
 
                 <tr key={post._id} className="border-b border-[#28272D] hover:bg-[#28272D] cursor-pointer " onClick={() => router.push( `/admin/all-postList/${post._id}` )}>
                   {/* <td className="py-3 px-8">
@@ -232,7 +232,7 @@ const PostsTable: React.FC = () => {
                     ) )}
                   </td>
                   <td className="py-3 px-4">{post.status}</td>
-                  <td className="py-3 px-4">{formatDateTime( post?.publishedDate )}</td> 
+                  <td className="py-3 px-4">{formatDateTime( post?.publishedDate )}</td>
                 </tr>
               ) )}
             </tbody>
@@ -247,7 +247,7 @@ const PostsTable: React.FC = () => {
         </div>
         <div className="flex space-x-2">
           <button onClick={() => paginate( currentPage - 1 )} disabled={currentPage === 1}>
-            <img src="/asset/Group 12367.svg" alt="Previous"/>
+            <img src="/asset/Group 12367.svg" alt="Previous" />
           </button>
           {[...Array( Math.ceil( filteredPosts.length / itemsPerPage ) ).keys()].map( ( number ) => (
             <button

@@ -11,6 +11,7 @@ import subscriberRouter from "./routes/subscriber/subscriber";
 import s3Router from "./routes/s3Services/s3services";
 import categoryRouter from "./routes/category/category";
 import notificationRouter from "./routes/notification/notification";
+import podcastRouter from "./routes/podcast/podcast";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.use( "/api/v1/post", postRoutes );
 app.use( "/api/v1/aws", s3Router );
 app.use( '/api/v1/category', categoryRouter )
 app.use( '/api/v1/notification', notificationRouter );
+app.use('/api/v1/podcast',podcastRouter)
 
 
 // Database connection and server start
