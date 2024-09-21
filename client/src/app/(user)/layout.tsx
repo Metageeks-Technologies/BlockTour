@@ -3,6 +3,8 @@ import {Inter} from "next/font/google";
 import "../globals.css";
 import {ReduxProvider} from "../redux/provider";
 import {ToastContainer} from "react-toastify";
+import Sidebar from "@/components/contributor/Sidebar";
+
 // import {ReduxProvider} from "./redux/provider";
 
 const inter = Inter( {subsets: ["latin"]} );
@@ -18,7 +20,10 @@ export default function RootLayout ( {children, }: Readonly<{children: React.Rea
       <body className={inter.className}>
         {/* <ToastContainer /> */}
         <ReduxProvider>
-          {children}
+        <div className="flex">
+            <Sidebar />
+            {children}
+          </div>
         </ReduxProvider>
       </body>
     </html>
