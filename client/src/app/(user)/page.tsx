@@ -153,8 +153,8 @@ export default function Home () {
         {/* Footer Section */}
 
         <div className="flex shrink-0 mt-16 max-w-full h-px border-t border-white border-opacity-10 w-full max-md:mt-10" />
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 }
