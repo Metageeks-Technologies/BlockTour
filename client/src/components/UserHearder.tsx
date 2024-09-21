@@ -33,7 +33,7 @@ const UserHearder = () => {
 
   const handleLogout = async () => {
     await logout(dispatch);
-    router.push("/login");
+    router.push("/");
   };
 
   useEffect(() => {
