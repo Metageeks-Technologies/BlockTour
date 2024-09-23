@@ -26,6 +26,11 @@ body {
   color: #404042; 
   font-size: small; 
 }
+.custom-input::placeholder {
+  color: #404042; 
+  font-size: small; 
+  margin-left: 10px;
+}
 
 /* Custom styles for checkbox */
 input[type='checkbox'] {

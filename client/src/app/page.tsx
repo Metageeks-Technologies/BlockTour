@@ -8,8 +8,8 @@ import Latest from "@/components/Home/Latest";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import {useEffect} from "react";
-import {useAppDispatch, useAppSelector} from "../redux/hooks";
-import {getAllPosts} from "../redux/feature/posts/api";
+import {useAppDispatch, useAppSelector} from "./redux/hooks";
+import {getAllPosts} from "./redux/feature/posts/api";
 
 export default function Home () {
   const dispatch = useAppDispatch();
