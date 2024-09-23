@@ -21,11 +21,11 @@ const HtmlContent: React.FC<HtmlContentProps> = ( {htmlContent} ) => {
         if ( index % 2 === 1 ) {
             // This is an embedded video link (iframe src)
             return (
-                <div key={index} className="embed-video">
+                <div key={index} className="embed-video rounded-lg ">
                     <iframe
                         src={part}
                         loading="lazy"
-                        className="w-full aspect-video"
+                        className="w-full aspect-video rounded-lg"
                         allowFullScreen
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

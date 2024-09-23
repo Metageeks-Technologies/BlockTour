@@ -1,25 +1,25 @@
 "use client";
-import { getAdminAuthor } from "@/app/redux/feature/admin/api";
-import { getAuthor } from "@/app/redux/feature/contributor/api";
-import { getPostById } from "@/app/redux/feature/posts/api";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import {getAdminAuthor} from "@/app/redux/feature/admin/api";
+import {getAuthor} from "@/app/redux/feature/contributor/api";
+import {getPostById} from "@/app/redux/feature/posts/api";
+import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import DiscussionEmbedComponent from "@/components/DiscussionEmbed";
 import Footer from "@/components/Footer";
 import HtmlContent from "@/components/HtmlContent";
-import { formatDateTime } from "@/utils/DateFormat";
-import { useParams } from "next/navigation";
-import React, { useEffect } from "react";
-import { IoBookmarkOutline } from "react-icons/io5";
-import { GoSearch } from "react-icons/go";
-import { CiLinkedin } from "react-icons/ci";
+import {formatDateTime} from "@/utils/DateFormat";
+import {useParams} from "next/navigation";
+import React, {useEffect} from "react";
+import {IoBookmarkOutline} from "react-icons/io5";
+import {GoSearch} from "react-icons/go";
+import {CiLinkedin} from "react-icons/ci";
 import {
   FaFacebookSquare,
   FaLinkedin,
   FaTiktok,
   FaTwitter,
 } from "react-icons/fa";
-import { FiHeart } from "react-icons/fi";
-import { IoLogoYoutube } from "react-icons/io";
+import {FiHeart} from "react-icons/fi";
+import {IoLogoYoutube} from "react-icons/io";
 import Navbar from "@/components/Navbar";
 type CardData = {
   id: number;
@@ -65,33 +65,33 @@ const Data: CardData[] = [
 ];
 
 const CardDetails = () => {
-  const { id } = useParams<{ id: string }>();
+  const {id} = useParams<{id: string;}>();
   const dispatch = useAppDispatch();
-  const card = useAppSelector((state: any) => state.post.currentPost);
+  const card = useAppSelector( ( state: any ) => state.post.currentPost );
   const author = useAppSelector(
-    (state: any) => state.contributor?.author || state.superAdmin?.author
+    ( state: any ) => state.contributor?.author || state.superAdmin?.author
   );
 
-  useEffect(() => {
-    if (id) {
+  useEffect( () => {
+    if ( id ) {
       // dispatch( getPostById( id ) );
-      getPostById(dispatch, id);
+      getPostById( dispatch, id );
     }
-  }, [dispatch, id]);
+  }, [dispatch, id] );
 
-  useEffect(() => {
-    if (card) {
-      if (card.creatorId) {
+  useEffect( () => {
+    if ( card ) {
+      if ( card.creatorId ) {
         // dispatch( getAuthor( card.creatorId ) );
-        getAuthor(dispatch, card.creatorId);
-      } else if (card.authorId) {
+        getAuthor( dispatch, card.creatorId );
+      } else if ( card.authorId ) {
         // dispatch( getAdminAuthor( card.authorId ) );
-        getAdminAuthor(dispatch, card.authorId);
+        getAdminAuthor( dispatch, card.authorId );
       }
     }
-  }, [dispatch, card]);
+  }, [dispatch, card] );
 
-  console.log(author, card);
+  console.log( author, card );
 
   return (
     <div>
@@ -105,24 +105,23 @@ const CardDetails = () => {
               </h1>
 
               <div className=" flex justify-between items-center py-8">
-                <div className="flex gap-2.5 items-center text-sm font-bold leading-none">
+                <div className="flex gap-2.5 items-center text-sm font-bold leading-none ">
                   <img
                     loading="lazy"
-                    // srcSet={author?.profileImage}
-                    src="https://sm.askmen.com/t/askmen_in/article/f/facebook-p/facebook-profile-picture-affects-chances-of-gettin_fr3n.1200.jpg"
-                    className=" rounded-full object-cover h-12 w-12"
+                    srcSet={author?.profileImage}
+                    // src="https://sm.askmen.com/t/askmen_in/article/f/facebook-p/facebook-profile-picture-affects-chances-of-gettin_fr3n.1200.jpg"
+                    className=" rounded-full object-cover h-12 w-12 "
                   />
-                  <div className="flex grow shrink-0 my-auto basis-0 w-fit">
-                    {/* <div className="flex gap-2.5 self-start">
-                    <div className="px-1.5 py-1 bg-amber-600 text-stone-950">
-                      Press Release
+                  <div className="flex flex-col gap-y-2 grow shrink-0 my-auto basis-0 w-fit">
+                    <div className="flex gap-2.5 self-start">
+                      <div className="px-1.5 py-1 bg-amber-600 text-stone-950">
+                        Press Release
+                      </div>
+              
                     </div>
-                    <p className="my-auto basis-auto text-white text-opacity-50">
-                      {card?.date}
-                    </p>
-                  </div> */}
+
                     <div className=" text-white text-opacity-50">
-                      {card?.authorName} | {formatDateTime(card?.createdAt)}
+                      {card?.authorName} | {formatDateTime( card?.createdAt )}
                     </div>
                   </div>
                 </div>
@@ -132,7 +131,7 @@ const CardDetails = () => {
                 </div>
               </div>
 
-              <div className="flex overflow-hidden relative flex-col flex-wrap gap-1.5 items-start pt-96 pr-20 w-full min-h-[450px] max-md:pt-24 max-md:pr-5 max-md:max-w-full">
+              <div className="flex overflow-hidden relative flex-col flex-wrap gap-1.5 items-start pt-96 pr-20 w-full min-h-[450px] max-md:pt-24 max-md:pr-5 max-md:max-w-full rounded-lg">
                 {card?.postType?.toLowerCase() === "video post" ? (
                   <video
                     src={card?.previewImageUrl}
@@ -154,7 +153,7 @@ const CardDetails = () => {
                   {card?.title}
                 </h1>
 
-                <div className="mt-5">
+                <div className="mt-5 ">
                   <HtmlContent htmlContent={card?.description || ""} />
                 </div>
               </div>
@@ -208,25 +207,8 @@ const CardDetails = () => {
                   Limited, a Bahamian-based proprietary trading firm, actively
                   participates in the digital asset ecosystem.
                 </p>
-              </div>
+              </div> 
 
-              <div className="mt-8 flex  gap-4">
-                <img
-                  src={author?.profileImage}
-                  alt={author?.name}
-                  className="w-24 lg:h-24 md:h-24 h-36 object-cover shrink-0 rounded-full aspect-square"
-                />
-                <div>
-                  <h1 className="text-sm text-white">{author?.name}</h1>
-                  <p className="text-[#ADADAD] text-xs">{author?.bio}</p>
-                  <div className="flex gap-3 text-white mt-1">
-                    <img src="/asset/Link.svg" alt="" className="h-4 w-4" />
-                    <img src="/asset/Icon.svg" alt="" className="h-4 w-4" />
-                    <img src="/asset/Icon1.svg" alt="" className="h-4 w-4" />
-                    <img src="/asset/Icon2.svg" alt="" className="h-4 w-4" />
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -455,9 +437,9 @@ const CardDetails = () => {
         {/* <div className="flex shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" /> */}
 
         {/* Comment section */}
-        {/* <div className="mt-20 max-w-full w-[1192px] max-md:mt-10 ">
+        <div className="mt-20 max-w-full w-[1192px] max-md:mt-10 ">
           {card && <DiscussionEmbedComponent article={card} />}
-        </div> */}
+        </div>
 
         {/* <div className="flex items-center gap-2 mt-6 text-xs font-medium  text-neutral-500">
           <input
@@ -477,21 +459,22 @@ const CardDetails = () => {
         <div className="flex  shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" />
       </div>
 
-      <div className="mt-5 lg:ml-52 bg-[#171717]  px-10">
+      <div className="mt-5 lg:ml-52 bg-[#171717] rounded-lg px-10">
         <div className="py-10 border-b border-neutral-800">
           <div className="flex flex-col gap-5">
             <img
-              src="https://www.jeancoutu.com/globalassets/revamp/photo/conseils-photo/20160302-01-reseaux-sociaux-profil/photo-profil_301783868.jpg"
+              src={author?.profileImage}
+              // src="https://www.jeancoutu.com/globalassets/revamp/photo/conseils-photo/20160302-01-reseaux-sociaux-profil/photo-profil_301783868.jpg"
               alt=""
               className="h-14 w-14 rounded-full object-cover"
             />
 
-            <h1>Written by Hariom Verma</h1>
+            <h1>Written by {author?.name || "Unknown"}</h1>
 
             <div className="flex gap-5 items-center">
               <div className="flex gap-2">
-                <p>620 Articles</p>
-                <p className="text-red-600">View All</p>
+                <p>{author?.posts?.length} Articles</p>
+                {/* <p className="text-red-600">View All</p> */}
               </div>
 
               <div className="flex gap-1">
@@ -506,18 +489,14 @@ const CardDetails = () => {
             </div>
 
             <p className="w-[60%] text-[#ADADAD]">
-              Hariom Verma Senior Writer, has been with Bankless since January
-              2021. Immersed in Ethereum since 2017, he writes the Metaversal
-              newsletter on the onchain frontier, covering everything from AI
-              projects to crypto games, as the team’s lead NFT analyst. With a
-              background in creative writing, he writes fiction and publishes
-              art on Ethereum in his free time. He lives in Washington.
+              {author?.bio} {" "}
+              
             </p>
           </div>
         </div>
 
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 mt-4 py-10 ">
-          {Data.map((card) => (
+          {Data.map( ( card ) => (
             <div
               key={card.id}
               className=" flex flex-col gap-3 rounded-lg pb-8 bg-[#1C1C1D]  "
@@ -550,7 +529,7 @@ const CardDetails = () => {
                 </div>
               </div>
             </div>
-          ))}
+          ) )}
         </div>
 
         <div className="w-[80%] flex justify-between py-10">
@@ -607,10 +586,10 @@ const CardDetails = () => {
               </label>
 
             </div>
-            
+
             <button className="py-3 px-12 mt-4 transition  duration-300 bg-white hover:bg-neutral-400 text-black rounded-3xl">
-                  Join for free
-              </button>
+              Join for free
+            </button>
 
           </div>
         </div>

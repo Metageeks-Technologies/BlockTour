@@ -1,8 +1,7 @@
 import User from "../models/user/user";
 import Notification ,{INotification} from "../models/notification/notification";
 import { Request, Response } from "express";
-import Admin from "@src/models/admin/admin";
-
+import Admin from "../models/admin/admin"; 
 // Create a notification
 export const createNotification = async (req: Request, res: Response) => {
     const {sender, receiver, senderName, senderImage, message} = req.body as {sender: string, senderName: string, senderImage: string, receiver: string, message: string;}; 
