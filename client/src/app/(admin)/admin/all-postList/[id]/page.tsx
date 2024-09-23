@@ -8,62 +8,86 @@ import instance from "@/utils/axios";
 import {notifySuccess} from "@/utils/toast";
 import HtmlContent from "@/components/HtmlContent";
 
-type CardData = {
+type ContentData = {
   _id: string;
-  imgSrc: string;
   title: string;
   category: string[];
-  date: string;
-  description: string;
-  permaLink?: string;
   publishedDate?: Date;
   visibility?: string;
   status: string;
   tags?: string[];
-  postSliderImageUrl?: string;
-  postSettingImageUrl?: string;
-  previewImageUrl?: string;
   authorName?: string;
   postType?: string;
+  // Post-specific fields
+  description?: string;
+  permaLink?: string;
+  postSliderImageUrl?: string[];
+  postSettingImageUrl?: string;
+  previewImageUrl?: string;
+  creatorId?: any;
+  authorId?: any;
+  // Podcast-specific fields
+  embededCode?: string;
 };
 
-const CardDetails = () => {
+const ContentDetails = () => {
   const {id} = useParams();
-  const [card, setCard] = useState<CardData>();
-  const [status, setStatus] = useState<string | undefined>( card?.status );
+  const [content, setContent] = useState<ContentData>();
+  const [contentType, setContentType] = useState<'post' | 'podcast'>( 'post' );
   const admin = useAppSelector( ( state: any ) => state.superAdmin.admin );
   const author = useAppSelector( ( state: any ) => state?.contributor?.author );
   const adminAuthor = useAppSelector( ( state: any ) => state?.superAdmin?.admin );
   const dispatch = useAppDispatch();
 
   useEffect( () => {
-    fetchCurrentPost( id as string );
+    fetchCurrentContent( id as string );
   }, [id] );
 
-  const fetchCurrentPost = async ( id: string ) => {
+  const fetchCurrentContent = async ( id: string ) => {
     try {
-      const response = await instance.get( `/post/post/${id}` );
-      const post = response?.data?.post;
-      if ( post?.creatorId ) {
-        getAuthor( dispatch, post.creatorId );
-      } else if ( post?.authorId ) {
-        getAdminAuthor( dispatch, post.authorId );
+      // First, try to fetch as a post
+      try {
+        const postResponse = await instance.get( `/post/post/${id}` );
+        console.log( "post response:", postResponse );
+        if ( postResponse.data?.post ) {
+          setContent( postResponse.data.post );
+          setContentType( 'post' );
+          return; // Exit the function if post is found
+        }
+      } catch ( postError ) {
+        console.log( "Post not found, trying podcast" );
       }
 
-      setCard( post );
-      setStatus( post?.status.toLowerCase() );
+      // If post is not found or throws an error, try to fetch as a podcast
+      const podcastResponse = await instance.get( `/podcast/podcasts/${id}` );
+      console.log( "podcast response:", podcastResponse );
+      if ( podcastResponse.data ) {
+        setContent( podcastResponse.data );
+        setContentType( 'podcast' );
+      } else {
+        throw new Error( "Content not found" );
+      }
     } catch ( error ) {
-      console.log( "error:-", error );
+      console.log( "error:", error );
+      // Handle the error appropriately, e.g., set an error state or show a message to the user
+    } finally {
+      // This block will run regardless of whether we found a post, podcast, or neither
+      if ( content?.creatorId ) {
+        getAuthor( dispatch, content.creatorId );
+      } else if ( content?.authorId ) {
+        getAdminAuthor( dispatch, content.authorId );
+      }
     }
   };
 
   const updateStatus = async ( newStatus: string ) => {
     try {
-      const response = await instance.put( `/post/post/${id}`, {status: newStatus} );
+      const endpoint = contentType === 'post' ? `/post/post/${id}` : `/podcast/${id}`;
+      const response = await instance.put( endpoint, {status: newStatus} );
       notifySuccess( response.data?.message );
       if ( response.status === 200 ) {
-        setCard( prevCard => ( {
-          ...prevCard!,
+        setContent( prevContent => ( {
+          ...prevContent!,
           status: newStatus,
         } ) );
         createNotification( author?._id, admin?.name, admin?.profileImage, admin?._id, newStatus );
@@ -80,7 +104,7 @@ const CardDetails = () => {
         senderName,
         senderImage,
         receiver,
-        message: `Your post ${card?.title} has been ${status.toLowerCase() === "published" ? "published" : "rejected"} by ${admin?.name} on behalf of admin`,
+        message: `Your ${contentType} ${content?.title} has been ${status.toLowerCase() === "published" ? "published" : "rejected"} by ${admin?.name} on behalf of admin`,
       } );
       console.log( "response after creating notification:-", response );
     } catch ( error ) {
@@ -88,15 +112,15 @@ const CardDetails = () => {
     }
   };
 
-  if ( !card ) {
+  if ( !content ) {
     return (
       <div className="ml-64 bg-[#0A090F] px-8 py-8 text-white m-4 rounded-2xl w-full border border-[#28272D]">
         <div className="flex gap-2 items-center">
           <img src="/asset/Group 12856.svg" alt="" className="h-10 w-10" />
-          <h1 className="text-[#999999] font-semibold text-2xl">Blog Details</h1>
+          <h1 className="text-[#999999] font-semibold text-2xl">Content Details</h1>
         </div>
         <div className="flex flex-col mt-5 px-28">
-          <h1 className="mt-5 lg:text-4xl md:text-2xl text-2xl font-medium text-white max-md:mt-10 max-md:max-w-full line-clamp-2">No Blog Found for this id</h1>
+          <h1 className="mt-5 lg:text-4xl md:text-2xl text-2xl font-medium text-white max-md:mt-10 max-md:max-w-full line-clamp-2">No Content Found for this id</h1>
         </div>
       </div>
     );
@@ -106,11 +130,11 @@ const CardDetails = () => {
     <div className="ml-64 bg-[#0A090F] px-8 py-8 text-white m-4 rounded-2xl w-full border border-[#28272D]">
       <div className="flex gap-2 items-center">
         <img src="/asset/Group 12856.svg" alt="" className="h-10 w-10" />
-        <h1 className="text-[#999999] font-semibold text-2xl">Blog Details</h1>
+        <h1 className="text-[#999999] font-semibold text-2xl">{contentType === 'post' ? 'Blog' : 'Podcast'} Details</h1>
       </div>
       <div className="flex flex-col mt-5 px-28">
         <div className="flex flex-col">
-          <h1 className="mt-5 lg:text-4xl md:text-2xl text-2xl font-medium text-white max-md:mt-10 max-md:max-w-full line-clamp-2">{card.title}</h1>
+          <h1 className="mt-5 lg:text-4xl md:text-2xl text-2xl font-medium text-white max-md:mt-10 max-md:max-w-full line-clamp-2">{content.title}</h1>
 
           <div className="mt-3 flex flex-wrap gap-4 items-center">
             <div className="flex items-center gap-3">
@@ -122,7 +146,7 @@ const CardDetails = () => {
               />
               <div className="text-sm text-neutral-400 py-4">
                 <button className="bg-[#DF841C] py-1 px-4 my-2 rounded-md text-white font-semibold text-sm">
-                  {card.category.join( ", " )}
+                  {content.category.join( ", " )}
                 </button>
                 <p className="font-medium text-white">
                   <span className="text-neutral-400">By :-</span> {author?.name || adminAuthor?.name || "Unknown Author"}
@@ -131,36 +155,45 @@ const CardDetails = () => {
             </div>
           </div>
 
-          {card.postType?.toLowerCase() === "video post" ?
-            <video
-              src={card.previewImageUrl}
-              controls
-              className="w-full object-cover rounded mt-4"
-            /> :
-            <img
-              loading="lazy"
-              src={card.previewImageUrl}
-              alt={card.title}
-              className="w-full object-cover rounded mt-4"
-            />
-          }
+          {contentType === 'post' && (
+            content.postType?.toLowerCase() === "video post" ? (
+              <video
+                src={content.previewImageUrl}
+                controls
+                className="w-full object-cover rounded mt-4"
+              />
+            ) : (
+              <img
+                loading="lazy"
+                src={content.previewImageUrl}
+                alt={content.title}
+                className="w-full object-cover rounded mt-4"
+              />
+            )
+          )}
+
+          {contentType === 'podcast' && (
+            <div className="mt-4" dangerouslySetInnerHTML={{__html: content.embededCode || ""}} />
+          )}
         </div>
 
-        <div className="mt-4">
-          <HtmlContent htmlContent={card?.description || ""} />
-        </div>
+        {contentType === 'post' && content.description && (
+          <div className="mt-4">
+            <HtmlContent htmlContent={content.description} />
+          </div>
+        )}
 
         <div className="flex justify-end mt-5 gap-5 font-roboto">
           <button
-            className={`relative bg-[#7B7A7F] py-2 px-5 rounded-lg ${card?.status?.toLowerCase() === "draft" ? "cursor-not-allowed opacity-50" : "hover:before:content-[''] hover:before:absolute hover:before:top-0 hover:before:left-0 hover:before:w-full hover:before:h-full hover:before:rounded-full hover:before:z-10"}`}
-            disabled={card?.status?.toLowerCase() === "draft"}
+            className={`relative bg-[#7B7A7F] py-2 px-5 rounded-lg ${content?.status?.toLowerCase() === "draft" ? "cursor-not-allowed opacity-50" : "hover:before:content-[''] hover:before:absolute hover:before:top-0 hover:before:left-0 hover:before:w-full hover:before:h-full hover:before:rounded-full hover:before:z-10"}`}
+            disabled={content?.status?.toLowerCase() === "draft"}
             onClick={() => updateStatus( "Draft" )}
           >
             Draft
           </button>
           <button
-            className={`relative bg-[#DF841C] py-2 px-5 rounded-lg ${card?.status?.toLowerCase() === "published" ? "cursor-not-allowed opacity-50" : "hover:before:content-[''] hover:before:absolute hover:before:top-0 hover:before:left-0 hover:before:w-full hover:before:h-full hover:before:rounded-full hover:before:z-10"}`}
-            disabled={card?.status?.toLowerCase() === "published"}
+            className={`relative bg-[#DF841C] py-2 px-5 rounded-lg ${content?.status?.toLowerCase() === "published" ? "cursor-not-allowed opacity-50" : "hover:before:content-[''] hover:before:absolute hover:before:top-0 hover:before:left-0 hover:before:w-full hover:before:h-full hover:before:rounded-full hover:before:z-10"}`}
+            disabled={content?.status?.toLowerCase() === "published"}
             onClick={() => updateStatus( "Published" )}
           >
             Publish
@@ -171,4 +204,4 @@ const CardDetails = () => {
   );
 };
 
-export default CardDetails;
+export default ContentDetails;

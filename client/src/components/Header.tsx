@@ -14,7 +14,9 @@ export default function Header() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isUserOpen, setIsUserOpen] = useState<boolean>(false);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState( false );
+  const [noOfNotifications, setNoOfNotifications] = useState<number>( 0 )
+
 
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -61,13 +63,11 @@ export default function Header() {
               className="h-7 w-7 cursor-pointer"
             />
             <span className="absolute -top-1 -right-1 text-center bg-[#F6911D] rounded-full h-4 w-4  text-xs">
-              6
+              {noOfNotifications}
             </span>
           </div>
-          <AdminNotificationPopUp
-            isOpen={isPopupOpen}
-            togglePopup={togglePopup}
-          />
+          <AdminNotificationPopUp isOpen={isPopupOpen} togglePopup={togglePopup} ids={currentAdmin?.notifications} setNoOfNotifications={setNoOfNotifications} />
+
         </div>
 
         <div className="relative">

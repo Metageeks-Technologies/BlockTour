@@ -8,6 +8,8 @@ export interface IAdmin extends Document {
   posts?: [type: Schema.Types.ObjectId];
   profileImage?: string;
   bio?: string;
+  notifications?: [type: Schema.Types.ObjectId];
+
 }
 
 const AdminSchema: Schema = new Schema( {
@@ -33,6 +35,9 @@ const AdminSchema: Schema = new Schema( {
   },
   bio: {
     type: String
+  },
+  notifications: {
+    type: [{type: Schema.Types.ObjectId, ref: 'Notification'}]
   }
 }, {
   timestamps: true,

@@ -40,23 +40,7 @@ const Sidebar = () => {
                 className={`transition-transform ${openMenu === "dashboard" ? "rotate-180" : "-rotate-90"
                   }`}
               />
-            </li>
-
-            {/* Contributor */}
-            <li
-              onClick={() => router.push( "/admin/contributor" )}
-              className={`flex items-center justify-between w-full text-left px-4 hover:bg-[#1D1D21] py-2 rounded-none border-b border-gray-700 cursor-pointer ${isActive( "/admin/contributor" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
-                }`}
-            >
-              <div className="flex items-center">
-                <img src="/asset/contributorIcon.svg" alt="" className="mr-2 px-1" />
-                <span>Contributor</span>
-              </div>
-              <MdOutlineKeyboardArrowDown
-                className={`transition-transform ${openMenu === "contributor" ? "rotate-180" : "-rotate-90"
-                  }`}
-              />
-            </li>
+            </li> 
 
             {/* Blog Dropdown */}
             <li className="border-b border-gray-700">
@@ -83,15 +67,11 @@ const Sidebar = () => {
                   >
                     All Posts
                   </li>
-                  <li
-                    onClick={() => router.push( "/admin/add-post" )}
-                    className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/add-post" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
-                      }`}
-                  >
-                    Add New Post
+                  <li onClick={() => router.push( "/admin/add-post" )} className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/add-post" ) ? "text-white font-bold" : "text-[#999999] font-semibold"  }`} >
+                    Add New Article
                   </li>
-                  <li className="w-full hover:bg-[#1D1D21] pl-11 rounded py-2">
-                    Post Detail
+                  <li onClick={() => router.push( "/admin/add-podcast" )} className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/add-podcast" ) ? "text-white font-bold" : "text-[#999999] font-semibold"}`} >
+                    Add New Podcast
                   </li>
                 </ul>
               )}
@@ -106,7 +86,7 @@ const Sidebar = () => {
               >
                 <div className="flex items-center mr-1">
                   <img src="/asset/Group2.svg" alt="" className="mr-2" />
-                  <span>Manage</span>
+                  <span>User</span>
                 </div>
                 <MdOutlineKeyboardArrowDown
                   className={`transition-transform ${openMenu === "manage" ? "rotate-180" : "-rotate-90"
@@ -116,32 +96,11 @@ const Sidebar = () => {
               {openMenu === "manage" && (
                 <ul className="pl-10 mt-2 space-y-1 text-gray-400">
                   <li
-                    onClick={() => router.push( "/admin/published-posts" )}
-                    className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/published-posts" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
+                    onClick={() => router.push( "/admin/contributor" )}
+                    className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/contributor " ) ? "text-white font-bold" : "text-[#999999] font-semibold"
                       }`}
                   >
-                    Published
-                  </li>
-                  <li
-                    onClick={() => router.push( "/admin/archived-post" )}
-                    className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/archived-post" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
-                      }`}
-                  >
-                    Archived
-                  </li>
-                  <li
-                    onClick={() => router.push( "/admin/draft-post" )}
-                    className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/draft-post" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
-                      }`}
-                  >
-                    Draft
-                  </li>
-                  <li
-                    onClick={() => router.push( "/admin/deleted-posts" )}
-                    className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/deleted-posts" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
-                      }`}
-                  >
-                    Deleted
+                    Contributor
                   </li>
                   <li
                     onClick={() => router.push( "/admin/subscribers" )}

@@ -5,6 +5,8 @@ import {ClipLoader} from "react-spinners";
 import instance from "@/utils/axios";
 import {formatDateTime} from "@/utils/DateFormat";
 import {IoSearchOutline} from "react-icons/io5";
+import {getAllCategories} from "@/app/redux/feature/category/api";
+import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 
 interface Post {
   _id: string;
@@ -38,7 +40,11 @@ const Dashboard: React.FC = () => {
   const [sortBy, setSortBy] = useState<string>( "date" );
   const [categoryFilter, setCategoryFilter] = useState<string>( "all" );
   const [searchTerm, setSearchTerm] = useState<string>( "" );
-
+  const dispatch = useAppDispatch();
+  const categories = useAppSelector( ( state: any ) => state.category.categories );
+  useEffect( () => {
+    getAllCategories( dispatch );
+  }, [] );
   useEffect( () => {
     fetchData();
   }, [activeTab] );
@@ -113,7 +119,6 @@ const Dashboard: React.FC = () => {
       }
       return 0;
     } );
-
     return items;
   }, [activeTab, posts, contributors, searchTerm, categoryFilter, sortBy] );
 
@@ -149,13 +154,8 @@ const Dashboard: React.FC = () => {
 
       {/* Filters and Search */}
       <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center space-x-4 px-8">
-          <select className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded">
-            <option>Bulk actions</option>
-          </select>
-          <button className="bg-[#2E2E3E] text-white px-4 py-2 rounded">
-            Apply
-          </button>
+        <div className="flex items-center space-x-4 px-8"> 
+         
           <div className="flex gap-2 items-center">
             <p>Sort by</p>
             <select
@@ -167,16 +167,17 @@ const Dashboard: React.FC = () => {
               <option value="title">Title</option>
             </select>
           </div>
-          <select className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded" value={categoryFilter} onChange={( e ) => setCategoryFilter( e.target.value )} >
-            <option value="all">All Categories</option> 
-            <option value="design">Design</option>
-            <option value="development">Development</option>
-            <option value="technology">Technology</option>
-            <option value="business">Business</option>
-            <option value="social-media">Social Media</option>
-            <option value="sports">Sports</option>
-            <option value="writing">Writing</option>
-
+          <select
+            className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded"
+            value={categoryFilter}
+            onChange={( e ) => setCategoryFilter( e.target.value )}
+          >
+            <option value="all">All Categories</option>
+            {categories.map( ( category: any ) => (
+              <option key={category._id} value={category.name}>
+                {category.name}
+              </option>
+            ) )}
           </select>
         </div>
 

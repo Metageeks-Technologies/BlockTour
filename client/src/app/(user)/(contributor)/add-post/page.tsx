@@ -138,11 +138,8 @@ const AddPostPage = () => {
   );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (sliderImages.length === 0) {
-      alert("Please select at least one slider image");
-      return;
-    }
+    e.preventDefault(); 
+
     if (!previewImage) {
       alert("Please select a preview image");
       return;
@@ -175,7 +172,10 @@ const AddPostPage = () => {
         updatedData
       );
       alert("post created sucessfull");
-      console.log("Form submitted successfully:", response.data);
+      console.log( "Form submitted successfully:", response.data );
+      if ( response.status === 200 ) {
+        createNotification( user?.name, user?.profileImage,user?._id,data?.title )
+      }
       setData({
         title: "",
         permaLink: "",
@@ -196,6 +196,21 @@ const AddPostPage = () => {
       console.error("Error submitting the form:", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const createNotification = async ( senderName: string, senderImage: string, sender: string,title:string ) => {
+    try {
+      const response = await instance.post( "/notification/create-notification", {
+        sender,
+        senderName,
+        senderImage,
+        receiver: "66e26d8324ac899fcb8c641e",
+        message: `A new post ${title} has been created by ${senderName}. Please review and publish it`,
+      } );
+      console.log( "response after creating notification:-", response );
+    } catch ( error ) {
+      console.error( "Error creating notification:", error );
     }
   };
 

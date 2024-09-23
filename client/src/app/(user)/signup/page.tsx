@@ -31,12 +31,11 @@ export default function Page() {
           },
         }
       );
-
+console.log(response)
       if (response.status === 200) {
-        toast.success("Signup successful");
-        setTimeout(() => {
+        toast.success( "Signup successful" );
+        createNotification(name,response?.data.user?._id,response?.data?.user?.profileImage)
           router.push("/login");
-        }, 1000);
       } else {
         toast.error("Signup failed");
       }
@@ -44,6 +43,21 @@ export default function Page() {
       toast.error("An error occurred during signup");
     } finally {
       setLoading(false); 
+    }
+  };
+  const createNotification = async ( senderName: string, sender: string,senderImage:string ) => {
+    console.log("sender:-",sender,senderName)
+    try {
+      const response = await instance.post( "/notification/create-notification", {
+        sender,
+        senderName,
+        senderImage ,
+        receiver: "66e26d8324ac899fcb8c641e",
+        message: `A new account has been created by ${senderName}. Please approve him to contribute`,
+      } );
+      console.log( "response after creating notification:-", response );
+    } catch ( error ) {
+      console.error( "Error creating notification:", error );
     }
   };
 
