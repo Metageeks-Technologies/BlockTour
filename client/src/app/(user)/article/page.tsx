@@ -104,36 +104,46 @@ const page = () => {
         </div>
       </div>
 
-      <div className="py-6 p-4">
+      <div className="px-4">
+        <h1 className="text-lg font-semibold text-[#999999]">Trending</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-4 ">
-          {Data.map((post) => (
+          {posts.slice(0, 4).map((post) => (
             <div
-              key={post.id}
+              key={post._id}
               className="cursor-pointer rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4"
               // onClick={() => router.push( `/dashboard/${post.id}` )}
             >
               <img
                 loading="lazy"
-                src={post.imgSrc}
+                src={post.previewImageUrl}
                 alt={post.title}
                 className="w-full h-44 object-cover rounded-t-md"
               />
 
               <div className="flex gap-2 items-center px-4 py-2 mt-2">
-                <button className="bg-[#DF841C] line-clamp-1 py-0.5 px-3 text-sm text-[#230E00] font-semibold">
-                  {post.category}
-                </button>
-                <p className="text-sm text-neutral-400">
-                  {new Date(post.date).toLocaleDateString()}
-                </p>
+                {post?.category && post.category.length > 0 && (
+                  <span className="bg-[#DF841C] line-clamp-1 py-0.5 px-3 text-sm text-[#230E00] font-semibold">
+                    {post.category[0] ?? "No Category"}{" "}
+                  </span>
+                )}
+                
+
+                <span className="text-[#767676]">
+                  {post?.publishedDate
+                    ? new Date(post.publishedDate).toLocaleDateString()
+                    : "No date available"}
+                </span>
               </div>
+
               <div className="px-4">
-                <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2">
+                <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2 leading-[1.4]">
                   {post.title}
                 </h1>
-                <p className="text-sm mt-0.5 text-[#999999] line-clamp-2">
-                  {post.description}
-                </p>
+
+                <div
+                  className="text-sm text-[#B0AFAF] mt-2 mb-2 line-clamp-2"
+                  dangerouslySetInnerHTML={{ __html: post.description }}
+                />
               </div>
             </div>
           ))}
@@ -207,51 +217,57 @@ const page = () => {
           </div>
         </div>
 
-        
-          <div className="mx-auto">
-            {posts.map((post) => (
-              <div
-                key={post._id}
-                className="bg-[#0A090F] cursor-pointer p-5 rounded-lg shadow-lg flex space-x-5 mb-5 border border-[#17161B]"
-                onClick={() => {router.push( `/detail-page/${post._id}` );}}
-              >
-                {/* Display the preview image */}
-                <img
-                  src={post.previewImageUrl} 
-                  alt="Thumbnail"
-                  className="w-44 h-36 object-cover"
+        <div className="mx-auto mt-4">
+          {posts.map((post) => (
+            <div
+              key={post._id}
+              className="bg-[#0A090F] cursor-pointer p-5 rounded-lg shadow-lg flex space-x-5 mb-4 border border-[#17161B]"
+              onClick={() => {
+                router.push(`/detail-page/${post._id}`);
+              }}
+            >
+              {/* Display the preview image */}
+              <img
+                src={post.previewImageUrl}
+                alt="Thumbnail"
+                className="w-44 h-36 object-cover"
+              />
+              <div className="flex-1">
+                <p className="text-[#858585] text-sm">
+                  Written by{" "}
+                  <span className="font-semibold">{post.authorName}</span>
+                </p>
+                <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC]">
+                  {post.title}
+                </h3>
+                <div
+                  className="text-sm text-[#B0AFAF] mb-3 line-clamp-2"
+                  dangerouslySetInnerHTML={{ __html: post.description }}
                 />
-                <div className="flex-1">
-                <p className="text-[#858585] text-sm">Written by <span className="font-semibold">{post.authorName}</span></p>
-                  <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC]">{post.title}</h3>
-                  <div
-                    className="text-sm text-[#B0AFAF] mb-3 line-clamp-2"
-                    dangerouslySetInnerHTML={{ __html: post.description }} 
-                  />
-                  <div className="flex items-center space-x-4 text-sm">
-                    {post?.category && post.category.length > 0 && (
-                      <span className="bg-[#DF841C] text-[#000000] font-semibold px-2 py-0.5 rounded">
-                        {post.category[0] ?? "No Category"}{" "}
-                      </span>
-                    )}
-                    <span className="text-[#767676]">
-                      {post?.publishedDate
-                        ? new Date(post.publishedDate).toLocaleDateString()
-                        : "No date available"}
+                <div className="flex items-center space-x-4 text-sm">
+                  {post?.category && post.category.length > 0 && (
+                    <span className="bg-[#DF841C] text-[#000000] font-semibold px-2 py-0.5 rounded">
+                      {post.category[0] ?? "No Category"}{" "}
                     </span>
-                    
-                  </div>
+                  )}
+                  <span className="text-[#767676]">
+                    {post?.publishedDate
+                      ? new Date(post.publishedDate).toLocaleDateString()
+                      : "No date available"}
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
-       
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
-      <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
-          <div className="flex flex-col gap-6">
-            <h1 className="text-2xl font-semibold ">Get connected</h1>
+        <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
+          <div className="flex flex-col gap-5">
+            <h1 className="text-2xl font-semibold text-[#FFFFFF]">
+              Get connected
+            </h1>
 
             <div className="flex gap-3">
               <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
@@ -273,34 +289,35 @@ const page = () => {
           </div>
 
           <div className="">
-              <div className="flex items-center gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="bg-[#1F1C2C] border border-[#474457] text-white py-3.5 px-5 rounded-lg  w-full sm:w-96 focus:outline-none"
-                />
-                <button className="bg-orange-500 text-white px-10 py-3.5 rounded-lg hover:bg-orange-600 transition">
-                  Join for Free
-                </button>
-              </div>
-
-              {/* Terms and Privacy */}
-              <div className="flex items-center mt-4">
-                <input type="checkbox" id="agree" className="mr-2" />
-                <label htmlFor="agree" className="text-gray-400 text-sm">
-                  By joining, I agree to the Blockbar{" "}
-                  <a href="#" className="underline text-gray-300">
-                    Terms and Privacy
-                  </a>{" "}
-                  statements.
-                </label>
-              </div>
+            <h1 className="text-3xl text-[#FFFFFF] pb-3">
+              Receive your daily crypto update
+            </h1>
+            <div className="flex items-center gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className="bg-[#1F1C2C] border border-[#474457] text-white py-3.5 px-5 rounded-lg  w-full sm:w-96 focus:outline-none"
+              />
+              <button className="bg-orange-500 text-white px-10 py-3.5 rounded-lg hover:bg-orange-600 transition">
+                Join for Free
+              </button>
             </div>
 
+            {/* Terms and Privacy */}
+            <div className="flex items-center mt-4">
+              <input type="checkbox" id="agree" className="mr-2" />
+              <label htmlFor="agree" className="text-gray-400 text-sm">
+                By joining, I agree to the Blockbar{" "}
+                <a href="#" className="underline text-gray-300">
+                  Terms and Privacy
+                </a>{" "}
+                statements.
+              </label>
+            </div>
+          </div>
         </div>
-        </div>
-       <Footer/>
-        
+      </div>
+      <Footer />
     </div>
   );
 };

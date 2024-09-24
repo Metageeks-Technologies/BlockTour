@@ -236,6 +236,18 @@ const CardDetails = () => {
                 <p className="text-lg hover:underline">Sighn In</p>
               </div>
 
+              <div className="mt-5">
+                <p className="text-[#999999] mb-2">In this article</p>
+                <div className="flex gap-3">
+                  <button className="py-1.5 px-4 border border-[#17161B] bg-[#0A090F] rounded text-[#999999]">What to Expect</button>
+                  <button className="py-1.5 px-4 border border-[#17161B] bg-[#0A090F] rounded text-[#999999]">Polkadot</button>
+                </div>
+              </div>
+
+              <div className="h-60 w-full border border-[#17161B] mt-6 bg-[#0A090F] rounded flex justify-center">
+                   <h1 className="uppercase text-lg font-semibold text-[#CCCCCC] p-4">Friend & Sponsor</h1>
+              </div>
+
               {/* <div className="flex gap-5 justify-between mt-6 ">
                 <div className="flex flex-col my-auto">
                   <div className="py-1 text-sm font-medium leading-5 bg-white bg-opacity-0 text-zinc-300">
@@ -539,7 +551,7 @@ const CardDetails = () => {
 
 <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
       <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-5">
             <h1 className="text-2xl font-semibold ">Get connected</h1>
 
             <div className="flex gap-3">
@@ -562,15 +574,15 @@ const CardDetails = () => {
           </div>
 
           <div className="">
+          <h1 className="text-3xl pb-2 font-semibold text-[#FFFFFF]">Receive your daily crypto update</h1>
               <div className="flex items-center gap-4">
-                <div>
-                <h1 className="text-xl pb-2 font-semibold text-[#FFFFFF]">Receive your daily crypto update</h1>
+                
                 <input
                   type="email"
                   placeholder="Enter your email address"
                   className="bg-[#1F1C2C] border border-[#474457] text-white py-3.5 px-5 rounded-lg  w-full sm:w-96 focus:outline-none"
                 />
-                </div>
+              
                 <button className="bg-orange-500 text-white px-10 py-3.5 rounded-lg hover:bg-orange-600 transition">
                   Join for Free
                 </button>

@@ -11,6 +11,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import Footer from "@/components/Footer";
 import instance from "@/utils/axios";
 import HtmlContent from "@/components/HtmlContent";
+import { useRouter } from "next/navigation";
 
 type CardData = {
   id: number;
@@ -35,63 +36,8 @@ export interface NewsItem {
   updatedAt: string;
   category: string[];
   postType: string;
-  embededCode:string
+  embededCode: string;
 }
-
-const newsData = [
-  {
-    title:
-      "Bloomberg News reports that BlackRock’s ETF is now the biggest bitcoin fund in the world",
-    description:
-      "In a recent report by Bloomberg News, it was revealed that BlackRock’s iShares Bitcoin Trust has emerged as the largest fund for the original cryptocurrency in the world.",
-    category: "Crypto",
-    date: "2 days ago",
-    comments: 10,
-    likes: 110,
-    shares: 5,
-    author: "Ankit",
-    imageUrl: "/images/blackrock.png", // Ensure image exists in the public folder
-  },
-  {
-    title:
-      "Gensler of SEC believes House Bill could weaken regulator's supervision of crypto markets",
-    description:
-      "In a recent statement, SEC Chair Gary Gensler expressed strong opposition to the Financial Innovation and Technology Act, warning that it could hinder regulatory efforts.",
-    category: "Crypto",
-    date: "2 days ago",
-    comments: 14,
-    likes: 120,
-    shares: 8,
-    author: "Ankit",
-    imageUrl: "/images/sec-gensler.png",
-  },
-  {
-    title:
-      "What to Expect Next as the 2024 Bitcoin Halving Continues to Unfold",
-    description:
-      "The Bitcoin halving event in 2024 went relatively unnoticed by many in the cryptocurrency market. However, its importance should not be underestimated.",
-    category: "Crypto",
-    date: "2 days ago",
-    comments: 20,
-    likes: 150,
-    shares: 12,
-    author: "Ankit",
-    imageUrl: "/images/bitcoin-halving.png",
-  },
-  {
-    title:
-      "Bloomberg News reports that BlackRock’s ETF is now the biggest bitcoin fund in the world",
-    description:
-      "In a recent report by Bloomberg News, BlackRock’s iShares Bitcoin Trust emerged as the largest cryptocurrency fund in the world.",
-    category: "Crypto",
-    date: "2 days ago",
-    comments: 18,
-    likes: 115,
-    shares: 9,
-    author: "Ankit",
-    imageUrl: "/images/blackrock.png",
-  },
-];
 
 const Data: CardData[] = [
   {
@@ -136,8 +82,8 @@ const Data: CardData[] = [
 ];
 
 const page = () => {
-    
-  const [data, setData] = useState<NewsItem[]>( [] );
+  const [data, setData] = useState<NewsItem[]>([]);
+  const router = useRouter();
 
   const fetchPostCast = async () => {
     try {
@@ -156,7 +102,7 @@ const page = () => {
   return (
     <div className="lg:ml-52">
       <div className="flex justify-between items-center p-4 ">
-        <h1 className="text-lg font-semibold">Article</h1>
+        <h1 className="text-lg font-semibold">Podcast Episodes</h1>
         <div className="relative border border-[#28272D] rounded flex justify-between">
           <input
             type="text"
@@ -171,21 +117,22 @@ const page = () => {
         </div>
       </div>
 
-      <div className="py-6 p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-4 ">
-          {Data.map((post, index) => (
+      <div className="px-4">
+        <h1 className="text-lg font-semibold text-[#999999]">Trending</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-2 ">
+          {data.slice(0, 4).map((post, index) => (
             <div
-              key={post.id}
+              key={post._id}
               className="cursor-pointer rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4"
-              // onClick={() => router.push( `/dashboard/${post.id}` )}
             >
               <div className="relative">
-                <img
+                {/* <img
                   loading="lazy"
                   src={post.imgSrc}
                   alt={post.title}
                   className="w-full h-44 object-cover rounded-t-md"
-                />
+                /> */}
+                <HtmlContent htmlContent={post?.embededCode || ""} />
                 {index === 0 || index === 3 ? (
                   <>
                     <div className="absolute -bottom-2.5 left-4 bg-[#DF841C] flex gap-1 px-2 py-0.5 rounded items-center">
@@ -197,14 +144,14 @@ const page = () => {
               </div>
 
               <div className="px-4 py-2 mt-2">
-                <p className="text-xs text-[#767676]">{post.category}</p>
+                <p className="text-xs text-[#767676] font-semibold">Podcast</p>
               </div>
               <div className="px-4">
                 <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2">
                   {post.title}
                 </h1>
                 <p className="text-sm mt-0.5 text-[#999999] line-clamp-2">
-                  {post.description}
+                  {post.permaLink}
                 </p>
                 <p className="mt-2 text-[#767676]"> 2 days ago</p>
               </div>
@@ -284,20 +231,26 @@ const page = () => {
           {data.map((newsItem, index) => (
             <div
               key={index}
-              className="bg-[#0A090F] border border-[#17161B] text-white p-5 rounded-lg shadow-lg flex space-x-5 mb-5"
+              className="bg-[#0A090F] cursor-pointer border border-[#17161B] p-5 rounded-lg shadow-lg flex space-x-5 mb-5"
+              onClick={() => {
+                router.push(`/podcast-episode/${newsItem._id}`);
+              }}
             >
               <HtmlContent htmlContent={newsItem?.embededCode || ""} />
 
               <div className="flex-1">
-                <p className="text-sm text-gray-400">
-                Published in  {new Date( newsItem?.publishedDate ).toLocaleDateString()}
+                <p className="text-sm text-[#858585]">
+                  Published in{" "}
+                  {new Date(newsItem?.publishedDate).toLocaleDateString()}
                 </p>
-                <h3 className="text-xl font-bold mb-2">{newsItem.title}</h3>
-                <p className="text-sm text-gray-300 mb-3">
-                  {/* {newsItem.description} */}
-                  The Ethereum Roadmap is NOT Off Track!
+                <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC]">
+                  {newsItem.title}
+                </h3>
+                <p className="text-sm text-[#B0AFAF] mb-3">
+                  {newsItem.permaLink}
                 </p>
-                <div className="flex items-center space-x-4 text-sm mt-3">
+
+                {/* <div className="flex items-center space-x-4 text-sm mt-3">
                   <div className=" bg-[#1F1C2C] flex gap-1 px-2 py-0.5 rounded items-center">
                     <BsLightningChargeFill />
                     <p className="text-xs">Early Access</p>
@@ -306,6 +259,17 @@ const page = () => {
                     <PiMicrophone />
                     <p className="text-xs">Podcast</p>
                   </div>
+                </div> */}
+
+                <div className="flex gap-3 mt-3 text-[#999999]">
+                  {newsItem?.category.map((cat, index) => (
+                    <button
+                      key={index}
+                      className=" py-0.5 px-4 bg-[#1F1C2C] border border-[#17161B] text-[#CCCCCC] text-xs rounded"
+                    >
+                      {cat}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
@@ -315,8 +279,10 @@ const page = () => {
 
       <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
         <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
-          <div className="flex flex-col gap-6">
-            <h1 className="text-2xl font-semibold ">Get connected</h1>
+          <div className="flex flex-col gap-5">
+            <h1 className="text-2xl font-semibold text-[#FFFFFF]">
+              Get connected
+            </h1>
 
             <div className="flex gap-3">
               <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
@@ -338,6 +304,9 @@ const page = () => {
           </div>
 
           <div className="">
+            <h1 className="text-3xl text-[#FFFFFF] pb-3">
+              Receive your daily crypto update
+            </h1>
             <div className="flex items-center gap-4">
               <input
                 type="email"
