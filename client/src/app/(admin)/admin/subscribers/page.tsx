@@ -54,31 +54,36 @@ const SubscribersTable: React.FC = () => {
     }
   };
 
-  const handleDelete = async ( id: string ) => {
-    Swal.fire( {
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    } ).then( async ( result ) => {
-      if ( result.isConfirmed ) {
-        try {
-          await instance.delete( `/subscriber/subscribers/${id}` );
-          Swal.fire( {
-            title: "Deleted!",
-            text: "Subscriber has been deleted Successfully !.",
-            icon: "success"
-          } );
-          fetchSubscribers();
-        } catch ( error ) {
-          console.error( error );
-        }
-      }
-    } );
-  };
+  // const handleDelete = async ( id: string ) => {
+  //   try {
+  //     const result = await Swal.fire({
+  //       title: "Are you sure?",
+  //       text: "You won't be able to revert this!",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonColor: "#3085d6",
+  //       cancelButtonColor: "#d33",
+  //       confirmButtonText: "Yes, delete it!"
+  //     });
+
+  //     if (result.isConfirmed) {
+  //       await instance.delete(`/subscriber/subscribers/${id}`);
+  //       await Swal.fire({
+  //         title: "Deleted!",
+  //         text: "Subscriber has been deleted successfully.",
+  //         icon: "success"
+  //       });
+  //       fetchSubscribers();
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting subscriber:", error);
+  //     await Swal.fire({
+  //       title: "Error",
+  //       text: "An error occurred while deleting the subscriber. Please try again.",
+  //       icon: "error"
+  //     });
+  //   }
+  // };
 
   const filteredSubscribers = subscribers && subscribers.length > 0
     ? subscribers
@@ -211,7 +216,7 @@ const SubscribersTable: React.FC = () => {
                         </button>
                         <button
                           className="block px-4 py-2 text-sm text-white hover:bg-[#3A3940] w-full text-left"
-                          onClick={() => handleDelete( subscriber._id )}
+                          // onClick={() => handleDelete( subscriber._id )}
                         >
                           Delete
                         </button>
