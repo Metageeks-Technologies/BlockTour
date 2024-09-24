@@ -74,6 +74,7 @@ export const adminLogout = async (req: Request, res: Response) => {
 //update admin
 export const updateAdmin = async (req: Request, res: Response) => {
   const {id} = req.params;
+
   const {name, email, newPassword,profileImage,bio} = req.body;
   try { 
     const admin = await Admin.findById( id );
@@ -118,6 +119,16 @@ export const getAdminById = async ( req: Request, res: Response ) => {
     res.status( 500 ).json( {message: 'Server error'} );
   }
 };
+
+// all admins only admin
+export const getAllAdmins = async ( req: Request, res: Response ) => {
+  try {
+    const admins = await Admin.find( {role: 'admin'} );
+    res.status( 200 ).json( {admins} );
+  } catch ( error ) {
+    res.status( 500 ).json( {message: 'Server error'} );
+  }
+}
   
 
 

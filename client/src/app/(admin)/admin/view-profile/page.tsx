@@ -41,7 +41,11 @@ const ViewProfile: React.FC = () => {
               <div className="w-1/2 text-[#CCCCCC]">Name</div>
               <div className="w-1/2 text-sm">{admin?.name}</div>
             </div>
-
+{/* role row */}
+            <div className="flex justify-between items-center border-[#28272D] px-4 py-3 border-b">
+              <div className="w-1/2 text-[#CCCCCC]">Role</div>
+              <div className="w-1/2 text-sm">{admin?.role}</div>
+            </div>
             {/* Email Row */}
             <div className="flex justify-between items-center border-[#28272D] px-4 py-3 border-b">
               <div className="w-1/2 text-[#CCCCCC]">E-mail</div>
@@ -53,6 +57,7 @@ const ViewProfile: React.FC = () => {
               <div className=" w-1/2  text-sm">{admin?.phoneNumber || "Not Available"}</div>
             </div>
 
+
             {/* Email Row */}
             <div className="flex justify-between border-[#28272D] items-center px-4 py-3 border-b">
               <div className=" w-1/2 text-[#CCCCCC]">Country</div>
@@ -63,6 +68,7 @@ const ViewProfile: React.FC = () => {
               <div className=" w-1/2 text-[#CCCCCC]">Address</div>
               <div className=" w-1/2 text-sm">55, 2nd Lane, Westend Marg, Saidullajab, Saket, New Delhi-110030</div>
             </div>
+
 
 
           </div>

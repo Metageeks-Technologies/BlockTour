@@ -109,6 +109,14 @@ const Sidebar = () => {
                   >
                     Subscribers
                   </li>
+                  {/* staff */}
+                  <li
+                    onClick={() => router.push( "/admin/staff" )}
+                    className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/staff" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
+                      }`}
+                  >
+                    Staff
+                  </li>
                   {/* <li
                     onClick={() => router.push( "/admin/contributor" )}
                     className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/contributor" ) ? "text-white font-bold" : "text-[#999999] font-semibold"

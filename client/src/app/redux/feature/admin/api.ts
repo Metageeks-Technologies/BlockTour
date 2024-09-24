@@ -2,7 +2,8 @@ import instance from "@/utils/axios";
 import {
   setCurrAdmin,
   requestStart,
-  requestFail, 
+  requestFail,
+  setAllAdmins, 
 } from "./slice";
 import type { AppDispatch } from "@/app/redux/store";
 import type { AxiosError } from "axios";
@@ -42,6 +43,18 @@ export const getAdminAuthor = async ( dispatch: AppDispatch, id: string ) => {
     const response = await instance.get( `/auth/admin/get-admin/${id}` );
     console.log("response of admin author:-",response)
     dispatch( setAuthor( response.data ) ); 
+  } catch ( error ) {
+    const e = error as AxiosError;
+    dispatch( requestFail( e.message ) );
+  }
+}
+
+// get all admins
+export const getAllAdmins = async ( dispatch: AppDispatch ) => {
+  dispatch( requestStart() );
+  try {
+    const response = await instance.get( `/auth/admin/get-all-admins` );
+    dispatch( setAllAdmins( response.data ) );
   } catch ( error ) {
     const e = error as AxiosError;
     dispatch( requestFail( e.message ) );

@@ -1,5 +1,6 @@
 "use client";
-import {useAppSelector} from "@/app/redux/hooks";
+import {getCurrentUser} from "@/app/redux/feature/contributor/api";
+import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import instance from "@/utils/axios";
 import {useRouter} from "next/navigation";
 import React, {useEffect, useState} from "react";
@@ -20,6 +21,7 @@ type PostData = {
 
 const Page = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [posts, setPosts] = useState<PostData[]>( [] );
   const [filteredPosts, setFilteredPosts] = useState<PostData[]>( [] );
   const [searchQuery, setSearchQuery] = useState<string>( "" );
@@ -27,12 +29,16 @@ const Page = () => {
   const [postsPerPage, setPostsPerPage] = useState<number>( 10 );
   const [isLoading, setIsLoading] = useState<boolean>( true ); // Loading state
 
-  const user =
-    useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
+  const user = useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
 
   useEffect( () => {
     fetchAllPosts();
   }, [user] );
+
+  useEffect( () => {
+    getCurrentUser( dispatch );
+    console.log(user);
+  }, [dispatch] );
 
   useEffect( () => {
     handleSearch();
