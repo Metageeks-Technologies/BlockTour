@@ -7,6 +7,7 @@ import Admin from '../models/admin/admin';
 export const signup = async (req: Request, res: Response) => {
   const { email, password,name } = req.body; 
   try {
+    // clg 
     const existingAdmin = await Admin.findOne( {email} );
     console.log("exixsting:-",existingAdmin)
     if (existingAdmin) {
@@ -45,8 +46,7 @@ export const login = async (req: Request, res: Response) => {
   }
 }
 
-
-
+ 
 //current logged admin with token stored in cookies
 export const currentAdmin = async (req: any, res: Response) => {
   const { id } = req.user as { id: string }; 
