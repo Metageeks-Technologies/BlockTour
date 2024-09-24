@@ -200,9 +200,9 @@ const Dashboard: React.FC = () => {
             value={itemsPerPage}
             onChange={( e ) => setItemsPerPage( Number( e.target.value ) )}
           >
-            <option>1</option>
-            <option>2</option>
-            <option>5</option>
+            <option>10</option>
+            <option>20</option>
+            <option>50</option>
           </select>
         </div>
       </div>

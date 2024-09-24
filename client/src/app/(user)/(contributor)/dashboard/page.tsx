@@ -1,6 +1,9 @@
 "use client";
-import {useAppSelector} from "@/app/redux/hooks";
+import {getCurrentUser} from "@/app/redux/feature/contributor/api";
+import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
+import UserHearder from "@/components/UserHearder";
 import instance from "@/utils/axios";
+import Cookies from "js-cookie";
 import {useRouter} from "next/navigation";
 import React, {useEffect, useState} from "react";
 import {BsThreeDots} from "react-icons/bs";
@@ -20,6 +23,7 @@ type PostData = {
 
 const Page = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [posts, setPosts] = useState<PostData[]>( [] );
   const [filteredPosts, setFilteredPosts] = useState<PostData[]>( [] );
   const [searchQuery, setSearchQuery] = useState<string>( "" );
@@ -27,12 +31,19 @@ const Page = () => {
   const [postsPerPage, setPostsPerPage] = useState<number>( 10 );
   const [isLoading, setIsLoading] = useState<boolean>( true ); // Loading state
 
-  const user =
-    useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
+  const user = useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
 
   useEffect( () => {
     fetchAllPosts();
   }, [user] );
+
+  useEffect( () => {
+    if ( !Cookies.get( "Token" ) || !user ) {
+      router.push( "/auth/user/login" );
+    }
+    getCurrentUser( dispatch );
+  }, [] );
+  console.log("User:-",user)
 
   useEffect( () => {
     handleSearch();
@@ -76,6 +87,7 @@ const Page = () => {
 
   return (
     <div className="lg:ml-64 sm:m-4 sm:my-4 my-2  bg-[#0A090F] sm:rounded-2xl shadow-md w-full border border-[#28272D]">
+      {/* <UserHearder /> */}
       {!user.contributor ? (
         <div className="flex h-[38rem] justify-center items-center">
           <div className="flex flex-col items-center justify-center">
@@ -190,10 +202,10 @@ const Page = () => {
                           <p className="text-[#767676]">Status:</p>
                           <span
                             className={`${post.status.toLowerCase() === "published"
-                                ? "text-green-500"
-                                : post.status.toLowerCase() === "draft"
-                                  ? "text-yellow-500"
-                                  : "text-red-500"
+                              ? "text-green-500"
+                              : post.status.toLowerCase() === "draft"
+                                ? "text-yellow-500"
+                                : "text-red-500"
                               }`}
                           >
                             {post.status.toLowerCase() === "published"
@@ -237,14 +249,14 @@ const Page = () => {
                       key={num + 1}
                       onClick={() => paginate( num + 1 )}
                       className={`px-3 py-1 rounded-md text-white ${currentPage === num + 1
-                          ? "bg-[#DF841C]"
-                          : "bg-[#0A090F]"
+                        ? "bg-[#DF841C]"
+                        : "bg-[#0A090F]"
                         }`}
                     >
                       {num + 1}
                     </button>
                   ) )}
-                  <button onClick={() => paginate( currentPage + 1 )} disabled={ currentPage === Math.ceil( filteredPosts.length / postsPerPage ) } >
+                  <button onClick={() => paginate( currentPage + 1 )} disabled={currentPage === Math.ceil( filteredPosts.length / postsPerPage )} >
                     <img src="/asset/Group 12367.svg" alt="Next" className="transform rotate-180" />
                   </button>
                 </div>

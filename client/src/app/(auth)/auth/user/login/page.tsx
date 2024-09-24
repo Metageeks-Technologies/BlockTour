@@ -154,7 +154,7 @@ const Page = () => {
           <div className="mt-6 text-center text-sm text-neutral-400">
             Don't have an account?{" "}
             <a
-              href="/signup"
+              href="/auth/user/signup"
               className="font-medium text-white hover:text-gray-300 underline"
             >
               Sign Up

@@ -37,7 +37,7 @@ const Navbar = () => {
           <li className="hover:text-amber-600 my-auto">Press Release</li>
           {user ?
             <li className="hover:text-amber-600 my-auto" onClick={() => router.push( "/dashboard" )}>Dashboard</li> :
-            <li className="hover:text-amber-600 leading-[75px]" onClick={() => router.push( "/login" )}>  Sign in </li>
+            <li className="hover:text-amber-600 leading-[75px]" onClick={() => router.push( "/auth/user/login" )}>  Sign in </li>
           }
         </ul>
 

@@ -6,6 +6,7 @@ export interface InitialState {
   loading?: boolean;
   error?: string; 
   author?: undefined;
+  allAdmins?: undefined;
 }
 
 const initialState: InitialState = {
@@ -13,6 +14,7 @@ const initialState: InitialState = {
   loading: false,
   error: "",
   author: undefined,
+  allAdmins: undefined,
 };
 
 export const adminSlice = createSlice({
@@ -26,6 +28,11 @@ export const adminSlice = createSlice({
     },
     setAuthor: ( state, action: any ) => {
       state.author = action.payload.admin;
+      state.loading = false;
+      state.error = ""; 
+    },
+    setAllAdmins: ( state, action: PayloadAction<InitialState> ) => {
+      state.allAdmins = action.payload.allAdmins;
       state.loading = false;
       state.error = ""; 
     },
@@ -51,6 +58,8 @@ export const {
   setAuthor,
   requestStart,
   requestFail, 
+  setAllAdmins,
+  logout,
 } = adminSlice.actions;
 
 export default adminSlice.reducer;

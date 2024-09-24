@@ -1,6 +1,10 @@
 import mongoose, {Document, Schema} from 'mongoose';
 import bcrypt from 'bcrypt';
 
+export enum AdminRole {
+  Admin = 'admin',
+  SuperAdmin = 'superadmin'
+}
 export interface IAdmin extends Document {
   email: string;
   password: string;
@@ -9,7 +13,7 @@ export interface IAdmin extends Document {
   profileImage?: string;
   bio?: string;
   notifications?: [type: Schema.Types.ObjectId];
-
+  role?: AdminRole;
 }
 
 const AdminSchema: Schema = new Schema( {
@@ -37,7 +41,11 @@ const AdminSchema: Schema = new Schema( {
     type: String
   },
   notifications: {
-    type: [{type: Schema.Types.ObjectId, ref: 'Notification'}]
+    type: [{type: Schema.Types.ObjectId, ref: 'Notification'}] },
+  role: {
+    type: String,
+    enum: AdminRole, 
+    default: AdminRole.Admin
   }
 }, {
   timestamps: true,

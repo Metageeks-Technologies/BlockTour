@@ -25,8 +25,8 @@ export default function RootLayout({
       <body className={inter.className}>
         
         <ReduxProvider> 
-          <UserHearder />
-          <div className="flex">
+          {/* <UserHearder /> */}
+          <div>
             <Sidebar />
             {children}
           </div>
