@@ -18,6 +18,7 @@ export default function RootLayout ( {children, }: Readonly<{children: React.Rea
             <body className={inter.className}>
                 <ToastContainer />
                 <Header />
+                
                 <div className="flex">
                     <Sidebar />
                     {children}
