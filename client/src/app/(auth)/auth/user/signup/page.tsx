@@ -35,7 +35,7 @@ console.log(response)
       if (response.status === 200) {
         toast.success( "Signup successful" );
         createNotification(name,response?.data.user?._id,response?.data?.user?.profileImage)
-          router.push("/login");
+          router.push("/auth/user/login");
       } else {
         toast.error("Signup failed");
       }

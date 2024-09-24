@@ -1,13 +1,7 @@
 import instance from "@/utils/axios";
-import {
-  setCurrAdmin,
-  requestStart,
-  requestFail,
-  setAllAdmins, 
-} from "./slice";
+import { setCurrAdmin, requestStart, requestFail, setAllAdmins, setAuthor } from "./slice"; 
 import type { AppDispatch } from "@/app/redux/store";
 import type { AxiosError } from "axios";
-import {setAuthor} from "../admin/slice";
 
 export const getCurrentAdmin = async (dispatch: AppDispatch) => {
   dispatch(requestStart()); 
@@ -17,8 +11,8 @@ export const getCurrentAdmin = async (dispatch: AppDispatch) => {
     dispatch(setCurrAdmin(response.data));
   } catch (error) {
     const e = error as AxiosError;
-    console.log( "Error:-", error, "e:-", e ) 
-    const response =  await instance.get(`/auth/admin/logout`);;
+    console.log( "Error:-", error, "e:-", e );
+    const response =  await instance.get(`/auth/admin/logout`);
     console.log( "Logout response:-", response );
     dispatch(requestFail(e.message));
   }

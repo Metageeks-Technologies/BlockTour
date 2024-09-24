@@ -108,10 +108,10 @@ const AdminNotificationPopUp: React.FC<NotificationPopupProps> = ( {isOpen, togg
                         {/* Mark Read */}
                       </button>
                     </div>
-                    <div className='flex gap-2 mt-1'>
+                    {/* <div className='flex gap-2 mt-1'>
                       <button className='border border-[#2F2D33] py-1 px-2 rounded text-xs bg-[#000000]'>Approve</button>
                       <button className='border border-[#2F2D33] py-1 px-4 rounded text-xs bg-[#0A090F] text-[#7B7A7F]'>Deny</button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ) )

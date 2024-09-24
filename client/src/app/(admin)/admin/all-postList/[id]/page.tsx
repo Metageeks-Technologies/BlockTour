@@ -35,8 +35,7 @@ const ContentDetails = () => {
   const [content, setContent] = useState<ContentData>();
   const [contentType, setContentType] = useState<'post' | 'podcast'>( 'post' );
   const admin = useAppSelector( ( state: any ) => state.superAdmin.admin );
-  const author = useAppSelector( ( state: any ) => state?.contributor?.author );
-  const adminAuthor = useAppSelector( ( state: any ) => state?.superAdmin?.admin );
+  const author = useAppSelector( ( state: any ) => state.contributor?.author || state.superAdmin?.author );
   const dispatch = useAppDispatch();
 
   useEffect( () => {
@@ -70,15 +69,21 @@ const ContentDetails = () => {
     } catch ( error ) {
       console.log( "error:", error );
       // Handle the error appropriately, e.g., set an error state or show a message to the user
-    } finally {
-      // This block will run regardless of whether we found a post, podcast, or neither
-      if ( content?.creatorId ) {
+    } 
+  };
+
+  useEffect( () => {
+    console.log("content:-", content);
+    if ( content ) {
+      if ( content.creatorId ) {
+        // dispatch( getAuthor( card.creatorId ) );
         getAuthor( dispatch, content.creatorId );
-      } else if ( content?.authorId ) {
+      } else if ( content.authorId ) {
+        // dispatch( getAdminAuthor( card.authorId ) );
         getAdminAuthor( dispatch, content.authorId );
       }
     }
-  };
+  }, [dispatch, content] );
 
   const updateStatus = async ( newStatus: string ) => {
     try {
@@ -140,8 +145,8 @@ const ContentDetails = () => {
             <div className="flex items-center gap-3">
               <img
                 loading="lazy"
-                src={author?.profileImage || adminAuthor?.profileImage}
-                alt={author?.name || adminAuthor?.name}
+                src={author?.profileImage }
+                alt={author?.name }
                 className="w-12 h-12 object-cover rounded-full"
               />
               <div className="text-sm text-neutral-400 py-4">
@@ -149,7 +154,7 @@ const ContentDetails = () => {
                   {content.category.join( ", " )}
                 </button>
                 <p className="font-medium text-white">
-                  <span className="text-neutral-400">By :-</span> {author?.name || adminAuthor?.name || "Unknown Author"}
+                  <span className="text-neutral-400">By :-</span> {author?.name || "Unknown Author"}
                 </p>
               </div>
             </div>

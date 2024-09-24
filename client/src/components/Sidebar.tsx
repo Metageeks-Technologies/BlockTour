@@ -5,16 +5,17 @@ import {BsGrid} from "react-icons/bs";
 import {MdOutlineKeyboardArrowDown} from "react-icons/md";
 import {usePathname, useRouter} from "next/navigation";
 import {LiaTagSolid} from "react-icons/lia";
+import {useAppSelector} from "@/app/redux/hooks";
 
 const Sidebar = () => {
   const [openMenu, setOpenMenu] = useState( null );
   const [isSidebarOpen, setIsSidebarOpen] = useState( true );
-
-  const router = useRouter();
+  const currentAdmin = useAppSelector( ( state: any ) => state?.superAdmin?.admin ); const router = useRouter();
   const currentRoute = usePathname();
 
+  // console.log( "currentAdmin", currentAdmin );
   const toggleMenu = ( menu: any ) => {
-    setOpenMenu( openMenu === menu ? null : menu ); // Close if the same menu is clicked again, else open
+    setOpenMenu( openMenu === menu ? null : menu ); 
   };
 
   const isActive = ( route: string ) => currentRoute === route;
@@ -40,7 +41,7 @@ const Sidebar = () => {
                 className={`transition-transform ${openMenu === "dashboard" ? "rotate-180" : "-rotate-90"
                   }`}
               />
-            </li> 
+            </li>
 
             {/* Blog Dropdown */}
             <li className="border-b border-gray-700">
@@ -67,7 +68,7 @@ const Sidebar = () => {
                   >
                     All Posts
                   </li>
-                  <li onClick={() => router.push( "/admin/add-post" )} className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/add-post" ) ? "text-white font-bold" : "text-[#999999] font-semibold"  }`} >
+                  <li onClick={() => router.push( "/admin/add-post" )} className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/add-post" ) ? "text-white font-bold" : "text-[#999999] font-semibold"}`} >
                     Add New Article
                   </li>
                   <li onClick={() => router.push( "/admin/add-podcast" )} className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/add-podcast" ) ? "text-white font-bold" : "text-[#999999] font-semibold"}`} >
@@ -78,6 +79,7 @@ const Sidebar = () => {
             </li>
 
             {/* Manage Dropdown */}
+            {currentAdmin?.role === "superAdmin" && (
             <li className="border-b border-gray-700">
               <button
                 className={`flex items-center justify-between w-full text-left px-4 hover:bg-[#1D1D21] py-2 rounded-none ${openMenu === "manage" ? "text-white font-bold" : "text-[#999999] font-semibold"
@@ -127,6 +129,7 @@ const Sidebar = () => {
                 </ul>
               )}
             </li>
+            )}
 
             {/* Categories Dropdown */}
             <li className="border-b border-gray-700">

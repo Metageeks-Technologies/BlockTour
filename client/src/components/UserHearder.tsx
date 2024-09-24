@@ -24,7 +24,7 @@ const UserHearder = () => {
 
   const user = useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
   const dispatch = useAppDispatch();
-  console.log("user:-", user);
+  // console.log("user:-", user);
   const router = useRouter();
 
   const toggleSidebar = () => {
@@ -38,7 +38,7 @@ const UserHearder = () => {
 
   useEffect(() => {
     if (!Cookies.get("Token")) {
-      router.push("/login");
+      router.push("/auth/user/login");
     }
     getCurrentUser(dispatch);
   }, []);
@@ -123,7 +123,7 @@ const UserHearder = () => {
                   </>
                 ) : (
                   <button
-                    onClick={() => router.push("/admin/login")}
+                    onClick={() => router.push("/auth/user/login")}
                     className="flex items-center w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
                   >
                     <BiLogInCircle className="w-5 h-5 mr-3" />

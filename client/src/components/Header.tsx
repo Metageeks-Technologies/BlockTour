@@ -40,7 +40,7 @@ export default function Header() {
     }
     getCurrentAdmin(dispatch);
   }, []);
-  console.log("current admin:-", currentAdmin);
+  // console.log("current admin:-", currentAdmin);
 
   return (
     <header className="bg-[#0A090F] text-white sticky w-full z-50 top-0 flex items-center justify-between px-6 py-2">
@@ -96,7 +96,7 @@ export default function Header() {
                 </>
               ) : (
                 <button
-                  onClick={() => router.push("/admin/login")}
+                  onClick={() => router.push("/auth/admin/login")}
                   className="flex items-center w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
                 >
                   <BiLogInCircle className="w-5 h-5 mr-3" />
