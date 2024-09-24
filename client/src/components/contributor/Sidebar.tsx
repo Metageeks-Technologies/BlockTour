@@ -48,21 +48,25 @@ const Sidebar = () => {
              Media
             </h1>
             
-            <div className="hover:bg-[#1D1D21] rounded-md group">
+            <div className="hover:bg-[#DF841C] rounded-md group"
+             onClick={() => router.push("/podcast-episode")}
+            >
             <li className="flex items-center gap-2 px-4  py-1.5 text-[#999999]">
              <HiMiniPlayCircle className="h-4 w-4 group-hover:text-white" />
               <span className="text-sm group-hover:text-white ">Episodes</span>
             </li>
             </div>
 
-            <div className="hover:bg-[#1D1D21] rounded-md group">
+            <div className="hover:bg-[#DF841C] rounded-md group "
+             onClick={() => router.push("/article")}
+            >
             <li className="flex items-center gap-2 px-4  py-1.5 text-[#999999]">
              <LuBookMinus  className="h-4 w-4 group-hover:text-white" />
               <span className="text-sm group-hover:text-white ">Articles</span>
             </li>
             </div>
 
-            <div className="hover:bg-[#1D1D21] rounded-md group">
+            <div className="hover:bg-[#DF841C] rounded-md group">
             <li className="flex items-center gap-2 px-4  py-1.5 text-[#999999]">
              <FaGraduationCap  className="h-5 w-4 group-hover:text-white" />
               <span className="text-sm group-hover:text-white ">Guides</span>

@@ -9,7 +9,7 @@ import HtmlContent from "@/components/HtmlContent";
 import {formatDateTime} from "@/utils/DateFormat";
 import {useParams} from "next/navigation";
 import React, {useEffect} from "react";
-import {IoBookmarkOutline} from "react-icons/io5";
+import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
 import {GoSearch} from "react-icons/go";
 import {CiLinkedin} from "react-icons/ci";
 import {
@@ -21,6 +21,7 @@ import {
 import {FiHeart} from "react-icons/fi";
 import {IoLogoYoutube} from "react-icons/io";
 import Navbar from "@/components/Navbar";
+import { FaXTwitter } from "react-icons/fa6";
 type CardData = {
   id: number;
   imgSrc: string;
@@ -215,17 +216,21 @@ const CardDetails = () => {
           {/* left */}
           <div className="flex flex-col ml-5 lg:w-[30%] md:w-[35%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col w-full max-md:mt-10 py-4">
-              <div className=" relative  font-medium leading-3 whitespace-nowrap rounded  text-neutral-400">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="w-full py-3.5 px-10 bg-[#1C1C1D] rounded-3xl border border-solid border-neutral-700 custom"
-                />
-                <GoSearch className="absolute top-4 left-3 h-5 w-5" />
-              </div>
+            <div className="relative border border-[#28272D] rounded flex justify-between">
+          <input
+            type="text"
+            placeholder="Search"
+            // value={searchQuery}
+            // onChange={( e ) => setSearchQuery( e.target.value )}
+            className="bg-[#0A090F] text-[#7B7A7F] sm:w-80 w-40 px-4 py-2 rounded border-none focus:outline-none"
+          />
+          <button className="bg-[#DF841C] text-white px-3 py-1.5 rounded">
+            <IoSearchOutline className="h-6 w-6" />
+          </button>
+        </div>
 
               <div className="  flex items-center justify-between py-6">
-                <button className="py-3.5 px-12 bg-red-600 hover:bg-[#1C1C1D] rounded-3xl">
+                <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg">
                   Join for free
                 </button>
                 <p className="text-lg hover:underline">Sighn In</p>
@@ -247,7 +252,7 @@ const CardDetails = () => {
                 />
               </div> */}
 
-              <div className=" h-[40rem] sticky top-0 rounded-3xl  flex justify-center items-center bg-[#1C1C1D]">
+              <div className=" h-[32rem] sticky top-0 rounded-lg mt-8  flex justify-center items-center bg-[#0A090F]">
                 <div className="flex flex-col gap-8 px-12 ">
                   <div className=" flex items-center justify-center">
                     <img
@@ -459,12 +464,12 @@ const CardDetails = () => {
         <div className="flex  shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" />
       </div>
 
-      <div className="mt-5 lg:ml-52 bg-[#171717] rounded-lg px-10">
-        <div className="py-10 border-b border-neutral-800">
+      <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg">
+        {/* <div className="py-10 border-b border-neutral-800">
           <div className="flex flex-col gap-5">
             <img
               src={author?.profileImage}
-              // src="https://www.jeancoutu.com/globalassets/revamp/photo/conseils-photo/20160302-01-reseaux-sociaux-profil/photo-profil_301783868.jpg"
+              
               alt=""
               className="h-14 w-14 rounded-full object-cover"
             />
@@ -474,7 +479,7 @@ const CardDetails = () => {
             <div className="flex gap-5 items-center">
               <div className="flex gap-2">
                 <p>{author?.posts?.length} Articles</p>
-                {/* <p className="text-red-600">View All</p> */}
+                
               </div>
 
               <div className="flex gap-1">
@@ -493,9 +498,9 @@ const CardDetails = () => {
               
             </p>
           </div>
-        </div>
+        </div> */}
 
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 mt-4 py-10 ">
+        {/* <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 mt-4 py-10 ">
           {Data.map( ( card ) => (
             <div
               key={card.id}
@@ -530,71 +535,66 @@ const CardDetails = () => {
               </div>
             </div>
           ) )}
-        </div>
+        </div> */}
 
-        <div className="w-[80%] flex justify-between py-10">
+<div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
+      <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
           <div className="flex flex-col gap-6">
             <h1 className="text-2xl font-semibold ">Get connected</h1>
 
             <div className="flex gap-3">
-              <div className="w-10 cursor-pointer h-10 bg-[#4e4e50] rounded-full flex justify-center items-center">
+              <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
                 <FaLinkedin className="w-5 h-5" />
               </div>
 
-              <div className="w-10 h-10 cursor-pointer bg-[#4e4e50] rounded-full flex justify-center items-center">
-                <FaTwitter className="w-5 h-5" />
+              <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                <FaXTwitter className="w-5 h-5" />
               </div>
 
-              <div className="w-10 h-10 cursor-pointer bg-[#4e4e50] rounded-full flex justify-center items-center">
+              <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                 <FaFacebookSquare className="w-5 h-5" />
               </div>
 
-              <div className="w-10 h-10 cursor-pointer bg-[#4e4e50] rounded-full flex justify-center items-center">
+              <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                 <IoLogoYoutube className="w-5 h-5" />
               </div>
             </div>
           </div>
 
           <div className="">
-            <h1 className="text-2xl font-semibold">
-              Get the daily crypto brief
-            </h1>
-            <input
-              type="text"
-              placeholder="Search"
-              className=" py-3 px-4 mt-6 w-96 bg-[#1C1C1D] rounded-3xl border border-solid border-neutral-700 custom"
-            />
-            <div className="flex items-center space-x-2 mt-4">
-              {/* Checkbox */}
-              <input
-                type="checkbox"
-                id="terms"
-                className="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500"
-              />
+              <div className="flex items-center gap-4">
+                <div>
+                <h1 className="text-xl pb-2 font-semibold text-[#FFFFFF]">Receive your daily crypto update</h1>
+                <input
+                  type="email"
+                  placeholder="Enter your email address"
+                  className="bg-[#1F1C2C] border border-[#474457] text-white py-3.5 px-5 rounded-lg  w-full sm:w-96 focus:outline-none"
+                />
+                </div>
+                <button className="bg-orange-500 text-white px-10 py-3.5 rounded-lg hover:bg-orange-600 transition">
+                  Join for Free
+                </button>
+              </div>
 
-              {/* Label */}
-              <label htmlFor="terms" className="text-sm text-neutral-500">
-                By joining, I agree to the Bankless
-                <a href="/terms" className="text-red-600 mx-1">
-                  Terms
-                </a>
-                and
-                <a href="/privacy" className="text-red-600 mx-1">
-                  Privacy
-                </a>
-                statements
-              </label>
-
+              {/* Terms and Privacy */}
+              <div className="flex items-center mt-4">
+                <input type="checkbox" id="agree" className="mr-2" />
+                <label htmlFor="agree" className="text-gray-400 text-sm">
+                  By joining, I agree to the Blockbar{" "}
+                  <a href="#" className="underline text-gray-300">
+                    Terms and Privacy
+                  </a>{" "}
+                  statements.
+                </label>
+              </div>
             </div>
 
-            <button className="py-3 px-12 mt-4 transition  duration-300 bg-white hover:bg-neutral-400 text-black rounded-3xl">
-              Join for free
-            </button>
-
-          </div>
         </div>
+        </div>
+      
+        <Footer/>
       </div>
-
+      
       {/* <Footer /> */}
     </div>
   );
