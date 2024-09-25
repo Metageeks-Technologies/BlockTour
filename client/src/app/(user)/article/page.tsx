@@ -1,23 +1,15 @@
 "use client";
-import { getAllPosts } from "@/app/redux/feature/posts/api";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import {getAllPosts} from "@/app/redux/feature/posts/api";
+import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import Footer from "@/components/Footer";
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import { BsThreeDots } from "react-icons/bs";
-import { FaFacebookSquare, FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { IoLogoYoutube } from "react-icons/io";
-import { IoSearchOutline } from "react-icons/io5";
-
-type CardData = {
-  id: number;
-  imgSrc: string;
-  title: string;
-  category: string;
-  date: string;
-  description: string;
-};
+import {formatDateTime} from "@/utils/DateFormat";
+import {useRouter, useSearchParams} from "next/navigation";
+import React, {useEffect, useState} from "react";
+import {BsThreeDots} from "react-icons/bs";
+import {FaFacebookSquare, FaLinkedin} from "react-icons/fa";
+import {FaXTwitter} from "react-icons/fa6";
+import {IoLogoYoutube} from "react-icons/io";
+import {IoSearchOutline} from "react-icons/io5";
 
 export interface Post {
   _id: string;
@@ -27,64 +19,81 @@ export interface Post {
   postSliderImageUrl: string[];
   previewImageUrl: string;
   status: string;
-  publishedDate: string;
+  createdAt: Date;
   visibility: string;
-  createdAt: string;
   updatedAt: string;
   category: string[];
   postType: string;
 }
 
-const Data: CardData[] = [
-  {
-    id: 1,
-    imgSrc:
-      "https://th.bing.com/th/id/OIP.z3sB2e7za5LbZUVMsQKlwwHaEK?rs=1&pid=ImgDetMain",
-    title: "The Bankless Guide to Sonic",
-    category: "Articles",
-    date: "May 29, 2024",
-    description: "Sonic Explained: A Beginner's Guide to Sonic (prev. Fantom)",
-  },
-  {
-    id: 2,
-    imgSrc:
-      "https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/fwmsu8gp4vnh504yfbnl.jpg",
-    title: "Judge Tosses Consensys Suit Against SEC",
-    category: "News",
-    date: "May 17, 2024",
-    description:
-      "Consensys was seeking regulatory clarity around its MetaMask wallet offerings and ETH's security status.",
-  },
-  {
-    id: 3,
-    imgSrc:
-      "https://thumbs.dreamstime.com/b/news-newspapers-folded-stacked-word-wooden-block-puzzle-dice-concept-newspaper-media-press-release-42301371.jpg",
-    title: "'Vitalik: An Ethereum Story' Documentary Debuts Onchain ",
-    category: "News",
-    date: "july 29, 2024",
-    description:
-      "The new documentary provides an intimate portrait of the Ethereum founder.",
-  },
-  {
-    id: 2,
-    imgSrc:
-      "https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/fwmsu8gp4vnh504yfbnl.jpg",
-    title: "Judge Tosses Consensys Suit Against SEC",
-    category: "News",
-    date: "May 17, 2024",
-    description:
-      "Consensys was seeking regulatory clarity around its MetaMask wallet offerings and ETH's security status.",
-  },
-];
-
 const page = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const posts = useAppSelector((state) => state.post.posts);
-  console.log("Posts:-", posts);
-  useEffect(() => {
-    getAllPosts(dispatch);
-  }, []);
+  const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState( true );
+  const [activeCategory, setActiveCategory] = useState( "All" );
+  const posts = useAppSelector( ( state ) => state.post.posts );
+  const categories = useAppSelector( ( state ) => state.category.categories );
+  useEffect( () => {
+    const category = searchParams.get( 'category' );
+    setActiveCategory( category || 'All' );
+
+    const fetchPosts = async () => {
+      setIsLoading( true );
+      await getAllPosts( dispatch );
+      setIsLoading( false );
+    };
+    fetchPosts();
+
+    if ( category === 'All' ) {
+      router.replace( '/article' );
+    }
+  }, [dispatch, searchParams, router] );
+
+  const filteredPosts = activeCategory === "All" ? posts : posts.filter( post => post.category && post.category.includes( activeCategory ) );
+
+  const handleCategoryClick = ( category: string ) => {
+    setActiveCategory( category );
+    router.push( `/article?category=${category}` );
+  };
+
+  const getRandomPosts = ( posts: any, count: number, category?: string ) => {
+    let filteredPosts = posts;
+    if ( category && category !== "All" ) {
+      filteredPosts = posts.filter( (post:any) => post.category && post.category.includes( category ) );
+    }
+    const shuffled = [...filteredPosts].sort( () => 0.5 - Math.random() );
+    return shuffled.slice( 0, count );
+  };
+
+  const LoadingSkeleton = () => (
+    <div className="animate-pulse">
+      {/* Trending section skeleton */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
+        {[...Array( 4 )].map( ( _, index ) => (
+          <div key={index} className="bg-gray-700 rounded-xl h-80"></div>
+        ) )}
+      </div>
+
+      {/* Newsletter skeleton */}
+      <div className="bg-gray-700 h-48 rounded-lg mt-5"></div>
+
+      {/* Browse all articles skeleton */}
+      <div className="mt-6">
+        <div className="h-8 bg-gray-700 w-1/3 rounded"></div>
+        <div className="flex gap-5 py-4 mt-4">
+          {[...Array( 4 )].map( ( _, index ) => (
+            <div key={index} className="h-6 bg-gray-700 w-20 rounded"></div>
+          ) )}
+        </div>
+      </div>
+
+      {/* Article list skeleton */}
+      {[...Array( 3 )].map( ( _, index ) => (
+        <div key={index} className="bg-gray-700 h-40 rounded-lg mt-4"></div>
+      ) )}
+    </div>
+  );
 
   return (
     <div className="lg:ml-52 m-4 w-full">
@@ -106,48 +115,52 @@ const page = () => {
 
       <div className="px-4">
         <h1 className="text-lg font-semibold text-[#999999]">Trending</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-4 ">
-          {posts.slice(0, 4).map((post) => (
-            <div
-              key={post._id}
-              className="cursor-pointer rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4"
-              // onClick={() => router.push( `/dashboard/${post.id}` )}
-            >
-              <img
-                loading="lazy"
-                src={post.previewImageUrl}
-                alt={post.title}
-                className="w-full h-44 object-cover rounded-t-md"
-              />
-
-              <div className="flex gap-2 items-center px-4 py-2 mt-2">
-                {post?.category && post.category.length > 0 && (
-                  <span className="bg-[#DF841C] line-clamp-1 py-0.5 px-3 text-sm text-[#230E00] font-semibold">
-                    {post.category[0] ?? "No Category"}{" "}
-                  </span>
-                )}
-                
-
-                <span className="text-[#767676]">
-                  {post?.publishedDate
-                    ? new Date(post.publishedDate).toLocaleDateString()
-                    : "No date available"}
-                </span>
-              </div>
-
-              <div className="px-4">
-                <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2 leading-[1.4]">
-                  {post.title}
-                </h1>
-
-                <div
-                  className="text-sm text-[#B0AFAF] mt-2 mb-2 line-clamp-2"
-                  dangerouslySetInnerHTML={{ __html: post.description }}
+        {isLoading ? <LoadingSkeleton /> : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-4 ">
+            {getRandomPosts( posts, 4, activeCategory ).map( ( post: any ) => (
+              <div
+                key={post._id}
+                className="cursor-pointer rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4 shadow-lg hover:shadow-xl transition-shadow duration-300" 
+                style={{
+                  boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px"
+                }}
+                onClick={() => router.push( `/dashboard/${post._id}` )}
+              >
+                <img
+                  loading="lazy"
+                  src={post.previewImageUrl}
+                  alt={post.title}
+                  className="w-full h-44 object-cover rounded-t-md"
                 />
+
+                <div className="flex gap-2 items-center px-4 py-2 mt-2">
+                  {post?.category && post.category.length > 0 && (
+                    <span className="bg-[#DF841C] line-clamp-1 py-0.5 px-3 text-sm text-[#230E00] font-semibold">
+                      {post.category[0] ?? "No Category"}{" "}
+                    </span>
+                  )}
+
+                  <span className="text-[#767676]">
+                    {post.createdAt
+                      ? formatDateTime( post.createdAt )
+                      : "No date available"}
+                  </span>
+                </div>
+
+                <div className="px-4">
+                  <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2 leading-[1.4]">
+                    {post.title}
+                  </h1>
+
+                  <div
+                    className="text-sm text-[#B0AFAF] mt-2 mb-2 line-clamp-2"
+                    dangerouslySetInnerHTML={{__html: post.description}}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ) )}
+          </div>
+        )}
 
         <div className="bg-[#0A090F] text-white p-14 rounded-lg mt-5 border border-[#17161B]">
           <div className="flex justify-between gap-12 items-center">
@@ -198,8 +211,8 @@ const page = () => {
               <p>View</p>
               <select
                 className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded"
-                // value={postsPerPage}
-                // onChange={( e ) => setPostsPerPage( Number( e.target.value ) )}
+              // value={postsPerPage}
+              // onChange={( e ) => setPostsPerPage( Number( e.target.value ) )}
               >
                 <option>Most Recent</option>
                 <option>Trending</option>
@@ -210,23 +223,33 @@ const page = () => {
           </div>
 
           <div className="flex gap-5 py-4 border-b border-[#17161B] text-[#999999]">
-            <p className="hover:text-white cursor-pointer">Crypto</p>
-            <p className="hover:text-white cursor-pointer">Blockchain</p>
-            <p className="hover:text-white cursor-pointer">NFT</p>
-            <p className="hover:text-white cursor-pointer">Press Release</p>
+            <p className={`hover:text-white cursor-pointer ${activeCategory === "All" ? "text-white font-semibold" : ""}`}
+              onClick={() => handleCategoryClick( "All" )}
+            >
+              All
+            </p>
+            {categories.map( ( category:any ) => (
+              <p
+                key={category._id}
+                  className={`hover:text-white cursor-pointer ${activeCategory === category.name ? "text-white font-semibold" : ""
+                  }`}
+                onClick={() => handleCategoryClick( category.name )}
+              >
+                {category.name}
+              </p>
+            ) )}
           </div>
         </div>
 
         <div className="mx-auto mt-4">
-          {posts.map((post) => (
+          {filteredPosts.map( ( post:any ) => (
             <div
               key={post._id}
               className="bg-[#0A090F] cursor-pointer p-5 rounded-lg shadow-lg flex space-x-5 mb-4 border border-[#17161B]"
               onClick={() => {
-                router.push(`/detail-page/${post._id}`);
+                router.push( `/detail-page/${post._id}` );
               }}
             >
-              {/* Display the preview image */}
               <img
                 src={post.previewImageUrl}
                 alt="Thumbnail"
@@ -242,7 +265,7 @@ const page = () => {
                 </h3>
                 <div
                   className="text-sm text-[#B0AFAF] mb-3 line-clamp-2"
-                  dangerouslySetInnerHTML={{ __html: post.description }}
+                  dangerouslySetInnerHTML={{__html: post.description}}
                 />
                 <div className="flex items-center space-x-4 text-sm">
                   {post?.category && post.category.length > 0 && (
@@ -251,14 +274,14 @@ const page = () => {
                     </span>
                   )}
                   <span className="text-[#767676]">
-                    {post?.publishedDate
-                      ? new Date(post.publishedDate).toLocaleDateString()
+                    {post?.createdAt
+                      ? formatDateTime( post.createdAt )
                       : "No date available"}
                   </span>
                 </div>
               </div>
             </div>
-          ))}
+          ) )}
         </div>
       </div>
 

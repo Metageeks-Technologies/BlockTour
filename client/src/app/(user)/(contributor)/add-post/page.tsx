@@ -14,6 +14,7 @@ import { notifyError, notifyWarn } from "@/utils/toast";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { getCurrentUser } from "@/app/redux/feature/contributor/api";
 import { useRouter } from "next/navigation";
+import {getAllCategories} from "@/app/redux/feature/category/api";
 
 // Dynamically import ReactQuill with SSR disabled
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -23,14 +24,15 @@ const AddPostPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [sliderImages, setSliderImages] = useState<File[]>([]);
   const [previewImage, setPreviewImage] = useState<File | null>(null);
-  const user =
-    useAppSelector((state: any) => state.contributor.currentUser) || {};
+  const user = useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
+  const categories = useAppSelector( ( state: any ) => state.category.categories ) || [];
   const dispatch = useAppDispatch();
   const router = useRouter();
 
   console.log("user:-", user);
-  useEffect(() => {
-    getCurrentUser(dispatch);
+  useEffect( () => { 
+    getCurrentUser( dispatch );
+    getAllCategories( dispatch );
   }, []);
   const [data, setData] = useState({
     title: "",
@@ -215,7 +217,7 @@ const AddPostPage = () => {
   };
 
   return (
-    <div className=" lg:ml-64  bg-[#0A090F] text-white sm:m-4 sm:my-4 my-2 w-full  sm:rounded-2xl border border-[#28272D]">
+    <div className=" lg:ml-64  bg-[#0A090F] text-white sm:m-4 sm:my-4 my-2   sm:rounded-2xl border border-[#28272D]">
       {!user.contributor ? (
         <div className="flex h-[40rem] justify-center items-center">
         <div className="flex flex-col items-center justify-center">
@@ -449,26 +451,18 @@ const AddPostPage = () => {
                   </header>
                   <div className="mt-3 border-b border-[#414141]" />
                   <div className="flex flex-col px-4 mt-4 w-full">
-                    {[
-                      "Design",
-                      "Development",
-                      "Technology",
-                      "Business",
-                      "Social Media",
-                      "Sports",
-                      "Writing",
-                    ].map((category) => (
-                      <div key={category} className="flex mt-1 items-center">
+                    {categories.map((category:any,index:number) => (
+                      <div key={index} className="flex mt-1 items-center">
                         <input
                           type="checkbox"
-                          checked={data.category.includes(category)}
-                          onChange={() => handleCategoryChange(category)}
+                          checked={data.category.includes(category.name)}
+                          onChange={() => handleCategoryChange(category.name)}
                         />
                         <label
-                          htmlFor={category}
+                          htmlFor={category.name}
                           className="ml-2 text-[#7B7A7F] text-sm"
                         >
-                          {category}
+                          {category.name}
                         </label>
                       </div>
                     ))}

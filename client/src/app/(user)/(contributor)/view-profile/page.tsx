@@ -1,5 +1,6 @@
 "use client";
 import { useAppSelector } from "@/app/redux/hooks";
+import {useRouter} from "next/navigation";
 import React from "react";
 import { FaEdit } from "react-icons/fa";
 
@@ -18,9 +19,9 @@ const ViewProfile: React.FC = () => {
     (state: any) => state.contributor.currentUser
   );
   console.log(user);
-
+  const router = useRouter();
   return (
-    <div className="lg:ml-64 h-screen bg-[#0A090F] text-white sm:m-4 sm:my-4 my-2  sm:rounded-2xl w-full border border-[#28272D]">
+    <div className="lg:ml-64 h-screen bg-[#0A090F] text-white sm:m-4 sm:my-4 my-2  sm:rounded-2xl border border-[#28272D]">
       <div className="border-b border-[#28272D] px-4 py-4">
         <h1 className="text-xl px-6">View Profile</h1>
       </div>
@@ -33,9 +34,7 @@ const ViewProfile: React.FC = () => {
             alt="Profile"
             className="sm:w-36 sm:h-36 h-20 w-20 sm:mt-4  rounded-full object-cover"
           />
-          <button className="border self-center border-[#DF841C] py-2 rounded px-4 sm:hidden block">
-            Update Profile
-          </button>
+
         </div>
 
         {/* User Info Section */}
@@ -43,7 +42,7 @@ const ViewProfile: React.FC = () => {
           <div className="sm:block hidden">
             <div className="mb-2 flex justify-between items-center">
               <h1 className="font-bold">View Profile</h1>
-              <button className="border border-[#DF841C] py-2 rounded px-4">
+              <button className="border border-[#DF841C] py-2 rounded px-4 cursor-pointer" onClick={() => router.push( "/user-profile" )}>
                 Update Profile
               </button>
             </div>

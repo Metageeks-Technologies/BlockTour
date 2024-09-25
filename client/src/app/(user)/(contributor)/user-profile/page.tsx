@@ -103,7 +103,7 @@ const ProfilePage = () => {
 
   return (
 
-    <div className="lg:ml-64 sm:m-4 sm:my-4 my-2  bg-[#0A090F] sm:rounded-2xl shadow-md w-full border border-[#28272D]">
+    <div className="lg:ml-64 sm:m-4 sm:my-4 my-2 bg-[#0A090F] sm:rounded-2xl shadow-md border border-[#28272D]">
       <div className="border-b border-[#28272D] sm:px-4 py-4">
         <h2 className="text-xl px-4">Update Profile</h2>
       </div>
