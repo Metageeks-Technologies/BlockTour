@@ -1,25 +1,43 @@
 "use client";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {FaGraduationCap} from "react-icons/fa";
 import {useRouter} from "next/navigation";
-import {LuBookMinus} from "react-icons/lu";
+import {LuBookMinus, LuUser} from "react-icons/lu";
 import {IoMdHome, IoMdNotificationsOutline} from "react-icons/io";
 import {HiMiniPlayCircle} from "react-icons/hi2";
-import {useAppSelector} from "@/app/redux/hooks";
+import {useAppSelector, useAppDispatch} from "@/app/redux/hooks";
 import NotificationPopup from "./NotificationPopUp";
+import {getCurrentUser} from "@/app/redux/feature/contributor/api";
+import Cookies from "js-cookie";
 
 const Sidebar = () => {
   // const [openMenu, setOpenMenu] = useState(null);
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [noOfNotifications, setNoOfNotifications] = useState<number>( 0 );
   const [isOpen, setIsOpen] = useState( false );
   const [isPopupOpen, setIsPopupOpen] = useState( false );
+  const user = useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
 
   const togglePopup = () => {
     setIsPopupOpen( !isPopupOpen );
   };
 
-  const user = useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
+  const handleSignIn = () => {
+    router.push( "/auth/user/login" );
+  };
+
+  const handleJoinForFree = () => {
+    router.push( "/auth/user/signup" );
+  };
+
+  console.log( user );
+  useEffect( () => {
+    if ( Cookies.get( "UserToken" ) && !user ) {
+      getCurrentUser(dispatch);
+    }
+  }, [] );
+
 
   return (
     <aside className="fixed h-screen lg:block sm:hidden hidden bg-[#0A090F] text-white w-52 z-30">
@@ -93,8 +111,32 @@ const Sidebar = () => {
 
           </ul>
         </div>
+
+        <div className="flex flex-col py-8 gap-3 px-4">
+          {user ? (
+            <div className="flex gap-2 text-[#999999] items-center cursor-pointer" onClick={() => router.push( "/view-profile" )}>
+              <LuUser className="h-5 w-5" />
+              <p className="text-lg whitespace-nowrap">{user.name}</p>
+            </div>
+          ) : (
+            <>
+              <div className="flex gap-2 text-[#999999] items-center cursor-pointer">
+                <LuUser className="h-5 w-5" />
+                <p className="text-lg">Sign in</p>
+              </div>
+              <button className="bg-[#DF841C] py-2.5 px-4 rounded-md cursor-pointer font-semibold" onClick={handleSignIn}>
+               Login
+              </button>
+              <button className="bg-[#DF841C] py-2.5 px-4 rounded-md cursor-pointer font-semibold" onClick={handleJoinForFree}>
+
+                Join for Free
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </aside>
+
   );
 };
 

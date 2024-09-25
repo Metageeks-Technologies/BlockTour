@@ -14,6 +14,7 @@ import { notifyError, notifyWarn } from "@/utils/toast";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { getCurrentUser } from "@/app/redux/feature/contributor/api";
 import { useRouter } from "next/navigation";
+import {getAllCategories} from "@/app/redux/feature/category/api";
 
 // Dynamically import ReactQuill with SSR disabled
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -29,8 +30,9 @@ const AddPostPage = () => {
   const router = useRouter();
 
   console.log("user:-", user);
-  useEffect(() => {
-    getCurrentUser(dispatch);
+  useEffect( () => { 
+    getCurrentUser( dispatch );
+    getAllCategories( dispatch );
   }, []);
   const [data, setData] = useState({
     title: "",
