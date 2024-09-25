@@ -3,8 +3,8 @@ import {getAllPosts} from "@/app/redux/feature/posts/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import Footer from "@/components/Footer";
 import {formatDateTime} from "@/utils/DateFormat";
-import {useRouter} from "next/navigation";
-import React, {useEffect, useState} from "react";
+import {useRouter, useSearchParams} from "next/navigation";
+import React, {Suspense, useEffect, useState} from "react";
 import {BsThreeDots} from "react-icons/bs";
 import {FaFacebookSquare, FaLinkedin} from "react-icons/fa";
 import {FaXTwitter} from "react-icons/fa6";
@@ -26,24 +26,37 @@ export interface Post {
   postType: string;
 }
 
+const Page = () => {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <ArticlePage />
+    </Suspense>
+  )
+}
+
 const ArticlePage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState( true );
   const [activeCategory, setActiveCategory] = useState( "All" );
   const posts = useAppSelector( ( state ) => state.post.posts );
   const categories = useAppSelector( ( state ) => state.category.categories );
 
-  
+  const category = searchParams.get( 'category' );
   useEffect( () => {
- const fetchPosts = async () => {
+    setActiveCategory( category || 'All' ); 
+    const fetchPosts = async () => {
       setIsLoading( true );
       await getAllPosts( dispatch );
       setIsLoading( false );
     };
     fetchPosts();
-  }, [dispatch, router] );
-  
+
+    if ( category === 'All' ) {
+      router.replace( '/article' );
+    }
+  }, [dispatch, searchParams, router] );
 
   const filteredPosts = activeCategory === "All" ? posts : posts.filter( post => post.category && post.category.includes( activeCategory ) );
 
@@ -336,8 +349,8 @@ const ArticlePage = () => {
         </div>
       </div>
       <Footer />
-    </div>
+    </div> 
   );
 };
 
-export default ArticlePage;
+export default Page;
