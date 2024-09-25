@@ -477,7 +477,7 @@ const CardDetails = () => {
       </div>
 
       <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg">
-        {/* <div className="py-10 border-b border-neutral-800">
+        <div className="py-10 border-b border-neutral-800">
           <div className="flex flex-col gap-5">
             <img
               src={author?.profileImage}
@@ -510,7 +510,7 @@ const CardDetails = () => {
               
             </p>
           </div>
-        </div> */}
+        </div>
 
         {/* <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 mt-4 py-10 ">
           {Data.map( ( card ) => (
