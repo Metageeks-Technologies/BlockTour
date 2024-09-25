@@ -37,9 +37,9 @@ export const login = async (req: Request, res: Response) => {
     if ( !isValidPassword ) {
       return res.status( 401 ).json( {message: 'Invalid email or password'} );
     } 
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET_KEY as string,{expiresIn:'9h'});
+    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET_KEY as string,{expiresIn:'7d'});
 
-    res.cookie( 'Token', token );
+    // res.cookie( 'Token', token );
     res.status( 200 ).json( {message: 'Logged in successfully', token: token} );
   } catch ( error ) {
     res.status( 500 ).json( {message: 'Server error'} );

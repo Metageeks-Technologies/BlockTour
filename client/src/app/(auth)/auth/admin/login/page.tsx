@@ -27,7 +27,7 @@ const Page = () => {
       );
       // console.log("token :-",response)
       // Store the token in cookies
-      Cookies.set( "Token", response.data.token, {expires: 7} );  
+      Cookies.set( "AdminToken", response.data.token, {expires: 7} );  
       console.log( response.data.token );
 
       getCurrentAdmin(dispatch)

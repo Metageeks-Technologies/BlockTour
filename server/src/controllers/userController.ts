@@ -64,7 +64,7 @@ export const currentUser = async (req: Request, res: Response) => {
   try {
     // Get the token from cookies
 
-    const token = req.cookies.Token;
+    const token = req.cookies.UserToken;
 
     // If no token is found, return an error
     if (!token) {

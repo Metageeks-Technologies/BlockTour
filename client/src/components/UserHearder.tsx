@@ -37,7 +37,7 @@ const UserHearder = () => {
   };
 
   useEffect(() => {
-    if (!Cookies.get("Token")) {
+    if (!Cookies.get("UserToken")) {
       router.push("/auth/user/login");
     }
     getCurrentUser(dispatch);

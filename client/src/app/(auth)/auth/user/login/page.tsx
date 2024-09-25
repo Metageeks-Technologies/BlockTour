@@ -26,7 +26,7 @@ const Page = () => {
       console.log( response.data );
 
       // Store the token in cookies
-      Cookies.set( "Token", response.data.token, {expires: 7} );
+      Cookies.set( "UserToken", response.data.token, {expires: 7} );
 
       toast.success( "Login successful!" ); 
       router.push( "/dashboard" ); 

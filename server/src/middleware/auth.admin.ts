@@ -10,7 +10,7 @@ interface AuthenticatedRequest extends Request {
 }
 
 const authAdmin = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-  const token = req?.cookies?.Token || req?.header('Authorization')?.replace('Bearer ', '');
+  const token = req?.cookies?.AdminToken || req?.header('Authorization')?.replace('Bearer ', '');
   if (!token) {
     return res.status(401).json({ message: 'Access denied. No token provided.' });
   }

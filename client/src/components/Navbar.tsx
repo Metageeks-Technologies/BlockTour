@@ -11,7 +11,7 @@ const Navbar = () => {
   const user = useAppSelector( ( state ) => state.contributor.currentUser );
   const dispatch = useAppDispatch();
   useEffect( () => {
-    if ( Cookies.get( "Token" ) && !user ) {
+    if ( Cookies.get( "UserToken" ) && !user ) {
       getCurrentUser( dispatch );
     }
   }, [] );

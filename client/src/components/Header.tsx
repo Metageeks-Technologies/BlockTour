@@ -35,7 +35,7 @@ export default function Header() {
 
   // if token in cookies is undefined then send the router to login page
   useEffect(() => {
-    if (!Cookies.get("Token")) {
+    if (!Cookies.get("AdminToken")) {
       router.push("/auth/admin/login");
     }
     getCurrentAdmin(dispatch);

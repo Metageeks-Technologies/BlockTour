@@ -38,7 +38,7 @@ const Page = () => {
   }, [user] );
 
   useEffect( () => {
-    if ( !Cookies.get( "Token" ) || !user ) {
+    if ( !Cookies.get( "UserToken" ) || !user ) {
       router.push( "/auth/user/login" );
     }
     getCurrentUser( dispatch );
