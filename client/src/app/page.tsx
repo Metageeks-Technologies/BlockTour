@@ -10,13 +10,15 @@ import Navbar from "@/components/Navbar";
 import {useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "./redux/hooks";
 import {getAllPosts} from "./redux/feature/posts/api";
+import {getAllCategories} from "./redux/feature/category/api";
 
 export default function Home () {
   const dispatch = useAppDispatch();
   const posts = useAppSelector( ( state ) => state.post.posts )
   console.log("Posts:-",posts)
   useEffect( () => {
-  getAllPosts(dispatch)
+    getAllPosts( dispatch )
+    getAllCategories( dispatch )
 },[])
 
   return (
@@ -86,14 +88,14 @@ export default function Home () {
             <h1>NFT</h1>
           </div>
 
-          <div className="flex gap-2.5 mt-3.5 text-base leading-7">
+          {/* <div className="flex gap-2.5 mt-3.5 text-base leading-7">
             <div>See all</div>
             <img
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/ccbba5c0b4581ad1e88995cbfe3f8a4b8fbf67aad29f2d2d15241baac2b6b255?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
               className="object-contain shrink-0 my-auto w-4 aspect-[1.14]"
             />
-          </div>
+          </div> */}
         </div>
 
         <div className="mt-9 max-w-full w-full">
@@ -120,14 +122,14 @@ export default function Home () {
             />
             <div className="my-auto">Politics</div>
           </div>
-          <div className="flex gap-2.5 self-start mt-2 text-base leading-7">
+          {/* <div className="flex gap-2.5 self-start mt-2 text-base leading-7">
             <div>See all</div>
             <img
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/90752f1fcffef6a72b0219699e043d6559175fbec658bf27339e099e094e02a0?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
               className="object-contain shrink-0 my-auto w-4 aspect-[1.14]"
             />
-          </div>
+          </div> */}
         </div>
 
         <div className="mt-10 max-w-full w-full">

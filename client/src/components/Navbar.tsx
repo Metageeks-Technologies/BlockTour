@@ -16,6 +16,10 @@ const Navbar = () => {
     }
   }, [] );
 
+  const handleCategoryClick = ( category: string ) => {
+    router.push( `/article?category=${category}` );
+  };
+
   return (
     <>
       <nav className="w-full flex justify-between items-center gap-5">
@@ -29,13 +33,13 @@ const Navbar = () => {
 
         {/* Links - Hidden on tablet and smaller devices */}
         <ul className="hidden lg:flex cursor-pointer flex-wrap gap-10 items-center text-base font-medium leading-tight text-center text-white">
-          <li className="hover:text-amber-600 leading-[75px]">Home</li>
-          <li className="hover:text-amber-600 my-auto">Crypto</li>
-          <li className="hover:text-amber-600 my-auto">Blockchain</li>
-          <li className="hover:text-amber-600 my-auto">NFT</li>
-          <li className="hover:text-amber-600 my-auto">Web3</li>
-          <li className="hover:text-amber-600 my-auto">Press Release</li>
-          {user ?
+          <li className="hover:text-amber-600 leading-[75px]" onClick={() => router.push( '/' )}>Home</li>
+          <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Crypto' )}>Crypto</li>
+          <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Blockchain' )}>Blockchain</li>
+          <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'NFT' )}>NFT</li>
+          <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Web3' )}>Web3</li>
+          <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Press Release' )}>Press Release</li>
+           {user ?
             <li className="hover:text-amber-600 my-auto" onClick={() => router.push( "/dashboard" )}>Dashboard</li> :
             <li className="hover:text-amber-600 leading-[75px]" onClick={() => router.push( "/auth/user/login" )}>  Sign in </li>
           }

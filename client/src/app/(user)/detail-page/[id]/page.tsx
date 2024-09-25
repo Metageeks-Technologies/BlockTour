@@ -10,60 +10,9 @@ import {formatDateTime} from "@/utils/DateFormat";
 import {useParams} from "next/navigation";
 import React, {useEffect} from "react";
 import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
-import {GoSearch} from "react-icons/go";
-import {CiLinkedin} from "react-icons/ci";
-import {
-  FaFacebookSquare,
-  FaLinkedin,
-  FaTiktok,
-  FaTwitter,
-} from "react-icons/fa";
-import {FiHeart} from "react-icons/fi";
+import {FaFacebookSquare, FaLinkedin, FaTwitter, } from "react-icons/fa";
 import {IoLogoYoutube} from "react-icons/io";
-import Navbar from "@/components/Navbar";
-import { FaXTwitter } from "react-icons/fa6";
-type CardData = {
-  id: number;
-  imgSrc: string;
-  title: string;
-  category: string;
-  date: string;
-  description: string;
-};
-
-// latest card data
-
-const Data: CardData[] = [
-  {
-    id: 1,
-    imgSrc:
-      "https://th.bing.com/th/id/OIP.z3sB2e7za5LbZUVMsQKlwwHaEK?rs=1&pid=ImgDetMain",
-    title: "The Bankless Guide to Sonic",
-    category: "Articles",
-    date: "May 29, 2024",
-    description: "Sonic Explained: A Beginner's Guide to Sonic (prev. Fantom)",
-  },
-  {
-    id: 2,
-    imgSrc:
-      "https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/fwmsu8gp4vnh504yfbnl.jpg",
-    title: "Judge Tosses Consensys Suit Against SEC",
-    category: "News",
-    date: "May 17, 2024",
-    description:
-      "Consensys was seeking regulatory clarity around its MetaMask wallet offerings and ETH's security status.",
-  },
-  {
-    id: 3,
-    imgSrc:
-      "https://thumbs.dreamstime.com/b/news-newspapers-folded-stacked-word-wooden-block-puzzle-dice-concept-newspaper-media-press-release-42301371.jpg",
-    title: "'Vitalik: An Ethereum Story' Documentary Debuts Onchain ",
-    category: "News",
-    date: "july 29, 2024",
-    description:
-      "The new documentary provides an intimate portrait of the Ethereum founder.",
-  },
-];
+import {FaXTwitter} from "react-icons/fa6";
 
 const CardDetails = () => {
   const {id} = useParams<{id: string;}>();
@@ -97,7 +46,7 @@ const CardDetails = () => {
   return (
     <div>
       {/* <Navbar/> */}
-      <div className=" lg:ml-52 flex overflow-hidden flex-col items-center pb-6 bg-black  md:px-12 ">
+      <div className=" lg:ml-40 flex overflow-hidden flex-col items-center pb-6 bg-black  md:px-12 ">
         <div className="flex ">
           <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full md:pr-8">
             <div className="flex flex-col w-[85%] m-auto">
@@ -110,15 +59,13 @@ const CardDetails = () => {
                   <img
                     loading="lazy"
                     srcSet={author?.profileImage}
-                    // src="https://sm.askmen.com/t/askmen_in/article/f/facebook-p/facebook-profile-picture-affects-chances-of-gettin_fr3n.1200.jpg"
                     className=" rounded-full object-cover h-12 w-12 "
                   />
                   <div className="flex flex-col gap-y-2 grow shrink-0 my-auto basis-0 w-fit">
                     <div className="flex gap-2.5 self-start">
                       <div className="px-1.5 py-1 bg-amber-600 text-stone-950">
-                        Press Release
-                      </div>
-              
+                        {card?.category.join( ", " )}
+                      </div> 
                     </div>
 
                     <div className=" text-white text-opacity-50">
@@ -157,96 +104,44 @@ const CardDetails = () => {
                 <div className="mt-5 ">
                   <HtmlContent htmlContent={card?.description || ""} />
                 </div>
-              </div>
-
-              <div className="text-zinc-400 mt-6">
-                <h1 className="text-2xl font-medium text-white">
-                  Quotes from Key Figures
-                </h1>
-
-                <div className="flex mt-5 gap-6 items-start">
-                  <img src="/asset/Image1.svg" alt="" className="mt-2" />
-                  <p>
-                    Dheeraj Borra, Co-founder of Kelp DAO, expressed his
-                    excitement about the fundraising results, emphasizing the
-                    platform’s customer-centric solutions and its future
-                    expansion. The Co-founders, Amitej Gajjala and Dheeraj
-                    Borra, conveyed their gratitude to investors for supporting
-                    Kelp DAO in scaling new heights in restaking solutions.
-                  </p>
-                </div>
-                <div className="flex mt-5 gap-6 items-start">
-                  <img src="/asset/Image.svg" alt="" className="mt-2" />
-                  <p>
-                    Jez Mohideen, CEO of Laser Digital, voiced his eagerness to
-                    support Kelp DAO and its team in creating innovative
-                    restaking infrastructure solutions, highlighting the
-                    potential of the project.
-                  </p>
-                </div>
-                <div className="flex mt-5 gap-6 items-start">
-                  <img src="/asset/Image.svg" alt="" className="mt-2" />
-                  <p>
-                    Jack Platts, Co-founder of Hypersphere Ventures, commended
-                    Kelp DAO’s team and focus on user experience, anticipating
-                    the platform’s contribution to enhancing yields and
-                    optionality for ETH stakers through restaking.
-                  </p>
-                </div>
-              </div>
-
-              <div className="text-[#ADADAD] mt-4 ">
-                <h1 className="text-white text-2xl">
-                  About Kelp DAO, Laser Digital, and SCB Limited
-                </h1>
-                <p className="mt-4">
-                  Kelp DAO, a leading liquid restaking protocol with over $850
-                  million in assets under management, continues to drive
-                  innovation in the restaking landscape. Laser Digital,
-                  supported by Nomura, focuses on delivering scalable
-                  opportunities in trading, asset management, and ventures. SCB
-                  Limited, a Bahamian-based proprietary trading firm, actively
-                  participates in the digital asset ecosystem.
-                </p>
               </div> 
-
             </div>
           </div>
 
-          {/* left */}
+          {/* right */}
           <div className="flex flex-col ml-5 lg:w-[30%] md:w-[35%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col w-full max-md:mt-10 py-4">
-            <div className="relative border border-[#28272D] rounded flex justify-between">
-          <input
-            type="text"
-            placeholder="Search"
-            // value={searchQuery}
-            // onChange={( e ) => setSearchQuery( e.target.value )}
-            className="bg-[#0A090F] text-[#7B7A7F] sm:w-80 w-40 px-4 py-2 rounded border-none focus:outline-none"
-          />
-          <button className="bg-[#DF841C] text-white px-3 py-1.5 rounded">
-            <IoSearchOutline className="h-6 w-6" />
-          </button>
-        </div>
+              <div className="relative border border-[#28272D] rounded flex justify-between">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  // value={searchQuery}
+                  // onChange={( e ) => setSearchQuery( e.target.value )}
+                  className="bg-[#0A090F] text-[#7B7A7F] sm:w-80 w-40 px-4 py-2 rounded border-none focus:outline-none"
+                />
+                <button className="bg-[#DF841C] text-white px-3 py-1.5 rounded">
+                  <IoSearchOutline className="h-6 w-6" />
+                </button>
+              </div>
 
-              <div className="  flex items-center justify-between py-6">
+              <div className="  flex items-center justify-evenly py-6">
                 <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg">
                   Join for free
                 </button>
-                <p className="text-lg hover:underline">Sighn In</p>
+                <p className="text-lg hover:underline">Sign In</p>
               </div>
 
-              <div className="mt-5">
+              {/* <div className="mt-5">
                 <p className="text-[#999999] mb-2">In this article</p>
                 <div className="flex gap-3">
                   <button className="py-1.5 px-4 border border-[#17161B] bg-[#0A090F] rounded text-[#999999]">What to Expect</button>
                   <button className="py-1.5 px-4 border border-[#17161B] bg-[#0A090F] rounded text-[#999999]">Polkadot</button>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="h-60 w-full border border-[#17161B] mt-6 bg-[#0A090F] rounded flex justify-center">
-                   <h1 className="uppercase text-lg font-semibold text-[#CCCCCC] p-4">Friend & Sponsor</h1>
-              </div>
+              {/* <div className=" w-full border border-[#17161B] mt-6 bg-[#0A090F] rounded flex justify-center">
+                <h1 className="uppercase text-lg font-semibold text-[#CCCCCC] p-4">Friend & Sponsor</h1>
+              </div> */}
 
               {/* <div className="flex gap-5 justify-between mt-6 ">
                 <div className="flex flex-col my-auto">
@@ -264,7 +159,8 @@ const CardDetails = () => {
                 />
               </div> */}
 
-              <div className=" h-[32rem] sticky top-0 rounded-lg mt-8  flex justify-center items-center bg-[#0A090F]">
+              {/* it should be sticky at top till footer comes to screen */}
+              <div className=" h-[32rem] rounded-lg sticky  top-0 z-40  flex justify-center items-center bg-[#0A090F]">
                 <div className="flex flex-col gap-8 px-12 ">
                   <div className=" flex items-center justify-center">
                     <img
@@ -417,72 +313,60 @@ const CardDetails = () => {
               </h1> */}
             </div>
           </div>
-          {/* left */}
         </div>
 
-        {/* border section */}
-        {/* <div className="flex shrink-0 mt-8 max-w-full h-px border-t border-white border-opacity-10 w-[1192px]" /> */}
-
-        {/* <div className="flex flex-wrap gap-5 justify-between mt-16 max-w-full font-medium w-[1192px] max-md:mt-10">
-          <div className="flex flex-col items-start">
-            <p className="text-xs leading-none text-neutral-400">
-              Previous article
-            </p>
-            <div className="self-stretch mt-3.5 text-sm text-white">
-              26 last-minute holiday gifts that are still thoughtful and unique
-            </div>
-            <div className="flex gap-5 mt-12 text-2xl leading-none text-neutral-400 max-md:mt-10">
-              <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/bb9cf020b2969f82bd4b5a2659680163bdf927096fca254f7827b76e667f139d?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                className="object-contain shrink-0 aspect-square w-[39px]"
-              />
-              <div className="my-auto basis-auto">Related articles</div>
-            </div>
-          </div>
-          <div className="flex flex-col self-start lg:text-right md:text-left text-left max-md:max-w-full">
-            <p className="lg:self-end md:self-end self-start text-xs leading-none text-neutral-400">
-              Next article
-            </p>
-            <div className="mt-3 text-sm text-white max-md:max-w-full">
-              Tesla’s Cybertruck fiasco cost Elon Musk $768 million in a single
-              day
-            </div>
-          </div>
-        </div> */}
-
-        {/* <div className="flex shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" /> */}
-
+     
         {/* Comment section */}
         <div className="mt-20 max-w-full w-[1192px] max-md:mt-10 ">
           {card && <DiscussionEmbedComponent article={card} />}
-        </div>
-
-        {/* <div className="flex items-center gap-2 mt-6 text-xs font-medium  text-neutral-500">
-          <input
-            type="checkbox"
-            id="checkbox"
-            className="w-4 h-4  bg-gray-100 border-gray-300 rounded cursor-pointer "
-          />
-          <p className="flex-auto">
-            Save my name, email, and website in this browser for the next time I
-            comment.
-          </p>
-        </div> */}
-        {/* 
-        <button className="px-4 py-4 cursor-pointer mt-6 text-sm font-medium leading-3 hover:bg-neutral-900 text-center text-white rounded bg-neutral-800">
-          Post Comment
-        </button> */}
+        </div> 
         <div className="flex  shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" />
       </div>
 
-      <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg">
-        <div className="py-10 border-b border-neutral-800">
+      <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg ">
+        <div className="py-10 border-b flex border-neutral-800">
           <div className="flex flex-col gap-5">
             <img
               src={author?.profileImage}
-              
-              alt=""
+              alt={author?.name || "No author found"}
+              className="h-14 w-14 rounded-full object-cover"
+            />
+
+            <h1>{author?.name || "Unknown"}</h1>
+
+            <div className="flex gap-5 items-center">
+              <div className="flex gap-2">
+                <p>{author?.posts?.length} Articles</p>
+                {/* <p className="text-red-600">View All</p> */}
+              </div>
+
+              <div className="flex gap-1">
+                <div className="w-10 cursor-pointer h-10 bg-[#4e4e50] rounded-full flex justify-center items-center">
+                  <FaLinkedin className="w-5 h-5" />
+                </div>
+
+                <div className="w-10 h-10 cursor-pointer bg-[#4e4e50] rounded-full flex justify-center items-center">
+                  <FaTwitter className="w-5 h-5" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+            <p className="text-justify pr-36 text-[#ADADAD]">
+                {author?.bio}
+            </p>
+        </div>
+      </div>
+      
+
+
+
+      <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg">
+        {/* <div className="py-10 border-b border-neutral-800">
+          <div className="flex flex-col gap-5">
+            <img
+              src={author?.profileImage} 
+              alt={author?.name || "No author found"}
               className="h-14 w-14 rounded-full object-cover"
             />
 
@@ -491,7 +375,7 @@ const CardDetails = () => {
             <div className="flex gap-5 items-center">
               <div className="flex gap-2">
                 <p>{author?.posts?.length} Articles</p>
-                
+
               </div>
 
               <div className="flex gap-1">
@@ -507,87 +391,45 @@ const CardDetails = () => {
 
             <p className="w-[60%] text-[#ADADAD]">
               {author?.bio} {" "}
-              
+
             </p>
           </div>
-        </div>
+        </div>  */}
 
-        {/* <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 mt-4 py-10 ">
-          {Data.map( ( card ) => (
-            <div
-              key={card.id}
-              className=" flex flex-col gap-3 rounded-lg pb-8 bg-[#1C1C1D]  "
-            >
-              <img
-                loading="lazy"
-                src={card.imgSrc}
-                className="w-full h-48 object-cover rounded-t-lg"
-                alt={card.title}
-              />
+        <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
+          <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
+            <div className="flex flex-col gap-5">
+              <h1 className="text-2xl font-semibold ">Get connected</h1>
 
-              <div className="px-10 flex flex-col gap-2 ">
-                <p className="text-center text-sm text-[#ADADAD] mt-2">
-                  {card.category}
-                </p>
+              <div className="flex gap-3">
+                <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaLinkedin className="w-5 h-5" />
+                </div>
 
-                <h1 className="text-xl hover:text-red-500 text-center text-[#ADADAD] h-14 pt-2font-semibold">
-                  {card.title}
-                </h1>
-
-                <p className="text-sm text-center text-neutral-500 line-clamp-2 ">
-                  {card.description}
-                </p>
-
-                <div className="flex gap-2 mt-2 justify-center">
-                  <p className="text-sm text-[#ADADAD] "> 1 day ago.</p>
-                  <span className="flex gap-2 items-center">
-                    <FiHeart className="text-neutral-400 h-5 w-5" />3
-                  </span>
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaXTwitter className="w-5 h-5" />
+                </div> 
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaFacebookSquare className="w-5 h-5" />
+                </div> 
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <IoLogoYoutube className="w-5 h-5" />
                 </div>
               </div>
             </div>
-          ) )}
-        </div> */}
 
-<div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
-      <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
-          <div className="flex flex-col gap-5">
-            <h1 className="text-2xl font-semibold ">Get connected</h1>
-
-            <div className="flex gap-3">
-              <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
-                <FaLinkedin className="w-5 h-5" />
-              </div>
-
-              <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaXTwitter className="w-5 h-5" />
-              </div>
-
-              <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaFacebookSquare className="w-5 h-5" />
-              </div>
-
-              <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <IoLogoYoutube className="w-5 h-5" />
-              </div>
-            </div>
-          </div>
-
-          <div className="">
-          <h1 className="text-3xl pb-2 font-semibold text-[#FFFFFF]">Receive your daily crypto update</h1>
-              <div className="flex items-center gap-4">
-                
+            <div className="">
+              <h1 className="text-3xl pb-2 font-semibold text-[#FFFFFF]">Receive your daily crypto update</h1>
+              <div className="flex items-center gap-4"> 
                 <input
                   type="email"
                   placeholder="Enter your email address"
                   className="bg-[#1F1C2C] border border-[#474457] text-white py-3.5 px-5 rounded-lg  w-full sm:w-96 focus:outline-none"
-                />
-              
+                /> 
                 <button className="bg-orange-500 text-white px-10 py-3.5 rounded-lg hover:bg-orange-600 transition">
                   Join for Free
                 </button>
-              </div>
-
+              </div> 
               {/* Terms and Privacy */}
               <div className="flex items-center mt-4">
                 <input type="checkbox" id="agree" className="mr-2" />
@@ -599,15 +441,11 @@ const CardDetails = () => {
                   statements.
                 </label>
               </div>
-            </div>
-
-        </div>
-        </div>
-      
-        <Footer/>
-      </div>
-      
-      {/* <Footer /> */}
+            </div> 
+          </div>
+        </div> 
+        <Footer />
+      </div> 
     </div>
   );
 };

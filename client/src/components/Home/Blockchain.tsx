@@ -8,7 +8,7 @@ import {formatDateTime} from '@/utils/DateFormat';
 const Blockchain = () => {
   const router = useRouter();
   const posts = useAppSelector( ( state: any ) => state.post.posts );
-  const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).reverse().slice( 0, 4 );
+  const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Blockchain" ) ).reverse().slice( 0, 4 );
 
   return (
     <div className="flex lg:flex-row md:flex-row flex-col gap-6 ">
@@ -22,45 +22,70 @@ const Blockchain = () => {
             />
             <div className="basis-auto">Blockchain</div>
           </div>
-          <div className="flex gap-2.5 self-start mt-2.5 text-base leading-7">
+          {/* <div className="flex gap-2.5 self-start mt-2.5 text-base leading-7">
             <div>See all</div>
             <img
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/ccbba5c0b4581ad1e88995cbfe3f8a4b8fbf67aad29f2d2d15241baac2b6b255?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
               className="object-contain shrink-0 my-auto w-4 aspect-[1.14]"
             />
-          </div>
+          </div> */}
         </div>
-        {publishedPosts?.map( ( item: any ) => (
-          <div key={item._id} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {router.push( `/detail-page/${item._id}` );}}>
-            {item?.postType?.toLowerCase() === "video post" ?
-              <video
-                src={item?.previewImageUrl}
-                controls
-                className="h-56 lg:w-80 md:w-full object-cover" 
-              /> :
-              <img
-                loading="lazy"
-                src={item?.previewImageUrl}
-                alt={item?.title}
-                className="h-56 lg:w-80 md:w-full object-cover"              />
-            }
-            <div>
-              <h1 className="text-2xl text-white font-semibold">
-                {item.title}
-              </h1>
-              <div className="mt-1 flex gap-3 items-center">
-                <button className="bg-[#DF841C] py-0.5 px-3">
-                  {item?.category.join( ", " )}
-                </button>
-                <p className="text-sm text-neutral-400">{formatDateTime(item?.createdAt)}</p>
-              </div>
-              <div className="text-neutral-400 mt-5 line-clamp-6">
-                <HtmlContent htmlContent={item?.description || ""} />
-              </div>
+        {publishedPosts.length === 0 ? (
+          <div className="animate-pulse">
+            <div className="flex flex-col gap-y-10 lg:basis-[69%] md:basis-[60%]"> 
+              {[...Array( 4 )].map( ( _, index ) => (
+                <div key={index} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full">
+                  <div className="h-56 lg:w-80 md:w-full bg-gray-300"></div>
+                  <div className="flex-1">
+                    <div className="h-8 bg-gray-300 w-3/4 mb-2"></div>
+                    <div className="flex gap-3 items-center mb-4">
+                      <div className="h-6 w-20 bg-gray-300"></div>
+                      <div className="h-4 w-24 bg-gray-300"></div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="h-4 bg-gray-300 w-full"></div>
+                      <div className="h-4 bg-gray-300 w-full"></div>
+                      <div className="h-4 bg-gray-300 w-3/4"></div>
+                    </div>
+                  </div>
+                </div>
+              ) )}
             </div>
           </div>
-        ) )}
+        ) : (
+          publishedPosts.map( ( card: any ) => (
+            <div key={card.id} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => { router.push( `/detail-page/${card._id}` ); }}>
+              {card.postType?.toLowerCase() === "video post" ? (
+                <video
+                  src={card.previewImageUrl}
+                  controls
+                  className="h-56 lg:w-80 md:w-full object-cover"
+                />
+              ) : (
+                <img
+                  loading="lazy"
+                  src={card.previewImageUrl}
+                  alt={card.title}
+                  className="h-56 lg:w-80 md:w-full object-cover"
+                />
+              )}
+
+              <div>
+                <h1 className="text-2xl text-white font-semibold">
+                  {card.title}
+                </h1>
+                <div className="mt-1 flex gap-3 items-center">
+                  <button className="bg-[#DF841C] py-0.5 px-3">
+                    {card.category.join( ", " )}
+                  </button>
+                  <p className="text-sm text-neutral-400">{formatDateTime(card.createdAt)}</p>
+                </div>
+                <div className="text-neutral-400 mt-5 line-clamp-5" dangerouslySetInnerHTML={{__html: card?.description}} />
+              </div>
+            </div>
+          ) )
+        )}
       </div>
 
       <div className="flex flex-col ml-5  lg:basis-[31%]  md:basis-[40%] max-md:ml-0 max-md:w-full">

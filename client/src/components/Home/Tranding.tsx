@@ -2,48 +2,76 @@ import {useAppSelector} from "@/app/redux/hooks";
 import {useRouter} from "next/navigation";
 import React from "react"; 
 import HtmlContent from "../HtmlContent";
+import {formatDateTime} from "@/utils/DateFormat";
 
 const Trending = () => {
   const posts = useAppSelector( ( state: any ) => state.post.posts )
-  const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).reverse().slice( 0, 4 ); 
+  // i want the random 4 posts from the published posts
+  const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).sort( () => 0.5 - Math.random() ).slice( 0, 4 ); 
+  // const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).reverse().slice( 0, 4 ); 
   const router = useRouter();
 
   return (
     <div className="flex lg:flex-row md:flex-row flex-col gap-5  ">
       <div className="flex flex-col gap-y-10 lg:w-[69%] md:w-[60%]">
-        {publishedPosts.map((card:any) => (
-          <div key={card._id} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {
-            router.push( `/detail-page/${card._id}` );
-          }} >
-            {card.postType?.toLowerCase() === "video post" ?
-              <video
-                src={card.previewImageUrl}
-                // controls
-                className="h-56 lg:w-80 md:w-full object-cover" /> :
-              <img
-                loading="lazy"
-                src={card.previewImageUrl}
-                alt={card.title}
-                className="h-56 lg:w-80 md:w-full object-cover"  />
-            }
-
-            <div>
-              <h1 className="text-2xl text-white font-semibold">
-                {card?.title}
-              </h1>
-              <div className="mt-1 flex gap-3 items-center">
-                <button className="bg-[#DF841C] py-0.5 px-3">
-                  {card?.category.join(", ")}
-                </button>
-                <p className="text-sm text-neutral-400">{card?.date}</p>
-              </div>
-              {/* <div className="text-neutral-400 mt-5 line-clamp-6" dangerouslySetInnerHTML={{__html: card?.description}} /> */}
-              <div className="text-neutral-400 mt-5 line-clamp-6">
-                <HtmlContent htmlContent={card?.description || ""} />
-              </div>
+        {publishedPosts.length === 0 ? (
+          <div className="animate-pulse">
+            <div className="flex flex-col gap-y-10 lg:basis-[69%] md:basis-[60%]">
+           
+              {[...Array( 4 )].map( ( _, index ) => (
+                <div key={index} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full">
+                  <div className="h-56 lg:w-80 md:w-full bg-gray-300"></div>
+                  <div className="flex-1">
+                    <div className="h-8 bg-gray-300 w-3/4 mb-2"></div>
+                    <div className="flex gap-3 items-center mb-4">
+                      <div className="h-6 w-20 bg-gray-300"></div>
+                      <div className="h-4 w-24 bg-gray-300"></div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="h-4 bg-gray-300 w-full"></div>
+                      <div className="h-4 bg-gray-300 w-full"></div>
+                      <div className="h-4 bg-gray-300 w-3/4"></div>
+                    </div>
+                  </div>
+                </div>
+              ) )}
             </div>
           </div>
-        ))}
+        ) : (
+          publishedPosts.map( ( card: any ) => (
+            <div key={card.id} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {
+              router.push( `/detail-page/${card._id}` );
+            }}>
+              {card.postType?.toLowerCase() === "video post" ? (
+                <video
+                  src={card.previewImageUrl}
+                  controls
+                  className="h-56 lg:w-80 md:w-full object-cover"
+                />
+              ) : (
+                <img
+                  loading="lazy"
+                  src={card.previewImageUrl}
+                  alt={card.title}
+                  className="h-56 lg:w-80 md:w-full object-cover"
+                />
+              )}
+
+              <div>
+                <h1 className="text-2xl text-white font-semibold">
+                  {card.title}
+                </h1>
+                <div className="mt-1 flex gap-3 items-center">
+                  <button className="bg-[#DF841C] py-0.5 px-3">
+                    {card.category.join( ", " )}
+                  </button>
+                  <p className="text-sm text-neutral-400">{formatDateTime(card.createdAt)}</p>
+                </div>
+                <div className="text-neutral-400 mt-5 line-clamp-5" dangerouslySetInnerHTML={{__html: card?.description}} />
+              </div>
+            </div>
+          ) )
+        )}
       </div>
 
       <div className="flex flex-col ml-5 lg:w-[31%]  md:w-[40%]  max-md:ml-0 max-md:w-full">
