@@ -1,4 +1,5 @@
 "use client";
+import {getAllCategories} from "@/app/redux/feature/category/api";
 import {getAllPosts} from "@/app/redux/feature/posts/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import Footer from "@/components/Footer";
@@ -46,6 +47,9 @@ const ArticlePage = () => {
   const category = searchParams.get( 'category' );
   useEffect( () => {
     setActiveCategory( category || 'All' ); 
+    if( categories.length === 0 ) {
+      getAllCategories( dispatch );
+    }
     const fetchPosts = async () => {
       setIsLoading( true );
       await getAllPosts( dispatch );
@@ -58,7 +62,7 @@ const ArticlePage = () => {
     }
   }, [dispatch, searchParams, router] );
 
-  const filteredPosts = activeCategory === "All" ? posts : posts.filter( post => post.category && post.category.includes( activeCategory ) );
+  const filteredPosts = activeCategory === "All" ? posts : posts.filter( post => post.category && post.status.toLowerCase() === "published" && post.category.includes( activeCategory ) );
 
   const handleCategoryClick = ( category: string ) => {
     setActiveCategory( category );
@@ -68,11 +72,13 @@ const ArticlePage = () => {
   const getRandomPosts = ( posts: any, count: number, category?: string ) => {
     let filteredPosts = posts;
     if ( category && category !== "All" ) {
-      filteredPosts = posts.filter( (post:any) => post.category && post.category.includes( category ) );
+      filteredPosts = posts.filter( (post:any) => post.category && post.status.toLowerCase() === "published" && post.category.includes( category ) );
     }
     const shuffled = [...filteredPosts].sort( () => 0.5 - Math.random() );
     return shuffled.slice( 0, count );
   };
+
+  console.log("categories", categories);
 
   const LoadingSkeleton = () => (
     <div className="animate-pulse">

@@ -225,6 +225,7 @@ const AddPostPage = () => {
                 setData( ( prevData ) => ( {
                   ...prevData,
                   title: e.target.value,
+                  permaLink: e.target.value.toLowerCase().replace( / /g, "-" ),
                 } ) )
               }
             />
