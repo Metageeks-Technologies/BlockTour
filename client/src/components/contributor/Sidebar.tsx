@@ -2,7 +2,7 @@
 import { useState } from "react";
 import {FaGraduationCap } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { LuBookMinus } from "react-icons/lu";
+import { LuBookMinus, LuUser } from "react-icons/lu";
 import { IoMdHome } from "react-icons/io";
 import { HiMiniPlayCircle } from "react-icons/hi2";
 
@@ -75,7 +75,17 @@ const Sidebar = () => {
            
           </ul>
         </div>
+        <div className="flex flex-col py-8 gap-3 px-4">
+          <div className="flex gap-2 text-[#999999] items-center cursor-pointer">
+          <LuUser className="h-5 w-5" />
+          <p className="text-lg">Sign in</p>
+          </div>
+          <button className="bg-[#DF841C] py-2.5 px-4 rounded-md cursor-pointer font-semibold">
+          Join for Free
+          </button>
       </div>
+      </div>
+      
     </aside>
   );
 };
