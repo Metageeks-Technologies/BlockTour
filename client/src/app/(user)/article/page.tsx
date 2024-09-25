@@ -3,7 +3,7 @@ import {getAllPosts} from "@/app/redux/feature/posts/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import Footer from "@/components/Footer";
 import {formatDateTime} from "@/utils/DateFormat";
-import {useRouter, useSearchParams} from "next/navigation";
+import {useRouter} from "next/navigation";
 import React, {useEffect, useState} from "react";
 import {BsThreeDots} from "react-icons/bs";
 import {FaFacebookSquare, FaLinkedin} from "react-icons/fa";
@@ -26,29 +26,24 @@ export interface Post {
   postType: string;
 }
 
-const page = () => {
+const ArticlePage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState( true );
   const [activeCategory, setActiveCategory] = useState( "All" );
   const posts = useAppSelector( ( state ) => state.post.posts );
   const categories = useAppSelector( ( state ) => state.category.categories );
-  useEffect( () => {
-    const category = searchParams.get( 'category' );
-    setActiveCategory( category || 'All' );
 
-    const fetchPosts = async () => {
+  
+  useEffect( () => {
+ const fetchPosts = async () => {
       setIsLoading( true );
       await getAllPosts( dispatch );
       setIsLoading( false );
     };
     fetchPosts();
-
-    if ( category === 'All' ) {
-      router.replace( '/article' );
-    }
-  }, [dispatch, searchParams, router] );
+  }, [dispatch, router] );
+  
 
   const filteredPosts = activeCategory === "All" ? posts : posts.filter( post => post.category && post.category.includes( activeCategory ) );
 
@@ -345,4 +340,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ArticlePage;

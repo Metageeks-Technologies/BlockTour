@@ -37,7 +37,7 @@ const Sidebar = () => {
       getCurrentUser(dispatch);
     }
   }, [] );
-
+  console.log( "user:-", user ); 
 
   return (
     <aside className="fixed h-screen lg:block sm:hidden hidden bg-[#0A090F] text-white w-52 z-30">

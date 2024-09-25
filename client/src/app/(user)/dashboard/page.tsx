@@ -38,12 +38,11 @@ const Page = () => {
   }, [user] );
 
   useEffect( () => {
-    if ( !Cookies.get( "UserToken" ) || !user ) {
+    if ( !Cookies.get( "UserToken" ) && !user ) {
       router.push( "/auth/user/login" );
     }
     getCurrentUser( dispatch );
   }, [] );
-  console.log("User:-",user)
 
   useEffect( () => {
     handleSearch();
@@ -88,7 +87,7 @@ const Page = () => {
   return (
     <div className="lg:ml-64 sm:m-4 sm:my-4 my-2  bg-[#0A090F] sm:rounded-2xl shadow-md w-full border border-[#28272D]">
       {/* <UserHearder /> */}
-      {!user.contributor ? (
+      { (user && !user?.contributor) ? (
         <div className="flex h-[38rem] justify-center items-center">
           <div className="flex flex-col items-center justify-center">
             <img
