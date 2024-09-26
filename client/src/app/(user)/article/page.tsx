@@ -110,7 +110,7 @@ const ArticlePage = () => {
   );
 
   return (
-    <div className="lg:ml-52 m-4 w-full">
+    <div className="lg:ml-52">
       <div className="flex justify-between items-center p-4 ">
         <h1 className="text-lg font-semibold">Article</h1>
         <div className="relative border border-[#28272D] rounded flex justify-between">
@@ -128,7 +128,7 @@ const ArticlePage = () => {
       </div>
 
       <div className="px-4">
-        <h1 className="text-lg font-semibold text-[#999999]">Trending</h1>
+        <h1 className="text-lg font-semibold  text-[#999999]">Trending</h1>
         {isLoading ? <LoadingSkeleton /> : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-4 ">
             {getRandomPosts( posts, 4, activeCategory ).map( ( post: any ) => (
@@ -235,8 +235,10 @@ const ArticlePage = () => {
               </select>
             </div>
           </div>
-
-          <div className="flex gap-5 py-4 border-b border-[#17161B] text-[#999999]">
+        </div>
+         
+         <div className="sticky top-0 bg-black ">
+         <div className="flex gap-5 py-4 border-b border-[#17161B]  text-[#999999] items-center">
             <p className={`hover:text-white cursor-pointer ${activeCategory === "All" ? "text-white font-semibold" : ""}`}
               onClick={() => handleCategoryClick( "All" )}
             >
@@ -246,14 +248,14 @@ const ArticlePage = () => {
               <p
                 key={category._id}
                   className={`hover:text-white cursor-pointer ${activeCategory === category.name ? "text-white font-semibold" : ""
-                  }`}
+                  } bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded ` }
                 onClick={() => handleCategoryClick( category.name )}
               >
                 {category.name}
               </p>
             ) )}
           </div>
-        </div>
+          </div>
 
         <div className="mx-auto mt-4">
           {filteredPosts.map( ( post:any ) => (
@@ -298,7 +300,7 @@ const ArticlePage = () => {
           ) )}
         </div>
       </div>
-
+{/* 
       <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
         <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
           <div className="flex flex-col gap-5">
@@ -340,7 +342,6 @@ const ArticlePage = () => {
               </button>
             </div>
 
-            {/* Terms and Privacy */}
             <div className="flex items-center mt-4">
               <input type="checkbox" id="agree" className="mr-2" />
               <label htmlFor="agree" className="text-gray-400 text-sm">
@@ -354,6 +355,7 @@ const ArticlePage = () => {
           </div>
         </div>
       </div>
+       */}
       <Footer />
     </div> 
   );

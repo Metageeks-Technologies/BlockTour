@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import instance from "@/utils/axios";
 import HtmlContent from "@/components/HtmlContent";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getAllCategories } from "@/app/redux/feature/category/api";
 
 type CardData = {
   id: number;
@@ -42,45 +43,58 @@ export interface NewsItem {
 const page = () => {
   const dispatch = useAppDispatch();
   const [data, setData] = useState<NewsItem[]>([]);
-  const [isLoading, setIsLoading] = useState( true );
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [activeCategory, setActiveCategory] = useState( "All" );
+  const [activeCategory, setActiveCategory] = useState("All");
 
-  const categories = useAppSelector( ( state ) => state.category.categories );
- console.log("cat", categories)
-  const fetchPostCast = async () => {
-    try {
-      setIsLoading( true );
-      const response = await instance.get("/podcast/all-podcasts");
-      console.log("podcast", response);
-      setData(response.data.podcasts);
-      setIsLoading( false );
-      
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const categories = useAppSelector((state) => state.category.categories);
+  const category = searchParams.get("category");
+  // console.log("cat", categories);
 
   useEffect(() => {
-    fetchPostCast();
+    setActiveCategory(category || "All");
+    if (categories.length === 0) {
+      getAllCategories(dispatch);
+    }
+
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await instance.get("/podcast/all-podcasts");
+        console.log("podcast", response);
+        setData(response.data.podcasts);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+    if (category === "All") {
+      router.replace("/podcast-episode");
+    }
   }, [dispatch, searchParams, router]);
 
-  const filteredPosts = activeCategory === "All" ? data : data.filter( post => post.category && post.category.includes( activeCategory ) );
+  const filteredPosts =
+    activeCategory === "All"
+      ? data
+      : data.filter(
+          (post) => post.category && post.category.includes(activeCategory)
+        );
 
-  const handleCategoryClick = ( category: string ) => {
-    setActiveCategory( category );
-    router.push( `/podcast-episode?category=${category}` );
+  const handleCategoryClick = (category: string) => {
+    setActiveCategory(category);
+    router.push(`/podcast-episode?category=${category}`);
   };
 
-  
   const LoadingSkeleton = () => (
     <div className="animate-pulse">
       {/* Trending section skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
-        {[...Array( 4 )].map( ( _, index ) => (
+        {[...Array(4)].map((_, index) => (
           <div key={index} className="bg-gray-700 rounded-xl h-80"></div>
-        ) )}
+        ))}
       </div>
 
       {/* Newsletter skeleton */}
@@ -90,19 +104,18 @@ const page = () => {
       <div className="mt-6">
         <div className="h-8 bg-gray-700 w-1/3 rounded"></div>
         <div className="flex gap-5 py-4 mt-4">
-          {[...Array( 4 )].map( ( _, index ) => (
+          {[...Array(4)].map((_, index) => (
             <div key={index} className="h-6 bg-gray-700 w-20 rounded"></div>
-          ) )}
+          ))}
         </div>
       </div>
 
       {/* Article list skeleton */}
-      {[...Array( 3 )].map( ( _, index ) => (
+      {[...Array(3)].map((_, index) => (
         <div key={index} className="bg-gray-700 h-40 rounded-lg mt-4"></div>
-      ) )}
+      ))}
     </div>
   );
-
 
   return (
     <div className="lg:ml-52">
@@ -123,49 +136,52 @@ const page = () => {
       </div>
 
       <div className="px-4">
-        <h1 className="text-lg font-semibold text-[#999999]">Trending</h1>
-        {isLoading ? <LoadingSkeleton /> : ( 
+        <h1 className="text-lg font-semibold text-[#999999]">Latest</h1>
+        {isLoading ? (
+          <LoadingSkeleton />
+        ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-2 ">
-          {data.slice(0, 4).map((post, index) => (
-            <div
-              key={post._id}
-              className="cursor-pointer rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4"
-            >
-              <div className="relative">
-                {/* <img
+            {data.slice(0, 4).map((post, index) => (
+              <div
+                key={post._id}
+                className="cursor-pointer rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4"
+              >
+                <div className="relative">
+                  {/* <img
                   loading="lazy"
                   src={post.imgSrc}
                   alt={post.title}
                   className="w-full h-44 object-cover rounded-t-md"
                 /> */}
-                <HtmlContent htmlContent={post?.embededCode || ""} />
-                {index === 0 || index === 3 ? (
-                  <>
-                    <div className="absolute -bottom-2.5 left-4 bg-[#DF841C] flex gap-1 px-2 py-0.5 rounded items-center">
-                      <BsLightningChargeFill />
-                      <p className="text-xs">Early Access</p>
-                    </div>
-                  </>
-                ) : null}
-              </div>
+                  <HtmlContent htmlContent={post?.embededCode || ""} />
+                  {index === 0 || index === 3 ? (
+                    <>
+                      <div className="absolute -bottom-2.5 left-4 bg-[#DF841C] flex gap-1 px-2 py-0.5 rounded items-center">
+                        <BsLightningChargeFill />
+                        <p className="text-xs">Early Access</p>
+                      </div>
+                    </>
+                  ) : null}
+                </div>
 
-              <div className="px-4 py-2 mt-2">
-                <p className="text-xs text-[#767676] font-semibold">Podcast</p>
+                <div className="px-4 py-2 mt-2">
+                  <p className="text-xs text-[#767676] font-semibold">
+                    Podcast
+                  </p>
+                </div>
+                <div className="px-4">
+                  <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2">
+                    {post.title}
+                  </h1>
+                  <p className="text-sm mt-0.5 text-[#999999] line-clamp-2">
+                    {post.permaLink}
+                  </p>
+                  <p className="mt-2 text-[#767676]"> 2 days ago</p>
+                </div>
               </div>
-              <div className="px-4">
-                <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2">
-                  {post.title}
-                </h1>
-                <p className="text-sm mt-0.5 text-[#999999] line-clamp-2">
-                  {post.permaLink}
-                </p>
-                <p className="mt-2 text-[#767676]"> 2 days ago</p>
-              </div>
-            </div>
-          ))}
-        </div>
-         )}
-        
+            ))}
+          </div>
+        )}
 
         <div className="bg-[#0A090F] text-white p-14 rounded-lg mt-5 border border-[#17161B]">
           <div className="flex justify-between gap-14 items-center">
@@ -210,7 +226,7 @@ const page = () => {
 
         <div className="mt-6">
           <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-semibold">Browse all articles</h1>
+            <h1 className="text-3xl font-semibold">Browse all episodes</h1>
 
             <div className="flex gap-2 items-center">
               <p>View</p>
@@ -226,29 +242,33 @@ const page = () => {
               </select>
             </div>
           </div>
+        </div>
 
-          {/* <div className="flex gap-5 py-4 border-b border-[#17161B] text-[#999999]">
-            <p className="hover:text-white cursor-pointer">Crypto</p>
-            <p className="hover:text-white cursor-pointer">Blockchain</p>
-            <p className="hover:text-white cursor-pointer">NFT</p>
-            <p className="hover:text-white cursor-pointer">Press Release</p>
-          </div> */}
-
-              <div className="flex gap-5 py-4 border-b border-[#17161B] text-[#999999]">
-              {categories.map( ( category:any ) => (
+        <div className="sticky top-0 bg-black">
+        <div className="flex items-center gap-5 py-4 border-b border-[#17161B] text-[#999999]">
+            <p
+              className={`hover:text-white cursor-pointer ${
+                activeCategory === "All" ? "text-white font-semibold" : ""
+              }`}
+              onClick={() => handleCategoryClick("All")}
+            >
+              All
+            </p>
+            {categories.map((category: any) => (
               <p
                 key={category._id}
-                  className={`hover:text-white cursor-pointer ${activeCategory === category.name ? "text-white font-semibold" : ""
-                  }`}
-                onClick={() => handleCategoryClick( category.name )}
+                className={`hover:text-white cursor-pointer ${
+                  activeCategory === category.name
+                    ? "text-white font-semibold"
+                    : ""
+                } bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded`}
+                onClick={() => handleCategoryClick(category.name)}
               >
                 {category.name}
               </p>
-            ) )}
-            </div>
-
-
-        </div>
+            ))}
+          </div>
+          </div>
 
         <div className=" mx-auto mt-5">
           {filteredPosts.map((newsItem, index) => (
@@ -300,7 +320,7 @@ const page = () => {
         </div>
       </div>
 
-      <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
+      {/* <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
         <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
           <div className="flex flex-col gap-5">
             <h1 className="text-2xl font-semibold text-[#FFFFFF]">
@@ -341,7 +361,6 @@ const page = () => {
               </button>
             </div>
 
-            {/* Terms and Privacy */}
             <div className="flex items-center mt-4">
               <input type="checkbox" id="agree" className="mr-2" />
               <label htmlFor="agree" className="text-gray-400 text-sm">
@@ -354,7 +373,8 @@ const page = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+
       <Footer />
     </div>
   );

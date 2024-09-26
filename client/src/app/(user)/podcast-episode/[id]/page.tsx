@@ -73,9 +73,9 @@ const page = ({ params }: { params: { id: string } }) => {
   }, [id]);
 
   return (
-    <div>
+    <div className="lg:ml-52">
       {/* <Navbar/> */}
-      <div className=" lg:ml-52 flex overflow-hidden flex-col items-center pb-6 bg-black  md:px-12 ">
+      <div className="flex overflow-hidden flex-col items-center pb-6 bg-black  md:px-12 ">
         <div className="flex ">
           <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full md:pr-8 self-start">
             <div className="flex flex-col w-[85%] m-auto">
@@ -245,7 +245,7 @@ const page = ({ params }: { params: { id: string } }) => {
         </div>
       </div>
 
-      <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg">
+      {/* <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg">
         <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
           <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
             <div className="flex flex-col gap-5">
@@ -286,7 +286,6 @@ const page = ({ params }: { params: { id: string } }) => {
                 </button>
               </div>
 
-              {/* Terms and Privacy */}
               <div className="flex items-center mt-4">
                 <input type="checkbox" id="agree" className="mr-2" />
                 <label htmlFor="agree" className="text-gray-400 text-sm">
@@ -302,9 +301,9 @@ const page = ({ params }: { params: { id: string } }) => {
         </div>
 
         <Footer/>
-      </div>
+      </div> */}
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

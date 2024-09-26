@@ -47,6 +47,7 @@ const Page = () => {
               src="/asset/Block-logo.svg"
               alt="Block Tour Logo"
               className="mx-auto h-20 w-auto"
+              onClick={()=>router.push("/")}
             />
             <h2 className="mt-6 text-2xl font-extrabold text-white">
               Login to Your Account!

@@ -205,7 +205,7 @@ const AddPostPage = () => {
   return (
     <div className="ml-64 bg-[#0A090F] text-white m-4 rounded-2xl w-full border border-[#28272D]">
       <div className="border-b border-[#28272D] px-4 py-4">
-        <h1 className="text-2xl px-6">Add New Post</h1>
+        <h1 className="text-2xl px-6">Add New Article</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="flex p-8 gap-5">
