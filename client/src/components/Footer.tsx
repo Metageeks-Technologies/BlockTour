@@ -285,7 +285,7 @@ const Footer = () => {
             <p className="text-sm text-gray-400 mt-5">
               Block Tour is a web3 news publisher dedicated to delivering the latest, most accurate insights into blockchain and decentralized technologies. Covering everything from cryptocurrencies to NFTs and DeFi, it offers uncensored, real-time news, embodying the transparency and democracy inherent in the web3.
             </p>
-          </div>;
+          </div>
 
            <div className="flex items-center basis-[55%] mt-1">
           <div className="flex justify-between w-full">

@@ -192,7 +192,8 @@ const AddPostPage = () => {
         previewImageUrl: "",
         creatorId: "",
         authorName: "",
-      });
+      } );
+      router.push( `/dashboard` );
     } catch (error: any) {
       notifyError(`${error?.response?.data?.message || "An error occurred"}`);
       console.error("Error submitting the form:", error);

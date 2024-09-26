@@ -133,7 +133,7 @@ const Sidebar = () => {
               onClick={() => router.push("/view-profile")}
             />
             <div className="flex flex-col gap-1">
-                <h1 className="text-lg font-bold text-[#FFFFFF] text-wrap">{user.name}</h1>
+                <h1 className="text-lg font-bold text-[#FFFFFF] whitespace-nowrap">{user.name}</h1>
                 <button className="flex font-semibold gap-1 items-center bg-[#DF841C] rounded py-1 px-2 text-[#FFFFFF]"
                 onClick={handleLogout}
                 >
