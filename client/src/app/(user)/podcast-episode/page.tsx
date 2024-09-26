@@ -11,7 +11,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import Footer from "@/components/Footer";
 import instance from "@/utils/axios";
 import HtmlContent from "@/components/HtmlContent";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type CardData = {
   id: number;
@@ -39,57 +39,24 @@ export interface NewsItem {
   embededCode: string;
 }
 
-const Data: CardData[] = [
-  {
-    id: 1,
-    imgSrc:
-      "https://th.bing.com/th/id/OIP.z3sB2e7za5LbZUVMsQKlwwHaEK?rs=1&pid=ImgDetMain",
-    title: "The Bankless Guide to Sonic",
-    category: "Articles",
-    date: "May 29, 2024",
-    description: "Sonic Explained: A Beginner's Guide to Sonic (prev. Fantom)",
-  },
-  {
-    id: 2,
-    imgSrc:
-      "https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/fwmsu8gp4vnh504yfbnl.jpg",
-    title: "Judge Tosses Consensys Suit Against SEC",
-    category: "News",
-    date: "May 17, 2024",
-    description:
-      "Consensys was seeking regulatory clarity around its MetaMask wallet offerings and ETH's security status.",
-  },
-  {
-    id: 3,
-    imgSrc:
-      "https://thumbs.dreamstime.com/b/news-newspapers-folded-stacked-word-wooden-block-puzzle-dice-concept-newspaper-media-press-release-42301371.jpg",
-    title: "'Vitalik: An Ethereum Story' Documentary Debuts Onchain ",
-    category: "News",
-    date: "july 29, 2024",
-    description:
-      "The new documentary provides an intimate portrait of the Ethereum founder.",
-  },
-  {
-    id: 2,
-    imgSrc:
-      "https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/fwmsu8gp4vnh504yfbnl.jpg",
-    title: "Judge Tosses Consensys Suit Against SEC",
-    category: "News",
-    date: "May 17, 2024",
-    description:
-      "Consensys was seeking regulatory clarity around its MetaMask wallet offerings and ETH's security status.",
-  },
-];
-
 const page = () => {
+  const dispatch = useAppDispatch();
   const [data, setData] = useState<NewsItem[]>([]);
+  const [isLoading, setIsLoading] = useState( true );
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [activeCategory, setActiveCategory] = useState( "All" );
 
+  const categories = useAppSelector( ( state ) => state.category.categories );
+ console.log("cat", categories)
   const fetchPostCast = async () => {
     try {
+      setIsLoading( true );
       const response = await instance.get("/podcast/all-podcasts");
       console.log("podcast", response);
       setData(response.data.podcasts);
+      setIsLoading( false );
+      
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +64,45 @@ const page = () => {
 
   useEffect(() => {
     fetchPostCast();
-  }, []);
+  }, [dispatch, searchParams, router]);
+
+  const filteredPosts = activeCategory === "All" ? data : data.filter( post => post.category && post.category.includes( activeCategory ) );
+
+  const handleCategoryClick = ( category: string ) => {
+    setActiveCategory( category );
+    router.push( `/podcast-episode?category=${category}` );
+  };
+
+  
+  const LoadingSkeleton = () => (
+    <div className="animate-pulse">
+      {/* Trending section skeleton */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
+        {[...Array( 4 )].map( ( _, index ) => (
+          <div key={index} className="bg-gray-700 rounded-xl h-80"></div>
+        ) )}
+      </div>
+
+      {/* Newsletter skeleton */}
+      <div className="bg-gray-700 h-48 rounded-lg mt-5"></div>
+
+      {/* Browse all articles skeleton */}
+      <div className="mt-6">
+        <div className="h-8 bg-gray-700 w-1/3 rounded"></div>
+        <div className="flex gap-5 py-4 mt-4">
+          {[...Array( 4 )].map( ( _, index ) => (
+            <div key={index} className="h-6 bg-gray-700 w-20 rounded"></div>
+          ) )}
+        </div>
+      </div>
+
+      {/* Article list skeleton */}
+      {[...Array( 3 )].map( ( _, index ) => (
+        <div key={index} className="bg-gray-700 h-40 rounded-lg mt-4"></div>
+      ) )}
+    </div>
+  );
+
 
   return (
     <div className="lg:ml-52">
@@ -119,7 +124,8 @@ const page = () => {
 
       <div className="px-4">
         <h1 className="text-lg font-semibold text-[#999999]">Trending</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-2 ">
+        {isLoading ? <LoadingSkeleton /> : ( 
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-2 ">
           {data.slice(0, 4).map((post, index) => (
             <div
               key={post._id}
@@ -158,6 +164,8 @@ const page = () => {
             </div>
           ))}
         </div>
+         )}
+        
 
         <div className="bg-[#0A090F] text-white p-14 rounded-lg mt-5 border border-[#17161B]">
           <div className="flex justify-between gap-14 items-center">
@@ -219,16 +227,31 @@ const page = () => {
             </div>
           </div>
 
-          <div className="flex gap-5 py-4 border-b border-[#17161B] text-[#999999]">
+          {/* <div className="flex gap-5 py-4 border-b border-[#17161B] text-[#999999]">
             <p className="hover:text-white cursor-pointer">Crypto</p>
             <p className="hover:text-white cursor-pointer">Blockchain</p>
             <p className="hover:text-white cursor-pointer">NFT</p>
             <p className="hover:text-white cursor-pointer">Press Release</p>
-          </div>
+          </div> */}
+
+              <div className="flex gap-5 py-4 border-b border-[#17161B] text-[#999999]">
+              {categories.map( ( category:any ) => (
+              <p
+                key={category._id}
+                  className={`hover:text-white cursor-pointer ${activeCategory === category.name ? "text-white font-semibold" : ""
+                  }`}
+                onClick={() => handleCategoryClick( category.name )}
+              >
+                {category.name}
+              </p>
+            ) )}
+            </div>
+
+
         </div>
 
         <div className=" mx-auto mt-5">
-          {data.map((newsItem, index) => (
+          {filteredPosts.map((newsItem, index) => (
             <div
               key={index}
               className="bg-[#0A090F] cursor-pointer border border-[#17161B] p-5 rounded-lg shadow-lg flex space-x-5 mb-5"
