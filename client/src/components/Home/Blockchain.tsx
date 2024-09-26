@@ -72,7 +72,7 @@ const Blockchain = () => {
               )}
 
               <div>
-                <h1 className="text-2xl text-white font-semibold">
+                <h1 className="text-2xl text-white font-semibold line-clamp-2">
                   {card.title}
                 </h1>
                 <div className="mt-1 flex gap-3 items-center">
@@ -81,7 +81,7 @@ const Blockchain = () => {
                   </button>
                   <p className="text-sm text-neutral-400">{formatDateTime( card.createdAt )}</p>
                 </div>
-                <div className="text-neutral-400 mt-5 line-clamp-5" dangerouslySetInnerHTML={{__html: card?.description}} />
+                <div className="text-neutral-400 mt-5 line-clamp-4" dangerouslySetInnerHTML={{__html: card?.description}} />
               </div>
             </div>
           ) )

@@ -11,7 +11,8 @@ import {FaXTwitter} from "react-icons/fa6";
 import Footer from "@/components/Footer";
 import instance from "@/utils/axios";
 import HtmlContent from "@/components/HtmlContent";
-import {useRouter, useSearchParams} from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { getAllCategories } from "@/app/redux/feature/category/api";
 
 type CardData = {
   id: number;
@@ -60,6 +61,8 @@ const PodcastPage = () => {
   const termsCheckboxRef = useRef<HTMLInputElement>( null );
 
   const categories = useAppSelector( ( state ) => state.category.categories );
+  const category = searchParams.get( "category" );
+
   console.log( "cat", categories );
   const fetchPostCast = async () => {
     try {
@@ -75,10 +78,19 @@ const PodcastPage = () => {
   };
 
   useEffect( () => {
+    setActiveCategory( category || "All" );
+    if ( categories.length === 0 ) {
+      getAllCategories( dispatch );
+    }
     fetchPostCast();
   }, [dispatch, searchParams, router] );
 
-  const filteredPosts = activeCategory === "All" ? data : data.filter( post => post.category && post.category.includes( activeCategory ) );
+  const filteredPosts =
+    activeCategory === "All"
+      ? data
+      : data.filter(
+        ( post ) => post.category && post.category.includes( activeCategory )
+      );
 
   const handleCategoryClick = ( category: string ) => {
     setActiveCategory( category );
@@ -171,8 +183,10 @@ const PodcastPage = () => {
       </div>
 
       <div className="px-4">
-        <h1 className="text-lg font-semibold text-[#999999]">Trending</h1>
-        {isLoading ? <LoadingSkeleton /> : (
+        <h1 className="text-lg font-semibold text-[#999999]">Latest</h1>
+        {isLoading ? (
+          <LoadingSkeleton />
+        ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-2 ">
             {data.slice( 0, 4 ).map( ( post, index ) => (
               <div
@@ -198,7 +212,9 @@ const PodcastPage = () => {
                 </div>
 
                 <div className="px-4 py-2 mt-2">
-                  <p className="text-xs text-[#767676] font-semibold">Podcast</p>
+                  <p className="text-xs text-[#767676] font-semibold">
+                    Podcast
+                  </p>
                 </div>
                 <div className="px-4">
                   <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2">
@@ -276,7 +292,7 @@ const PodcastPage = () => {
 
         <div className="mt-6">
           <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-semibold">Browse all articles</h1>
+            <h1 className="text-3xl font-semibold">Browse all episodes</h1>
 
             <div className="flex gap-2 items-center">
               <p>View</p>
@@ -292,28 +308,30 @@ const PodcastPage = () => {
               </select>
             </div>
           </div>
+        </div>
 
-          {/* <div className="flex gap-5 py-4 border-b border-[#17161B] text-[#999999]">
-            <p className="hover:text-white cursor-pointer">Crypto</p>
-            <p className="hover:text-white cursor-pointer">Blockchain</p>
-            <p className="hover:text-white cursor-pointer">NFT</p>
-            <p className="hover:text-white cursor-pointer">Press Release</p>
-          </div> */}
-
-          <div className="flex gap-5 py-4 border-b border-[#17161B] text-[#999999]">
+        <div className="sticky top-0 bg-black">
+          <div className="flex items-center gap-5 py-4 border-b border-[#17161B] text-[#999999]">
+            <p
+              className={`hover:text-white cursor-pointer ${activeCategory === "All" ? "text-white font-semibold" : ""
+                }`}
+              onClick={() => handleCategoryClick( "All" )}
+            >
+              All
+            </p>
             {categories.map( ( category: any ) => (
               <p
                 key={category._id}
-                className={`hover:text-white cursor-pointer ${activeCategory === category.name ? "text-white font-semibold" : ""
-                  }`}
+                className={`hover:text-white cursor-pointer ${activeCategory === category.name
+                  ? "text-white font-semibold"
+                  : ""
+                  } bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded`}
                 onClick={() => handleCategoryClick( category.name )}
               >
                 {category.name}
               </p>
             ) )}
           </div>
-
-
         </div>
 
         <div className=" mx-auto mt-5">
@@ -366,7 +384,7 @@ const PodcastPage = () => {
         </div>
       </div>
 
-      <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
+      {/* <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
         <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
           <div className="flex flex-col gap-5">
             <h1 className="text-2xl font-semibold text-[#FFFFFF]">
@@ -392,7 +410,7 @@ const PodcastPage = () => {
             </div>
           </div>
 
-          <div className="">
+          < className="">
             <h1 className="text-3xl text-[#FFFFFF] pb-3">
               Receive your daily crypto update
             </h1>
@@ -421,28 +439,25 @@ const PodcastPage = () => {
             </div>
 
             {/* Terms and Privacy */}
-            <div className="flex items-center mt-8">
-              <input type="checkbox" id="agree" className="mr-2 focus:outline-1" ref={termsCheckboxRef} onChange={() => {
-                setIsTermsAndPrivacy( !isTermsAndPrivacy );
-                handleEmailChange( {target: {value: email}} as React.ChangeEvent<HTMLInputElement> );
-              }} />
-              <label htmlFor="agree" className="text-gray-400 text-sm">
-                By joining, I agree to the Blockbar{" "}
-                <a href="/terms-and-conditions" className="underline text-gray-300">
-                  Terms and Conditions
-                </a>{" "}
-                <a href="/privacy-policy" className="underline text-gray-300">
-                  Privacy Policy
-                </a>{" "}
-                statements.
-              </label>
-            </div>
+      <div className="flex items-center mt-8">
+        <input type="checkbox" id="agree" className="mr-2 focus:outline-1" ref={termsCheckboxRef} onChange={() => {
+          setIsTermsAndPrivacy( !isTermsAndPrivacy );
+          handleEmailChange( {target: {value: email}} as React.ChangeEvent<HTMLInputElement> );
+        }} />
+        <label htmlFor="agree" className="text-gray-400 text-sm">
+          By joining, I agree to the Blockbar{" "}
+          <a href="/terms-and-conditions" className="underline text-gray-300">
+            Terms and Conditions
+          </a>{" "}
+          <a href="/privacy-policy" className="underline text-gray-300">
+            Privacy Policy
+          </a>{" "}
+          statements.
+        </label>
+      </div> 
 
-          </div>
-        </div>
-      </div>
-      <Footer />
-    </div>
+<Footer />
+    </div >
   );
 };
 

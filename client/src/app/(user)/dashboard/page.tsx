@@ -31,7 +31,7 @@ const Page = () => {
   const [postsPerPage, setPostsPerPage] = useState<number>( 10 );
   const [isLoading, setIsLoading] = useState<boolean>( true ); // Loading state
 
-  const user = useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
+  const user = useAppSelector( ( state: any ) => state.contributor.currentUser );
 
   useEffect( () => {
     fetchAllPosts();

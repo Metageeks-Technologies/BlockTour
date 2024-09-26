@@ -89,7 +89,7 @@ const CardDetails = () => {
       {/* <Navbar/> */}
       <div className=" lg:ml-40 flex overflow-hidden flex-col items-center pb-6 bg-black  md:px-12 ">
         <div className="flex ">
-          <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full md:pr-8">
+          <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full md:ml-5">
             <div className="flex flex-col w-[85%] m-auto">
               <h1 className="mt-8 lg:text-4xl md:text-2xl text-2xl font-medium text-neutral-300 max-md:mt-10 max-md:max-w-full">
                 {card?.title}
@@ -366,48 +366,56 @@ const CardDetails = () => {
 
 
         {/* Comment section */}
-        <div className="mt-20 max-w-full w-[1192px] max-md:mt-10 ">
+        <div className="mt-20 max-w-full w-[86%] max-md:mt-10 ">
           {card && <DiscussionEmbedComponent article={card} />}
-        </div>
-        <div className="flex  shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" />
+        </div> 
+        {/* <div className="flex  shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" /> */}
       </div>
 
-      <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg ">
-        <div className="py-10 border-b flex border-neutral-800">
-          <div className="flex flex-col gap-5">
+
+     
+      <div className="mt-5 lg:ml-52 rounded-lg px-20">
+        <div className="py-10 flex border-neutral-800">
+          <div className="flex flex-col gap-3">
             <img
               src={author?.profileImage}
               alt={author?.name || "No author found"}
               className="h-14 w-14 rounded-full object-cover"
             />
 
-            <h1>{author?.name || "Unknown"}</h1>
+            <h1 className="xl font-semibold"> Written by {author?.name || "Unknown"}</h1>
 
-            <div className="flex gap-5 items-center">
+            <div className="flex gap-3 items-center">
               <div className="flex gap-2">
                 <p>{author?.posts?.length} Articles</p>
                 {/* <p className="text-red-600">View All</p> */}
               </div>
 
               <div className="flex gap-1">
-                <div className="w-10 cursor-pointer h-10 bg-[#4e4e50] rounded-full flex justify-center items-center">
-                  <FaLinkedin className="w-5 h-5" />
+                <div className="w-8 cursor-pointer h-8 bg-[#4e4e50] rounded-full flex justify-center items-center">
+                  <FaLinkedin className="w-4 h-4" />
                 </div>
 
-                <div className="w-10 h-10 cursor-pointer bg-[#4e4e50] rounded-full flex justify-center items-center">
-                  <FaTwitter className="w-5 h-5" />
+                <div className="w-8 h-8 cursor-pointer bg-[#4e4e50] rounded-full flex justify-center items-center">
+                  <FaTwitter className="w-4 h-4" />
                 </div>
               </div>
             </div>
+            
+            <p className="text-justify text-sm text-[#ADADAD] w-[80%]">
+                {author?.bio}
+            </p>
 
           </div>
-          <p className="text-justify pr-36 text-[#ADADAD]">
-            {author?.bio}
-          </p>
+           
         </div>
-      </div> 
+      </div>
+      
+      
 
-      <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg">
+
+
+      <div className="lg:ml-52 bg-[#0A090F] rounded-lg">
         {/* <div className="py-10 border-b border-neutral-800">
           <div className="flex flex-col gap-5">
             <img
