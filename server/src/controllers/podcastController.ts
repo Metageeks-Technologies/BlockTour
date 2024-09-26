@@ -54,8 +54,39 @@ export const getPodcastById = async (req: Request, res: Response) => {
   }
 };
 
+export const getPodcastByPermaLink = async (req: Request, res: Response) => {
+  const { permaLink } = req.params;
+  try {
+    // First, try to find an exact match
+    let podcast = await Podcast.findOne({ permaLink });
+
+    // If no exact match is found, search for similar permalinks
+    if (!podcast) {
+      const regex = new RegExp(permaLink, 'i'); // 'i' flag for case-insensitive search
+      const similarPodcasts = await Podcast.find({ permaLink: regex }).limit(5);
+
+      if (similarPodcasts.length > 0) {
+        return res.status(200).json({
+          message: 'Similar podcasts found',
+          success: true,
+          podcast: similarPodcasts,
+        });
+      }
+    }
+
+    if ( podcast ) {
+      res.status( 200 ).json( {message: 'Podcast retrieved successfully', success: true, podcast: podcast} );
+    } else {
+      res.status(404).json({ success: false, error: 'No posts found with similar permalinks' });
+    }
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ error: 'Unable to retrieve post', details: error.message });
+  }
+};
+
 // Update a podcast
-export const updatePodcast = async (req: Request, res: Response) => {
+export const updatePodcast = async ( req: Request, res: Response ) => {
   try {
     const updatedPodcast = await Podcast.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedPodcast) {

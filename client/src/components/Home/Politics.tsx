@@ -10,7 +10,7 @@ const Politics = () => {
   return (
     <div className="gap-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
       {publishedPosts.map( ( post: any, index: number ) => (
-        <div key={post._id} className="flex flex-col max-md:ml-0 max-md:w-full cursor-pointer" onClick={() => router.push( `/detail-page/${post._id}` )}>
+        <div key={post._id} className="flex flex-col max-md:ml-0 max-md:w-full cursor-pointer" onClick={() => router.push( `/article/${post.permaLink}` )}>
           <div className="flex relative flex-col w-full aspect-[0.974]">
             {post.previewImageUrl ? (
               <img

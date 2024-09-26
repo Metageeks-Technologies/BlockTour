@@ -3,10 +3,10 @@ import {getAllCategories} from "@/app/redux/feature/category/api";
 import {getAllPosts} from "@/app/redux/feature/posts/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import Footer from "@/components/Footer";
+import instance from "@/utils/axios";
 import {formatDateTime} from "@/utils/DateFormat";
 import {useRouter, useSearchParams} from "next/navigation";
-import React, {Suspense, useEffect, useState} from "react";
-import {BsThreeDots} from "react-icons/bs";
+import React, {Suspense, useEffect, useMemo, useRef, useState} from "react";
 import {FaFacebookSquare, FaLinkedin} from "react-icons/fa";
 import {FaXTwitter} from "react-icons/fa6";
 import {IoLogoYoutube} from "react-icons/io";
@@ -32,8 +32,8 @@ const Page = () => {
     <Suspense fallback={<p>Loading...</p>}>
       <ArticlePage />
     </Suspense>
-  )
-}
+  );
+};
 
 const ArticlePage = () => {
   const dispatch = useAppDispatch();
@@ -41,13 +41,18 @@ const ArticlePage = () => {
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState( true );
   const [activeCategory, setActiveCategory] = useState( "All" );
+  const [email, setEmail] = useState( "" );
+  const [emailError, setEmailError] = useState( "" );
+  const [isTermsAndPrivacy, setIsTermsAndPrivacy] = useState( false );
   const posts = useAppSelector( ( state ) => state.post.posts );
   const categories = useAppSelector( ( state ) => state.category.categories );
+  const termsCheckboxRef = useRef<HTMLInputElement>( null );
 
   const category = searchParams.get( 'category' );
+  const categoryName = category?.replace( /-/g, ' ' );  
   useEffect( () => {
-    setActiveCategory( category || 'All' ); 
-    if( categories.length === 0 ) {
+    setActiveCategory( categoryName || 'All' );
+    if ( categories.length === 0 ) {
       getAllCategories( dispatch );
     }
     const fetchPosts = async () => {
@@ -57,28 +62,36 @@ const ArticlePage = () => {
     };
     fetchPosts();
 
-    if ( category === 'All' ) {
+    if ( categoryName === 'All' ) {
       router.replace( '/article' );
     }
   }, [dispatch, searchParams, router] );
 
-  const filteredPosts = activeCategory === "All" ? posts : posts.filter( post => post.category && post.status.toLowerCase() === "published" && post.category.includes( activeCategory ) );
+  const filteredPosts = activeCategory === "All" ? posts : posts.filter( post => post.category && post.status.toLowerCase() === "published" && post.category.some( cat => cat.toLowerCase().includes( activeCategory.toLowerCase() ) ) );
 
   const handleCategoryClick = ( category: string ) => {
     setActiveCategory( category );
-    router.push( `/article?category=${category}` );
+    router.push( `/article?category=${category.toLowerCase()}` );
   };
 
-  const getRandomPosts = ( posts: any, count: number, category?: string ) => {
-    let filteredPosts = posts;
-    if ( category && category !== "All" ) {
-      filteredPosts = posts.filter( (post:any) => post.category && post.status.toLowerCase() === "published" && post.category.includes( category ) );
-    }
-    const shuffled = [...filteredPosts].sort( () => 0.5 - Math.random() );
-    return shuffled.slice( 0, count );
-  };
+  const getRandomPosts = useMemo( () => {
+    const filterAndShuffle = ( posts: any, count: number, category?: string ) => {
+      let filteredPosts = posts;
+      if ( category && category !== "All" ) {
+        filteredPosts = posts.filter( ( post: any ) =>
+          post.category &&
+          post.status.toLowerCase() === "published" &&
+          post.category.some( ( cat: any ) => cat.toLowerCase().includes( category.toLowerCase() ) )
+        );
+      }
+      const shuffled = [...filteredPosts].sort( () => 0.5 - Math.random() );
+      return shuffled.slice( 0, count );
+    };
 
-  console.log("categories", categories);
+    return filterAndShuffle( posts, 4, activeCategory );
+  }, [posts, activeCategory] );
+
+  console.log( "categories", categories );
 
   const LoadingSkeleton = () => (
     <div className="animate-pulse">
@@ -109,6 +122,44 @@ const ArticlePage = () => {
     </div>
   );
 
+
+  const validateEmail = ( email: string ) => {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test( email );
+  };
+
+  const handleEmailChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+    const newEmail = e.target.value;
+    setEmail( newEmail );
+    if ( newEmail && !validateEmail( newEmail ) ) {
+      setEmailError( "Please enter a valid email address" );
+    } else {
+      if ( termsCheckboxRef.current?.checked ) {
+        setEmailError( "" );
+      } else {
+        setEmailError( "Please agree to the Terms and Conditions and Privacy Policy" );
+      }
+    }
+  };
+  const CreateSubscriber = async () => {
+    if ( !isTermsAndPrivacy ) {
+      alert( "Please agree to the Terms and Conditions and Privacy Policy" );
+      termsCheckboxRef.current?.focus();
+      return;
+    }
+
+    try {
+      const response = await instance.post( '/subscriber/subscribers', {email} );
+      alert( `${response.data.message || "Subscribed Successfully"}` );
+      setEmail( "" );
+      setIsTermsAndPrivacy( false );
+    } catch ( error: any ) {
+      console.error( error );
+      alert( `${error.response.data.message || "There is some error in creating subscriber"}` );
+      setEmailError( "" );
+    }
+  };
+
   return (
     <div className="lg:ml-52 m-4 w-full">
       <div className="flex justify-between items-center p-4 ">
@@ -128,17 +179,28 @@ const ArticlePage = () => {
       </div>
 
       <div className="px-4">
-        <h1 className="text-lg font-semibold text-[#999999]">Trending</h1>
-        {isLoading ? <LoadingSkeleton /> : (
+        <h1 className="text-lg font-semibold text-[#999999]">Trending</h1> {isLoading ? <LoadingSkeleton /> : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-4 ">
-            {getRandomPosts( posts, 4, activeCategory ).map( ( post: any ) => (
-              <div
+           
+            {getRandomPosts.length === 0 ? (
+              // make it same as the layout of the post
+              <div className="bg-gray-700 rounded-xl h-80 flex justify-center items-center w-full col-span-4">
+                <div className="text-center text-gray-400 w-full">
+                  <h1 className="text-2xl font-semibold">No posts found</h1>
+                  <p className="text-sm text-gray-400">
+                  No posts found for "{activeCategory}". Please try again later.
+                </p>
+              </div>
+          </div>
+            ) : (
+              getRandomPosts.map( ( post: any ) => (
+                <div
                 key={post._id}
-                className="cursor-pointer rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4 shadow-lg hover:shadow-xl transition-shadow duration-300" 
+                className="cursor-pointer rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4 shadow-lg hover:shadow-xl transition-shadow duration-300"
                 style={{
                   boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px"
                 }}
-                onClick={() => router.push( `/dashboard/${post._id}` )}
+                onClick={() => router.push( `/article/${post.permaLink}` )}
               >
                 <img
                   loading="lazy"
@@ -172,7 +234,7 @@ const ArticlePage = () => {
                   />
                 </div>
               </div>
-            ) )}
+            ) ))} 
           </div>
         )}
 
@@ -192,23 +254,41 @@ const ArticlePage = () => {
             {/* Right Section */}
             <div className="w-full">
               <div className="flex items-center gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="bg-[#1F1C2C] border border-[#474457] text-white py-3.5 px-5 rounded-lg  w-full sm:w-96 focus:outline-none"
-                />
-                <button className="bg-orange-500 text-white px-10 py-3.5 rounded-lg hover:bg-orange-600 transition">
+                <div className="relative w-full sm:w-96">
+                  <input
+                    type="email"
+                    placeholder="Enter your email address"
+                    value={email}
+                    onChange={handleEmailChange}
+                    className={`bg-[#1F1C2C] border ${emailError ? 'border-red-500' : 'border-[#474457]'
+                      } text-white py-3.5 px-5 rounded-lg w-full focus:outline-none`}
+                  />
+                  {emailError && (
+                    <p className="text-red-500 text-sm my-1 whitespace-nowrap absolute">{emailError}</p>
+                  )}
+                </div>
+                <button
+                  className="bg-orange-500 whitespace-nowrap text-white px-10 py-3.5 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg hover:bg-orange-600 transition"
+                  disabled={isLoading || !email || !!emailError}
+                  onClick={CreateSubscriber}
+                >
                   Join for Free
                 </button>
               </div>
 
               {/* Terms and Privacy */}
-              <div className="flex items-center mt-4">
-                <input type="checkbox" id="agree" className="mr-2" />
+              <div className="flex items-center mt-8">
+                <input type="checkbox" id="agree" className="mr-2 focus:outline-1" ref={termsCheckboxRef} onChange={() => {
+                  setIsTermsAndPrivacy( !isTermsAndPrivacy );
+                  handleEmailChange( {target: {value: email}} as React.ChangeEvent<HTMLInputElement> );
+                }} />
                 <label htmlFor="agree" className="text-gray-400 text-sm">
                   By joining, I agree to the Blockbar{" "}
-                  <a href="#" className="underline text-gray-300">
-                    Terms and Privacy
+                  <a href="/terms-and-conditions" className="underline text-gray-300">
+                    Terms and Conditions
+                  </a>{" "}
+                  <a href="/privacy-policy" className="underline text-gray-300">
+                    Privacy Policy
                   </a>{" "}
                   statements.
                 </label>
@@ -242,26 +322,37 @@ const ArticlePage = () => {
             >
               All
             </p>
-            {categories.map( ( category:any ) => (
+            {categories.map( ( category: any ) => (
               <p
                 key={category._id}
-                  className={`hover:text-white cursor-pointer ${activeCategory === category.name ? "text-white font-semibold" : ""
-                  }`}
-                onClick={() => handleCategoryClick( category.name )}
+                className={`hover:text-white cursor-pointer ${activeCategory === category.name ? "text-white font-semibold" : ""
+                  }`} 
+                onClick={() => { router.push( `/article?category=${category.name.toLowerCase().split( " " ).join( "-" )}` );  }}
               >
-                {category.name}
+                {category.name.charAt( 0 ).toUpperCase() + category.name.slice( 1 )}
               </p>
             ) )}
           </div>
         </div>
 
         <div className="mx-auto mt-4">
-          {filteredPosts.map( ( post:any ) => (
-            <div
-              key={post._id}
-              className="bg-[#0A090F] cursor-pointer p-5 rounded-lg shadow-lg flex space-x-5 mb-4 border border-[#17161B]"
-              onClick={() => {
-                router.push( `/detail-page/${post._id}` );
+          {filteredPosts.length === 0 ? (
+            <div className="bg-gray-700 rounded-xl h-80 flex justify-center items-center w-full col-span-4">
+              <div className="text-center text-gray-400 w-full">
+                <h1 className="text-2xl font-semibold">No posts found</h1>
+                <p className="text-sm text-gray-400">
+                  No posts found for "{activeCategory}". Browse other categories.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <>
+              {filteredPosts.map((post: any) => (
+                <div
+                  key={post._id}
+                  className="bg-[#0A090F] cursor-pointer p-5 rounded-lg shadow-lg flex space-x-5 mb-4 border border-[#17161B]"
+                  onClick={() => {
+                router.push( `/${post.permaLink}` );
               }}
             >
               <img
@@ -296,6 +387,8 @@ const ArticlePage = () => {
               </div>
             </div>
           ) )}
+        </>
+          )}
         </div>
       </div>
 
@@ -355,7 +448,7 @@ const ArticlePage = () => {
         </div>
       </div>
       <Footer />
-    </div> 
+    </div>
   );
 };
 

@@ -198,16 +198,16 @@ const Footer = () => {
   return (
     <footer className="bg-[#0A090F] text-white  ">
       <div className="container w-[90%] m-auto pt-8">
-       <div className="flex justify-between gap-10 h-72">
+        <div className="flex justify-between gap-10 h-72">
           {/* Logo & Description */}
           <div className="w-[70%]">
-            
-              <img
-                src="/asset/Block-logo.svg" // Replace this with the actual logo image URL
-                alt="Block Tour"
-                className="w-36 h-auto object-cover"
-              />
-            
+
+            <img
+              src="/asset/Block-logo.svg" // Replace this with the actual logo image URL
+              alt="Block Tour"
+              className="w-36 h-auto object-cover"
+            />
+
             <p className="text-sm text-gray-400 mt-5">
               Block Tour is a web3 news publisher dedicated to delivering the latest, most accurate insights into blockchain and decentralized technologies. Covering everything from cryptocurrencies to NFTs and DeFi, it offers uncensored, real-time news, embodying the transparency and democracy inherent in the web3.
             </p>
@@ -215,46 +215,46 @@ const Footer = () => {
 
 
           <div className="flex justify-between items-center w-full">
-          {/* Go Blocktour Links */}
-          <div>
-            <h4 className="text-xl font-semibold mb-4">Go Blocktour</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-gray-400 hover:text-white">Crypto</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Blockchain</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">NFT</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Web3</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Press Release</a></li>
-            </ul>
-          </div>
+            {/* Go Blocktour Links */}
+            <div>
+              <h4 className="text-xl font-semibold mb-4">Go Blocktour</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="/article?category=crypto" className="text-gray-400 hover:text-white">Crypto</a></li>
+                <li><a href="/article?category=blockchain" className="text-gray-400 hover:text-white">Blockchain</a></li>
+                <li><a href="/article?category=nft" className="text-gray-400 hover:text-white">NFT</a></li>
+                <li><a href="/article?category=web3" className="text-gray-400 hover:text-white">Web3</a></li>
+                <li><a href="/article?category=press-release" className="text-gray-400 hover:text-white">Press Release</a></li>
+              </ul>
+            </div>
 
-          {/* Media Links */}
-          <div>
-            <h4 className="text-xl font-semibold mb-4">Media</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-gray-400 hover:text-white">Articles</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Episodes</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Guides</a></li>
-            </ul>
-          </div>
+            {/* Media Links */}
+            <div>
+              <h4 className="text-xl font-semibold mb-4">Media</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="/article" className="text-gray-400 hover:text-white">Articles</a></li>
+                <li><a href="/podcast-episode" className="text-gray-400 hover:text-white">Episodes</a></li>
+                <li><a href="/guides" className="text-gray-400 hover:text-white">Guides</a></li>
+              </ul>
+            </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-xl font-semibold mb-4">Quick Link</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-gray-400 hover:text-white">About Us</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Contact Us</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Privacy Policy</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Terms & Conditions</a></li>
-            </ul>
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-xl font-semibold mb-4">Quick Link</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="/about-us" className="text-gray-400 hover:text-white">About Us</a></li>
+                <li><a href="/contact-us" className="text-gray-400 hover:text-white">Contact Us</a></li>
+                <li><a href="/privacy-policy" className="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                <li><a href="/terms-and-conditions" className="text-gray-400 hover:text-white">Terms & Conditions</a></li>
+              </ul>
+            </div>
           </div>
-        </div>
         </div>
         {/* Copyright Section */}
-       
+
       </div>
       <div className="text-center text-gray-500 text-sm mt-10 py-2  border-t border-[#1F1D24]">
-          © Copyright - 2024 Block Tour. All rights reserved.
-        </div>
+        © Copyright - 2024 Block Tour. All rights reserved.
+      </div>
 
     </footer>
   );

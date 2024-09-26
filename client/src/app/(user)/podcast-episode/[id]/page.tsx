@@ -1,17 +1,20 @@
 "use client";
 import { getAdminAuthor } from "@/app/redux/feature/admin/api";
-import { getAuthor } from "@/app/redux/feature/contributor/api";
+import { getAuthor, getCurrentUser } from "@/app/redux/feature/contributor/api";
 import { useAppSelector } from "@/app/redux/hooks";
 import DiscussionEmbedComponent from "@/components/DiscussionEmbed";
 import Footer from "@/components/Footer";
 import HtmlContent from "@/components/HtmlContent";
 import instance from "@/utils/axios";
 import { formatDateTime } from "@/utils/DateFormat";
-import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import Link from "next/link";
+import {useRouter} from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
 import { FaFacebookSquare, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { IoLogoYoutube } from "react-icons/io";
-import { IoBookmarkOutline, IoSearchOutline } from "react-icons/io5";
+import { IoSearchOutline } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 
 interface PodcastEpisode {
@@ -33,12 +36,14 @@ interface PodcastEpisode {
 }
 
 const page = ({ params }: { params: { id: string } }) => {
-  const [podcast, setPodcast] = useState<PodcastEpisode | null>(null);
-  const author = useAppSelector(
-    (state: any) => state.contributor?.author || state.superAdmin?.author
-  );
-
+  const [podcast, setPodcast] = useState<PodcastEpisode | null>( null );
+  const [email, setEmail] = useState<string>( "" );
+  const [emailError, setEmailError] = useState<string>( "" );
+  const termsCheckboxRef = useRef<HTMLInputElement>( null );
+  const author = useAppSelector( ( state: any ) => state.contributor?.author || state.superAdmin?.author ); 
+  const user = useAppSelector( ( state: any ) => state.contributor?.currentUser );
   const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     if (podcast) {
@@ -70,7 +75,40 @@ const page = ({ params }: { params: { id: string } }) => {
     if (id) {
       fetchPodcast();
     }
-  }, [id]);
+    if ( Cookies.get( "UserToken" ) && !user ) {
+      getCurrentUser( dispatch );
+    }
+  }, [id, dispatch] );
+  
+  const validateEmail = ( email: string ) => {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test( email );
+  };
+
+  const handleEmailChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+    const newEmail = e.target.value;
+    setEmail( newEmail );
+    if ( newEmail && !validateEmail( newEmail ) ) {
+      setEmailError( "Please enter a valid email address" );
+    } else {
+      if ( termsCheckboxRef.current?.checked ) {
+        setEmailError( "" );
+      } else {
+        setEmailError( "Please agree to the Terms and Conditions and Privacy Policy" );
+      }
+    }
+  };
+  const CreateSubscriber = async () => {
+  try {
+      const response = await instance.post( '/subscriber/subscribers', {email} );
+      alert( `${response.data.message || "Subscribed Successfully"}` );
+      setEmail( "" ); 
+    } catch ( error: any ) {
+      console.error( error );
+      alert( `${error.response.data.message || "There is some error in creating subscriber"}` );
+      setEmailError( "" );
+    }
+  };
 
   return (
     <div>
@@ -90,7 +128,7 @@ const page = ({ params }: { params: { id: string } }) => {
 
                 <h1 className="mt-2 w-[80%] m-auto text-center lg:text-3xl md:text-2xl text-2xl font-medium text-[#BBBBBB] ">
                   {podcast?.title}
-                </h1>
+                </h1> 
 
                 <p className="text-center mt-2 text-[#999999]">
                   {podcast?.permaLink}
@@ -150,13 +188,18 @@ const page = ({ params }: { params: { id: string } }) => {
                   <IoSearchOutline className="h-6 w-6" />
                 </button>
               </div>
-
-              <div className="  flex items-center justify-between py-6">
-                <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg">
-                  Join for free
-                </button>
-                <p className="text-lg hover:underline">Sighn In</p>
-              </div>
+              {user &&
+                <div className="  flex items-center justify-between py-6">
+                  <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg" onClick={() => {
+                    router.push("/auth/user/signup");
+                  }}>
+                    Join for free
+                  </button>
+                  <p className="text-lg hover:underline" onClick={() => {
+                    router.push("/auth/user/login");
+                  }}>Sighn In</p>
+                </div>
+              }
 
               {/* <div className="mt-5">
                 <p className="text-[#999999] mb-2">In this article</p>
@@ -232,9 +275,19 @@ const page = ({ params }: { params: { id: string } }) => {
                     <input
                       type="text"
                       placeholder="Email address"
-                      className="py-4 px-5 rounded-3xl bg-black border border-neutral-700"
+                      value={email}
+                      onChange={handleEmailChange}
+                      className={`bg-[#1F1C2C] border ${emailError ? 'border-red-500' : 'border-[#474457]'
+                        } text-white py-3.5 px-5 rounded-lg w-full focus:outline-none`}
                     />
-                    <button className="py-4 px-12 bg-red-600 hover:bg-red-500 rounded-3xl">
+                    {emailError && (
+                      <p className="text-red-500 text-sm my-1 whitespace-nowrap absolute">{emailError}</p>
+                    )}
+
+                    <button  className="py-4 px-12 bg-red-600 hover:bg-red-500 rounded-3xl"
+                    disabled={ !email || !!emailError}
+                    onClick={CreateSubscriber}
+                    >
                       Join for free
                     </button>
                   </div>
