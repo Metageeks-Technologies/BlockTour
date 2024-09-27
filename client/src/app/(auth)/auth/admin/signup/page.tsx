@@ -57,6 +57,7 @@ export default function Page () {
             src="/asset/Block-logo.svg"
             alt="Cluster Protocol"
             className="mx-auto h-20 w-auto"
+            onClick={()=>router.push("/")}
           />
           <h2 className="mt-6 text-2xl font-extrabold text-white">
             Create Your Account

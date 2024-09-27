@@ -1,33 +1,45 @@
 "use client";
 import {getAdminAuthor} from "@/app/redux/feature/admin/api";
-import {getAuthor} from "@/app/redux/feature/contributor/api";
+import {getAuthor, getCurrentUser} from "@/app/redux/feature/contributor/api";
 import {getPostById} from "@/app/redux/feature/posts/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import DiscussionEmbedComponent from "@/components/DiscussionEmbed";
 import Footer from "@/components/Footer";
 import HtmlContent from "@/components/HtmlContent";
 import {formatDateTime} from "@/utils/DateFormat";
-import {useParams} from "next/navigation";
-import React, {useEffect} from "react";
+import {useParams, useRouter} from "next/navigation";
+import React, {useEffect, useRef, useState} from "react";
 import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
 import {FaFacebookSquare, FaLinkedin, FaTwitter, } from "react-icons/fa";
 import {IoLogoYoutube} from "react-icons/io";
 import {FaXTwitter} from "react-icons/fa6";
+import Cookies from "js-cookie";
+import instance from "@/utils/axios";
+import Link from "next/link";
 
 const CardDetails = () => {
   const {id} = useParams<{id: string;}>();
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const card = useAppSelector( ( state: any ) => state.post.currentPost );
-  const author = useAppSelector(
-    ( state: any ) => state.contributor?.author || state.superAdmin?.author
-  );
+  const author = useAppSelector( ( state: any ) => state.contributor?.author || state.superAdmin?.author );
+  const user = useAppSelector( ( state: any ) => state.contributor?.currentUser );
+  const [email, setEmail] = useState<string>( "" );
+  const [emailError, setEmailError] = useState<string>( "" );
+  const [isTermsAndPrivacy, setIsTermsAndPrivacy] = useState<boolean>( false );
+  const termsCheckboxRef = useRef<HTMLInputElement>( null );
 
   useEffect( () => {
     if ( id ) {
       // dispatch( getPostById( id ) );
       getPostById( dispatch, id );
+      if ( Cookies.get( "UserToken" ) ) {
+        getCurrentUser( dispatch );
+      }
     }
   }, [dispatch, id] );
+
+  console.log( "User:-", user );
 
   useEffect( () => {
     if ( card ) {
@@ -41,14 +53,43 @@ const CardDetails = () => {
     }
   }, [dispatch, card] );
 
-  console.log( author, card );
+  const validateEmail = ( email: string ) => {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test( email );
+  };
+
+  const handleEmailChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+    const newEmail = e.target.value;
+    setEmail( newEmail );
+    if ( newEmail && !validateEmail( newEmail ) ) {
+      setEmailError( "Please enter a valid email address" );
+    } else {
+      setEmailError( "" );
+    }
+  };
+
+  const CreateSubscriber = async () => { 
+    if ( emailError ) {
+      return;
+    }
+    try {
+      const response = await instance.post( '/subscriber/subscribers', {email} );
+      alert( `${response.data.message || "Subscribed Successfully"}` );
+      setEmail( "" );
+      setEmailError( "" );
+    } catch ( error: any ) {
+      console.error( error );
+      alert( `${error.response.data.message || "There is some error in creating subscriber"}` );
+      setEmailError( "" );
+    }
+  };
 
   return (
     <div>
       {/* <Navbar/> */}
       <div className=" lg:ml-40 flex overflow-hidden flex-col items-center pb-6 bg-black  md:px-12 ">
         <div className="flex ">
-          <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full md:pr-8">
+          <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full md:ml-5">
             <div className="flex flex-col w-[85%] m-auto">
               <h1 className="mt-8 lg:text-4xl md:text-2xl text-2xl font-medium text-neutral-300 max-md:mt-10 max-md:max-w-full">
                 {card?.title}
@@ -65,7 +106,7 @@ const CardDetails = () => {
                     <div className="flex gap-2.5 self-start">
                       <div className="px-1.5 py-1 bg-amber-600 text-stone-950">
                         {card?.category.join( ", " )}
-                      </div> 
+                      </div>
                     </div>
 
                     <div className=" text-white text-opacity-50">
@@ -104,10 +145,12 @@ const CardDetails = () => {
                 <div className="mt-5 ">
                   <HtmlContent htmlContent={card?.description || ""} />
                 </div>
-              </div> 
+              </div>
             </div>
           </div>
 
+         
+          
           {/* right */}
           <div className="flex flex-col ml-5 lg:w-[30%] md:w-[35%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col w-full max-md:mt-10 py-4">
@@ -124,12 +167,14 @@ const CardDetails = () => {
                 </button>
               </div>
 
-              <div className="  flex items-center justify-evenly py-6">
-                <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg">
-                  Join for free
-                </button>
-                <p className="text-lg hover:underline">Sign In</p>
-              </div>
+              {!user && (
+                  <div className="  flex items-center justify-evenly py-6">
+                    <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg" onClick={() => router.push("/auth/user/signup")}>
+                      Join for free
+                    </button>
+                    <p className="text-lg hover:underline" onClick={() => router.push("/auth/user/login")}>Sign In</p>
+                  </div>
+                )}
 
               {/* <div className="mt-5">
                 <p className="text-[#999999] mb-2">In this article</p>
@@ -179,14 +224,18 @@ const CardDetails = () => {
                       oin the world’s most popular crypto community with daily
                       alpha, news, & analysis, all free.
                     </p>
+                    {emailError && <p className="text-red-500 text-center">{emailError}</p>}
                     <input
-                      type="text"
+                      type="email"
                       placeholder="Email address"
+                      value={email}
+                      onChange={handleEmailChange}
                       className="py-4 px-5 rounded-3xl bg-black border border-neutral-700"
                     />
-                    <button className="py-4 px-12 bg-red-600 hover:bg-red-500 rounded-3xl">
+                    <button className="py-4 px-12 bg-red-600 hover:bg-red-500 rounded-3xl whitespace-nowrap disabled:cursor-not-allowed" onClick={CreateSubscriber} disabled={!email || !!emailError} >
                       Join for free
                     </button>
+                    
                   </div>
                 </div>
               </div>
@@ -315,53 +364,58 @@ const CardDetails = () => {
           </div>
         </div>
 
-     
+
         {/* Comment section */}
-        <div className="mt-20 max-w-full w-[1192px] max-md:mt-10 ">
+        <div className="mt-20 max-w-full w-[86%] max-md:mt-10 ">
           {card && <DiscussionEmbedComponent article={card} />}
         </div> 
-        <div className="flex  shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" />
+        {/* <div className="flex  shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" /> */}
       </div>
 
-      <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg ">
-        <div className="py-10 border-b flex border-neutral-800">
-          <div className="flex flex-col gap-5">
+
+     
+      <div className="mt-5 lg:ml-52 rounded-lg px-20">
+        <div className="py-10 flex border-neutral-800">
+          <div className="flex flex-col gap-3">
             <img
               src={author?.profileImage}
               alt={author?.name || "No author found"}
               className="h-14 w-14 rounded-full object-cover"
             />
 
-            <h1>{author?.name || "Unknown"}</h1>
+            <h1 className="xl font-semibold"> Written by {author?.name || "Unknown"}</h1>
 
-            <div className="flex gap-5 items-center">
+            <div className="flex gap-3 items-center">
               <div className="flex gap-2">
                 <p>{author?.posts?.length} Articles</p>
                 {/* <p className="text-red-600">View All</p> */}
               </div>
 
               <div className="flex gap-1">
-                <div className="w-10 cursor-pointer h-10 bg-[#4e4e50] rounded-full flex justify-center items-center">
-                  <FaLinkedin className="w-5 h-5" />
+                <div className="w-8 cursor-pointer h-8 bg-[#4e4e50] rounded-full flex justify-center items-center">
+                  <FaLinkedin className="w-4 h-4" />
                 </div>
 
-                <div className="w-10 h-10 cursor-pointer bg-[#4e4e50] rounded-full flex justify-center items-center">
-                  <FaTwitter className="w-5 h-5" />
+                <div className="w-8 h-8 cursor-pointer bg-[#4e4e50] rounded-full flex justify-center items-center">
+                  <FaTwitter className="w-4 h-4" />
                 </div>
               </div>
             </div>
-
-          </div>
-            <p className="text-justify pr-36 text-[#ADADAD]">
+            
+            <p className="text-justify text-sm text-[#ADADAD] w-[80%]">
                 {author?.bio}
             </p>
+
+          </div>
+           
         </div>
       </div>
+      
       
 
 
 
-      <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg">
+      <div className="lg:ml-52 bg-[#0A090F] rounded-lg">
         {/* <div className="py-10 border-b border-neutral-800">
           <div className="flex flex-col gap-5">
             <img
@@ -408,10 +462,10 @@ const CardDetails = () => {
 
                 <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                   <FaXTwitter className="w-5 h-5" />
-                </div> 
+                </div>
                 <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                   <FaFacebookSquare className="w-5 h-5" />
-                </div> 
+                </div>
                 <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                   <IoLogoYoutube className="w-5 h-5" />
                 </div>
@@ -420,32 +474,53 @@ const CardDetails = () => {
 
             <div className="">
               <h1 className="text-3xl pb-2 font-semibold text-[#FFFFFF]">Receive your daily crypto update</h1>
-              <div className="flex items-center gap-4"> 
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="bg-[#1F1C2C] border border-[#474457] text-white py-3.5 px-5 rounded-lg  w-full sm:w-96 focus:outline-none"
-                /> 
-                <button className="bg-orange-500 text-white px-10 py-3.5 rounded-lg hover:bg-orange-600 transition">
-                  Join for Free
-                </button>
-              </div> 
-              {/* Terms and Privacy */}
-              <div className="flex items-center mt-4">
-                <input type="checkbox" id="agree" className="mr-2" />
-                <label htmlFor="agree" className="text-gray-400 text-sm">
-                  By joining, I agree to the Blockbar{" "}
-                  <a href="#" className="underline text-gray-300">
-                    Terms and Privacy
-                  </a>{" "}
-                  statements.
-                </label>
+              <div className="w-full">
+                <div className="flex items-center gap-4">
+                  <div className="relative w-full sm:w-96">
+                    <input
+                      type="email"
+                      placeholder="Enter your email address"
+                      value={email}
+                      onChange={handleEmailChange}
+                      className={`bg-[#1F1C2C] border ${emailError ? 'border-red-500' : 'border-[#474457]'
+                        } text-white py-3.5 px-5 rounded-lg w-full focus:outline-none`}
+                    />
+                    {emailError && (
+                      <p className="text-red-500 text-sm my-1 whitespace-nowrap absolute">{emailError}</p>
+                    )}
+                  </div>
+                  <button
+                    className="bg-orange-500 whitespace-nowrap text-white px-10 py-3.5 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg hover:bg-orange-600 transition"
+                    disabled={ !email || !!emailError}
+                    onClick={CreateSubscriber}
+                  >
+                    Join for Free
+                  </button>
+                </div>
+
+                {/* Terms and Privacy */}
+                <div className="flex items-center mt-8">
+                  <input type="checkbox" id="agree" className="mr-2 focus:outline-1" ref={termsCheckboxRef} onChange={() => {
+                    setIsTermsAndPrivacy( !isTermsAndPrivacy );
+                    handleEmailChange( {target: {value: email}} as React.ChangeEvent<HTMLInputElement> );
+                  }} />
+                  <label htmlFor="agree" className="text-gray-400 text-sm">
+                    By joining, I agree to the Blockbar{" "}
+                    <a href="/terms-and-conditions" className="underline text-gray-300">
+                      Terms and Conditions
+                    </a>{" "}
+                    <a href="/privacy-policy" className="underline text-gray-300">
+                      Privacy Policy
+                    </a>{" "}
+                    statements.
+                  </label>
+                </div>
               </div>
-            </div> 
+            </div>
           </div>
-        </div> 
+        </div>
         <Footer />
-      </div> 
+      </div>
     </div>
   );
 };

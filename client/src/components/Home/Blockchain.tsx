@@ -33,7 +33,7 @@ const Blockchain = () => {
         </div>
         {publishedPosts.length === 0 ? (
           <div className="animate-pulse">
-            <div className="flex flex-col gap-y-10 lg:basis-[69%] md:basis-[60%]"> 
+            <div className="flex flex-col gap-y-10 lg:basis-[69%] md:basis-[60%]">
               {[...Array( 4 )].map( ( _, index ) => (
                 <div key={index} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full">
                   <div className="h-56 lg:w-80 md:w-full bg-gray-300"></div>
@@ -55,7 +55,7 @@ const Blockchain = () => {
           </div>
         ) : (
           publishedPosts.map( ( card: any ) => (
-            <div key={card.id} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => { router.push( `/detail-page/${card._id}` ); }}>
+            <div key={card.id} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {router.push( `/article/${card.permaLink}` );}}>
               {card.postType?.toLowerCase() === "video post" ? (
                 <video
                   src={card.previewImageUrl}
@@ -72,16 +72,16 @@ const Blockchain = () => {
               )}
 
               <div>
-                <h1 className="text-2xl text-white font-semibold">
+                <h1 className="text-2xl text-white font-semibold line-clamp-2">
                   {card.title}
                 </h1>
                 <div className="mt-1 flex gap-3 items-center">
                   <button className="bg-[#DF841C] py-0.5 px-3">
                     {card.category.join( ", " )}
                   </button>
-                  <p className="text-sm text-neutral-400">{formatDateTime(card.createdAt)}</p>
+                  <p className="text-sm text-neutral-400">{formatDateTime( card.createdAt )}</p>
                 </div>
-                <div className="text-neutral-400 mt-5 line-clamp-5" dangerouslySetInnerHTML={{__html: card?.description}} />
+                <div className="text-neutral-400 mt-5 line-clamp-4" dangerouslySetInnerHTML={{__html: card?.description}} />
               </div>
             </div>
           ) )

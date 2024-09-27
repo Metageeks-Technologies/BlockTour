@@ -51,6 +51,7 @@ const Page = () => {
               src="/asset/Block-logo.svg"
               alt="Cluster Protocol"
               className="mx-auto h-20 w-auto"
+              onClick={()=>router.push("/")}
             />
             <h2 className="mt-6 text-2xl font-extrabold text-white">
               Login to Your Account!
@@ -155,18 +156,9 @@ const Page = () => {
               </button>
             </div>
           </div>
-          <div className="mt-6 text-center text-sm text-neutral-400">
-            Don't have an account?{" "}
-            <a
-              href="/auth/admin/signup"
-              className="font-medium text-white hover:text-gray-300 underline"
-            >
-              Sign Up
-            </a>
-          </div>
         </div>
       </div>
-      <ToastContainer />
+      
       </>
   );
 };

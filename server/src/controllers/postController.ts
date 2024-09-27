@@ -78,6 +78,53 @@ export const getPostById = async ( req: Request, res: Response ) => {
   }
 };
 
+// get post by permaLink
+// export const getPostByPermaLink = async (req: Request, res: Response) => {
+//   const { permaLink } = req.params;
+//   try {
+//     const post = await Post.findOne({ permaLink });
+//     if (post) {
+//       res.status(200).json({ message: 'Post retrieved successfully', success: true, post });
+//     } else {
+//       res.status(404).json({ success: false, error: 'Post not found' });
+//     }
+//   } catch (error: any) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Unable to retrieve post', details: error.message });
+//   }
+// };
+
+export const getPostByPermaLink = async (req: Request, res: Response) => {
+  const { permaLink } = req.params;
+  try {
+    // First, try to find an exact match
+    let post = await Post.findOne({ permaLink });
+
+    // If no exact match is found, search for similar permalinks
+    if (!post) {
+      const regex = new RegExp(permaLink, 'i'); // 'i' flag for case-insensitive search
+      const similarPosts = await Post.find({ permaLink: regex }).limit(5);
+
+      if (similarPosts.length > 0) {
+        return res.status(200).json({
+          message: 'Similar posts found',
+          success: true,
+          post: similarPosts,
+        });
+      }
+    }
+
+    if (post) {
+      res.status(200).json({ message: 'Post retrieved successfully', success: true, post: post });
+    } else {
+      res.status(404).json({ success: false, error: 'No posts found with similar permalinks' });
+    }
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ error: 'Unable to retrieve post', details: error.message });
+  }
+};
+
 // Update a post by ID
 export const updatePost = async ( req: Request, res: Response ) => {
   const {id} = req.params;

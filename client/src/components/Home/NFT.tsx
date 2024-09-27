@@ -4,13 +4,13 @@ import {useRouter} from "next/navigation";
 import {formatDateTime} from "@/utils/DateFormat";
 const NFT = () => {
   const router = useRouter();
-  const posts = useAppSelector((state: any) => state.post.posts);
-  const publishedPosts = posts.filter((post: any) => post.status.toLowerCase() === "published" && ["NFT", "nft", "Nft"].some(category => post.category.includes(category))) .reverse().slice(0, 3);
+  const posts = useAppSelector( ( state: any ) => state.post.posts );
+  const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && ["NFT", "nft", "Nft"].some( category => post.category.includes( category ) ) ).reverse().slice( 0, 3 );
   console.log( publishedPosts );
   return (
     <div className="gap-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-      {publishedPosts.map((post: any, index: number) => (
-        <div key={post._id} className="flex flex-col max-md:ml-0 max-md:w-full cursor-pointer" onClick={() => router.push( `/detail-page/${post._id}` )}>
+      {publishedPosts.map( ( post: any, index: number ) => (
+        <div key={post._id} className="flex flex-col max-md:ml-0 max-md:w-full cursor-pointer" onClick={() => router.push( `/article/${post.permaLink}` )}>
           <div className="flex relative flex-col w-full aspect-[0.974]">
             {post.previewImageUrl ? (
               <img
@@ -30,7 +30,7 @@ const NFT = () => {
                 <button className="px-2 whitespace-nowrap bg-amber-600 text-stone-950">
                   {post.category}
                 </button>
-                <p className="my-auto text-neutral-500">{formatDateTime(post.createdAt)}</p>
+                <p className="my-auto text-neutral-500">{formatDateTime( post.createdAt )}</p>
               </div>
             </div>
           </div>

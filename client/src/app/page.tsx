@@ -11,6 +11,7 @@ import {useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "./redux/hooks";
 import {getAllPosts} from "./redux/feature/posts/api";
 import {getAllCategories} from "./redux/feature/category/api";
+import BlogMarquee from "@/components/Marquee";
 
 export default function Home () {
   const dispatch = useAppDispatch();
@@ -22,6 +23,8 @@ export default function Home () {
 },[])
 
   return (
+    <div>
+      <BlogMarquee/>
     <div className="flex overflow-hidden flex-col bg-black max-md:pb-24">
       <div className="flex overflow-hidden relative flex-col items-center lg:px-20 md:px-4 px-4  w-full min-h-[740px] max-md:px-5 max-md:max-w-full">
         <img
@@ -157,6 +160,7 @@ export default function Home () {
         <div className="flex shrink-0 mt-16 max-w-full h-px border-t border-white border-opacity-10 w-full max-md:mt-10" />
       </div>
       <Footer />
+    </div>
     </div>
   );
 }

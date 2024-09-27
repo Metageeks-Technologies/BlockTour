@@ -3,6 +3,10 @@
 // import axios from 'axios';
 // import React, {useState} from 'react';
 
+import {FaFacebookSquare, FaInstagram, FaLinkedin} from "react-icons/fa";
+import {FaXTwitter} from "react-icons/fa6";
+import {IoLogoYoutube} from "react-icons/io";
+
 // const Footer = () => {
 //   const [email, setEmail] = useState( "" );
 
@@ -197,66 +201,138 @@
 const Footer = () => {
   return (
     <footer className="bg-[#0A090F] text-white  ">
-      <div className="container w-[90%] m-auto pt-8">
-       <div className="flex justify-between gap-10 h-72">
-          {/* Logo & Description */}
-          <div className="w-[70%]">
-            
-              <img
-                src="/asset/Block-logo.svg" // Replace this with the actual logo image URL
-                alt="Block Tour"
-                className="w-36 h-auto object-cover"
+
+      <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
+        <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
+          <div className="flex flex-col gap-5">
+            <h1 className="text-2xl font-semibold text-[#FFFFFF]">
+              Get connected
+            </h1>
+
+            <div className="flex gap-3">
+              {/* LinkedIn */}
+              <a href="https://www.linkedin.com/company/blocktourmedia" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaLinkedin className="w-5 h-5" />
+                </div>
+              </a>
+
+              {/* Twitter */}
+              <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaXTwitter className="w-5 h-5" />
+                </div>
+              </a>
+
+              {/* Facebook */}
+              <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaFacebookSquare className="w-5 h-5" />
+                </div>
+              </a>
+
+              {/* YouTube */}
+              <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaInstagram className="w-5 h-5" />
+                </div>
+              </a>
+            </div>
+
+          </div>
+
+          <div className="">
+            <h1 className="text-3xl text-[#FFFFFF] pb-3">
+              Receive your daily crypto update
+            </h1>
+            <div className="flex items-center gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className="bg-[#1F1C2C] border border-[#474457] text-white py-3.5 px-5 rounded-lg  w-full sm:w-96 focus:outline-none"
               />
-            
+              <button className="bg-orange-500 text-white px-10 py-3.5 rounded-lg hover:bg-orange-600 transition">
+                Join for Free
+              </button>
+            </div>
+
+            {/* Terms and Privacy */}
+            <div className="flex items-center mt-4">
+              <input type="checkbox" id="agree" className="mr-2" />
+              <label htmlFor="agree" className="text-gray-400 text-sm">
+                By joining, I agree to the Blockbar{" "}
+                <a href="#" className="underline text-gray-300">
+                  Terms and Privacy
+                </a>{" "}
+                statements.
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container w-[90%] m-auto pt-8">
+        <div className="flex justify-between gap-5 h-72">
+          {/* Logo & Description */}
+          <div className="basis-[40%]">
+
+            <img
+              src="/asset/Block-logo.svg" // Replace this with the actual logo image URL
+              alt="Block Tour"
+              className="w-36 h-auto object-cover"
+            />
+
             <p className="text-sm text-gray-400 mt-5">
               Block Tour is a web3 news publisher dedicated to delivering the latest, most accurate insights into blockchain and decentralized technologies. Covering everything from cryptocurrencies to NFTs and DeFi, it offers uncensored, real-time news, embodying the transparency and democracy inherent in the web3.
             </p>
           </div>
 
-
-          <div className="flex justify-between items-center w-full">
+           <div className="flex items-center basis-[55%] mt-1">
+          <div className="flex justify-between w-full">
           {/* Go Blocktour Links */}
           <div>
-            <h4 className="text-xl font-semibold mb-4">Go Blocktour</h4>
+            <h4 className="text-xl font-semibold mb-2">Go Blocktour</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-gray-400 hover:text-white">Crypto</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Blockchain</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">NFT</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Web3</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Press Release</a></li>
+                  <li><a href="/article?category=crypto" className="text-gray-400 hover:text-white">Crypto</a></li>
+              <li><a href="/article?category=blockchain" className="text-gray-400 hover:text-white">Blockchain</a></li>
+              <li><a href="/article?category=nft" className="text-gray-400 hover:text-white">NFT</a></li>
+              <li><a href="/article?category=web3" className="text-gray-400 hover:text-white">Web3</a></li>
+              <li><a href="/article?category=press-release" className="text-gray-400 hover:text-white">Press Release</a></li>
             </ul>
           </div>
 
           {/* Media Links */}
           <div>
-            <h4 className="text-xl font-semibold mb-4">Media</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-gray-400 hover:text-white">Articles</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Episodes</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Guides</a></li>
+            <h4 className="text-xl font-semibold mb-2">Media</h4>
+                <ul className="space-y-2 text-sm">
+                  <li><a href="/article" className="text-gray-400 hover:text-white">Articles</a></li>
+              <li><a href="/podcast-episode" className="text-gray-400 hover:text-white">Episodes</a></li>
+              <li><a href="/guides" className="text-gray-400 hover:text-white">Guides</a></li>
+
             </ul>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-xl font-semibold mb-4">Quick Link</h4>
+            <h4 className="text-xl font-semibold mb-2">Quick Link</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-gray-400 hover:text-white">About Us</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Contact Us</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Privacy Policy</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Terms & Conditions</a></li>
+              <li><a href="/about-us" className="text-gray-400 hover:text-white">About Us</a></li>
+              <li><a href="/contact-us" className="text-gray-400 hover:text-white">Contact Us</a></li>
+              <li><a href="/privacy-policy" className="text-gray-400 hover:text-white">Privacy Policy</a></li>
+              <li><a href="/terms-and-conditions" className="text-gray-400 hover:text-white">Terms & Conditions</a></li>
             </ul>
           </div>
         </div>
         </div>
-        {/* Copyright Section */}
-       
-      </div>
-      <div className="text-center text-gray-500 text-sm mt-10 py-2  border-t border-[#1F1D24]">
-          © Copyright - 2024 Block Tour. All rights reserved.
         </div>
+  {/* Copyright Section */}
 
-    </footer>
+      </div >
+  <div className="text-center text-gray-500 text-sm mt-10 py-2  border-t border-[#1F1D24]">
+    © Copyright - 2024 Block Tour. All rights reserved.
+  </div>
+
+    </footer >
   );
 };
 
