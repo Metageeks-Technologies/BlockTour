@@ -85,7 +85,7 @@ const PodcastPage = () => {
 
   const handleCategoryClick = (category: string) => {
     setActiveCategory(category);
-    router.push(`/podcast-episode?category=${category}`);
+    router.push( `/podcast-episode?category=${category.toLowerCase().replace( / /g, "-" )}` ); 
   };
 
   const LoadingSkeleton = () => (

@@ -29,7 +29,7 @@ interface Contributor {
   contributor: boolean;
 }
 
-const Dashboard: React.FC = () => {
+const AdminDashboard: React.FC = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'posts' | 'contributors'>( 'posts' );
   const [posts, setPosts] = useState<Post[]>( [] );
@@ -312,4 +312,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default AdminDashboard;
