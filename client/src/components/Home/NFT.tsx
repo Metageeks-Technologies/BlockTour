@@ -10,7 +10,7 @@ const NFT = () => {
   return (
     <div className="gap-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
       {publishedPosts.map( ( post: any, index: number ) => (
-        <div key={post._id} className="flex flex-col max-md:ml-0 max-md:w-full cursor-pointer" onClick={() => router.push( `/article/${post.permaLink}` )}>
+        <div key={post._id} className="flex group flex-col max-md:ml-0 max-md:w-full cursor-pointer" onClick={() => router.push( `/article/${post.permaLink}` )}>
           <div className="flex relative flex-col w-full aspect-[0.974]">
             {post.previewImageUrl ? (
               <img
@@ -25,7 +25,7 @@ const NFT = () => {
               </div>
             )}
             <div className="py-3 rounded-xl bg-stone-950  ">
-              <h1 className="text-xl font-medium leading-7 mb-3">{post.title}</h1>
+              <h1 className="text-xl font-medium leading-7 mb-3 group-hover:text-[#DF841C]">{post.title}</h1>
               <div className="flex gap-3">
                 <button className="px-2 whitespace-nowrap bg-amber-600 text-stone-950">
                   {post.category}

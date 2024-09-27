@@ -13,23 +13,27 @@ import instance from "@/utils/axios";
 import { notifyError, notifyWarn } from "@/utils/toast";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { getCurrentUser } from "@/app/redux/feature/contributor/api";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {getAllCategories} from "@/app/redux/feature/category/api";
+import Cookies from "js-cookie";
 
 // Dynamically import ReactQuill with SSR disabled
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const AddPostPage = () => {
+  const {slug} = useParams<{slug: string;}>();
+  
   const [image, setImage] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [sliderImages, setSliderImages] = useState<File[]>([]);
   const [previewImage, setPreviewImage] = useState<File | null>(null);
+  const [card, setCard] = useState<any>( null );
   const user = useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
   const categories = useAppSelector( ( state: any ) => state.category.categories ) || [];
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  console.log("user:-", user);
+  
   useEffect( () => { 
     getCurrentUser( dispatch );
     getAllCategories( dispatch );
@@ -45,11 +49,12 @@ const AddPostPage = () => {
     category: [] as string[],
     tags: [] as string[],
     postSliderImageUrl: [] as string[],
-    previewImageUrl: "",
+    previewImageUrl:"",
     creatorId: "",
     authorName: "",
+    _id:""
   });
-
+  console.log("data:-", data);
   const getUploadUrl = useCallback(
     async (fileName: string): Promise<string> => {
       try {
@@ -139,45 +144,69 @@ const AddPostPage = () => {
     []
   );
 
+
+  const getPostBySlug = async () => {
+    try {
+        const response = await instance.get( `/post/posts/${slug}` );
+        console.log( "response", response );
+       
+            setData( response.data.post );
+        
+    } catch ( error: any ) {
+        console.error( error );
+    }
+};
+
+
+useEffect( () => {
+  if ( slug ) {
+     
+      getPostBySlug();
+      
+     
+  }
+}, [dispatch, slug] )
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); 
 
-    if (!previewImage) {
-      alert("Please select a preview image");
-      return;
-    }
+    // if (!previewImage) {
+    //   alert("Please select a preview image");
+    //   return;
+    // }
 
     setIsLoading(true);
     try {
-      const postSliderImageUrl = await Promise.all(
-        sliderImages.map((image) => handleUpload(image))
-      );
-      const previewImageUrl = await handleUpload(previewImage);
+      // const postSliderImageUrl = await Promise.all(
+      //   sliderImages.map((image) => handleUpload(image))
+      // );
+      // const previewImageUrl = await handleUpload(previewImage);
 
-      if (!previewImageUrl) {
-        notifyWarn("Failed to upload preview image to AWS S3");
-        return;
-      }
+      // if (!previewImageUrl) {
+      //   notifyWarn("Failed to upload preview image to AWS S3");
+      //   return;
+      // }
 
       const updatedData = {
         ...data,
         creatorId: user?._id,
         authorName: user?.name,
-        postSliderImageUrl: postSliderImageUrl.filter(
-          (url) => url !== null
-        ) as string[],
-        previewImageUrl,
+        status:"Draft"
+        // postSliderImageUrl: postSliderImageUrl.filter(
+        //   (url) => url !== null
+        // ) as string[],
+        // previewImageUrl,
       };
 
-      const response = await instance.post(
-        "/post/contributor/posts",
+      const response = await instance.put(
+        `post/contributor/post/${data._id}`,
         updatedData
       );
-      alert("post created sucessfull");
+      alert("post updated sucessfull");
       console.log( "Form submitted successfully:", response.data );
-      if ( response.status === 201 ) {
+     
         createNotification( user?.name, user?.profileImage,user?._id,data?.title )
-      }
+      
       setData({
         title: "",
         permaLink: "",
@@ -192,6 +221,7 @@ const AddPostPage = () => {
         previewImageUrl: "",
         creatorId: "",
         authorName: "",
+        _id:""
       } );
       router.push( "/dashboard" );
     } catch (error: any) {
@@ -209,35 +239,18 @@ const AddPostPage = () => {
         senderName,
         senderImage,
         receiver: "66e26d8324ac899fcb8c641e",
-        message: `A new post ${title} has been created by ${senderName}. Please review and publish it`,
+        message: `A new post ${title} has been updated by ${senderName}. Please review and publish it`,
       } );
-      console.log( "response after creating notification:-", response );
+      console.log( "response after updateding notification:-", response );
     } catch ( error ) {
-      console.error( "Error creating notification:", error );
+      console.error( "Error updated notification:", error );
     }
   };
 
   return (
-    <div className=" lg:ml-64  bg-[#0A090F] text-white sm:m-4 sm:my-4 my-2   sm:rounded-2xl border border-[#28272D]">
-      {!user.contributor ? (
-        <div className="flex h-[40rem] justify-center items-center">
-        <div className="flex flex-col items-center justify-center">
-          <img
-            src="/asset/Group 13267.svg"
-            alt="Not a contributor"
-            className="h-30 w-30"
-          />
-          <h1 className="font-semibold text-2xl mt-6">
-            You are not a contributor.
-          </h1>
-          <p className="text-center text-sm text-[#999999] mt-0.5">
-            Once admin approves you then you can make a post,
-            <br />
-            it takes up to 48 hrs.
-          </p>
-        </div>
-      </div>
-      ) : (
+    <div className="lg:ml-56">
+    <div className=" bg-[#0A090F] text-white sm:rounded-2xl border border-[#28272D]">
+      
         <div>
           <div className="border-b border-[#28272D] sm:px-4 py-4">
             <h1 className="text-2xl px-4">Add New Post</h1>
@@ -373,16 +386,16 @@ const AddPostPage = () => {
                     </button>
                   </label>
                 </div>
-                {sliderImages.length > 0 && (
+                {data?.postSliderImageUrl.length > 0 && (
                   <div className="mt-4">
                     <h4 className="text-sm font-medium mb-2 text-[#7B7A7F]">
                       Selected Images:
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {sliderImages.map((image, index) => (
+                      {data?.postSliderImageUrl.map((image, index) => (
                         <div key={index} className="relative">
                           <img
-                            src={URL.createObjectURL(image)}
+                            src={image}
                             alt={`Slider image ${index + 1}`}
                             className="w-20 h-20 object-cover rounded"
                           />
@@ -565,13 +578,13 @@ const AddPostPage = () => {
                       />
                     </label>
                   </div>
-                  {previewImage && (
+                  {data?.previewImageUrl && (
                     <div className="mt-4 px-4">
                       <h4 className="text-sm font-medium mb-2 text-[#7B7A7F]">
                         Selected Preview Image:
                       </h4>
                       <img
-                        src={URL.createObjectURL(previewImage)}
+                        src={data.previewImageUrl}
                         alt="Preview"
                         className="w-full h-40 object-cover rounded"
                       />
@@ -601,7 +614,8 @@ const AddPostPage = () => {
             
           </form>
         </div>
-      )}
+    
+    </div>
     </div>
   );
 };

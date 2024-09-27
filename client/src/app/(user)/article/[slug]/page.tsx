@@ -10,7 +10,7 @@ import {formatDateTime} from "@/utils/DateFormat";
 import {useParams, useRouter} from "next/navigation";
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
-import {FaFacebookSquare, FaLinkedin, FaTwitter, } from "react-icons/fa";
+import {FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter, } from "react-icons/fa";
 import {IoLogoYoutube} from "react-icons/io";
 import {FaXTwitter} from "react-icons/fa6";
 import Cookies from "js-cookie";
@@ -601,23 +601,39 @@ const CardDetails = () => {
                 <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
                     <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
                         <div className="flex flex-col gap-5">
-                            <h1 className="text-2xl font-semibold ">Get connected</h1>
+                            <h1 className="text-2xl font-semibold ">Get connected</h1>                    
+            <div className="flex gap-3">
+              {/* LinkedIn */}
+              <a href="https://www.linkedin.com/company/blocktourmedia" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaLinkedin className="w-5 h-5" />
+                </div>
+              </a>
 
-                            <div className="flex gap-3">
-                                <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
-                                    <FaLinkedin className="w-5 h-5" />
-                                </div>
+              {/* Twitter */}
+              <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaXTwitter className="w-5 h-5" />
+                </div>
+              </a>
 
-                                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                                    <FaXTwitter className="w-5 h-5" />
-                                </div>
-                                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                                    <FaFacebookSquare className="w-5 h-5" />
-                                </div>
-                                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                                    <IoLogoYoutube className="w-5 h-5" />
-                                </div>
-                            </div>
+              {/* Facebook */}
+              <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaFacebookSquare className="w-5 h-5" />
+                </div>
+              </a>
+
+              {/* YouTube */}
+              <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaInstagram className="w-5 h-5" />
+                </div>
+              </a>
+            </div>
+
+
+
                         </div>
 
                         <div className="">

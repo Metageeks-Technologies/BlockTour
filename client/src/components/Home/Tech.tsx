@@ -57,7 +57,7 @@ const Tech = () => {
           </div>
         ) : (
           publishedPosts.map( ( card: any ) => (
-            <div key={card.id} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {
+            <div key={card.id} className="flex group lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {
               router.push( `/article/${card.permaLink}` );
             }}>
               {card.postType?.toLowerCase() === "video post" ? (
@@ -76,7 +76,7 @@ const Tech = () => {
               )}
 
               <div>
-                <h1 className="text-2xl text-white font-semibold line-clamp-2">
+                <h1 className="text-2xl text-white font-semibold line-clamp-2 group-hover:text-[#DF841C]">
                   {card.title}
                 </h1>
                 <div className="mt-1 flex gap-3 items-center">
@@ -105,9 +105,9 @@ const Tech = () => {
 
           <div className="flex gap-5 mt-5 max-md:mt-10 ">
             <div className="flex flex-col grow shrink-0 items-start max-w-full text-sm font-medium leading-5 basis-0 text-zinc-300 w-fit">
-              <div className="flex gap-5 mt-5 justify-between items-center">
+              <div className="flex gap-5 mt-5 justify-between items-center group">
                 <div>
-                  <p className="text-sm text-white ">
+                  <p className="text-sm text-white group-hover:text-[#DF841C] ">
                     Crypto Company Genesis, Despite Failure, Given
                     Permission...
                   </p>
@@ -122,9 +122,9 @@ const Tech = () => {
                 />
               </div>
 
-              <div className="flex gap-5  mt-8 justify-between items-center">
+              <div className="flex gap-5  mt-8 justify-between items-center group">
                 <div>
-                  <p className="text-sm text-white ">
+                  <p className="text-sm text-white group-hover:text-[#DF841C] ">
                     International money transfers hit $613 billion this
                     year...
                   </p>
@@ -139,9 +139,9 @@ const Tech = () => {
                 />
               </div>
 
-              <div className="flex gap-5 mt-8 justify-between items-center">
+              <div className="flex gap-5 mt-8 justify-between items-center group">
                 <div>
-                  <p className="text-sm text-white ">
+                  <p className="text-sm text-white group-hover:text-[#DF841C] ">
                     NYDFS Releases Updated for Consumer Complaints...
                   </p>
                   <p className="text-neutral-400 mt-3">
@@ -155,9 +155,9 @@ const Tech = () => {
                 />
               </div>
 
-              <div className="flex gap-5  mt-8 justify-between items-center">
+              <div className="flex gap-5  mt-8 justify-between items-center group">
                 <div>
-                  <p className="text-sm text-white ">
+                  <p className="text-sm text-white group-hover:text-[#DF841C]">
                     Trump could hit France with more tariffs in battle over
                     taxes on big tech
                   </p>
@@ -174,12 +174,12 @@ const Tech = () => {
               <div className="mt-14 text-2xl font-medium leading-none text-neutral-400 max-md:mt-10">
                 Archives
               </div>
-              <div className="mt-8 text-sm text-zinc-300">August 2024</div>
-              <div className="mt-6 text-sm text-zinc-300">July 2024 </div>
-              <div className="mt-6 text-sm text-zinc-300">June 2024 </div>
-              <div className="mt-7 text-sm text-zinc-300">May 2024</div>
-              <div className="mt-6 text-sm text-zinc-300">April 2024</div>
-              <div className="mt-6 text-sm text-zinc-300">March 2024</div>
+              <div className="mt-8 text-sm text-zinc-300 hover:text-[#DF841C]">August 2024</div>
+              <div className="mt-6 text-sm text-zinc-300 hover:text-[#DF841C]">July 2024 </div>
+              <div className="mt-6 text-sm text-zinc-300 hover:text-[#DF841C]">June 2024 </div>
+              <div className="mt-7 text-sm text-zinc-300 hover:text-[#DF841C]">May 2024</div>
+              <div className="mt-6 text-sm text-zinc-300 hover:text-[#DF841C]">April 2024</div>
+              <div className="mt-6 text-sm text-zinc-300 hover:text-[#DF841C]">March 2024</div>
             </div>
           </div>
         </div>
