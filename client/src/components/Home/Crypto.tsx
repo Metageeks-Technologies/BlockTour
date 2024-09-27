@@ -104,24 +104,24 @@ const CryptoPage = () => {
 
           <div className="flex gap-5 mt-5 max-md:mt-10 ">
             <div className="flex flex-col grow shrink-0 items-start max-w-full text-sm font-medium leading-5 basis-0 text-zinc-300 w-fit">
-            
-              {musicPosts.map( ( card: any ) => ( 
+
+              {musicPosts.map( ( card: any ) => (
                 <div key={card._id} className="flex gap-5 mt-5 justify-between items-center">
-                <div>
-                  <p className="text-sm text-white ">
-                    {card.title}
-                  </p>
-                  <p className="text-neutral-400 mt-3">
+                  <div>
+                    <p className="text-sm text-white ">
+                      {card.title}
+                    </p>
+                    <p className="text-neutral-400 mt-3">
                       {formatDateTime( card.createdAt )}
-                  </p>
+                    </p>
+                  </div>
+                  <img
+                    src={card.previewImageUrl}
+                    alt=""
+                    className="w-20 h-20 object-cover"
+                  />
                 </div>
-                <img
-                  src={card.previewImageUrl}
-                  alt=""
-                  className="w-20 h-20 object-cover"
-                />
-              </div>
-              ))} 
+              ) )}
               <div className="mt-14 text-2xl font-medium leading-none text-neutral-400 max-md:mt-10">
                 Archives
               </div>

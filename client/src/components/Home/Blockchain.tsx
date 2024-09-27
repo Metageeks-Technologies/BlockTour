@@ -55,7 +55,7 @@ const Blockchain = () => {
           </div>
         ) : (
           publishedPosts.map( ( card: any ) => (
-            <div key={card.id} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {router.push( `/article/${card.permaLink}` );}}>
+            <div key={card.id} className="flex group lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {router.push( `/article/${card.permaLink}` );}}>
               {card.postType?.toLowerCase() === "video post" ? (
                 <video
                   src={card.previewImageUrl}
@@ -72,7 +72,7 @@ const Blockchain = () => {
               )}
 
               <div>
-                <h1 className="text-2xl text-white font-semibold line-clamp-2">
+                <h1 className="text-2xl group-hover:text-[#DF841C] text-white font-semibold line-clamp-2">
                   {card.title}
                 </h1>
                 <div className="mt-1 flex gap-3 items-center">
@@ -90,7 +90,7 @@ const Blockchain = () => {
 
       <div className="flex flex-col ml-5  lg:basis-[31%]  md:basis-[40%] max-md:ml-0 max-md:w-full">
         <div className="flex flex-col mt-3.5 w-full max-md:mt-10">
-          <div className="flex overflow-hidden gap-5 justify-between w-full  bg-neutral-800">
+          <div className="flex overflow-hidden gap-5 justify-between w-full  cursor-pointer hover:bg-[#557eca]  bg-neutral-800">
             <div className="flex gap-2 items-center">
               <div className="flex relative flex-col justify-center items-end self-stretch px-4 py-2 ">
                 <img
@@ -112,7 +112,7 @@ const Blockchain = () => {
             </div>
           </div>
 
-          <div className="flex overflow-hidden gap-5 justify-between mt-2.5 w-full bg-neutral-800">
+          <div className="flex overflow-hidden gap-5 justify-between mt-2.5 w-full bg-neutral-800 cursor-pointer hover:bg-[#479aca] ">
             <div className="flex gap-2 items-center">
               <div className="flex relative flex-col justify-center items-end self-stretch px-4 py-2 ">
                 <img
@@ -133,7 +133,7 @@ const Blockchain = () => {
               Follow
             </div>
           </div>
-          <div className="flex overflow-hidden gap-5 justify-between mt-2.5 w-full bg-neutral-800">
+          <div className="flex overflow-hidden gap-5 justify-between mt-2.5 w-full bg-neutral-800 cursor-pointer hover:bg-[#ff8c00ee] ">
             <div className="flex gap-2 items-center">
               <div className="flex relative flex-col justify-center items-end self-stretch px-4 py-2 ">
                 <img
@@ -154,7 +154,7 @@ const Blockchain = () => {
               Follow
             </div>
           </div>
-          <div className="flex overflow-hidden gap-5 justify-between mt-2.5 w-full bg-neutral-800">
+          <div className="flex overflow-hidden gap-5 justify-between mt-2.5 w-full bg-neutral-800 hover:bg-[#00BFFF] cursor-pointer">
             <div className="flex gap-2 items-center">
               <div className="flex relative flex-col justify-center items-end self-stretch  py-2 px-4">
                 <img
@@ -215,7 +215,10 @@ const Blockchain = () => {
             </p>
           </div>
           <div className="lg:h-72 md:h-60 h-72 w-full mt-10 bg-[#604C4C] flex justify-center items-center">
-            <h1 className="text-white text-xl">Advertisement</h1>
+            {/* <h1 className="text-white text-xl">Advertisement</h1> */}
+            <img src="https://demo.tagdiv.com/newspaper_black_pro/wp-content/uploads/2019/12/custom-rec-1.jpg" alt=""
+            className='w-full'
+             />
           </div>
         </div>
       </div>

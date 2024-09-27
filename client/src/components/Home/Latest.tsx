@@ -56,13 +56,13 @@ const Latest = () => {
               </div>
             ) )
             : publishedPosts.map( ( card: any ) => (
-              <div key={card._id} className="flex flex-col gap-5 cursor-pointer" onClick={() => router.push( `/article/${card.permaLink}` )}>
+              <div key={card._id} className="flex flex-col gap-5 cursor-pointer group" onClick={() => router.push( `/article/${card.permaLink}` )}>
                 {card.postType?.toLowerCase() === "video post" ? (
                   <video src={card?.previewImageUrl} controls className="h-56 w-full object-cover" />
                 ) : (
                   <img loading="lazy" src={card?.previewImageUrl} alt={card?.title} className="h-56 w-full object-cover" />
                 )}
-                <h1 className="text-xl text-white font-semibold">{card.title}</h1>
+                <h1 className="text-xl text-white font-semibold group-hover:text-[#DF841C]">{card.title}</h1>
                 <div className="mt-1 flex gap-3 items-center">
                   <button className="bg-[#DF841C] py-0.5 px-3">
                     {card.category.join( ", " )}
@@ -75,8 +75,11 @@ const Latest = () => {
       </div >
       <div className="flex flex-col ml-5 lg:basis-[31%] md:basis-[40%] max-md:ml-0 max-md:w-full">
         <div className="flex flex-col w-full max-md:mt-10">
-          <div className="lg:h-72 md:h-60 h-72 w-full mt-10 bg-[#604C4C] flex justify-center items-center">
-            <h1 className="text-white text-xl">Advertisement</h1>
+          <div className="lg:h-72 md:h-60 h-72 w-full mt-10  flex justify-center items-center">
+            {/* <h1 className="text-white text-xl">Advertisement</h1> */}
+            <img src="https://demo.tagdiv.com/newspaper_black_pro/wp-content/uploads/2019/12/custom-rec-2.jpg" alt="" 
+            className="w-full"
+            />
           </div>
           {/* User profile section */}
           <div className="flex gap-5 lg:flex-row md:flex-col justify-between mt-12 w-full max-md:mt-10">
@@ -130,9 +133,9 @@ const Latest = () => {
             Popular categories
           </div>
           {categories.map( ( category, index ) => (
-            <div key={index} className="flex gap-5 justify-between mt-6 text-sm whitespace-nowrap text-zinc-300 max-md:mr-0.5">
-              <div>{category.name}</div>
-              <div className="self-start">{category.count}</div>
+            <div key={index} className="flex group gap-5 justify-between mt-6 text-sm whitespace-nowrap text-zinc-300 max-md:mr-0.5">
+              <div className="group-hover:text-[#DF841C]">{category.name}</div>
+              <div className="self-start group-hover:text-[#DF841C]">{category.count}</div>
             </div>
           ) )}
         </div>

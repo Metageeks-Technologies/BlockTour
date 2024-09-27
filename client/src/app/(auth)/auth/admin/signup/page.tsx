@@ -5,6 +5,7 @@ import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {useRouter} from "next/navigation";
 import instance from "@/utils/axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 export default function Page () {
   const [name, setName] = useState( "" );
@@ -12,6 +13,11 @@ export default function Page () {
   const [password, setPassword] = useState( "" );
   const [loading, setLoading] = useState( false ); 
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSignup = async ( e: React.FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
@@ -91,18 +97,32 @@ export default function Page () {
                 placeholder="Enter your email address"
               />
             </div>
-            <div>
+
+            <div className="w-full relative">
               <span className="text-sm text-neutral-400">Password</span>
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={( e ) => setPassword( e.target.value )}
                 className="appearance-none mt-1 bg-[#0A090F] rounded-md relative block w-full px-3 py-2 border border-[#46454a] placeholder-gray-500 focus:outline-none sm:text-sm"
                 placeholder="Enter your password"
               />
+               <button
+                  type="button"
+                  className="absolute inset-y-0 right-3 top-7 flex items-center "
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? (
+                    <FaEyeSlash className="h-5 w-5 text-[#7B7A7F]" />
+                  ) : (
+                    <FaEye className="h-5 w-5 text-[#7B7A7F]" />
+                  )}
+                </button>
+
             </div>
+
           </div>
 
           <div className="flex items-center justify-between">
