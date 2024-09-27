@@ -332,7 +332,7 @@ const PodcastPage = () => {
         <div className=" mx-auto mt-5">
           {filteredPosts.map( ( newsItem, index ) => (
             <div
-              key={index}
+              key={newsItem._id}
               className="bg-[#0A090F] cursor-pointer border border-[#17161B] p-5 rounded-lg shadow-lg flex space-x-5 mb-5"
               onClick={() => {
                 router.push( `/podcast-episode/${newsItem.permaLink}` );
@@ -365,9 +365,9 @@ const PodcastPage = () => {
                 </div> */}
 
                 <div className="flex gap-3 mt-3 text-[#999999]">
-                  {newsItem?.category.map( ( cat, index ) => (
+                  {newsItem?.category.map( ( cat:any ) => (
                     <button
-                      key={index}
+                      key={cat._id}
                       className=" py-0.5 px-4 bg-[#1F1C2C] border border-[#17161B] text-[#CCCCCC] text-xs rounded"
                     >
                       {cat}

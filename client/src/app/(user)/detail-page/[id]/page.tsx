@@ -167,14 +167,19 @@ const CardDetails = () => {
                 </button>
               </div>
 
-              {!user && (
-                  <div className="  flex items-center justify-evenly py-6">
-                    <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg" onClick={() => router.push("/auth/user/signup")}>
-                      Join for free
-                    </button>
-                    <p className="text-lg hover:underline" onClick={() => router.push("/auth/user/login")}>Sign In</p>
-                  </div>
-                )}
+              {!user ? (
+                <div className="  flex items-center justify-evenly py-6">
+                  <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg" onClick={() => router.push( "/auth/user/signup" )}>
+                    Join for free
+                  </button>
+                  <p className="text-lg hover:underline" onClick={() => router.push( "/auth/user/login" )}>Sign In</p>
+                </div>
+              ) : (
+                <div className="  flex items-center justify-end gap-4 py-6 cursor-pointer" onClick={() => router.push( "/view-profile" )}>
+                  <p className="text-lg font-semibold">{user?.name}</p>
+                  <img src={user?.profileImage} alt="" className="w-10 h-10 rounded-full" />
+                </div>
+              )}
 
               {/* <div className="mt-5">
                 <p className="text-[#999999] mb-2">In this article</p>

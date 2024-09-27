@@ -31,7 +31,7 @@ const NotificationPopup: React.FC<NotificationPopupProps> = ( {isOpen, togglePop
     }
     try {
       const response = await instance.post( '/notification/my-all-notification', {ids} );
-      console.log( "response after notification:", response );
+      // console.log( "response after notification:", response );
       setNotifications( response.data.notifications.filter( ( noti: Notification ) => !noti.read ) ); 
     } catch ( error ) {
       console.log( "Error in getting notifications:", error );

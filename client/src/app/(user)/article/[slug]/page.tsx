@@ -54,9 +54,7 @@ const CardDetails = () => {
             }
             setIsLoading( false );
         }
-    }, [dispatch, slug] );
-
-    console.log( "User:-", user );
+    }, [dispatch, slug] ); 
 
     useEffect( () => {
         if ( card ) {
@@ -122,8 +120,9 @@ const CardDetails = () => {
         <div>
             {/* <Navbar/> */}
             <div className=" lg:ml-40 flex overflow-hidden flex-col items-center pb-6 bg-black  md:px-12 ">
-                <div className="flex ">
-                    <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full md:ml-5">
+                {/* where i scroll first left side then right side */}
+                <div className="flex max-h-screen sticky top-0">
+                    <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full md:ml-5 overflow-y-auto scrollbar-hide">
                         {isLoading ? (
                             <div className="flex justify-center items-center h-screen">
                                 <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 border-t-orange-500 border-b-transparent border-r-transparent border-l-transparent rounded-full" role="status">
@@ -316,12 +315,17 @@ const CardDetails = () => {
                                 </button>
                             </div>
 
-                            {!user && (
+                            {!user ? (
                                 <div className="  flex items-center justify-evenly py-6">
                                     <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg" onClick={() => router.push( "/auth/user/signup" )}>
                                         Join for free
                                     </button>
                                     <p className="text-lg hover:underline" onClick={() => router.push( "/auth/user/login" )}>Sign In</p>
+                                </div>
+                            ) : (
+                                    <div className="  flex items-center justify-end gap-4 py-6 cursor-pointer" onClick={() => router.push( "/view-profile" )}>
+                                    <p className="text-lg font-semibold">{user?.name}</p>
+                                    <img src={user?.profileImage} alt="" className="w-10 h-10 rounded-full" />
                                 </div>
                             )}
 

@@ -8,6 +8,6 @@ podcastRouter.get('/all-podcasts', getAllPodcasts);
 podcastRouter.get('/podcasts/:id', getPodcastById);
 podcastRouter.put('/podcasts/:id', updatePodcast);
 podcastRouter.delete('/podcasts/:id', deletePodcast);
-podcastRouter.get('/podcast/:permalink', getPodcastByPermaLink);
+podcastRouter.get('/podcast/:permaLink', getPodcastByPermaLink);
 
 export default podcastRouter;

@@ -174,8 +174,8 @@ const AddPostPage = () => {
         updatedData
       );
       alert("post created sucessfull");
-      console.log( "Form submitted successfully:", response.data );
-      if ( response.status === 200 ) {
+      console.log( "Form submitted successfully:", response.data,response );
+      if ( response.status === 201 ) {
         createNotification( user?.name, user?.profileImage,user?._id,data?.title )
       }
       setData({
@@ -193,7 +193,7 @@ const AddPostPage = () => {
         creatorId: "",
         authorName: "",
       } );
-      router.push( `/dashboard` );
+      router.push( '/dashboard' );  
     } catch (error: any) {
       notifyError(`${error?.response?.data?.message || "An error occurred"}`);
       console.error("Error submitting the form:", error);

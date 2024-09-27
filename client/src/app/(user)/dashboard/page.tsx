@@ -129,7 +129,7 @@ const Page = () => {
                   />
                   <h1 className="text-white text-2xl sm:text-xl font-semibold">My Blog</h1>
                 </div>
-                <button className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-1.5 rounded">
+                <button className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-1.5 rounded" onClick={() => router.push( "/add-post" )} >
                   + Add New Post
                 </button>
               </div>

@@ -36,14 +36,14 @@ const Sidebar = () => {
     router.push("/auth/user/login");
   };
 
-  console.log( user );
+  // console.log( user );
   useEffect( () => {
     if ( Cookies.get( "UserToken" ) && !user) {
       getCurrentUser(dispatch);
     }
 
   }, [] );
-  console.log( "user:-", user ); 
+  // console.log( "user:-", user ); 
 
   return (
     <aside className="fixed h-screen lg:block sm:hidden hidden bg-[#0A090F] text-white w-52 z-30">

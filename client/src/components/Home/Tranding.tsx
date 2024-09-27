@@ -8,6 +8,8 @@ const Trending = () => {
   const posts = useAppSelector( ( state: any ) => state.post.posts );
   // i want the random 4 posts from the published posts
   const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).sort( () => 0.5 - Math.random() ).slice( 0, 4 );
+  const cryptoPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Crypto" ) ).sort( () => 0.5 - Math.random() ).slice( 0, 2 );
+  const web3Posts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Web3" ) ).sort( () => 0.5 - Math.random() ).slice( 0, 2 );
   // const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).reverse().slice( 0, 4 ); 
   const router = useRouter();
 
@@ -104,7 +106,26 @@ const Trending = () => {
                 <div>Crypto</div>
               </div>
 
-              <div className="flex gap-5 mt-5 justify-between items-center">
+              {cryptoPosts?.map( ( card: any ) => (
+                <div key={card._id} className="flex g ap-5 mt-5 justify-between items-center">
+                  <div>
+                    <p className="text-sm text-white ">
+                      {card.title}
+                    </p>
+                    <p className="text-neutral-400 mt-3">
+                      {formatDateTime( card.createdAt )}
+                    </p>
+                  </div>
+                  <img
+                    src={card.previewImageUrl}
+                    alt={card.title}
+                    className="w-20 h-20 object-cover"
+                  />
+                </div>
+              ))}
+
+              
+              {/* <div className="flex gap-5 mt-5 justify-between items-center">
                 <div>
                   <p className="text-sm text-white ">
                     Crypto Company Genesis, Despite Failure, Given Permission...
@@ -130,7 +151,7 @@ const Trending = () => {
                   alt=""
                   className="w-20 h-20 object-cover"
                 />
-              </div>
+              </div> */}
 
               <div className="flex gap-2.5 mt-14 text-2xl leading-none whitespace-nowrap text-neutral-400 max-md:mt-10">
                 <img
@@ -140,6 +161,29 @@ const Trending = () => {
                 />
                 <div className="my-auto">Web3</div>
               </div>
+
+              {web3Posts?.map( ( card: any ) => (
+                <div key={card._id} className="flex gap-5 mt-5 justify-between items-center">
+                  <div>
+                    <p className="text-sm text-white ">
+                      {card.title}
+                    </p>
+                    <p className="text-neutral-400 mt-3">
+                      {formatDateTime( card.createdAt )}
+                    </p>
+                  </div>
+                  <img
+                    src={card.previewImageUrl}
+                    alt={card.title}
+                    className="w-20 h-20 object-cover"
+                  />
+                </div>
+              ))}
+
+
+{/*               
+
+              
 
               <div className="flex gap-5 mt-5 justify-between items-center">
                 <div>
@@ -168,7 +212,7 @@ const Trending = () => {
                   alt=""
                   className="w-20 h-20 object-cover"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

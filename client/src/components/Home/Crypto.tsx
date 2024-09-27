@@ -3,11 +3,10 @@ import {useAppSelector} from '@/app/redux/hooks';
 import {useRouter} from 'next/navigation';
 import {formatDateTime} from '@/utils/DateFormat';
 
-const Tech = () => {
+const CryptoPage = () => {
   const posts = useAppSelector( ( state: any ) => state.post.posts );
-  const publishedPosts = posts.filter( ( post: any ) =>
-    post.status.toLowerCase() === "published" && post.category.includes( "Crypto" )
-  ).reverse().slice( 0, 4 );
+  const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Crypto" ) ).reverse().slice( 0, 3 );
+  const musicPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Music" ) ).reverse().slice( 0, 3 );
   const router = useRouter();
 
   return (
@@ -105,72 +104,24 @@ const Tech = () => {
 
           <div className="flex gap-5 mt-5 max-md:mt-10 ">
             <div className="flex flex-col grow shrink-0 items-start max-w-full text-sm font-medium leading-5 basis-0 text-zinc-300 w-fit">
-              <div className="flex gap-5 mt-5 justify-between items-center">
+            
+              {musicPosts.map( ( card: any ) => ( 
+                <div key={card._id} className="flex gap-5 mt-5 justify-between items-center">
                 <div>
                   <p className="text-sm text-white ">
-                    Crypto Company Genesis, Despite Failure, Given
-                    Permission...
+                    {card.title}
                   </p>
                   <p className="text-neutral-400 mt-3">
-                    September 29, 2019
+                      {formatDateTime( card.createdAt )}
                   </p>
                 </div>
                 <img
-                  src="https://s3-alpha-sig.figma.com/img/1d2b/2694/c29be394869f2aec5cc549653971251c?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EmHxg0UtiQyDAf8XR-iKQxuIpWRVs8iAMQti1hltFxFDMDS3WPrw22FEMauzx7aUUz51zE03xhqzyppmah4qxmaysO~QPhrmu5eqp5gM605mGdvOInUIhxLJQuXxZVLZSv3ECxFJejCEupSGsuD2U~FjiwefrxUqi-EckEaa3U3dr~bnB-HhuG9HllDUiC~WKI-Pi6PK8Imdv0SQl3OA55QjiiQQX91EUrfio5DkN2SWf0Sk02AtwPV3ywRJRWdcvQ8Gt8xhs1GIYn2D7X1BRasdcXAUuAdxBiN3uH5s9sn6TIuQrq33kNZ296V3FWyDSfQ5vkD20H-CieVe5la~XQ__"
+                  src={card.previewImageUrl}
                   alt=""
                   className="w-20 h-20 object-cover"
                 />
               </div>
-
-              <div className="flex gap-5  mt-8 justify-between items-center">
-                <div>
-                  <p className="text-sm text-white ">
-                    International money transfers hit $613 billion this
-                    year...
-                  </p>
-                  <p className="text-neutral-400 mt-3">
-                    September 29, 2019
-                  </p>
-                </div>
-                <img
-                  src="https://s3-alpha-sig.figma.com/img/5211/93ed/58b7ea8bb9822317ffb8cff4fdbc5a9f?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EI5rRnGBWSlto3n5XkL7CzQKroX2YDUVVnh5kZOpQSxlUaxvzA~ePyZ2q8s2oUsVE7n8BOchfOv9iZzCpoM7X9bdavGyg~En25d4kdwQo5Hnb5OATFsofA223MDoHbkfEzhTVD1ccV70cZcfQk4SNi6m8o7RofGhDri8JZS4NEDdXhVcR6RlkRRCxOBgWaDABn92AbcaCEi2mrJ2J5s~MA1ZU3d9bM7HUOoxuCwOouifkArAejvqE5qBxYfHHGzAYH5LmHRTMkDGNHkIXXDgcbq1nbSAFflYy4Gf1KAY6eJc8HdNKJM8ni8SUTPSGJmJHMxA9UZjcH-88EqVsqseSA__"
-                  alt=""
-                  className="w-20 h-20 object-cover"
-                />
-              </div>
-
-              <div className="flex gap-5 mt-8 justify-between items-center">
-                <div>
-                  <p className="text-sm text-white ">
-                    NYDFS Releases Updated for Consumer Complaints...
-                  </p>
-                  <p className="text-neutral-400 mt-3">
-                    September 29, 2019
-                  </p>
-                </div>
-                <img
-                  src="https://s3-alpha-sig.figma.com/img/e9ee/77e6/ad6a735f4c07ed449247fe043319fb17?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AKhYMZe3BzxnWRsDsMuMaDB5FgObEHQqVml4xAdoqKj9sX8Du3pl1Ow03w4x6ZHKl2cLcEAheBnUIFpBrCkmvQV6pRb271L~fxEB8jIhqjs2fwcRKTxhSBJar2pQO~VcjUio-X2O4ZaPivWm4PXfKrFpVKiIqnbFQpeTKWmNWijosKAYFn1BbMLWMSaJjrnxUvnicm0bfU7f2tOfpe~PiWxZtv--96u9BthxsPh4kWgnEm1mq25kYQTUKOhWt7mFZX4USBut8VAni~JukkmYOl-6yE3ArBIkoL6T0yxL2VWt-fOhCSMVpK~IGMix4OyZcR9D0BtWqjvt-HarJMDItA__"
-                  alt=""
-                  className="w-20 h-20 object-cover"
-                />
-              </div>
-
-              <div className="flex gap-5  mt-8 justify-between items-center">
-                <div>
-                  <p className="text-sm text-white ">
-                    Trump could hit France with more tariffs in battle over
-                    taxes on big tech
-                  </p>
-                  <p className="text-neutral-400 mt-3">
-                    September 29, 2019
-                  </p>
-                </div>
-                <img
-                  src="https://s3-alpha-sig.figma.com/img/16e6/7e49/b239deb21d07c55b49e3a78ff6f1c2a0?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=at0n4Wnb-F21bj0lBeJtmTBw5CioAjLUAuvx5EtYEaBcgs6l77DmOCnocS2G2hZRjiVQs7rQsJAhMChVhRrjrGBtcoKM9XGQv0kH7KVTIPi5ZtIEOTCDdwcN7lcFNMBJEYlXrMT7wbv31-dmp5ooLMguinNJ7SlNY2mmgtVZOXQTvfCEarqxBfq7iEEXxzu8yIzDWtoFz1mKIE~od9C4iqEawXgiIy-R5HBBeoaJ6b4jTvpfnOiroudFd-WIPq0CTrJcdzzuHV1K3O2ahY5bdZ52CnKqAgFoLATmM5nkzWLjs5m4HE13wE1RB0ZPgifLghU3xM8kYo3FqUDI8CxhtA__"
-                  alt=""
-                  className="w-20 h-20 object-cover"
-                />
-              </div>
+              ))} 
               <div className="mt-14 text-2xl font-medium leading-none text-neutral-400 max-md:mt-10">
                 Archives
               </div>
@@ -188,4 +139,4 @@ const Tech = () => {
   );
 };
 
-export default Tech;
+export default CryptoPage;
