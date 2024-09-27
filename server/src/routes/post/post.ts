@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import {  getAllPosts, getPostById, updatePost, deletePost, createPost, getPostsByIds, contributorCreatePost, getPostByPermaLink} from '../../controllers/postController'; 
-import authAdmin from "../../middleware/auth.admin"
 import authContributor from '../../middleware/authContributor';
 const postRouter = Router();
     
