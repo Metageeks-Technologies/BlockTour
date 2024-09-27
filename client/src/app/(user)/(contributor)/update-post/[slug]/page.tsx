@@ -248,7 +248,7 @@ useEffect( () => {
   };
 
   return (
-    <div className="lg:ml-56">
+    <div className="lg:ml-52 p-4">
     <div className=" bg-[#0A090F] text-white sm:rounded-2xl border border-[#28272D]">
       
         <div>

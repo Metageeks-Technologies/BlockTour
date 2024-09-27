@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/app/redux/feature/contributor/api";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import UserHearder from "@/components/UserHearder";
 import instance from "@/utils/axios";
+import {formatDateTime} from "@/utils/DateFormat";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -11,8 +12,9 @@ import { IoSearchOutline } from "react-icons/io5";
 import { ClipLoader } from "react-spinners";
 
 type PostData = {
-  postType: any;
   _id: string;
+  createdAt: string;
+  postType: any;
   previewImageUrl: string;
   title: string;
   category: string[];
@@ -22,7 +24,7 @@ type PostData = {
   permaLink:string;
 };
 
-const Page = () => {
+const Dashboard = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [posts, setPosts] = useState<PostData[]>([]);
@@ -31,14 +33,14 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postsPerPage, setPostsPerPage] = useState<number>(10);
   const [isLoading, setIsLoading] = useState<boolean>(true); // Loading state
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [openPopupId, setOpenPopupId] = useState<string | null>( null );
+  const user = useAppSelector((state: any) => state.contributor.currentUser);
 
   // Function to toggle the popup state
-  const togglePopup = () => {
-    setIsPopupOpen(!isPopupOpen);
+  const togglePopup = ( postId: string ) => {
+    setOpenPopupId( openPopupId === postId ? null : postId );
   };
 
-  const user = useAppSelector((state: any) => state.contributor.currentUser);
 
   useEffect(() => {
     fetchAllPosts();
@@ -199,8 +201,8 @@ const Page = () => {
                         <button className="bg-[#DF841C] line-clamp-1 py-0.5 px-3 text-sm text-[#230E00] font-semibold">
                           {post.category.join(", ")}
                         </button>
-                        <p className="text-sm text-neutral-400">
-                          {new Date(post.publishedDate).toLocaleDateString()}
+                        <p className="text-sm text-neutral-400 whitespace-nowrap">
+                          {formatDateTime(post.createdAt)}
                         </p>
                       </div>
                       <div className="px-4">
@@ -226,38 +228,37 @@ const Page = () => {
                                 : "Archived"}
                             </span>
                           </div>
-
                           <div>
                             <BsThreeDots
-                              className="h-6 w-6"
-                              onClick={togglePopup}
+                              className="h-6 w-6 cursor-pointer"
+                              onClick={() => togglePopup( post._id )}
                             />
-                            {isPopupOpen && (
-                              <div className="absolute right-0 -bottom-28  w-40 bg-[#000000] border border-[#17161B] rounded-md shadow-lg z-30">
-                                <div className="flex flex-col divide-y divide-[#17161B] text-[#999999]">
-                                  <button
-                                    className="px-4 py-2 hover:bg-[#0A090F] text-left rounded"
-                                    onClick={() => {
-                                      router.push(`/article/${post.permaLink}`);
-                                    }}
-                                  >
-                                    View
-                                  </button>
-                                  <button className="px-4 py-2 hover:bg-[#0A090F] text-left rounded"
+                          {openPopupId === post._id && (
+                            <div className="absolute right-0 -bottom-28 w-40 bg-[#000000] border border-[#17161B] rounded-md shadow-lg z-30">
+                              <div className="flex flex-col divide-y divide-[#17161B] text-[#999999]">
+                                <button
+                                  className="px-4 py-2 hover:bg-[#0A090F] text-left rounded"
                                   onClick={() => {
-                                    router.push(`/update-post/${post.permaLink}`);
+                                    router.push( `/article/${post.permaLink}` );
                                   }}
-                                  >
-                                    Edit
-                                  </button>
-                                  <button className="px-4 py-2 hover:bg-[#0A090F] text-left rounded">
-                                    Delete
-                                  </button>
-                                </div>
+                                >
+                                  View
+                                </button>
+                                <button
+                                  className="px-4 py-2 hover:bg-[#0A090F] text-left rounded"
+                                  onClick={() => {
+                                    router.push( `/update-post/${post.permaLink}` );
+                                  }}
+                                >
+                                  Edit
+                                </button>
+                                <button className="px-4 py-2 hover:bg-[#0A090F] text-left rounded">
+                                  Delete
+                                </button>
                               </div>
+                            </div>
                             )}
                           </div>
-
                         </div>
                       </div>
                     </div>
@@ -337,4 +338,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Dashboard;
