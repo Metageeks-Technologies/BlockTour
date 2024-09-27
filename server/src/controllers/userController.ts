@@ -65,7 +65,9 @@ export const currentUser = async (req: Request, res: Response) => {
     // Get the token from cookies
 
     const token = req.cookies.UserToken;
-
+    console.log( "token", token )
+    console.log( "process.env.JWT_SECRET_KEY", process.env.JWT_SECRET_KEY )
+    console.log( "req.cookies", req.cookies )
     // If no token is found, return an error
     if (!token) {
       return res.status(401).json({ message: 'No token provided' });
@@ -92,7 +94,7 @@ export const currentUser = async (req: Request, res: Response) => {
 // // Logout controller
 export const userLogout = async (req: Request, res: Response) => {
   try {
-    res.clearCookie('Token');
+    res.clearCookie('UserToken');
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });

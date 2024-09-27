@@ -64,7 +64,7 @@ export const currentAdmin = async (req: any, res: Response) => {
 // Logout controller
 export const adminLogout = async (req: Request, res: Response) => {
   try {
-    res.clearCookie('Token');
+    res.clearCookie('AdminToken');
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
