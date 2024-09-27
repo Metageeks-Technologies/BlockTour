@@ -55,10 +55,10 @@ export const getPodcastById = async (req: Request, res: Response) => {
 };
 
 export const getPodcastByPermaLink = async (req: Request, res: Response) => {
-  const { permaLink } = req.params;
+  const {permaLink} = req.params;
   try {
     // First, try to find an exact match
-    let podcast = await Podcast.findOne({ permaLink });
+    let podcast = await Podcast.findOne( {permaLink} );
 
     // If no exact match is found, search for similar permalinks
     if (!podcast) {

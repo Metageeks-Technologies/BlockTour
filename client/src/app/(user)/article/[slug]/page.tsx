@@ -10,7 +10,7 @@ import {formatDateTime} from "@/utils/DateFormat";
 import {useParams, useRouter} from "next/navigation";
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
-import {FaFacebookSquare, FaLinkedin, FaTwitter, } from "react-icons/fa";
+import {FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter, } from "react-icons/fa";
 import {IoLogoYoutube} from "react-icons/io";
 import {FaXTwitter} from "react-icons/fa6";
 import Cookies from "js-cookie";
@@ -54,9 +54,7 @@ const CardDetails = () => {
             }
             setIsLoading( false );
         }
-    }, [dispatch, slug] );
-
-    console.log( "User:-", user );
+    }, [dispatch, slug] ); 
 
     useEffect( () => {
         if ( card ) {
@@ -122,8 +120,9 @@ const CardDetails = () => {
         <div>
             {/* <Navbar/> */}
             <div className=" lg:ml-40 flex overflow-hidden flex-col items-center pb-6 bg-black  md:px-12 ">
-                <div className="flex ">
-                    <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full md:ml-5">
+                {/* where i scroll first left side then right side */}
+                <div className="flex max-h-screen sticky top-0">
+                    <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full md:ml-5 overflow-y-auto scrollbar-hide">
                         {isLoading ? (
                             <div className="flex justify-center items-center h-screen">
                                 <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 border-t-orange-500 border-b-transparent border-r-transparent border-l-transparent rounded-full" role="status">
@@ -316,12 +315,17 @@ const CardDetails = () => {
                                 </button>
                             </div>
 
-                            {!user && (
+                            {!user ? (
                                 <div className="  flex items-center justify-evenly py-6">
                                     <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg" onClick={() => router.push( "/auth/user/signup" )}>
                                         Join for free
                                     </button>
                                     <p className="text-lg hover:underline" onClick={() => router.push( "/auth/user/login" )}>Sign In</p>
+                                </div>
+                            ) : (
+                                    <div className="  flex items-center justify-end gap-4 py-6 cursor-pointer" onClick={() => router.push( "/view-profile" )}>
+                                    <p className="text-lg font-semibold">{user?.name}</p>
+                                    <img src={user?.profileImage} alt="" className="w-10 h-10 rounded-full" />
                                 </div>
                             )}
 
@@ -601,23 +605,39 @@ const CardDetails = () => {
                 <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
                     <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
                         <div className="flex flex-col gap-5">
-                            <h1 className="text-2xl font-semibold ">Get connected</h1>
+                            <h1 className="text-2xl font-semibold ">Get connected</h1>                    
+            <div className="flex gap-3">
+              {/* LinkedIn */}
+              <a href="https://www.linkedin.com/company/blocktourmedia" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaLinkedin className="w-5 h-5" />
+                </div>
+              </a>
 
-                            <div className="flex gap-3">
-                                <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
-                                    <FaLinkedin className="w-5 h-5" />
-                                </div>
+              {/* Twitter */}
+              <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaXTwitter className="w-5 h-5" />
+                </div>
+              </a>
 
-                                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                                    <FaXTwitter className="w-5 h-5" />
-                                </div>
-                                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                                    <FaFacebookSquare className="w-5 h-5" />
-                                </div>
-                                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                                    <IoLogoYoutube className="w-5 h-5" />
-                                </div>
-                            </div>
+              {/* Facebook */}
+              <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaFacebookSquare className="w-5 h-5" />
+                </div>
+              </a>
+
+              {/* YouTube */}
+              <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaInstagram className="w-5 h-5" />
+                </div>
+              </a>
+            </div>
+
+
+
                         </div>
 
                         <div className="">

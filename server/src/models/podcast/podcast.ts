@@ -14,6 +14,8 @@ interface IPodcast extends Document {
     authorName?: string;
     creatorId?: mongoose.Schema.Types.ObjectId;
     postType?: string; 
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 // Define the schema

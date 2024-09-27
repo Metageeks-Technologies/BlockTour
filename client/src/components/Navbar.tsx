@@ -4,6 +4,8 @@ import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import Cookies from "js-cookie";
 import {useRouter} from "next/navigation";
 import React, {useEffect} from "react";
+import {FaFacebookSquare, FaInstagram, FaLinkedin} from "react-icons/fa";
+import {FaXTwitter} from "react-icons/fa6";
 import {IoMenu} from "react-icons/io5";
 
 const Navbar = () => {
@@ -17,7 +19,8 @@ const Navbar = () => {
   }, [] );
 
   const handleCategoryClick = ( category: string ) => {
-    router.push( `/article?category=${category}` );
+    const formattedCategory = category.toLowerCase().replace( /\s+/g, '-' );
+    router.push( `/article?category=${formattedCategory}` );
   };
 
   return (
@@ -38,8 +41,8 @@ const Navbar = () => {
           <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Blockchain' )}>Blockchain</li>
           <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'NFT' )}>NFT</li>
           <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Web3' )}>Web3</li>
-          <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Press Release' )}>Press Release</li>
-           {user ?
+          <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Press Releases' )}>Press Releases</li>
+          {user ?
             <li className="hover:text-amber-600 my-auto" onClick={() => router.push( "/dashboard" )}>Dashboard</li> :
             <li className="hover:text-amber-600 leading-[75px]" onClick={() => router.push( "/auth/user/login" )}>  Sign in </li>
           }
@@ -47,25 +50,37 @@ const Navbar = () => {
 
         {/* Social Icons - Always visible */}
         <div className="flex items-center gap-8 my-auto cursor-pointer text-black">
+          <div className="flex gap-3">
+            {/* LinkedIn */}
+            <a href="https://www.linkedin.com/company/blocktourmedia" target="_blank" rel="noopener noreferrer">
+              <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                <FaLinkedin className="w-4 h-4 text-gray-400"  />
+              </div>
+            </a>
+
+            {/* Twitter */}
+            <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
+              <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                <FaXTwitter className="w-4 h-4 text-gray-400"  />
+              </div>
+            </a>
+
+            {/* Facebook */}
+            <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+              <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                <FaFacebookSquare className="w-4 h-4 text-gray-400"  />
+              </div>
+            </a>
+
+            {/* Instagram */}
+            <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+              <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                <FaInstagram className="w-4 h-4 text-gray-400"  />
+              </div>
+            </a>
+          </div>
           <div className="flex items-center">
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/863d331eefa993b31b8aed224ade35e698451eb9e531bb98438ad4e8a4696a65?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-              className="object-contain shrink-0 aspect-square w-[43px]"
-              alt="Icon 1"
-            />
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/4ab764a4c5c85468612bb76154a6adbea87eabf588ffb5e70f6791fc892d2c54?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-              className="object-contain shrink-0 aspect-[0.98] w-[42px]"
-              alt="Icon 2"
-            />
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/8846ea92b5c844b974e62a7c282808454ee6ab4f992a9d991027152d2e7bd9d2?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-              className="object-contain shrink-0 aspect-[0.88] w-[38px]"
-              alt="Icon 3"
-            />
+          
           </div>
           <div className="flex lg:hidden items-center">
             <IoMenu className="h-10 w-10 text-white" />

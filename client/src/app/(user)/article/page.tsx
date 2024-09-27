@@ -8,7 +8,7 @@ import {formatDateTime} from "@/utils/DateFormat";
 import {useRouter, useSearchParams} from "next/navigation";
 import React, {Suspense, useEffect, useMemo, useRef, useState} from "react";
 import {FaFacebookSquare, FaLinkedin} from "react-icons/fa";
-import {FaXTwitter} from "react-icons/fa6";
+import {FaInstagram, FaXTwitter} from "react-icons/fa6";
 import {IoLogoYoutube} from "react-icons/io";
 import {IoSearchOutline} from "react-icons/io5";
 
@@ -194,7 +194,7 @@ const ArticlePage = () => {
               getRandomPosts.map( ( post: any ) => (
                 <div
                   key={post._id}
-                  className="cursor-pointer rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4 shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  className="cursor-pointer group rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4 shadow-lg hover:shadow-xl transition-shadow duration-300"
                   style={{
                     boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px"
                   }}
@@ -222,7 +222,7 @@ const ArticlePage = () => {
                   </div>
 
                   <div className="px-4">
-                    <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2 leading-[1.4]">
+                    <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2 leading-[1.4] group-hover:text-[#DF841C]">
                       {post.title}
                     </h1>
 
@@ -350,7 +350,7 @@ const ArticlePage = () => {
               {filteredPosts.map( ( post: any ) => (
                 <div
                   key={post._id}
-                  className="bg-[#0A090F] cursor-pointer p-5 rounded-lg shadow-lg flex space-x-5 mb-4 border border-[#17161B]"
+                  className="bg-[#0A090F] group cursor-pointer p-5 rounded-lg shadow-lg flex space-x-5 mb-4 border border-[#17161B]"
                   onClick={() => {
                     router.push( `/article/${post.permaLink}` );
                   }}
@@ -365,7 +365,7 @@ const ArticlePage = () => {
                       Written by{" "}
                       <span className="font-semibold">{post.authorName}</span>
                     </p>
-                    <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC]">
+                    <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC] group-hover:text-[#DF841C]">
                       {post.title}
                     </h3>
                     <div
@@ -391,8 +391,7 @@ const ArticlePage = () => {
           )}
         </div>
       </div>
-      {/* 
-      <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
+        <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
         <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
           <div className="flex flex-col gap-5">
             <h1 className="text-2xl font-semibold text-[#FFFFFF]">
@@ -400,22 +399,35 @@ const ArticlePage = () => {
             </h1>
 
             <div className="flex gap-3">
-              <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
-                <FaLinkedin className="w-5 h-5" />
-              </div>
+              {/* LinkedIn */}
+              <a href="https://www.linkedin.com/company/blocktourmedia" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaLinkedin className="w-5 h-5" />
+                </div>
+              </a>
 
-              <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaXTwitter className="w-5 h-5" />
-              </div>
+              {/* Twitter */}
+              <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaXTwitter className="w-5 h-5" />
+                </div>
+              </a>
 
-              <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaFacebookSquare className="w-5 h-5" />
-              </div>
+              {/* Facebook */}
+              <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaFacebookSquare className="w-5 h-5" />
+                </div>
+              </a>
 
-              <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <IoLogoYoutube className="w-5 h-5" />
-              </div>
+              {/* YouTube */}
+              <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                  <FaInstagram className="w-5 h-5" />
+                </div>
+              </a>
             </div>
+
           </div>
 
           <div className="">
@@ -433,6 +445,7 @@ const ArticlePage = () => {
               </button>
             </div>
 
+            {/* Terms and Privacy */}
             <div className="flex items-center mt-4">
               <input type="checkbox" id="agree" className="mr-2" />
               <label htmlFor="agree" className="text-gray-400 text-sm">
@@ -446,7 +459,8 @@ const ArticlePage = () => {
           </div>
         </div>
       </div>
-       */}
+
+
       <Footer />
     </div>
   );

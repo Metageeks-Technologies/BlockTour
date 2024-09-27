@@ -3,7 +3,7 @@ import Trending from "@/components/Home/Tranding";
 import NFT from "@/components/Home/NFT";
 import Blockchain from "@/components/Home/Blockchain";
 import Politics from "@/components/Home/Politics";
-import Tech from "@/components/Home/Tech";
+import Tech from "@/components/Home/Crypto";
 import Latest from "@/components/Home/Latest";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";

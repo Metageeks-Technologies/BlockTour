@@ -8,6 +8,8 @@ const Trending = () => {
   const posts = useAppSelector( ( state: any ) => state.post.posts );
   // i want the random 4 posts from the published posts
   const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).sort( () => 0.5 - Math.random() ).slice( 0, 4 );
+  const cryptoPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Crypto" ) ).sort( () => 0.5 - Math.random() ).slice( 0, 2 );
+  const web3Posts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Web3" ) ).sort( () => 0.5 - Math.random() ).slice( 0, 2 );
   // const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).reverse().slice( 0, 4 ); 
   const router = useRouter();
 
@@ -39,7 +41,7 @@ const Trending = () => {
           </div>
         ) : (
           publishedPosts.map( ( card: any ) => (
-            <div key={card.id} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {
+            <div key={card.id} className="flex group lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {
               router.push( `/article/${card.permaLink}` );
             }}>
               {card.postType?.toLowerCase() === "video post" ? (
@@ -58,7 +60,7 @@ const Trending = () => {
               )}
 
               <div>
-                <h1 className="text-2xl text-white font-semibold line-clamp-2">
+                <h1 className="text-2xl group-hover:text-[#DF841C] text-white font-semibold line-clamp-2">
                   {card.title}
                 </h1>
                 <div className="mt-1 flex gap-3 items-center">
@@ -76,7 +78,7 @@ const Trending = () => {
 
       <div className="flex flex-col ml-5 lg:w-[31%]  md:w-[40%]  max-md:ml-0 max-md:w-full">
         <div className="flex flex-col w-full max-md:mt-10 ">
-          <div className="flex gap-5 justify-between  max-w-full text-sm font-medium leading-3 whitespace-nowrap rounded   text-neutral-400 w-[344px]">
+          <div className="flex gap-5 justify-between  text-sm font-medium leading-3 whitespace-nowrap rounded   text-neutral-400 ">
             {/* <div className="my-auto">Search</div> */}
             <input
               className="w-full bg-black py-2.5 border border-neutral-700 rounded px-2 "
@@ -89,13 +91,18 @@ const Trending = () => {
               className="object-contain shrink-0 rounded-none aspect-[0.96] w-[43px]"
             /> */}
           </div>
-          <div className="lg:h-72 md:h-60 h-72 w-full mt-10 bg-[#604C4C] flex justify-center items-center">
-            <h1 className="text-white text-xl">Advertisement</h1>
+          
+          {/* Advertisement */}
+          <div className="lg:h-72 md:h-60 h-72 w-full mt-10  flex justify-center items-center">
+            {/* <h1 className="text-white text-xl">Advertisement</h1> */}
+            <img src="https://demo.tagdiv.com/newspaper_black_pro/wp-content/uploads/2019/12/custom-rec-1.jpg" alt=""
+             className="w-full"
+             />
           </div>
 
           <div className="flex gap-5 mt-12 max-md:mt-10 ">
             <div className="flex flex-col grow shrink-0 items-start max-w-full text-sm font-medium leading-5 basis-0 text-zinc-300 w-fit">
-              <div className="flex items-center gap-3 text-2xl leading-none whitespace-nowrap text-neutral-400">
+              <div className="flex  items-center gap-3 text-2xl leading-none whitespace-nowrap text-neutral-400">
                 <img
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/c364e963ecf4f9b9435046d8cb1e86ecee84bb3fae94bbdc414cfe8d18edfd3c?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
@@ -104,9 +111,29 @@ const Trending = () => {
                 <div>Crypto</div>
               </div>
 
-              <div className="flex gap-5 mt-5 justify-between items-center">
+              {cryptoPosts?.map( ( card: any ) => (
+                <div key={card._id} className="flex g ap-5 mt-5 justify-between items-center">
+                  <div>
+                    <p className="text-sm text-white ">
+                      {card.title}
+                    </p>
+                    <p className="text-neutral-400 mt-3">
+                      {formatDateTime( card.createdAt )}
+                    </p>
+                  </div>
+                  <img
+                    src={card.previewImageUrl}
+                    alt={card.title}
+                    className="w-20 h-20 object-cover"
+                  />
+                </div>
+              ))}
+
+              
+              {/* <div className="flex gap-5 mt-5 justify-between items-center">
+              <div className="flex gap-5 mt-5 group justify-between items-center">
                 <div>
-                  <p className="text-sm text-white ">
+                  <p className="text-sm text-white group-hover:text-[#DF841C] ">
                     Crypto Company Genesis, Despite Failure, Given Permission...
                   </p>
                   <p className="text-neutral-400 mt-3">September 29, 2019</p>
@@ -118,9 +145,9 @@ const Trending = () => {
                 />
               </div>
 
-              <div className="flex gap-5  mt-8 justify-between items-center">
+              <div className="flex gap-5  mt-8 justify-between items-center group">
                 <div>
-                  <p className="text-sm text-white ">
+                  <p className="text-sm text-white group-hover:text-[#DF841C]">
                     International money transfers hit $613 billion this year...
                   </p>
                   <p className="text-neutral-400 mt-3">September 29, 2019</p>
@@ -130,7 +157,7 @@ const Trending = () => {
                   alt=""
                   className="w-20 h-20 object-cover"
                 />
-              </div>
+              </div> */}
 
               <div className="flex gap-2.5 mt-14 text-2xl leading-none whitespace-nowrap text-neutral-400 max-md:mt-10">
                 <img
@@ -141,9 +168,30 @@ const Trending = () => {
                 <div className="my-auto">Web3</div>
               </div>
 
+              {web3Posts?.map( ( card: any ) => (
+                <div key={card._id} className="flex gap-5 mt-5 justify-between items-center">
+                  <div>
+                    <p className="text-sm text-white ">
+                      {card.title}
+                    </p>
+                    <p className="text-neutral-400 mt-3">
+                      {formatDateTime( card.createdAt )}
+                    </p>
+                  </div>
+                  <img
+                    src={card.previewImageUrl}
+                    alt={card.title}
+                    className="w-20 h-20 object-cover"
+                  />
+                </div>
+              ))}
+
+
+{/* 
               <div className="flex gap-5 mt-5 justify-between items-center">
+              <div className="flex gap-5 mt-5 justify-between items-center group">
                 <div>
-                  <p className="text-sm text-white ">
+                  <p className="text-sm text-white group-hover:text-[#DF841C] ">
                     NYDFS Releases Updated for Consumer Complaints...
                   </p>
                   <p className="text-neutral-400 mt-3">September 29, 2019</p>
@@ -155,9 +203,9 @@ const Trending = () => {
                 />
               </div>
 
-              <div className="flex gap-5  mt-8 justify-between items-center">
+              <div className="flex gap-5  mt-8 justify-between items-center group">
                 <div>
-                  <p className="text-sm text-white ">
+                  <p className="text-sm text-white group-hover:text-[#DF841C] ">
                     Trump could hit France with more tariffs in battle over
                     taxes on big tech
                   </p>
@@ -168,7 +216,7 @@ const Trending = () => {
                   alt=""
                   className="w-20 h-20 object-cover"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
