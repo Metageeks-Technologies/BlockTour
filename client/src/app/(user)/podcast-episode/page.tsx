@@ -92,19 +92,18 @@ const PodcastPage = () => {
         ( post ) => post.category && post.category.includes( activeCategory )
       );
 
-  const handleCategoryClick = ( category: string ) => {
-    setActiveCategory( category );
-    router.push( `/podcast-episode?category=${category}` );
+  const handleCategoryClick = (category: string) => {
+    setActiveCategory(category);
+    router.push(`/podcast-episode?category=${category}`);
   };
-
 
   const LoadingSkeleton = () => (
     <div className="animate-pulse">
       {/* Trending section skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
-        {[...Array( 4 )].map( ( _, index ) => (
+        {[...Array(4)].map((_, index) => (
           <div key={index} className="bg-gray-700 rounded-xl h-80"></div>
-        ) )}
+        ))}
       </div>
 
       {/* Newsletter skeleton */}
@@ -114,16 +113,16 @@ const PodcastPage = () => {
       <div className="mt-6">
         <div className="h-8 bg-gray-700 w-1/3 rounded"></div>
         <div className="flex gap-5 py-4 mt-4">
-          {[...Array( 4 )].map( ( _, index ) => (
+          {[...Array(4)].map((_, index) => (
             <div key={index} className="h-6 bg-gray-700 w-20 rounded"></div>
-          ) )}
+          ))}
         </div>
       </div>
 
       {/* Article list skeleton */}
-      {[...Array( 3 )].map( ( _, index ) => (
+      {[...Array(3)].map((_, index) => (
         <div key={index} className="bg-gray-700 h-40 rounded-lg mt-4"></div>
-      ) )}
+      ))}
     </div>
   );
 
