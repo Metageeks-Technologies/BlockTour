@@ -27,11 +27,8 @@ const Page = () => {
     try {
       const response = await instance.post( "/auth/user/login", {email, password} );
       console.log( response.data );
-
-      // Store the token in cookies
-
+      router.push( "/dashboard" );
       toast.success( "Login successful!" ); 
-      router.push( "/dashboard" ); 
     } catch ( error ) {
       toast.error( "Login failed. Please try again." );
       console.log( "error:-", error );

@@ -26,16 +26,8 @@ const Page = () => {
     setLoading(true);
 
     try {
-      const response = await instance.post(
-        "/auth/admin/login",
-        { email, password },
-        { headers: { "Content-Type": "application/json" } }
-      );
-      // console.log("token :-",response)
-      // Store the token in cookies
-      Cookies.set("AdminToken", response.data.token, { expires: 7 });
-      console.log(response.data.token);
-
+      const response = await instance.post( "/auth/admin/login", {email, password} ); 
+      console.log("response:-",response)
       getCurrentAdmin(dispatch);
       toast.success("Login successful!");
       router.push("/admin/dashboard");
@@ -146,7 +138,7 @@ const Page = () => {
               </button>
             </div>
           </form>
-          <div className="flex items-center justify-center my-6 px-5">
+          {/* <div className="flex items-center justify-center my-6 px-5">
             <div className="flex-grow border-t border-gray-600"></div>
             <span className="mx-4 text-neutral-400">or</span>
             <div className="flex-grow border-t border-gray-600"></div>
@@ -178,7 +170,7 @@ const Page = () => {
                 FAM Protocol
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

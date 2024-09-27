@@ -13,9 +13,21 @@ export const signup = async (req: Request, res: Response) => {
     if (existingAdmin) {
       return res.status(400).json({ message: 'Admin already exists' });
     } 
-    const newAdmin = new Admin({ email, password,name}); 
+    const hashedPassword = await bcrypt.hash( password, 10 );
+    const newAdmin = new Admin({ email, password:hashedPassword,name}); 
     console.log(newAdmin) 
     await newAdmin.save(); 
+    const token = jwt.sign( {id: newAdmin._id}, process.env.JWT_SECRET_KEY as string, {expiresIn: '7d'} );
+
+    res.cookie( "AdminToken", token, {
+      httpOnly: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production",
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? "none"
+          : ("lax" as "none" | "strict" | "lax" | undefined),
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    } );
     res.status(200).json({ message: 'Admin created successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error',error });
@@ -26,21 +38,29 @@ export const signup = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
-    const admin = await Admin.findOne
-      ( {email} );
+    const admin = await Admin.findOne( {email} );
     
     if ( !admin ) {
       console.log("admin not found")
       return res.status(401).json({ message: 'Invalid email or password admin not found' });
     }
+
     const isValidPassword = await bcrypt.compare( password, admin.password );
     if ( !isValidPassword ) {
       return res.status( 401 ).json( {message: 'Invalid email or password'} );
     } 
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET_KEY as string,{expiresIn:'7d'});
+    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET_KEY as string,{expiresIn:'7d'});     
+    res.cookie( "AdminToken", token, {
+      httpOnly: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production",
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? "none"
+          : ( "lax" as "none" | "strict" | "lax" | undefined ),
+      expires: new Date( Date.now() + 7 * 24 * 60 * 60 * 1000 ),
+    } );
 
-    // res.cookie( 'Token', token );
-    res.status( 200 ).json( {message: 'Logged in successfully', token: token} );
+    res.status( 200 ).json( {message: 'Logged in successfully'} );
   } catch ( error ) {
     res.status( 500 ).json( {message: 'Server error'} );
   }

@@ -1,35 +1,24 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import dotenv from "dotenv";
+dotenv.config
 
-interface JwtPayload {
-  id: string;
-}
 
-interface AuthenticatedRequest extends Request {
-  user?: JwtPayload;
-}
-
-const authAdmin = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-  const token = req?.cookies?.AdminToken || req?.header('Authorization')?.replace('Bearer ', '');
-  if (!token) {
-    return res.status(401).json({ message: 'Access denied. No token provided.' });
-  }
-
+export const verifyTokenAdmin = (req: any, res: Response, next: NextFunction) => {
+  console.log("verifying token",req.cookies);
   try {
-    const secretKey = process.env.JWT_SECRET_KEY;
-    if (!secretKey) {
-      throw new Error('JWT secret key is not defined');
-    }
-
-    const decoded = jwt.verify(token, secretKey) as JwtPayload;
-    req.user = decoded;
+    const token = req.cookies.AdminToken  || req.headers.authorization?.split(' ')[1];
+    console.log("token",token)
+    if (!token) {
+     return res.status(401).send({success: false, message: "Admin not authenticated.Login to continue"});
+      }
+      
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string);
+      console.log("decoded",decoded);
+      req.admin = decoded;
+      console.log("req.admin",req.admin)
     next();
   } catch (error) {
-    if (error instanceof jwt.JsonWebTokenError) {
-      return res.status(400).json({ message: 'Invalid token.' });
-    }
-    res.status(500).json({ message: 'Internal server error.' });
+    return res.status(401).send({success: false, message: "Invalid Token"});
   }
 };
-
-export default authAdmin;

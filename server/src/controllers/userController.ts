@@ -24,13 +24,14 @@ export const userSignup = async (req: Request, res: Response) => {
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
-    const newUser = new User({ email, password,name});
+    const hashedPassword = await bcrypt.hash( password, 10 );
+    const newUser = new User({ email, password:hashedPassword,name});
     // console.log(newUser)
 
     await newUser.save();
 
     const token = jwt.sign( {id: newUser._id}, process.env.JWT_SECRET_KEY as string, {expiresIn: '7h'} );
-    
+
     res.cookie( "UserToken", token, {
       httpOnly: process.env.NODE_ENV === "production",
       secure: process.env.NODE_ENV === "production",
@@ -64,7 +65,7 @@ export const userLogin = async (req: Request, res: Response) => {
       return res.status(401).json({ message: 'Invalid password' });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY as string,{expiresIn:'7h'});
+    const token = jwt.sign( {id: user._id}, process.env.JWT_SECRET_KEY as string, {expiresIn: '1d'} );
 
      // Set JWT in cookie
       res.cookie("UserToken", token, {
@@ -110,6 +111,7 @@ export const currentUser = async (req: any, res: Response) => {
 // // Logout controller
 export const userLogout = async (req: Request, res: Response) => {
   try {
+
     res.clearCookie('UserToken');
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {

@@ -1,5 +1,4 @@
 import express from 'express';
-import authAdmin from '../../middleware/auth.admin';
 import {currentUser, userLogin, userLogout, userSignup, getAllUsers,getUserById, updateUserContributor} from '../../controllers/userController';
 import {verifyToken} from '../../middleware/authToken';
 
