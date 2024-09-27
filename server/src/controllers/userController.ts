@@ -63,6 +63,7 @@ export const userLogin = async (req: Request, res: Response) => {
 export const currentUser = async (req: Request, res: Response) => {
   try {
     // Get the token from cookies
+    console.log( "req", req )
 
     const token = req.cookies.UserToken;
     console.log( "token", token )
