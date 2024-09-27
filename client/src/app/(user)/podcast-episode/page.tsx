@@ -191,6 +191,9 @@ const PodcastPage = () => {
               <div
                 key={post._id}
                 className="cursor-pointer rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4"
+                onClick={() => {
+                  router.push( `/podcast-episode/${post.permaLink}` );
+                }}
               >
                 <div className="relative">
                   {/* <img
@@ -200,14 +203,7 @@ const PodcastPage = () => {
                   className="w-full h-44 object-cover rounded-t-md"
                 /> */}
                   <HtmlContent htmlContent={post?.embededCode || ""} />
-                  {index === 0 || index === 3 ? (
-                    <>
-                      <div className="absolute -bottom-2.5 left-4 bg-[#DF841C] flex gap-1 px-2 py-0.5 rounded items-center">
-                        <BsLightningChargeFill />
-                        <p className="text-xs">Early Access</p>
-                      </div>
-                    </>
-                  ) : null}
+                 
                 </div>
 
                 <div className="px-4 py-2 mt-2">
@@ -219,8 +215,8 @@ const PodcastPage = () => {
                   <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2">
                     {post.title}
                   </h1>
-                  <p className="text-sm mt-0.5 text-[#999999] line-clamp-2">
-                    {post.permaLink}
+                  <p className="text-sm mt-0.5 text-[#999999] line-clamp-2 capitalize">
+                    {post.permaLink.split("-").join(" ")}
                   </p>
                   <p className="mt-2 text-[#767676]"> 2 days ago</p>
                 </div>
@@ -339,7 +335,7 @@ const PodcastPage = () => {
               key={index}
               className="bg-[#0A090F] cursor-pointer border border-[#17161B] p-5 rounded-lg shadow-lg flex space-x-5 mb-5"
               onClick={() => {
-                router.push( `/podcast-episode/${newsItem._id}` );
+                router.push( `/podcast-episode/${newsItem.permaLink}` );
               }}
             >
               <HtmlContent htmlContent={newsItem?.embededCode || ""} />
@@ -352,9 +348,10 @@ const PodcastPage = () => {
                 <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC]">
                   {newsItem.title}
                 </h3>
-                <p className="text-sm text-[#B0AFAF] mb-3">
-                  {newsItem.permaLink}
+                <p className="text-sm text-[#B0AFAF] mb-3 capitalize">
+                  {newsItem.permaLink.split( "-" ).join( " " )}
                 </p>
+                
 
                 {/* <div className="flex items-center space-x-4 text-sm mt-3">
                   <div className=" bg-[#1F1C2C] flex gap-1 px-2 py-0.5 rounded items-center">
