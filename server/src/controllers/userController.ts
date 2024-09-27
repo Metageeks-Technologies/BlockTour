@@ -26,7 +26,21 @@ export const userSignup = async (req: Request, res: Response) => {
     }
     const newUser = new User({ email, password,name});
     // console.log(newUser)
+
     await newUser.save();
+
+    const token = jwt.sign( {id: newUser._id}, process.env.JWT_SECRET_KEY as string, {expiresIn: '7h'} );
+    
+    res.cookie( "UserToken", token, {
+      httpOnly: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production",
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? "none"
+          : ("lax" as "none" | "strict" | "lax" | undefined),
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    } );
+
     res.status(200).json({ message: 'User created successfully',user:newUser });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
@@ -52,7 +66,18 @@ export const userLogin = async (req: Request, res: Response) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY as string,{expiresIn:'7h'});
 
-    res.status(200).json({ token,msg:"logged in successfully" });
+     // Set JWT in cookie
+      res.cookie("UserToken", token, {
+        httpOnly: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "production",
+        sameSite:
+          process.env.NODE_ENV === "production"
+            ? "none"
+            : ("lax" as "none" | "strict" | "lax" | undefined),
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      } );
+    
+    res.status(200).json({ user,msg:"logged in successfully" });
   } catch (error) {
     res.status(500).json({ message: 'Server error',error });
   }
@@ -60,24 +85,14 @@ export const userLogin = async (req: Request, res: Response) => {
 
 // //current logged admin with token stored in cookies
 
-export const currentUser = async (req: Request, res: Response) => {
+export const currentUser = async (req: any, res: Response) => {
   try {
     // Get the token from cookies
-    console.log( "req", req )
+    console.log( "req", req.user )
 
-    const token = req.cookies.UserToken;
-    console.log( "token", token )
-    console.log( "process.env.JWT_SECRET_KEY", process.env.JWT_SECRET_KEY )
-    console.log( "req.cookies", req.cookies )
-    // If no token is found, return an error
-    if (!token) {
-      return res.status(401).json({ message: 'No token provided' });
-    }
-
-    // Verify and decode the token using your secret key
-    const decoded = jwt.verify(token, `${process.env.JWT_SECRET_KEY}`) as { id: string };
+    const {id} = req.user;
     // Find the user by the ID stored in the token
-    const user = await User.findById(decoded.id);
+    const user = await User.findById(id);
     // If no user is found, return an error
     if (!user) {
       return res.status(401).json({ message: 'Invalid token' });

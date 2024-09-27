@@ -38,14 +38,14 @@ export default function Page() {
         }
       );
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === 201) {
         toast.success("Signup successful");
         createNotification(
           name,
           response?.data.user?._id,
           response?.data?.user?.profileImage
         );
-        router.push("/auth/user/login");
+        router.push("/dashboard");
       } else {
         toast.error("Signup failed");
       }

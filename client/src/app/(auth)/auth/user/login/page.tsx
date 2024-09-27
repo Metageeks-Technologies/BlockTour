@@ -25,15 +25,10 @@ const Page = () => {
     setLoading( true );
 
     try {
-      const response = await instance.post(
-        "/auth/user/login",
-        {email, password},
-        {headers: {"Content-Type": "application/json"}}
-      );
+      const response = await instance.post( "/auth/user/login", {email, password} );
       console.log( response.data );
 
       // Store the token in cookies
-      Cookies.set( "UserToken", response.data.token, {expires: 7} );
 
       toast.success( "Login successful!" ); 
       router.push( "/dashboard" ); 
