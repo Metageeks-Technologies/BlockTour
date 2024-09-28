@@ -109,7 +109,7 @@ export default function Home () {
 
         <div className="flex shrink-0 mt-16 max-w-full h-px border-t border-white border-opacity-10 w-full max-md:mt-10" />
 
-        <div className="mt-16 max-w-full w-full ">
+        <div className="mt-10 max-w-full w-full ">
           <Blockchain />
         </div>
 

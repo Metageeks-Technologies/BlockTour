@@ -1,14 +1,16 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import { IoSearchOutline } from "react-icons/io5";
 
 export default function Home() {
   return (
-    <div className=" bg-gradient-to-r from-[#000000] to-[#333333]">
-      <div className="w-[80%] m-auto pb-10">
-        <Navbar />
+    <div className=" lg:ml-52">
+      <div className=" flex w-[90%] m-auto ">
+       
+       <div className="w-full lg:mr-5">
 
-        <div>
-          <h1 className="text-3xl text-center mt-4">Terms and Conditions</h1>
+        <div className="w-[80%] m-auto py-8">
+          <h1 className="text-4xl mt-2">Terms and Conditions</h1>
 
           <div className=" flex flex-col gap-6 text-[#ADADAD] ">
             <div className="mt-2">
@@ -298,6 +300,28 @@ export default function Home() {
             </p>
           </div>
         </div>
+
+        </div>
+
+        <div className="w-[35%] lg:pl-8 mt-4 ">
+          <div className="relative border border-[#28272D] rounded flex justify-between">
+            <input
+              type="text"
+              placeholder="Search"
+              className="bg-[#0A090F] text-[#7B7A7F] sm:w-80 w-40 px-4 py-2 rounded border-none focus:outline-none"
+            />
+            <button className="bg-[#DF841C] text-white px-3 py-1.5 rounded">
+              <IoSearchOutline className="h-6 w-6" />
+            </button>
+          </div>
+          <div className="  flex items-center justify-between   py-6">
+            <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg">
+              Join for free
+            </button>
+            <p className="text-lg hover:underline">Sign In</p>
+          </div>
+        </div>
+
       </div>
       <Footer />
     </div>

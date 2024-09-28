@@ -235,9 +235,9 @@ const ArticlePage = () => {
               ) ) )}
           </div>
         )}
-
+  
         <div className="bg-[#0A090F] text-white p-14 rounded-lg mt-5 border border-[#17161B]">
-          <div className="flex justify-between gap-12 items-center">
+          <div className="flex lg:flex-row flex-col justify-between gap-12 items-center">
             {/* Left Section */}
             <div className="w-full ">
               <h2 className="text-2xl font-bold mb-2">
@@ -251,7 +251,7 @@ const ArticlePage = () => {
 
             {/* Right Section */}
             <div className="w-full">
-              <div className="flex items-center gap-4">
+              <div className="flex sm:flex-row flex-col items-center gap-4">
                 <div className="relative w-full sm:w-96">
                   <input
                     type="email"
@@ -292,6 +292,7 @@ const ArticlePage = () => {
                 </label>
               </div>
             </div>
+
           </div>
         </div>
 
@@ -315,8 +316,8 @@ const ArticlePage = () => {
           </div>
         </div>
 
-        <div className="sticky top-0 bg-black ">
-          <div className="flex gap-5 py-4 border-b border-[#17161B]  text-[#999999] items-center">
+        <div className="sticky top-0 bg-black border ">
+          <div className="flex  gap-5 py-4 border-b border-[#17161B]  text-[#999999] items-center">
             <p className={`hover:text-white cursor-pointer ${activeCategory === "All" ? "text-white font-semibold" : ""}`}
               onClick={() => handleCategoryClick( "All" )}
             >
