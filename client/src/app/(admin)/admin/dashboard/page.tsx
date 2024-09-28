@@ -167,11 +167,7 @@ const AdminDashboard: React.FC = () => {
 
   const totalItems = filteredAndSortedItems.length;
 
-  const paginate = ( pageNumber: number ) => setCurrentPage( pageNumber );
-
-  const handleSearch = () => {
-    setCurrentPage( 1 );  // Reset to first page when searching
-  };
+  const paginate = ( pageNumber: number ) => setCurrentPage( pageNumber ); 
 
   return (
     <div className="ml-64 mx-4 py-4 bg-[#0A090F] rounded-2xl shadow-md w-full border border-[#28272D]">
