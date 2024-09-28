@@ -12,7 +12,7 @@ export const generateUploadPresignedUrl = async (key: string, expiresIn: number 
 
   try {
     const url = await getSignedUrl( s3, command, {expiresIn} );
-    console.log("signed url:-",url)
+    // console.log("signed url:-",url)
     return url;
   } catch (error) {
     console.error('Error generating presigned URL:', error);

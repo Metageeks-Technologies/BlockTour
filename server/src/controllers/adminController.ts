@@ -14,7 +14,7 @@ export const signup = async (req: Request, res: Response) => {
     } 
     const hashedPassword = await bcrypt.hash( password, 10 );
     const newAdmin = new Admin({ email, password:hashedPassword,name}); 
-    console.log(newAdmin) 
+    // console.log(newAdmin) 
     await newAdmin.save(); 
     const token = jwt.sign( {id: newAdmin._id}, process.env.JWT_SECRET_KEY as string, {expiresIn: '7d'} );
 
@@ -38,7 +38,6 @@ export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
     const admin = await Admin.findOne( {email} );
-    console.log("admin",admin)
     if ( !admin ) {
       console.log("admin not found")
       return res.status(401).json({ message: 'Invalid email or password admin not found' });
