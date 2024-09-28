@@ -238,7 +238,7 @@ const Page = () => {
                                   <button
                                     className="px-4 py-2 hover:bg-[#0A090F] text-left rounded"
                                     onClick={() => {
-                                      router.push(`/article/${post.permaLink}`);
+                                      router.push(`/dashboard/${post._id}`);
                                     }}
                                   >
                                     View

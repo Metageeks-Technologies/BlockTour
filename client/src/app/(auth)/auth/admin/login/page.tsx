@@ -50,7 +50,7 @@ const Page = () => {
   return (
     <>
       <div className="flex items-center justify-center min-h-screen">
-        <div className="w-max-w-md p-8 space-y-4 bg-[#0A090F] rounded-3xl shadow-md border border-[#2b2934]">
+        <div className=" w-[35rem] p-8 space-y-4 bg-[#0A090F] rounded-3xl shadow-md border border-[#2b2934]">
           <div className="text-center">
             <img
               src="/asset/Block-logo.svg"
@@ -146,39 +146,7 @@ const Page = () => {
               </button>
             </div>
           </form>
-          <div className="flex items-center justify-center my-6 px-5">
-            <div className="flex-grow border-t border-gray-600"></div>
-            <span className="mx-4 text-neutral-400">or</span>
-            <div className="flex-grow border-t border-gray-600"></div>
-          </div>
-          <div className="mt-6 px-5 text-center text-neutral-400">
-            <div className="flex justify-center gap-3 mt-2">
-              <button className="text-neutral-300 flex gap-1 items-center border border-neutral-500 px-2 py-1 rounded-md text-sm">
-                <img
-                  src="https://th.bing.com/th/id/R.7e557f1c0864829c54c300d15bee69f4?rik=fjZN1AYH30vXIw&riu=http%3a%2f%2fpngimg.com%2fuploads%2fgoogle%2fgoogle_PNG19635.png&ehk=ZmsumEtoeJQhKoUzQTZO2TEbYPBu0%2b7EFdjmJ3qljls%3d&risl=&pid=ImgRaw&r=0"
-                  alt="Google"
-                  className="w-6 h-6"
-                />
-                Google
-              </button>
-              <button className="text-neutral-300 text-sm flex gap-1 items-center border border-neutral-500 px-2 py-1 rounded-md">
-                <img src="/asset/Vector.svg" alt="Facebook" />
-                Facebook
-              </button>
-              <button className="text-neutral-300 text-sm flex gap-1 items-center border border-neutral-500 px-2 py-1 rounded-md">
-                <img src="/asset/Instagram_1_.svg" alt="Instagram" />
-                Instagram
-              </button>
-              <button className="text-neutral-300 flex gap-1 items-center border border-neutral-500 px-2 py-1 rounded-md text-sm">
-                <img
-                  src="/asset/Group1.svg"
-                  alt="FAM Protocol"
-                  className="w-6 h-6"
-                />
-                FAM Protocol
-              </button>
-            </div>
-          </div>
+          
         </div>
       </div>
     </>

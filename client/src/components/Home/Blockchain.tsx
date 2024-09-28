@@ -11,8 +11,8 @@ const Blockchain = () => {
   const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Blockchain" ) ).reverse().slice( 0, 4 );
 
   return (
-    <div className="flex lg:flex-row md:flex-row flex-col gap-6 ">
-      <div className="flex flex-col gap-y-10 lg:basis-[69%] md:basis-[60%]">
+    <div className="flex lg:flex-row md:flex-row flex-col gap-6  ">
+      <div className="flex flex-col gap-y-10 lg:basis-[69%] md:basis-[60%] ">
         <div className="flex flex-wrap gap-5 justify-between w-full font-medium text-neutral-400 max-md:max-w-full">
           <div className="flex items-center gap-5 text-2xl leading-none whitespace-nowrap">
             <img
@@ -89,7 +89,7 @@ const Blockchain = () => {
       </div>
 
       <div className="flex flex-col ml-5  lg:basis-[31%]  md:basis-[40%] max-md:ml-0 max-md:w-full">
-        <div className="flex flex-col mt-3.5 w-full max-md:mt-10">
+        <div className="flex flex-col mt-20  w-full max-md:mt-10">
           <div className="flex overflow-hidden gap-5 justify-between w-full  cursor-pointer hover:bg-[#557eca]  bg-neutral-800">
             <div className="flex gap-2 items-center">
               <div className="flex relative flex-col justify-center items-end self-stretch px-4 py-2 ">
