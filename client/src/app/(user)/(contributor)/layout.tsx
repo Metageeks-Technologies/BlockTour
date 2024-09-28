@@ -24,13 +24,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         
-        <ReduxProvider> 
+        {/* <ReduxProvider>  */}
           {/* <UserHearder /> */}
           <div>
             <Sidebar />
             {children}
           </div>
-        </ReduxProvider>
+        {/* </ReduxProvider> */}
       </body>
     </html>
   );

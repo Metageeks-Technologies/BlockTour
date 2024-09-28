@@ -69,23 +69,34 @@ const PodcastPage = () => {
   };
 
   useEffect( () => {
-    setActiveCategory( category || "All" );
+    const categoryFromUrl = category?.replace( /-/g, ' ' );
+    setActiveCategory( categoryFromUrl || "All" );
     if ( categories.length === 0 ) {
       getAllCategories( dispatch );
     }
     fetchPostCast();
-  }, [dispatch, searchParams, router] );
 
-  const filteredPosts =
-    activeCategory === "All"
-      ? data
-      : data.filter(
-        ( post ) => post.category && post.category.includes( activeCategory )
-      );
+    if ( categoryFromUrl?.toLowerCase() === 'all' ) {
+      router.replace( '/podcast-episode' );
+    }
+  }, [dispatch, searchParams, router, categories.length, category] );
 
-  const handleCategoryClick = (category: string) => {
-    setActiveCategory(category);
-    router.push( `/podcast-episode?category=${category.toLowerCase().replace( / /g, "-" )}` ); 
+  const filteredPosts = activeCategory.toLowerCase() === "all"
+    ? data
+    : data.filter( ( post ) =>
+      post.category &&
+      post.category.some( ( cat: string ) =>
+        cat.toLowerCase().includes( activeCategory.toLowerCase() )
+      )
+    );
+
+  const handleCategoryClick = ( category: string ) => {
+    setActiveCategory( category );
+    if ( category.toLowerCase() === 'all' ) {
+      router.replace( '/podcast-episode' );
+    } else {
+      router.replace( `/podcast-episode?category=${category.toLowerCase().replace( / /g, "-" )}` );
+    }
   };
 
   const LoadingSkeleton = () => (
@@ -178,7 +189,8 @@ const PodcastPage = () => {
           <LoadingSkeleton />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-2 ">
-            {data.slice( 0, 4 ).map( ( post, index ) => (
+              {filteredPosts.length > 0 ? (
+                filteredPosts.slice( 0, 4 ).map( ( post, index ) => (
               <div
                 key={post._id}
                 className="cursor-pointer rounded-xl border group border-[#17161B] overflow-hidden bg-[#0A090F] pb-4"
@@ -186,15 +198,8 @@ const PodcastPage = () => {
                   router.push( `/podcast-episode/${post.permaLink}` );
                 }}
               >
-                <div className="relative">
-                  {/* <img
-                  loading="lazy"
-                  src={post.imgSrc}
-                  alt={post.title}
-                  className="w-full h-44 object-cover rounded-t-md"
-                /> */}
-                  <HtmlContent htmlContent={post?.embededCode || ""} />
-                 
+                <div className="relative"> 
+                  <HtmlContent htmlContent={post?.embededCode || ""} /> 
                 </div>
 
                 <div className="px-4 py-2 mt-2">
@@ -212,7 +217,13 @@ const PodcastPage = () => {
                   <p className="mt-2 text-[#767676]"> 2 days ago</p>
                 </div>
               </div>
-            ) )}
+                ) ))
+                :
+                // same skeleton with no data found for this category
+                <div className="bg-gray-700 h-40 rounded-lg mt-4 flex justify-center items-center col-span-4">
+                  <p className="text-center text-gray-500 text-lg justify-center items-center flex">No podcasts found for this category</p>
+                </div>
+          }
           </div>
         )}
 
@@ -299,7 +310,7 @@ const PodcastPage = () => {
         <div className="sticky top-0 bg-black">
           <div className="flex items-center gap-5 py-4 border-b border-[#17161B] text-[#999999]">
             <p
-              className={`hover:text-white cursor-pointer ${activeCategory === "All" ? "text-white font-semibold" : ""
+              className={`hover:text-white cursor-pointer ${activeCategory.toLowerCase() === "all" ? "text-white font-semibold" : ""
                 }`}
               onClick={() => handleCategoryClick( "All" )}
             >
@@ -308,20 +319,22 @@ const PodcastPage = () => {
             {categories.map( ( category: any ) => (
               <p
                 key={category._id}
-                className={`hover:text-white cursor-pointer ${activeCategory === category.name
-                  ? "text-white font-semibold"
-                  : ""
+                className={`hover:text-white cursor-pointer ${activeCategory.toLowerCase() === category.name.toLowerCase()
+                    ? "text-white font-semibold"
+                    : ""
                   } bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded`}
                 onClick={() => handleCategoryClick( category.name )}
               >
-                {category.name}
+                {category.name.charAt( 0 ).toUpperCase() + category.name.slice( 1 )}
               </p>
             ) )}
           </div>
         </div>
 
         <div className=" mx-auto mt-5">
-          {filteredPosts.map( ( newsItem, index ) => (
+          {
+            filteredPosts.length > 0 ? (
+            filteredPosts.map( ( newsItem, index ) => (
             <div
               key={newsItem._id}
               className="bg-[#0A090F] group cursor-pointer border border-[#17161B] p-5 rounded-lg shadow-lg flex space-x-5 mb-5"
@@ -367,7 +380,13 @@ const PodcastPage = () => {
                 </div>
               </div>
             </div>
-          ) )}
+          ) ))
+            :
+            // same skeleton with no data found for this category
+            <div className="bg-gray-700 h-40 rounded-lg mt-4 flex justify-center items-center col-span-4">
+              <p className="text-center text-gray-500 text-lg justify-center items-center flex">No podcasts found for this category</p>
+            </div>
+          }
         </div>
       </div>
 

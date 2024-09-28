@@ -64,16 +64,20 @@ const ArticlePage = () => {
     };
     fetchPosts();
 
-    if ( categoryName === 'All' ) {
+    if ( categoryName?.toLowerCase() === 'all' ) {
       router.replace( '/article' );
     }
   }, [dispatch, searchParams, router, categories.length, categoryName] ); 
   
-  const filteredPosts = activeCategory === "All" ? posts : posts.filter( ( post:any ) => post.category && post.status.toLowerCase() === "published" && post.category.some( ( cat:any ) => cat.toLowerCase().includes( activeCategory.toLowerCase() ) ) );
+  const filteredPosts = activeCategory.toLowerCase() === "all" ? posts : posts.filter( ( post:any ) => post.category && post.status.toLowerCase() === "published" && post.category.some( ( cat:any ) => cat.toLowerCase().includes( activeCategory.toLowerCase() ) ) );
 
   const handleCategoryClick = ( category: string ) => {
     setActiveCategory( category );
-    router.push( `/article?category=${category.toLowerCase().replace( / /g, "-" )}` );
+    if ( category.toLowerCase() === 'all' ) {
+      router.replace( '/article' );
+    } else {
+      router.replace( `/article?category=${category.toLowerCase().replace( / /g, "-" )}` );
+    } 
   };
 
   const getRandomPosts = useMemo( () => {
@@ -316,9 +320,9 @@ const ArticlePage = () => {
           </div>
         </div>
 
-        <div className="sticky top-0 bg-black border ">
+        <div className="sticky top-0 bg-black ">
           <div className="flex  gap-5 py-4 border-b border-[#17161B]  text-[#999999] items-center">
-            <p className={`hover:text-white cursor-pointer ${activeCategory === "All" ? "text-white font-semibold" : ""}`}
+            <p className={`hover:text-white cursor-pointer ${activeCategory.toLowerCase() === "all" ? "text-white font-semibold" : ""}`}
               onClick={() => handleCategoryClick( "All" )}
             >
               All
@@ -326,7 +330,7 @@ const ArticlePage = () => {
             {categories.map( ( category: any ) => (
               <p
                 key={category._id}
-                className={`hover:text-white cursor-pointer ${activeCategory === category.name ? "text-white font-semibold" : ""
+                className={`hover:text-white cursor-pointer ${activeCategory.toLowerCase() === category.name.toLowerCase() ? "text-white font-semibold" : ""
                   } bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded `}
                 onClick={() => {router.push( `/article?category=${category.name.toLowerCase().split( " " ).join( "-" )}` );}}
               >
@@ -459,9 +463,7 @@ const ArticlePage = () => {
             </div>
           </div>
         </div>
-      </div>
-
-
+      </div> 
       <Footer />
     </div>
   );
