@@ -35,11 +35,9 @@ export const userSignup = async (req: Request, res: Response) => {
     res.cookie( "UserToken", token, {
       httpOnly: process.env.NODE_ENV === "production",
       secure: process.env.NODE_ENV === "production",
-      sameSite:
-        process.env.NODE_ENV === "production"
-          ? "none"
-          : ("lax" as "none" | "strict" | "lax" | undefined),
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      sameSite: process.env.NODE_ENV === "production" ? "none" : ("lax" as "none" | "strict" | "lax" | undefined),
+      expires: new Date( Date.now() + 7 * 24 * 60 * 60 * 1000 ), 
+      domain:`${process.env.CLIENT_URL}`,
     } );
 
     res.status(200).json({ message: 'User created successfully',user:newUser });
@@ -49,6 +47,7 @@ export const userSignup = async (req: Request, res: Response) => {
 };  
 
 // // Login controller
+
 export const userLogin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
@@ -71,10 +70,7 @@ export const userLogin = async (req: Request, res: Response) => {
       res.cookie("UserToken", token, {
         httpOnly: process.env.NODE_ENV === "production",
         secure: process.env.NODE_ENV === "production",
-        sameSite:
-          process.env.NODE_ENV === "production"
-            ? "none"
-            : ("lax" as "none" | "strict" | "lax" | undefined),
+        sameSite: process.env.NODE_ENV === "production" ? "none" : ("lax" as "none" | "strict" | "lax" | undefined),
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       } );
     

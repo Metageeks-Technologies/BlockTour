@@ -56,7 +56,7 @@ const CryptoPage = () => {
           </div>
         ) : (
           publishedPosts.map( ( card: any ) => (
-            <div key={card.id} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {
+            <div key={card.id} className="flex group lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {
               router.push( `/article/${card.permaLink}` );
             }}>
               {card.postType?.toLowerCase() === "video post" ? (
@@ -75,7 +75,7 @@ const CryptoPage = () => {
               )}
 
               <div>
-                <h1 className="text-2xl text-white font-semibold line-clamp-2">
+                <h1 className="text-2xl text-white font-semibold line-clamp-2 group-hover:text-[#DF841C]">
                   {card.title}
                 </h1>
                 <div className="mt-1 flex gap-3 items-center">
@@ -106,9 +106,11 @@ const CryptoPage = () => {
             <div className="flex flex-col grow shrink-0 items-start max-w-full text-sm font-medium leading-5 basis-0 text-zinc-300 w-fit">
 
               {musicPosts.map( ( card: any ) => (
-                <div key={card._id} className="flex gap-5 mt-5 justify-between items-center">
+                <div key={card._id} className="flex gap-5 mt-5 justify-between items-center group cursor-pointer" onClick={() => {
+                  router.push( `/article/${card.permaLink}` );
+                }}>
                   <div>
-                    <p className="text-sm text-white ">
+                    <p className="text-sm text-white group-hover:text-[#DF841C] ">
                       {card.title}
                     </p>
                     <p className="text-neutral-400 mt-3">
@@ -125,12 +127,12 @@ const CryptoPage = () => {
               <div className="mt-14 text-2xl font-medium leading-none text-neutral-400 max-md:mt-10">
                 Archives
               </div>
-              <div className="mt-8 text-sm text-zinc-300">August 2024</div>
-              <div className="mt-6 text-sm text-zinc-300">July 2024 </div>
-              <div className="mt-6 text-sm text-zinc-300">June 2024 </div>
-              <div className="mt-7 text-sm text-zinc-300">May 2024</div>
-              <div className="mt-6 text-sm text-zinc-300">April 2024</div>
-              <div className="mt-6 text-sm text-zinc-300">March 2024</div>
+              <div className="mt-8 text-sm text-zinc-300 hover:text-[#DF841C] cursor-pointer">August 2024</div>
+              <div className="mt-6 text-sm text-zinc-300 hover:text-[#DF841C] cursor-pointer">July 2024 </div>
+              <div className="mt-6 text-sm text-zinc-300 hover:text-[#DF841C] cursor-pointer">June 2024 </div>
+              <div className="mt-7 text-sm text-zinc-300 hover:text-[#DF841C] cursor-pointer">May 2024</div>
+              <div className="mt-6 text-sm text-zinc-300 hover:text-[#DF841C] cursor-pointer">April 2024</div>
+              <div className="mt-6 text-sm text-zinc-300 hover:text-[#DF841C] cursor-pointer">March 2024</div>
             </div>
           </div>
         </div>

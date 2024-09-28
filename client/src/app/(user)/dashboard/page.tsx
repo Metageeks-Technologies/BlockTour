@@ -175,7 +175,7 @@ const Dashboard = () => {
               </div>
 
               {/* Post Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4 sm:px-8 px-4 py-4 ">
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-4 sm:px-8 px-4 py-4 ">
                 {currentPosts.map((post) => (
                   <div className="relative">
                     <div
@@ -186,14 +186,14 @@ const Dashboard = () => {
                         <video
                           src={post.previewImageUrl}
                           controls
-                          className="w-full h-44 object-cover rounded"
+                          className="w-full h-44 object-cover rounded sm:h-60 "
                         />
-                      ) : (
+                      ) : (  
                         <img
                           loading="lazy"
                           src={post.previewImageUrl}
                           alt={post.title}
-                          className="w-full h-44 object-cover rounded"
+                          className="w-full h-44 object-cover rounded sm:h-60 "
                           onClick={() => router.push(`/dashboard/${post._id}`)}
                         />
                       )}

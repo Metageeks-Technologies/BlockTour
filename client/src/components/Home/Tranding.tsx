@@ -112,9 +112,11 @@ const Trending = () => {
               </div>
 
               {cryptoPosts?.map( ( card: any ) => (
-                <div key={card._id} className="flex g ap-5 mt-5 justify-between items-center">
+                <div key={card._id} className="flex group cursor-pointer gap-5 mt-5 justify-between items-center" onClick={() => {
+                  router.push( `/article/${card.permaLink}` );
+                }}>
                   <div>
-                    <p className="text-sm text-white ">
+                    <p className="text-sm text-white group-hover:text-[#DF841C] ">
                       {card.title}
                     </p>
                     <p className="text-neutral-400 mt-3">
@@ -169,9 +171,11 @@ const Trending = () => {
               </div>
 
               {web3Posts?.map( ( card: any ) => (
-                <div key={card._id} className="flex gap-5 mt-5 justify-between items-center">
-                  <div>
-                    <p className="text-sm text-white ">
+                <div key={card._id} className="flex group cursor-pointer gap-5 mt-5 justify-between items-center" onClick={() => {
+                  router.push( `/article/${card.permaLink}` );
+                }}>
+                  <div >
+                    <p className="text-sm text-white group-hover:text-[#DF841C] ">
                       {card.title}
                     </p>
                     <p className="text-neutral-400 mt-3">
