@@ -106,9 +106,16 @@ export const currentUser = async (req: any, res: Response) => {
 // // Logout controller
 export const userLogout = async (req: Request, res: Response) => {
   try {
-
-    res.clearCookie('UserToken');
-    res.status(200).json({ message: 'Logged out successfully' });
+    res.clearCookie("UserToken", {
+      httpOnly: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production",
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? "none"
+          : ("lax" as "none" | "strict" | "lax" | undefined),
+    path: '/',  
+  });
+  return res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
