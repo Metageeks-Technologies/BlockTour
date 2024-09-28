@@ -47,19 +47,10 @@ export const adminSlice = createSlice({
       state.admin = undefined;
       state.loading = false;
       state.error = "";
-    },
-    
+    }, 
   },
-} );
+} ); 
 
-
-export const {
-  setCurrAdmin,
-  setAuthor,
-  requestStart,
-  requestFail, 
-  setAllAdmins,
-  logout,
-} = adminSlice.actions;
+export const { setCurrAdmin, setAuthor, requestStart, requestFail, setAllAdmins, logout } = adminSlice.actions; 
 
 export default adminSlice.reducer;

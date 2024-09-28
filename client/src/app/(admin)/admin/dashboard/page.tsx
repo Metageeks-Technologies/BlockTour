@@ -1,5 +1,5 @@
 "use client"
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useRouter} from "next/navigation";
 import {ClipLoader} from "react-spinners";
 import instance from "@/utils/axios";
@@ -7,6 +7,7 @@ import {formatDateTime} from "@/utils/DateFormat";
 import {IoSearchOutline} from "react-icons/io5";
 import {getAllCategories} from "@/app/redux/feature/category/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
+import {getCurrentAdmin} from "@/app/redux/feature/admin/api";
 
 interface Post {
   _id: string;
@@ -31,44 +32,81 @@ interface Contributor {
 
 const AdminDashboard: React.FC = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [activeTab, setActiveTab] = useState<'posts' | 'contributors'>( 'posts' );
   const [posts, setPosts] = useState<Post[]>( [] );
   const [contributors, setContributors] = useState<Contributor[]>( [] );
   const [isLoading, setIsLoading] = useState<boolean>( true );
+  const [isAdminLoading, setIsAdminLoading] = useState<boolean>( true );
   const [currentPage, setCurrentPage] = useState<number>( 1 );
   const [itemsPerPage, setItemsPerPage] = useState<number>( 10 );
   const [sortBy, setSortBy] = useState<string>( "date" );
   const [categoryFilter, setCategoryFilter] = useState<string>( "all" );
   const [searchTerm, setSearchTerm] = useState<string>( "" );
-  const dispatch = useAppDispatch();
+
   const categories = useAppSelector( ( state: any ) => state.category.categories );
-  useEffect( () => {
-    getAllCategories( dispatch );
-  }, [] );
-  useEffect( () => {
-    fetchData();
-  }, [activeTab] );
+  const currentAdmin = useAppSelector( ( state: any ) => state.superAdmin.admin );
 
-  const fetchData = async () => {
-    setIsLoading( true );
+  const fetchAdmin = useCallback( async () => {
     try {
-      if ( activeTab === 'posts' ) {
-        const response = await instance.get( '/post/all-posts' );
-        const data = response?.data?.posts;
-        setPosts( data );
-      } else {
-        const response = await instance.get( '/auth/user' );
-        const data = response?.data?.users;
-        setContributors( data );
-      }
+      await getCurrentAdmin( dispatch );
     } catch ( error ) {
-      console.error( error );
-      activeTab === 'posts' ? setPosts( [] ) : setContributors( [] );
+      console.error( "Error fetching admin:", error );
     } finally {
-      setIsLoading( false );
+      setIsAdminLoading( false );
     }
-  };
+  }, [dispatch] );
 
+  const fetchCategories = useCallback( async () => {
+    await getAllCategories( dispatch );
+  }, [dispatch] );
+
+  const fetchPosts = useCallback( async () => {
+    try {
+      const response = await instance.get( '/post/all-posts' );
+      setPosts( response?.data?.posts || [] );
+    } catch ( error ) {
+      console.error( 'Error fetching posts:', error );
+      setPosts( [] );
+    }
+  }, [] );
+
+  const fetchContributors = useCallback( async () => {
+    try {
+      const response = await instance.get( '/auth/user' );
+      setContributors( response?.data?.users || [] );
+    } catch ( error ) {
+      console.error( 'Error fetching contributors:', error );
+      setContributors( [] );
+    }
+  }, [] );
+
+  const fetchData = useCallback( async () => {
+    setIsLoading( true );
+    if ( activeTab === 'posts' ) {
+      await fetchPosts();
+    } else {
+      await fetchContributors();
+    }
+    setIsLoading( false );
+  }, [activeTab, fetchPosts, fetchContributors] );
+
+  useEffect( () => {
+    fetchAdmin();
+    fetchCategories();
+  }, [fetchAdmin, fetchCategories] );
+
+  useEffect( () => {
+    if ( !isAdminLoading ) {
+      if ( !currentAdmin ) {
+        router.push( '/auth/admin/login' );
+      } else {
+        fetchData();
+      }
+    }
+  }, [isAdminLoading, currentAdmin, router, fetchData] ); 
+
+ 
   const filteredAndSortedItems = useMemo( () => {
     let items: any = activeTab === 'posts' ? [...posts] : [...contributors];
 

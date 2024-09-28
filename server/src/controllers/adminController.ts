@@ -6,8 +6,7 @@ import Admin from '../models/admin/admin';
 // Signup controller
 export const signup = async (req: Request, res: Response) => {
   const { email, password,name } = req.body; 
-  try {
-    // clg 
+  try { 
     const existingAdmin = await Admin.findOne( {email} );
     console.log("exixsting:-",existingAdmin)
     if (existingAdmin) {
@@ -39,7 +38,7 @@ export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
     const admin = await Admin.findOne( {email} );
-    
+    console.log("admin",admin)
     if ( !admin ) {
       console.log("admin not found")
       return res.status(401).json({ message: 'Invalid email or password admin not found' });
@@ -49,7 +48,8 @@ export const login = async (req: Request, res: Response) => {
     if ( !isValidPassword ) {
       return res.status( 401 ).json( {message: 'Invalid email or password'} );
     } 
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET_KEY as string,{expiresIn:'7d'});     
+    const token = jwt.sign( {id: admin._id}, process.env.JWT_SECRET_KEY as string, {expiresIn: '7d'} );     
+    console.log("token",token)
     res.cookie( "AdminToken", token, {
       httpOnly: process.env.NODE_ENV === "production",
       secure: process.env.NODE_ENV === "production",
@@ -68,8 +68,9 @@ export const login = async (req: Request, res: Response) => {
 
  
 //current logged admin with token stored in cookies
-export const currentAdmin = async (req: any, res: Response) => {
-  const { id } = req.user as { id: string }; 
+export const currentAdmin = async ( req: any, res: Response ) => {
+  console.log("req.admin",req.admin)
+  const { id } = req.admin  
   try {
     const admin = await Admin.findById(id);
     if (!admin) {
@@ -94,7 +95,6 @@ export const adminLogout = async (req: Request, res: Response) => {
     path: '/',  // Specify the path where the cookie is set (usually '/')
   });
   return res.status(200).json({ message: "Logged out successfully" });
-    res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }

@@ -14,30 +14,20 @@ export default function Header() {
   const dispatch = useAppDispatch();
   const [isUserOpen, setIsUserOpen] = useState<boolean>(false);
   const [isPopupOpen, setIsPopupOpen] = useState( false );
-  const [noOfNotifications, setNoOfNotifications] = useState<number>( 0 )
-
-
+  const [noOfNotifications, setNoOfNotifications] = useState<number>( 0 ) 
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
-  };
-
-  const currentAdmin = useAppSelector((state: any) => state?.superAdmin?.admin);
-
+  }; 
+  const currentAdmin = useAppSelector((state: any) => state?.superAdmin?.admin);   
   const handleLogout = async () => {
     await logout(dispatch);
     // router.push("/auth/admin/login");
   };
-
+  
+  console.log( "current admin:-", currentAdmin )
   const handleUserIconClick = () => {
     setIsUserOpen(!isUserOpen);
-  };
-
-  useEffect( () => {
-    if ( !currentAdmin ) {
-      router.push( "/auth/admin/login" );
-    }
-  }, [currentAdmin, router] );
-  console.log("current admin:-", currentAdmin);
+  }; 
 
   return (
     <header className="bg-[#0A090F] text-white sticky w-full z-50 top-0 flex items-center justify-between px-6 py-2">

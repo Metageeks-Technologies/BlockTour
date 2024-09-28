@@ -6,6 +6,7 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
+import {AdminInitalLoader} from "@/components/inititalLoader/AdminInitalLoader";
 
 export const metadata: Metadata = {
     title: "Block Tour Admin",
@@ -18,11 +19,13 @@ export default function RootLayout ( {children, }: Readonly<{children: React.Rea
             <body className={inter.className}>
                 <ToastContainer />
                 <Header />
-                
-                <div className="flex">
-                    <Sidebar />
-                    {children}
-                </div>
+                <AdminInitalLoader>
+
+                    <div className="flex">
+                        <Sidebar />
+                        {children}
+                    </div>
+                </AdminInitalLoader>
 
 
             </body>

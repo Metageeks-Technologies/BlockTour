@@ -10,12 +10,13 @@ import {useAppSelector} from "@/app/redux/hooks";
 const Sidebar = () => {
   const [openMenu, setOpenMenu] = useState( null );
   const [isSidebarOpen, setIsSidebarOpen] = useState( true );
-  const currentAdmin = useAppSelector( ( state: any ) => state?.superAdmin?.admin ); const router = useRouter();
+  const currentAdmin = useAppSelector( ( state: any ) => state?.superAdmin?.admin );
+  const router = useRouter();
   const currentRoute = usePathname();
 
   // console.log( "currentAdmin", currentAdmin );
   const toggleMenu = ( menu: any ) => {
-    setOpenMenu( openMenu === menu ? null : menu ); 
+    setOpenMenu( openMenu === menu ? null : menu );
   };
 
   const isActive = ( route: string ) => currentRoute === route;
@@ -37,10 +38,7 @@ const Sidebar = () => {
                 <img src="/asset/dashboardIcon.svg" alt="" className="mr-2 px-1" />
                 <span>Dashboard</span>
               </div>
-              <MdOutlineKeyboardArrowDown
-                className={`transition-transform ${openMenu === "dashboard" ? "rotate-180" : "-rotate-90"
-                  }`}
-              />
+              {/* <MdOutlineKeyboardArrowDown  className={`transition-transform ${openMenu === "dashboard" ? "rotate-180" : "-rotate-90"    }`}  /> */}
             </li>
 
             {/* Blog Dropdown */}
@@ -79,56 +77,56 @@ const Sidebar = () => {
             </li>
 
             {/* Manage Dropdown */}
-            {currentAdmin?.role === "superAdmin" && (
-            <li className="border-b border-gray-700">
-              <button
-                className={`flex items-center justify-between w-full text-left px-4 hover:bg-[#1D1D21] py-2 rounded-none ${openMenu === "manage" ? "text-white font-bold" : "text-[#999999] font-semibold"
-                  }`}
-                onClick={() => toggleMenu( "manage" )}
-              >
-                <div className="flex items-center mr-1">
-                  <img src="/asset/Group2.svg" alt="" className="mr-2" />
-                  <span>User</span>
-                </div>
-                <MdOutlineKeyboardArrowDown
-                  className={`transition-transform ${openMenu === "manage" ? "rotate-180" : "-rotate-90"
+            {currentAdmin?.role.toLowerCase() === "superadmin" && (
+              <li className="border-b border-gray-700">
+                <button
+                  className={`flex items-center justify-between w-full text-left px-4 hover:bg-[#1D1D21] py-2 rounded-none ${openMenu === "manage" ? "text-white font-bold" : "text-[#999999] font-semibold"
                     }`}
-                />
-              </button>
-              {openMenu === "manage" && (
-                <ul className="pl-10 mt-2 space-y-1 text-gray-400">
-                  <li
-                    onClick={() => router.push( "/admin/contributor" )}
-                    className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/contributor " ) ? "text-white font-bold" : "text-[#999999] font-semibold"
+                  onClick={() => toggleMenu( "manage" )}
+                >
+                  <div className="flex items-center mr-1">
+                    <img src="/asset/Group2.svg" alt="" className="mr-2" />
+                    <span>User</span>
+                  </div>
+                  <MdOutlineKeyboardArrowDown
+                    className={`transition-transform ${openMenu === "manage" ? "rotate-180" : "-rotate-90"
                       }`}
-                  >
-                    Contributor
-                  </li>
-                  <li
-                    onClick={() => router.push( "/admin/subscribers" )}
-                    className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/subscribers" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
-                      }`}
-                  >
-                    Subscribers
-                  </li>
-                  {/* staff */}
-                  <li
-                    onClick={() => router.push( "/admin/staff" )}
-                    className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/staff" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
-                      }`}
-                  >
-                    Staff
-                  </li>
-                  {/* <li
+                  />
+                </button>
+                {openMenu === "manage" && (
+                  <ul className="pl-10 mt-2 space-y-1 text-gray-400">
+                    <li
+                      onClick={() => router.push( "/admin/contributor" )}
+                      className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/contributor " ) ? "text-white font-bold" : "text-[#999999] font-semibold"
+                        }`}
+                    >
+                      Contributor
+                    </li>
+                    <li
+                      onClick={() => router.push( "/admin/subscribers" )}
+                      className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/subscribers" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
+                        }`}
+                    >
+                      Subscribers
+                    </li>
+                    {/* staff */}
+                    <li
+                      onClick={() => router.push( "/admin/staff" )}
+                      className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/staff" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
+                        }`}
+                    >
+                      Staff
+                    </li>
+                    {/* <li
                     onClick={() => router.push( "/admin/contributor" )}
                     className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/contributor" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
                       }`}
                   >
                     Contributor
                   </li> */}
-                </ul>
-              )}
-            </li>
+                  </ul>
+                )}
+              </li>
             )}
 
             {/* Categories Dropdown */}

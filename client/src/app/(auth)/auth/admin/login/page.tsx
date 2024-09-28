@@ -41,7 +41,7 @@ const Page = () => {
   return (
     <>
       <div className="flex items-center justify-center min-h-screen">
-        <div className="w-max-w-md p-8 space-y-4 bg-[#0A090F] rounded-3xl shadow-md border border-[#2b2934]">
+        <div className="max-w-md p-8 space-y-4 bg-[#0A090F] rounded-3xl shadow-md border border-[#2b2934]">
           <div className="text-center">
             <img
               src="/asset/Block-logo.svg"

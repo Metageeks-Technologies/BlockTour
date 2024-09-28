@@ -1,6 +1,6 @@
 "use client";
-import {useRouter} from "next/navigation";
 import React, {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
 import {IoSearchOutline} from "react-icons/io5";
 import {ClipLoader} from "react-spinners";
 import instance from "@/utils/axios";
@@ -14,7 +14,7 @@ interface StaffMember {
     department: string;
     status: 'active' | 'inactive';
     createdAt: string;
-    profileImage:string;
+    profileImage: string;
 }
 
 const StaffTable: React.FC = () => {
@@ -36,11 +36,11 @@ const StaffTable: React.FC = () => {
     useEffect( () => {
         filterStaffMembers();
     }, [staffMembers, statusFilter, searchTerm, sortBy, departmentFilter] );
+
     const fetchStaffMembers = async () => {
         setIsLoading( true );
         try {
-            const response = await instance.get('/auth/admin/get-all-admins' );
-console.log("response", response)
+            const response = await instance.get( '/auth/admin/get-all-admins' );
             setStaffMembers( response.data.admins );
         } catch ( error ) {
             console.error( error );
@@ -75,7 +75,7 @@ console.log("response", response)
                 return a.name.localeCompare( b.name );
             }
             return 0;
-        } ); 
+        } );
         setFilteredStaff( filtered );
     };
 
@@ -96,11 +96,11 @@ console.log("response", response)
             </div>
 
             {/* Status Filter */}
-            <div className="border-b border-[#17161B] mt-8 mb-4 flex gap-8 px-8 font-semibold">
+            {/* <div className="border-b border-[#17161B] mt-8 mb-4 flex gap-8 px-8 font-semibold">
                 <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'all' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'all' )}>All Staff</p>
                 <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'active' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'active' )}>Active</p>
                 <p className={`text-[#7B7A7F] mb-1 cursor-pointer ${statusFilter === 'inactive' ? 'text-[#DF841C]' : ''}`} onClick={() => setStatusFilter( 'inactive' )}>Inactive</p>
-            </div>
+            </div> */}
 
             {/* Filters and Search */}
             <div className="flex justify-between items-center mb-4">
@@ -116,14 +116,6 @@ console.log("response", response)
                             <option value="name">Name</option>
                         </select>
                     </div>
-                    {/* <select
-                        className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded"
-                        value={departmentFilter}
-                        onChange={( e ) => setDepartmentFilter( e.target.value )}
-                    >
-                        <option value="all">All Departments</option>
-                        Add department options here
-                    </select> */}
                 </div>
 
                 <div className="flex gap-2 items-center px-4">
@@ -161,36 +153,34 @@ console.log("response", response)
                             <th className="py-3 px-4">Name</th>
                             <th className="py-3 px-4">Email</th>
                             <th className="py-3 px-4">Role</th>
-                            {/* <th className="py-3 px-4">Department</th>
-                            <th className="py-3 px-4">Status</th> */}
                             <th className="py-3 px-4">Join Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         {isLoading ? (
                             <tr>
-                                <td colSpan={7} className="text-center py-4">
+                                <td colSpan={5} className="text-center py-4">
                                     <ClipLoader color="#DF841C" size={50} />
                                 </td>
                             </tr>
                         ) : currentItems.length === 0 ? (
                             <tr>
-                                <td colSpan={7} className="text-center py-4">No Staff Members Found</td>
+                                <td colSpan={5} className="text-center py-4">No Staff Members Found</td>
                             </tr>
-                        ) : currentItems.map( ( staff, index ) => (
-                            <tr key={staff._id} className="border-b border-[#28272D] hover:bg-[#28272D] cursor-pointer text-left" onClick={() => router.push( `/admin/staff/${staff._id}` )}>
-                                <td className="py-3 px-4 text-center">{index + 1}</td>
-                                <td className="py-3 px-4 flex items-center whitespace-nowrap">
-                                    <img src={staff?.profileImage} alt={staff.name} className="w-10 h-10 rounded-full mr-3 object-cover" />
-                                    {staff.name}
-                                </td>
-                                <td className="py-3 px-4">{staff.email}</td>
-                                <td className="py-3 px-4">{staff.role}</td>
-                                {/* <td className="py-3 px-4">{staff.department}</td>
-                                <td className="py-3 px-4">{staff.status}</td> */}
-                                <td className="py-3 px-4">{formatDateTime( staff.createdAt )}</td>
-                            </tr>
-                        ) )}
+                        ) : (
+                            currentItems.map( ( staff, index ) => (
+                                <tr key={staff._id} className="border-b border-[#28272D] hover:bg-[#28272D] cursor-pointer text-left" onClick={() => router.push( `/admin/staff/${staff._id}` )}>
+                                    <td className="py-3 px-4 text-center">{indexOfFirstItem + index + 1}</td>
+                                    <td className="py-3 px-4 flex items-center whitespace-nowrap">
+                                        <img src={staff?.profileImage} alt={staff.name} className="w-10 h-10 rounded-full mr-3 object-cover" />
+                                        {staff.name}
+                                    </td>
+                                    <td className="py-3 px-4">{staff.email}</td>
+                                    <td className="py-3 px-4">{staff.role}</td>
+                                    <td className="py-3 px-4">{formatDateTime( staff.createdAt )}</td>
+                                </tr>
+                            ) )
+                        )}
                     </tbody>
                 </table>
             </div>
