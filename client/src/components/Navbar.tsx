@@ -1,7 +1,6 @@
 "use client";
 import {getCurrentUser} from "@/app/redux/feature/contributor/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
-import Cookies from "js-cookie";
 import {useRouter} from "next/navigation";
 import React, {useEffect} from "react";
 import {FaFacebookSquare, FaInstagram, FaLinkedin} from "react-icons/fa";
@@ -12,11 +11,7 @@ const Navbar = () => {
   const router = useRouter();
   const user = useAppSelector( ( state ) => state.contributor.currentUser );
   const dispatch = useAppDispatch();
-  useEffect( () => {
-    if ( Cookies.get( "UserToken" ) && !user ) {
-      getCurrentUser( dispatch );
-    }
-  }, [] );
+ 
 
   const handleCategoryClick = ( category: string ) => {
     const formattedCategory = category.toLowerCase().replace( /\s+/g, '-' );

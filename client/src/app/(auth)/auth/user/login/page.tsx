@@ -4,10 +4,11 @@ import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {useRouter} from "next/navigation";
-import Cookies from "js-cookie";
 import instance from "@/utils/axios";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa6";
+import {useAppDispatch} from "@/app/redux/hooks";
+import {getCurrentUser} from "@/app/redux/feature/contributor/api";
 
 const Page = () => {
   const router = useRouter();
@@ -15,6 +16,7 @@ const Page = () => {
   const [password, setPassword] = useState( "" );
   const [loading, setLoading] = useState( false );
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useAppDispatch();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -27,6 +29,7 @@ const Page = () => {
     try {
       const response = await instance.post( "/auth/user/login", {email, password} );
       console.log( response.data );
+      getCurrentUser(dispatch);
       router.push( "/dashboard" );
       toast.success( "Login successful!" ); 
     } catch ( error ) {

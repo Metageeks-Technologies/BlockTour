@@ -13,7 +13,6 @@ import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
 import {FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter, } from "react-icons/fa";
 import {IoLogoYoutube} from "react-icons/io";
 import {FaXTwitter} from "react-icons/fa6";
-import Cookies from "js-cookie";
 import instance from "@/utils/axios";
 
 const CardDetails = () => {
@@ -48,10 +47,7 @@ const CardDetails = () => {
         if ( slug ) {
             setIsLoading( true );
             getPostBySlug();
-            getAllPosts( dispatch );
-            if ( Cookies.get( "UserToken" ) ) {
-                getCurrentUser( dispatch );
-            }
+            getAllPosts( dispatch ); 
             setIsLoading( false );
         }
     }, [dispatch, slug] ); 

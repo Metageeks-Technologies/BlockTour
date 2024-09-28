@@ -3,7 +3,6 @@ import {getCurrentUser} from "@/app/redux/feature/contributor/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import UserHearder from "@/components/UserHearder";
 import instance from "@/utils/axios";
-import Cookies from "js-cookie";
 import {useRouter} from "next/navigation";
 import React, {useEffect, useState} from "react";
 import {BsThreeDots} from "react-icons/bs";
@@ -35,14 +34,8 @@ const Page = () => {
 
   useEffect( () => {
     fetchAllPosts();
-  }, [user] );
-
-  useEffect( () => {
-    if ( !Cookies.get( "UserToken" ) || !user ) {
-      router.push( "/auth/user/login" );
-    }
-    getCurrentUser( dispatch );
-  }, [] );
+  }, [user] ); 
+  
   console.log("User:-",user)
 
   useEffect( () => {

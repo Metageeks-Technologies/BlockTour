@@ -15,7 +15,6 @@ import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { getCurrentUser } from "@/app/redux/feature/contributor/api";
 import { useParams, useRouter } from "next/navigation";
 import {getAllCategories} from "@/app/redux/feature/category/api";
-import Cookies from "js-cookie";
 
 // Dynamically import ReactQuill with SSR disabled
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });

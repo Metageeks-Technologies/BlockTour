@@ -4,6 +4,7 @@ import "../globals.css";
 import {ReduxProvider} from "../redux/provider";
 // import {ToastContainer} from "react-toastify";
 import Sidebar from "@/components/contributor/Sidebar";
+import {IntialLoader} from "@/components/inititalLoader/IntialLoader";
 
 // import {ReduxProvider} from "./redux/provider";
 
@@ -20,10 +21,12 @@ export default function RootLayout ( {children, }: Readonly<{children: React.Rea
       <body className={inter.className}>
         {/* <ToastContainer /> */}
         <ReduxProvider>
+        <IntialLoader>
         <div className="flex">
             <Sidebar />
             {children}
           </div>
+        </IntialLoader>
         </ReduxProvider>
       </body>
     </html>

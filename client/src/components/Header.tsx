@@ -2,7 +2,6 @@
 import { getCurrentAdmin, logout } from "@/app/redux/feature/admin/api";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
@@ -26,21 +25,19 @@ export default function Header() {
 
   const handleLogout = async () => {
     await logout(dispatch);
-    router.push("/auth/admin/login");
+    // router.push("/auth/admin/login");
   };
 
   const handleUserIconClick = () => {
     setIsUserOpen(!isUserOpen);
   };
 
-  // if token in cookies is undefined then send the router to login page
-  useEffect(() => {
-    if (!Cookies.get("AdminToken")) {
-      router.push("/auth/admin/login");
+  useEffect( () => {
+    if ( !currentAdmin ) {
+      router.push( "/auth/admin/login" );
     }
-    getCurrentAdmin(dispatch);
-  }, []);
-  // console.log("current admin:-", currentAdmin);
+  }, [currentAdmin, router] );
+  console.log("current admin:-", currentAdmin);
 
   return (
     <header className="bg-[#0A090F] text-white sticky w-full z-50 top-0 flex items-center justify-between px-6 py-2">

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import { getCurrentAdmin } from "@/app/redux/feature/admin/api";
 import { useAppDispatch } from "@/app/redux/hooks";
 import instance from "@/utils/axios";

@@ -2,7 +2,6 @@
 import { getCurrentUser, logout } from "@/app/redux/feature/contributor/api";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
@@ -37,11 +36,10 @@ const UserHearder = () => {
   };
 
   useEffect(() => {
-    if (!Cookies.get("UserToken")) {
+    if (!user) {
       router.push("/auth/user/login");
     }
-    getCurrentUser(dispatch);
-  }, []);
+  }, [user, router]);
 
   const handleUserIconClick = () => {
     setIsUserOpen(!isUserOpen);

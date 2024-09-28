@@ -13,7 +13,6 @@ import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
 import {FaFacebookSquare, FaLinkedin, FaTwitter, } from "react-icons/fa";
 import {IoLogoYoutube} from "react-icons/io";
 import {FaXTwitter} from "react-icons/fa6";
-import Cookies from "js-cookie";
 import instance from "@/utils/axios";
 import Link from "next/link";
 
@@ -32,10 +31,7 @@ const CardDetails = () => {
   useEffect( () => {
     if ( id ) {
       // dispatch( getPostById( id ) );
-      getPostById( dispatch, id );
-      if ( Cookies.get( "UserToken" ) ) {
-        getCurrentUser( dispatch );
-      }
+      getPostById( dispatch, id ); 
     }
   }, [dispatch, id] );
 
