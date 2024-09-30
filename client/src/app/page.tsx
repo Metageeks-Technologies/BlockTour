@@ -7,26 +7,54 @@ import Tech from "@/components/Home/Crypto";
 import Latest from "@/components/Home/Latest";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "./redux/hooks";
 import {getAllPosts} from "./redux/feature/posts/api";
 import {getAllCategories} from "./redux/feature/category/api";
 import BlogMarquee from "@/components/Marquee";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css"; // Slider theme CSS
 
 export default function Home () {
   const dispatch = useAppDispatch();
   const posts = useAppSelector( ( state ) => state.post.posts )
-  console.log("Posts:-",posts)
+
+  const [loading, setLoading] = useState( true );
+  const [publishedPosts, setPublishedPosts] = useState<any[]>( [] );
+  
+
   useEffect( () => {
     getAllPosts( dispatch )
     getAllCategories( dispatch )
 },[])
 
+useEffect( () => {
+  if ( posts.length > 0 ) {
+    const filtered = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).reverse().slice( 0, 4 );
+    setPublishedPosts( filtered );
+    setLoading( false );
+  }
+}, [posts] );
+
+const sliderSettings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1, // Adjust based on how many you want to show
+  slidesToScroll: 1,
+  autoplay: true,
+  arrows: false, // Adds navigation arrows
+};
+
+
+console.log("Fileter Posts:-",publishedPosts)
+
   return (
     <div>
       <BlogMarquee/>
     <div className="flex overflow-hidden flex-col bg-black max-md:pb-24">
-      <div className="flex overflow-hidden relative flex-col items-center lg:px-20 md:px-4 px-4  w-full min-h-[740px] max-md:px-5 max-md:max-w-full">
+      <div className="flex border overflow-hidden relative flex-col items-center lg:px-20 md:px-4 px-4  w-full min-h-[740px] max-md:px-5 max-md:max-w-full">
         <img
           loading="lazy"
           srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/01403631944b1bcbc322ff2f03db5ac88eb06ca6eba01bd90af98c3f5332b22a?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/01403631944b1bcbc322ff2f03db5ac88eb06ca6eba01bd90af98c3f5332b22a?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/01403631944b1bcbc322ff2f03db5ac88eb06ca6eba01bd90af98c3f5332b22a?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/01403631944b1bcbc322ff2f03db5ac88eb06ca6eba01bd90af98c3f5332b22a?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/01403631944b1bcbc322ff2f03db5ac88eb06ca6eba01bd90af98c3f5332b22a?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/01403631944b1bcbc322ff2f03db5ac88eb06ca6eba01bd90af98c3f5332b22a?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/01403631944b1bcbc322ff2f03db5ac88eb06ca6eba01bd90af98c3f5332b22a?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/01403631944b1bcbc322ff2f03db5ac88eb06ca6eba01bd90af98c3f5332b22a?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
@@ -34,7 +62,7 @@ export default function Home () {
         />
         <div className="flex relative flex-col items-start max-w-full w-[1220px]">
           <Navbar />
-          {/* for mobile responsive pending */}
+         
           <div className="py-2 mt-96 lg:block md:block hidden  max-w-full text-4xl font-medium text-white bg-white bg-opacity-0 leading-[53px] w-[763px] max-md:mt-10 max-md:max-w-full">
             <h1>Kelp DAO Raises $9 Million in Private Sale for Restaking Innovations</h1>
             <div className="flex gap-2.5 mt-6 text-sm font-bold leading-none">
@@ -44,22 +72,54 @@ export default function Home () {
             <div className="mt-7 text-base font-medium leading-6 text-white text-opacity-50 max-md:max-w-full"> In a recent press release from Dubai, UAE, on May 22nd, 2024, Kelp
               DAO, a prominent liquid restaking platform, revealed the successful closure of a $9 million private sale round. </div>
           </div>
-          {/* <div className="flex gap-2.5 mt-6 text-sm font-bold leading-none">
-            <div className="px-1.5 py-1 bg-amber-600 text-stone-950">
-              Press Release
-            </div>
-            <div className="my-auto text-white text-opacity-50">
-              May 22, 2024
-            </div>
-          </div> */}
-          {/* <div className="mt-7 text-base font-medium leading-6 text-white text-opacity-50 max-md:max-w-full">
-            In a recent press release from Dubai, UAE, on May 22nd, 2024, Kelp
-            DAO, a prominent liquid restaking platform, revealed the successful
-            closure of a $9 million private sale round. 
-          </div> */}
+         
           <div className="flex shrink-0 self-stretch mt-20 w-full h-px border border-solid border-white border-opacity-10 max-md:mt-10" />
         </div>
       </div>
+
+      <Slider {...sliderSettings}>
+    <div className="flex  overflow-hidden  flex-col items-center   w-full min-h-[740px] max-md:px-5 max-md:max-w-full mb-40">
+   
+      {publishedPosts.map((post) => (
+        
+        <div key={post._id} className="flex border overflow-hidden relative  items-center  md:px-4 px-4  w-full min-h-[740px] max-md:px-5 max-md:max-w-full">
+          {/* Post Image */}
+          <img
+            loading="lazy"
+            // srcSet={`${post.previewImageUrl}?width=100 100w, ${post.previewImageUrl}?width=200 200w, ${post.previewImageUrl}?width=400 400w, ${post.previewImageUrl}?width=800 800w, ${post.previewImageUrl}?width=1200 1200w, ${post.previewImageUrl}?width=1600 1600w, ${post.previewImageUrl}?width=2000 2000w`}
+           
+            srcSet={post.previewImageUrl}
+            className="object-cover absolute inset-0 size-full"
+            alt={post.title}
+          />
+
+          {/* Post Content */}
+          <div className="flex relative flex-col items-start max-w-full w-[1220px]">
+            {/* <Navbar /> */}
+
+            {/* Title and Post Info */}
+            <div className="py-2 mt-96 lg:block md:block hidden max-w-full text-4xl font-medium text-white bg-white bg-opacity-0 leading-[53px] w-[763px] max-md:mt-10 max-md:max-w-full">
+              <h1 className="line-clamp-2">{post.title}</h1>
+
+              <div className="flex gap-2.5 mt-6 text-sm font-bold leading-none">
+                <div className="px-1.5 py-1 bg-amber-600 text-stone-950">Press Release</div>
+                <div className="my-auto text-white text-opacity-50">{new Date(post.publishedDate).toLocaleDateString()}</div>
+              </div>
+
+              <div className="mt-7 text-base font-medium leading-6 text-white text-opacity-50 max-md:max-w-full line-clamp-2">
+                {post.description.replace(/<[^>]*>?/gm, '')} {/* Removing HTML tags */}
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="flex shrink-0 self-stretch mt-20 w-full h-px border border-solid border-white border-opacity-10 max-md:mt-10" />
+          </div>
+        </div>
+         
+      ))}
+      
+    </div>
+    </Slider>
 
 
       <div className="flex  flex-col items-end self-center mt-8 max-w-full lg:w-[80%] md:w-full w-full lg:px-0 md:px-4 px-4">
@@ -115,7 +175,7 @@ export default function Home () {
 
         {/* this section done */}
 
-        <div className="flex shrink-0 mt-24 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" />
+        <div className="flex shrink-0 mt-24 max-w-full h-px border-t border-white border-opacity-10 w-full max-md:mt-10" />
         <div className="flex  flex-wrap gap-5 justify-between mt-12 max-w-full font-medium text-neutral-400 w-full max-md:mt-10">
           <div className="flex gap-5 text-2xl leading-none whitespace-nowrap">
             <img
