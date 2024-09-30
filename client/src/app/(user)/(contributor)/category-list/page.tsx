@@ -49,10 +49,7 @@ const PostsTable = () => {
         <div className=" space-x-4 px-8 sm:block hidden">
           <select className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded">
             <option>Bulk actions</option>
-          </select>
-          {/* <button className="bg-[#7B7A7F] py-1.5 px-4 rounded">
-            Apply
-          </button> */}
+          </select> 
         </div>
 
         <div className="flex gap-5 items-center px-4">

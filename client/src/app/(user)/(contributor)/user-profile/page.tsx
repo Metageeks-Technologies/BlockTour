@@ -202,20 +202,19 @@ const ProfilePage = () => {
               className="w-full px-3 py-2 bg-[#0A090F] border border-[#28272D] text-white rounded-md outline-none custom-input"
             />
           </div>
-          {/* <div className="mt-4 col-span-2">
+          <div className="mt-4 col-span-2">
               <label className="block text-[#7B7A7F] mb-1">Bio</label>
               <textarea
                 name="bio"
                 value={formData.bio}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 placeholder="Enter your bio..."
                 className="w-full px-3 py-2 bg-[#0A090F] border border-[#28272D] text-white rounded-md outline-none custom-input"
                 rows={4}
               />
-            </div> */}
+            </div>
         </div>
-        <div className="flex justify-end space-x-4">
-
+        <div className="flex justify-end space-x-4"> 
           <button
             type="submit"
             className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600"

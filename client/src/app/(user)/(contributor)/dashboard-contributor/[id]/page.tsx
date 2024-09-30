@@ -1,6 +1,6 @@
 "use client";
 import instance from "@/utils/axios";
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
 interface Post {
   _id: string;
@@ -20,31 +20,31 @@ interface Post {
   creatorId: string;
 }
 
-const Page = ({ params }: { params: { id: string } }) => {
-  const [post, setPost] = useState<Post | null>(null);
+const Page = ( {params}: {params: {id: string;};} ) => {
+  const [post, setPost] = useState<Post | null>( null );
 
-  const { id } = params;
+  const {id} = params;
 
   // Get data by id function
   const fetchPost = async () => {
     try {
-      const response = await instance(`/post/contributor/post/${id}`);
-      if (response.data.success) {
-        setPost(response.data.post);
-        console.log("Fetched post data:", response.data);
+      const response = await instance( `/post/contributor/post/${id}` );
+      if ( response.data.success ) {
+        setPost( response.data.post );
+        console.log( "Fetched post data:", response.data );
       }
-    } catch (error) {
-      console.error("Error fetching post:", error);
+    } catch ( error ) {
+      console.error( "Error fetching post:", error );
     }
   };
 
-  useEffect(() => {
-    if (id) {
+  useEffect( () => {
+    if ( id ) {
       fetchPost();
     }
-  }, [id]);
+  }, [id] );
 
-  if (!post) {
+  if ( !post ) {
     return (
       <div className="lg:ml-64 bg-[#0A090F] px-8 py-8 text-white m-4 rounded-2xl w-full border border-[#28272D]">
         <div className="flex gap-2 items-center">
@@ -89,12 +89,12 @@ const Page = ({ params }: { params: { id: string } }) => {
               />
               <div className="text-sm text-neutral-400 py-4">
                 <div className="flex gap-2 items-center">
-                <button className="bg-[#DF841C] py-0.5 px-3 my-0.5 text-[#230E00] font-semibold text-sm">
-                  {post.category.join(", ")}
-                </button>
-                <p className="text-sm text-neutral-400">
-                          {new Date(post.publishedDate).toLocaleDateString()}
-                        </p>
+                  <button className="bg-[#DF841C] py-0.5 px-3 my-0.5 text-[#230E00] font-semibold text-sm">
+                    {post.category.join( ", " )}
+                  </button>
+                  <p className="text-sm text-neutral-400">
+                    {new Date( post.publishedDate ).toLocaleDateString()}
+                  </p>
                 </div>
                 <p className="font-medium text-neutral-400">
                   <span className="text-neutral-400">By:</span>{" "}
@@ -124,7 +124,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         <div className="mt-4">
           <div
             className="text-neutral-400 mt-3"
-            dangerouslySetInnerHTML={{ __html: post.description || "" }}
+            dangerouslySetInnerHTML={{__html: post.description || ""}}
           />
         </div>
       </div>

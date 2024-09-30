@@ -1,7 +1,6 @@
 "use client";
 import {getCurrentUser} from "@/app/redux/feature/contributor/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
-import UserHearder from "@/components/UserHearder";
 import instance from "@/utils/axios";
 import {formatDateTime} from "@/utils/DateFormat";
 import {useRouter} from "next/navigation";

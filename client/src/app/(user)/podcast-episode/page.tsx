@@ -358,19 +358,7 @@ const PodcastPage = () => {
                         <FaEye className="mr-1 mt-0.5" />
                         {newsItem?.views || 0} views
                       </span>
-                    </div>
-
-
-                    {/* <div className="flex items-center space-x-4 text-sm mt-3">
-                  <div className=" bg-[#1F1C2C] flex gap-1 px-2 py-0.5 rounded items-center">
-                    <BsLightningChargeFill />
-                    <p className="text-xs">Early Access</p>
-                  </div>
-                  <div className=" bg-[#1F1C2C] flex gap-1 px-2 py-0.5 rounded items-center">
-                    <PiMicrophone />
-                    <p className="text-xs">Podcast</p>
-                  </div>
-                </div> */}
+                    </div> 
 
                     <div className="flex gap-3 mt-3 text-[#999999]">
                       {newsItem?.category.map( ( cat: any ) => (
@@ -386,15 +374,12 @@ const PodcastPage = () => {
                 </div>
               ) ) )
               :
-              // same skeleton with no data found for this category
               <div className="bg-gray-700 h-40 rounded-lg mt-4 flex justify-center items-center col-span-4">
                 <p className="text-center text-gray-500 text-lg justify-center items-center flex">No podcasts found for this category</p>
               </div>
           }
         </div>
       </div>
-
-
 
       <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
         <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">

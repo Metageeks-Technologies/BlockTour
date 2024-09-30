@@ -9,7 +9,7 @@ import {
 } from "react-icons/md";
 import axios from "axios";
 import instance from "@/utils/axios";
-import {notifyError, notifyWarn} from "@/utils/toast";
+import {notifyError} from "@/utils/toast";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import {getCurrentUser} from "@/app/redux/feature/contributor/api";
 import {useParams, useRouter} from "next/navigation";
@@ -18,8 +18,7 @@ import {getAllCategories} from "@/app/redux/feature/category/api";
 const ReactQuill = dynamic( () => import( "react-quill" ), {ssr: false} );
 
 const UpdatePostPage = () => {
-  const {slug} = useParams<{slug: string;}>();
-
+  const {slug} = useParams<{slug: string;}>(); 
   const [isLoading, setIsLoading] = useState( false );
   const [sliderImages, setSliderImages] = useState<File[]>( [] );
   const [previewImage, setPreviewImage] = useState<File | null>( null );
@@ -171,12 +170,12 @@ const UpdatePostPage = () => {
       }
 
       const updatedData = {
-        ...data, 
+        ...data,
         status: "Draft",
         postSliderImageUrl: updatedSliderImages,
         previewImageUrl: updatedPreviewImageUrl,
       };
-console.log("updatedData", updatedData)
+      console.log( "updatedData", updatedData );
       const response = await instance.put( `post/contributor/post/${data._id}`, updatedData );
       alert( "Post updated successfully" );
       console.log( "Form submitted successfully:", response.data );
@@ -355,7 +354,7 @@ console.log("updatedData", updatedData)
                   </label>
                   {/* title on hover that you can't edit */}
                   <p className="bg-[#0A090F] text-[#7B7A7F] border border-[#414141] rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-gray-600 w-full hover:cursor-not-allowed " title="You can't edit the published date">
-                   {formatDateForDisplay( data.publishedDate )}
+                    {formatDateForDisplay( data.publishedDate )}
                   </p>
                 </div>
               </div>

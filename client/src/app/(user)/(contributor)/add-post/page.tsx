@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import dynamic from "next/dynamic";
 // import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -10,35 +10,35 @@ import {
 } from "react-icons/md";
 import axios from "axios";
 import instance from "@/utils/axios";
-import { notifyError, notifyWarn } from "@/utils/toast";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { getCurrentUser } from "@/app/redux/feature/contributor/api";
-import { useRouter } from "next/navigation";
+import {notifyError, notifyWarn} from "@/utils/toast";
+import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
+import {getCurrentUser} from "@/app/redux/feature/contributor/api";
+import {useRouter} from "next/navigation";
 import {getAllCategories} from "@/app/redux/feature/category/api";
 
 // Dynamically import ReactQuill with SSR disabled
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+const ReactQuill = dynamic( () => import( "react-quill" ), {ssr: false} );
 
 const AddPostPage = () => {
-  const [image, setImage] = useState<File | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [sliderImages, setSliderImages] = useState<File[]>([]);
-  const [previewImage, setPreviewImage] = useState<File | null>(null);
+  const [image, setImage] = useState<File | null>( null );
+  const [isLoading, setIsLoading] = useState( false );
+  const [sliderImages, setSliderImages] = useState<File[]>( [] );
+  const [previewImage, setPreviewImage] = useState<File | null>( null );
   const user = useAppSelector( ( state: any ) => state.contributor.currentUser ) || {};
   const categories = useAppSelector( ( state: any ) => state.category.categories ) || [];
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  console.log("user:-", user);
-  useEffect( () => { 
+  console.log( "user:-", user );
+  useEffect( () => {
     getCurrentUser( dispatch );
     getAllCategories( dispatch );
-  }, []);
-  const [data, setData] = useState({
+  }, [] );
+  const [data, setData] = useState( {
     title: "",
     permaLink: "",
     description: "",
-    publishedDate: new Date().toISOString().split("T")[0],
+    publishedDate: new Date().toISOString().split( "T" )[0],
     visibility: "Private",
     status: "Draft",
     postType: "",
@@ -48,12 +48,12 @@ const AddPostPage = () => {
     previewImageUrl: "",
     creatorId: "",
     authorName: "",
-  });
+  } );
 
   const getUploadUrl = useCallback(
-    async (fileName: string): Promise<string> => {
+    async ( fileName: string ): Promise<string> => {
       try {
-        const response = await instance.post<{ url: string }>(
+        const response = await instance.post<{url: string;}>(
           "/aws/getUploadRrl",
           {
             folder: "posts",
@@ -61,8 +61,8 @@ const AddPostPage = () => {
           }
         );
         return response.data.url;
-      } catch (error) {
-        console.error("Error getting upload URL:", error);
+      } catch ( error ) {
+        console.error( "Error getting upload URL:", error );
         throw error;
       }
     },
@@ -70,25 +70,25 @@ const AddPostPage = () => {
   );
 
   const handleUpload = useCallback(
-    async (file: File): Promise<string | null> => {
-      if (!file) return null;
+    async ( file: File ): Promise<string | null> => {
+      if ( !file ) return null;
 
       try {
         const uploadUrl = await getUploadUrl(
           `${file.lastModified}${file.size}${file.name}`
         );
-        if (!uploadUrl) return null;
+        if ( !uploadUrl ) return null;
 
-        const res = await axios.put(uploadUrl, file, {
-          headers: { "Content-Type": file.type },
-        });
+        const res = await axios.put( uploadUrl, file, {
+          headers: {"Content-Type": file.type},
+        } );
 
-        if (res.status === 200) {
+        if ( res.status === 200 ) {
           return `https://${process.env.NEXT_PUBLIC_AWS_BUCKET}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/posts/${file.lastModified}${file.size}${file.name}`;
         }
         return null;
-      } catch (error) {
-        console.error("Error uploading file:", error);
+      } catch ( error ) {
+        console.error( "Error uploading file:", error );
         return null;
       }
     },
@@ -96,66 +96,66 @@ const AddPostPage = () => {
   );
 
   const handleSliderImageChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files) {
-        setSliderImages((prev) => [
+    ( e: React.ChangeEvent<HTMLInputElement> ) => {
+      if ( e.target.files ) {
+        setSliderImages( ( prev ) => [
           ...prev,
-          ...Array.from(e.target.files as FileList),
-        ]);
+          ...Array.from( e.target.files as FileList ),
+        ] );
       }
     },
     []
   );
 
   const handlePreviewImageChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files && e.target.files[0]) {
-        setPreviewImage(e.target.files[0]);
+    ( e: React.ChangeEvent<HTMLInputElement> ) => {
+      if ( e.target.files && e.target.files[0] ) {
+        setPreviewImage( e.target.files[0] );
       }
     },
     []
   );
 
-  const removeSliderImage = useCallback((index: number) => {
-    setSliderImages((prev) => prev.filter((_, i) => i !== index));
-  }, []);
+  const removeSliderImage = useCallback( ( index: number ) => {
+    setSliderImages( ( prev ) => prev.filter( ( _, i ) => i !== index ) );
+  }, [] );
 
-  const handleCategoryChange = useCallback((category: string) => {
-    setData((prevData) => ({
+  const handleCategoryChange = useCallback( ( category: string ) => {
+    setData( ( prevData ) => ( {
       ...prevData,
-      category: prevData.category.includes(category)
-        ? prevData.category.filter((cat) => cat !== category)
+      category: prevData.category.includes( category )
+        ? prevData.category.filter( ( cat ) => cat !== category )
         : [...prevData.category, category],
-    }));
-  }, []);
+    } ) );
+  }, [] );
 
   const handleTagChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setData((prevData) => ({
+    ( e: React.ChangeEvent<HTMLInputElement> ) => {
+      setData( ( prevData ) => ( {
         ...prevData,
-        tags: e.target.value.split(",").map((tag) => tag.trim()),
-      }));
+        tags: e.target.value.split( "," ).map( ( tag ) => tag.trim() ),
+      } ) );
     },
     []
   );
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); 
+  const handleSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
+    e.preventDefault();
 
-    if (!previewImage) {
-      alert("Please select a preview image");
+    if ( !previewImage ) {
+      alert( "Please select a preview image" );
       return;
     }
 
-    setIsLoading(true);
+    setIsLoading( true );
     try {
       const postSliderImageUrl = await Promise.all(
-        sliderImages.map((image) => handleUpload(image))
+        sliderImages.map( ( image ) => handleUpload( image ) )
       );
-      const previewImageUrl = await handleUpload(previewImage);
+      const previewImageUrl = await handleUpload( previewImage );
 
-      if (!previewImageUrl) {
-        notifyWarn("Failed to upload preview image to AWS S3");
+      if ( !previewImageUrl ) {
+        notifyWarn( "Failed to upload preview image to AWS S3" );
         return;
       }
 
@@ -164,7 +164,7 @@ const AddPostPage = () => {
         creatorId: user?._id,
         authorName: user?.name,
         postSliderImageUrl: postSliderImageUrl.filter(
-          (url) => url !== null
+          ( url ) => url !== null
         ) as string[],
         previewImageUrl,
       };
@@ -173,16 +173,16 @@ const AddPostPage = () => {
         "/post/contributor/posts",
         updatedData
       );
-      alert("post created sucessfull");
-      console.log( "Form submitted successfully:", response.data,response );
+      alert( "post created sucessfull" );
+      console.log( "Form submitted successfully:", response.data, response );
       if ( response.status === 201 ) {
-        createNotification( user?.name, user?.profileImage,user?._id,data?.title )
+        createNotification( user?.name, user?.profileImage, user?._id, data?.title );
       }
-      setData({
+      setData( {
         title: "",
         permaLink: "",
         description: "",
-        publishedDate: new Date().toISOString().split("T")[0],
+        publishedDate: new Date().toISOString().split( "T" )[0],
         visibility: "Public",
         status: "Draft",
         postType: "",
@@ -193,16 +193,16 @@ const AddPostPage = () => {
         creatorId: "",
         authorName: "",
       } );
-      router.push( '/dashboard' );  
-    } catch (error: any) {
-      notifyError(`${error?.response?.data?.message || "An error occurred"}`);
-      console.error("Error submitting the form:", error);
+      router.push( '/dashboard' );
+    } catch ( error: any ) {
+      notifyError( `${error?.response?.data?.message || "An error occurred"}` );
+      console.error( "Error submitting the form:", error );
     } finally {
-      setIsLoading(false);
+      setIsLoading( false );
     }
   };
 
-  const createNotification = async ( senderName: string, senderImage: string, sender: string,title:string ) => {
+  const createNotification = async ( senderName: string, senderImage: string, sender: string, title: string ) => {
     try {
       const response = await instance.post( "/notification/create-notification", {
         sender,
@@ -221,22 +221,22 @@ const AddPostPage = () => {
     <div className=" lg:ml-64  bg-[#0A090F] text-white sm:m-4 sm:my-4 my-2   sm:rounded-2xl border border-[#28272D]">
       {!user.contributor ? (
         <div className="flex h-[40rem] justify-center items-center">
-        <div className="flex flex-col items-center justify-center">
-          <img
-            src="/asset/Group 13267.svg"
-            alt="Not a contributor"
-            className="h-30 w-30"
-          />
-          <h1 className="font-semibold text-2xl mt-6">
-            You are not a contributor.
-          </h1>
-          <p className="text-center text-sm text-[#999999] mt-0.5">
-            Once admin approves you then you can make a post,
-            <br />
-            it takes up to 48 hrs.
-          </p>
+          <div className="flex flex-col items-center justify-center">
+            <img
+              src="/asset/Group 13267.svg"
+              alt="Not a contributor"
+              className="h-30 w-30"
+            />
+            <h1 className="font-semibold text-2xl mt-6">
+              You are not a contributor.
+            </h1>
+            <p className="text-center text-sm text-[#999999] mt-0.5">
+              Once admin approves you then you can make a post,
+              <br />
+              it takes up to 48 hrs.
+            </p>
+          </div>
         </div>
-      </div>
       ) : (
         <div>
           <div className="border-b border-[#28272D] sm:px-4 py-4">
@@ -256,12 +256,12 @@ const AddPostPage = () => {
                   placeholder="Enter post title"
                   className="w-full bg-[#0A090F] border border-[#414141] rounded p-2 custom-input"
                   value={data.title}
-                  onChange={(e) =>
-                    setData((prevData) => ({
+                  onChange={( e ) =>
+                    setData( ( prevData ) => ( {
                       ...prevData,
                       title: e.target.value,
                       permaLink: e.target.value.toLowerCase().replace( / /g, "-" ),
-                    }))
+                    } ) )
                   }
                 />
               </div>
@@ -276,11 +276,11 @@ const AddPostPage = () => {
                   placeholder="Enter permalink"
                   className="w-full bg-[#0A090F] border border-[#414141] rounded p-2 custom-input"
                   value={data.permaLink}
-                  onChange={(e) =>
-                    setData((prevData) => ({
+                  onChange={( e ) =>
+                    setData( ( prevData ) => ( {
                       ...prevData,
                       permaLink: e.target.value,
-                    }))
+                    } ) )
                   }
                 />
               </div>
@@ -294,23 +294,23 @@ const AddPostPage = () => {
                   <ReactQuill
                     theme="snow"
                     value={data.description}
-                    onChange={(value) =>
-                      setData((prevData) => ({
+                    onChange={( value ) =>
+                      setData( ( prevData ) => ( {
                         ...prevData,
                         description: value,
-                      }))
+                      } ) )
                     }
                     placeholder="Enter description..."
                     modules={{
                       toolbar: [
-                        [{ font: [] }],
-                        [{ size: [] }],
+                        [{font: []}],
+                        [{size: []}],
                         ["bold", "italic", "underline", "strike"],
-                        [{ color: [] }, { background: [] }],
-                        [{ script: "sub" }, { script: "super" }],
+                        [{color: []}, {background: []}],
+                        [{script: "sub"}, {script: "super"}],
                         ["blockquote", "code-block"],
-                        [{ list: "ordered" }, { list: "bullet" }],
-                        [{ align: [] }],
+                        [{list: "ordered"}, {list: "bullet"}],
+                        [{align: []}],
                         ["link", "image"],
                       ],
                     }}
@@ -379,22 +379,14 @@ const AddPostPage = () => {
                       Selected Images:
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {sliderImages.map((image, index) => (
+                      {sliderImages.map( ( image, index ) => (
                         <div key={index} className="relative">
-                          <img
-                            src={URL.createObjectURL(image)}
-                            alt={`Slider image ${index + 1}`}
-                            className="w-20 h-20 object-cover rounded"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => removeSliderImage(index)}
-                            className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
-                          >
+                          <img src={URL.createObjectURL( image )} alt={`Slider image ${index + 1}`} className="w-20 h-20 object-cover rounded" />
+                          <button type="button" onClick={() => removeSliderImage( index )} className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1" >
                             <MdClose className="h-4 w-4" />
                           </button>
                         </div>
-                      ))}
+                      ) )}
                     </div>
                   </div>
                 )}
@@ -403,14 +395,7 @@ const AddPostPage = () => {
 
             {/* Right Column (Post Settings) */}
             <div className="lg:basis-[30%] sm:basis-[40%] w-full sm:mt-7">
-              <div className="flex flex-col gap-2 ">
-                {/* <button
-              type="button"
-              className="bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-600"
-              disabled={isLoading}
-            >
-              Preview Changes
-            </button> */}
+              <div className="flex flex-col gap-2 "> 
                 <button
                   type="submit"
                   className="bg-orange-500 sm:block hidden text-white py-2 px-4 rounded hover:bg-orange-400"
@@ -434,11 +419,11 @@ const AddPostPage = () => {
                     type="date"
                     className="bg-[#0A090F] text-[#7B7A7F] border border-[#414141] rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-gray-600 w-full"
                     value={data.publishedDate}
-                    onChange={(e) =>
-                      setData((prevData) => ({
+                    onChange={( e ) =>
+                      setData( ( prevData ) => ( {
                         ...prevData,
                         publishedDate: e.target.value,
-                      }))
+                      } ) )
                     }
                   />
                 </div>
@@ -453,12 +438,12 @@ const AddPostPage = () => {
                   </header>
                   <div className="mt-3 border-b border-[#414141]" />
                   <div className="flex flex-col px-4 mt-4 w-full">
-                    {categories.map((category:any,index:number) => (
+                    {categories.map( ( category: any, index: number ) => (
                       <div key={index} className="flex mt-1 items-center">
                         <input
                           type="checkbox"
-                          checked={data.category.includes(category.name)}
-                          onChange={() => handleCategoryChange(category.name)}
+                          checked={data.category.includes( category.name )}
+                          onChange={() => handleCategoryChange( category.name )}
                         />
                         <label
                           htmlFor={category.name}
@@ -467,7 +452,7 @@ const AddPostPage = () => {
                           {category.name}
                         </label>
                       </div>
-                    ))}
+                    ) )}
                   </div>
                 </div>
               </div>
@@ -484,9 +469,8 @@ const AddPostPage = () => {
                   type="text"
                   id="tags"
                   placeholder="Add tags"
-                  value={data.tags.join(", ")}
-                  onChange={handleTagChange}
-                  // className="bg-[#0A090F] text-[#7B7A7F] placeholder-gray-500 mt-2 border border-[#414141] rounded-lg py-2 px-3 focus:outline-none w-full
+                  value={data.tags.join( ", " )}
+                  onChange={handleTagChange} 
                   className="bg-[#0A090F] text-[#7B7A7F] placeholder-gray-500 mt-2 border border-[#414141] rounded-lg py-2 px-3 focus:outline-none w-full custom-input"
                 />
               </div>
@@ -505,7 +489,7 @@ const AddPostPage = () => {
                       "Video Post",
                       "Quote Post",
                       "Gallery Post",
-                    ].map((postType) => (
+                    ].map( ( postType ) => (
                       <div key={postType} className="flex items-center">
                         <input
                           type="radio"
@@ -513,11 +497,11 @@ const AddPostPage = () => {
                           name="postType"
                           value={postType}
                           checked={data.postType === postType}
-                          onChange={(e) =>
-                            setData((prevData) => ({
+                          onChange={( e ) =>
+                            setData( ( prevData ) => ( {
                               ...prevData,
                               postType: e.target.value,
-                            }))
+                            } ) )
                           }
                           className="custom-checkbox"
                         />
@@ -528,7 +512,7 @@ const AddPostPage = () => {
                           {postType}
                         </label>
                       </div>
-                    ))}
+                    ) )}
                   </div>
                 </div>
               </div>
@@ -571,7 +555,7 @@ const AddPostPage = () => {
                         Selected Preview Image:
                       </h4>
                       <img
-                        src={URL.createObjectURL(previewImage)}
+                        src={URL.createObjectURL( previewImage )}
                         alt="Preview"
                         className="w-full h-40 object-cover rounded"
                       />
@@ -579,15 +563,8 @@ const AddPostPage = () => {
                   )}
                 </div>
               </div>
-              
-              <div className="flex flex-col gap-2 mt-5 ">
-                {/* <button
-              type="button"
-              className="bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-600"
-              disabled={isLoading}
-            >
-              Preview Changes
-            </button> */}
+
+              <div className="flex flex-col gap-2 mt-5 "> 
                 <button
                   type="submit"
                   className="bg-orange-500 sm:hidden  text-white py-2 px-4 rounded hover:bg-orange-400"
@@ -598,7 +575,7 @@ const AddPostPage = () => {
               </div>
 
             </div>
-            
+
           </form>
         </div>
       )}

@@ -18,7 +18,6 @@ const CardDetails = () => {
     const {slug} = useParams<{slug: string;}>();
     const dispatch = useAppDispatch();
     const router = useRouter();
-    // const card = useAppSelector( ( state: any ) => state.post.currentPost );
     const [card, setCard] = useState<any>( null );
     const [data, setData] = useState<any>( null );
     const [isLoading, setIsLoading] = useState<boolean>( true );
@@ -330,34 +329,6 @@ const CardDetails = () => {
                                 </div>
                             )}
 
-                            {/* <div className="mt-5">
-                <p className="text-[#999999] mb-2">In this article</p>
-                <div className="flex gap-3">
-                  <button className="py-1.5 px-4 border border-[#17161B] bg-[#0A090F] rounded text-[#999999]">What to Expect</button>
-                  <button className="py-1.5 px-4 border border-[#17161B] bg-[#0A090F] rounded text-[#999999]">Polkadot</button>
-                </div>
-              </div> */}
-
-                            {/* <div className=" w-full border border-[#17161B] mt-6 bg-[#0A090F] rounded flex justify-center">
-                <h1 className="uppercase text-lg font-semibold text-[#CCCCCC] p-4">Friend & Sponsor</h1>
-              </div> */}
-
-                            {/* <div className="flex gap-5 justify-between mt-6 ">
-                <div className="flex flex-col my-auto">
-                  <div className="py-1 text-sm font-medium leading-5 bg-white bg-opacity-0 text-zinc-300">
-                    Sony And Startale Team Up For L2 Rollup: Soneium
-                  </div>
-                  <div className="self-start mt-3 text-xs font-bold leading-none text-neutral-500">
-                    November 29, 2019
-                  </div>
-                </div>
-                <img
-                  loading="lazy"
-                  srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/9459e7d506efdb3140dd6248f8ba8561a53184789984314a10faccb3fd6230d1?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/9459e7d506efdb3140dd6248f8ba8561a53184789984314a10faccb3fd6230d1?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/9459e7d506efdb3140dd6248f8ba8561a53184789984314a10faccb3fd6230d1?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/9459e7d506efdb3140dd6248f8ba8561a53184789984314a10faccb3fd6230d1?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/9459e7d506efdb3140dd6248f8ba8561a53184789984314a10faccb3fd6230d1?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/9459e7d506efdb3140dd6248f8ba8561a53184789984314a10faccb3fd6230d1?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/9459e7d506efdb3140dd6248f8ba8561a53184789984314a10faccb3fd6230d1?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/9459e7d506efdb3140dd6248f8ba8561a53184789984314a10faccb3fd6230d1?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                  className="h-20 w-16 object-cover"
-                />
-              </div> */}
-
                             {/* it should be sticky at top till footer comes to screen */}
                             <div className=" h-[32rem] rounded-lg sticky  top-0 z-40  flex justify-center items-center bg-[#0A090F]">
                                 <div className="flex flex-col gap-8 px-12 ">
@@ -392,138 +363,15 @@ const CardDetails = () => {
 
                                     </div>
                                 </div>
-                            </div>
-
-                            {/* <div className="flex gap-5 justify-between mt-7">
-                <div className="flex flex-col my-auto">
-                  <div className="py-1 text-sm font-medium leading-5 bg-white bg-opacity-0 text-zinc-300 max-md:pr-5">
-                    Telegram Founder Faces French Arrest; Crypto Leaders React
-                  </div>
-                  <div className="self-start mt-3 text-xs font-bold leading-none text-neutral-500">
-                    November 29, 2019
-                  </div>
-                </div>
-                <img
-                  loading="lazy"
-                  srcSet="https://s3-alpha-sig.figma.com/img/86d1/f753/dd0598df14bfba95cc49375f892a91a3?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=MGkwxEi~qO~mZnyzDEy66psRNg-OlxexiftK9uWaPT6GLtztvZh3gCMPejd59271IuqpLRbvHAEg1Xhqry4s4cdwdBT7Y4nhrGUDdutn3Titx4oEAAbOQ3UVJ6VUxxXfNQwx25IEwmvaLFCqf4xL-J8l0f2G61HYOsTixCkOAcdrEYYj8B4UpPIYfq7HavKRkV5ngHydEH~eAXKyDebWu4Q5yj-7ixw4xvOH7vpAHdm7DJ6qtMyEmldB3ViNNoxiaSjo5Y6qZEU3DRQ6UiuOk8PmFmRWHuop-a3PrNWeHeitWUP-Ul2NErhXWr0IbDIhanLrlrFNS0~MhalL7rVwcg__"
-                  className="h-20 w-16 object-cover"
-                />
-              </div> */}
-
-                            {/* <div className="flex gap-5 justify-between mt-7">
-                <div className="flex flex-col my-auto">
-                  <div className="py-1 text-sm font-medium leading-5 bg-white bg-opacity-0 text-zinc-300 max-md:pr-5">
-                    Telegram Founder Faces French Arrest; Crypto Leaders React
-                  </div>
-                  <div className="self-start mt-3 text-xs font-bold leading-none text-neutral-500">
-                    November 29, 2019
-                  </div>
-                </div>
-                <img
-                  loading="lazy"
-                  srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/574f32d9a6208c3bb3b561da6586b3b60675071208b7df652f0aeb960293a553?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/574f32d9a6208c3bb3b561da6586b3b60675071208b7df652f0aeb960293a553?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/574f32d9a6208c3bb3b561da6586b3b60675071208b7df652f0aeb960293a553?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/574f32d9a6208c3bb3b561da6586b3b60675071208b7df652f0aeb960293a553?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/574f32d9a6208c3bb3b561da6586b3b60675071208b7df652f0aeb960293a553?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/574f32d9a6208c3bb3b561da6586b3b60675071208b7df652f0aeb960293a553?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/574f32d9a6208c3bb3b561da6586b3b60675071208b7df652f0aeb960293a553?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/574f32d9a6208c3bb3b561da6586b3b60675071208b7df652f0aeb960293a553?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                  className="h-20 w-16 object-cover"
-                />
-              </div> */}
-
-                            {/* <div className="flex gap-5 justify-between mt-6">
-                <div className="flex flex-col my-auto">
-                  <div className="py-1.5 text-sm font-medium leading-5 bg-white bg-opacity-0 text-zinc-300">
-                    Noel Gallagher says Liam’s tweets are
-                    <br />
-                    the reason Oasis won’t reunite
-                  </div>
-                  <div className="self-start mt-3 text-xs font-bold leading-none text-neutral-500">
-                    November 29, 2019
-                  </div>
-                </div>
-                <img
-                  loading="lazy"
-                  srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/de70fbd4f652fe66f20a36964dc04cd99bae120a46170407259dc5469ae96ff3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/de70fbd4f652fe66f20a36964dc04cd99bae120a46170407259dc5469ae96ff3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/de70fbd4f652fe66f20a36964dc04cd99bae120a46170407259dc5469ae96ff3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/de70fbd4f652fe66f20a36964dc04cd99bae120a46170407259dc5469ae96ff3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/de70fbd4f652fe66f20a36964dc04cd99bae120a46170407259dc5469ae96ff3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/de70fbd4f652fe66f20a36964dc04cd99bae120a46170407259dc5469ae96ff3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/de70fbd4f652fe66f20a36964dc04cd99bae120a46170407259dc5469ae96ff3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/de70fbd4f652fe66f20a36964dc04cd99bae120a46170407259dc5469ae96ff3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                  className="h-20 w-16 object-cover"
-                />
-              </div> */}
-
-                            {/* <div className="lg:h-72 md:h-60 h-72 w-full mt-10 bg-[#604C4C] flex justify-center items-center">
-                <h1 className="text-white text-xl">Advertisement</h1>
-              </div> */}
-
-                            {/* <div className="flex gap-5 justify-between self-end mt-16 max-w-full w-[272px] max-md:mt-10">
-                <div className="self-end mt-6 text-xs font-semibold leading-loose text-neutral-400">
-                  3687<span className="font-bold"> Followers</span>
-                </div>
-                <button className="px-4 py-1 text-neutral-400 border border-neutral-700">
-                  Follow
-                </button>
-              </div> */}
-
-                            {/* <div className="flex mt-8 ">
-                <img
-                  loading="lazy"
-                  srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/dc234f2c47ecd7e18bf5228f7212155b98ede16a7160cf72846e003374c8e8dd?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/dc234f2c47ecd7e18bf5228f7212155b98ede16a7160cf72846e003374c8e8dd?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/dc234f2c47ecd7e18bf5228f7212155b98ede16a7160cf72846e003374c8e8dd?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/dc234f2c47ecd7e18bf5228f7212155b98ede16a7160cf72846e003374c8e8dd?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/dc234f2c47ecd7e18bf5228f7212155b98ede16a7160cf72846e003374c8e8dd?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/dc234f2c47ecd7e18bf5228f7212155b98ede16a7160cf72846e003374c8e8dd?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/dc234f2c47ecd7e18bf5228f7212155b98ede16a7160cf72846e003374c8e8dd?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/dc234f2c47ecd7e18bf5228f7212155b98ede16a7160cf72846e003374c8e8dd?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                  className="object-contain shrink-0 max-w-full aspect-[1.01] w-[115px]"
-                />
-                <img
-                  loading="lazy"
-                  srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/1eecf81631eb4d8fda9b745204ccd53a2e7224dd7a0aeae481bc5e724c5860e3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/1eecf81631eb4d8fda9b745204ccd53a2e7224dd7a0aeae481bc5e724c5860e3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/1eecf81631eb4d8fda9b745204ccd53a2e7224dd7a0aeae481bc5e724c5860e3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/1eecf81631eb4d8fda9b745204ccd53a2e7224dd7a0aeae481bc5e724c5860e3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/1eecf81631eb4d8fda9b745204ccd53a2e7224dd7a0aeae481bc5e724c5860e3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/1eecf81631eb4d8fda9b745204ccd53a2e7224dd7a0aeae481bc5e724c5860e3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/1eecf81631eb4d8fda9b745204ccd53a2e7224dd7a0aeae481bc5e724c5860e3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/1eecf81631eb4d8fda9b745204ccd53a2e7224dd7a0aeae481bc5e724c5860e3?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                  className="object-contain shrink-0 max-w-full aspect-square w-[114px]"
-                />
-                <img
-                  loading="lazy"
-                  srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/421478f9ce9bae6ac7ee788ed9e9a3dd369542593aabafbae4590c7f9364dcba?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/421478f9ce9bae6ac7ee788ed9e9a3dd369542593aabafbae4590c7f9364dcba?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/421478f9ce9bae6ac7ee788ed9e9a3dd369542593aabafbae4590c7f9364dcba?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/421478f9ce9bae6ac7ee788ed9e9a3dd369542593aabafbae4590c7f9364dcba?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/421478f9ce9bae6ac7ee788ed9e9a3dd369542593aabafbae4590c7f9364dcba?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/421478f9ce9bae6ac7ee788ed9e9a3dd369542593aabafbae4590c7f9364dcba?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/421478f9ce9bae6ac7ee788ed9e9a3dd369542593aabafbae4590c7f9364dcba?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/421478f9ce9bae6ac7ee788ed9e9a3dd369542593aabafbae4590c7f9364dcba?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                  className="object-contain shrink-0 max-w-full aspect-[1.01] w-[115px]"
-                />
-              </div> */}
-
-                            {/* <div className="flex ">
-                <img
-                  loading="lazy"
-                  srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/2184a7f10aa26f2ed3ea6cfc4f098f736051d9983a7d28230d77cb9fc2f56a59?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/2184a7f10aa26f2ed3ea6cfc4f098f736051d9983a7d28230d77cb9fc2f56a59?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/2184a7f10aa26f2ed3ea6cfc4f098f736051d9983a7d28230d77cb9fc2f56a59?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/2184a7f10aa26f2ed3ea6cfc4f098f736051d9983a7d28230d77cb9fc2f56a59?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/2184a7f10aa26f2ed3ea6cfc4f098f736051d9983a7d28230d77cb9fc2f56a59?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/2184a7f10aa26f2ed3ea6cfc4f098f736051d9983a7d28230d77cb9fc2f56a59?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/2184a7f10aa26f2ed3ea6cfc4f098f736051d9983a7d28230d77cb9fc2f56a59?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/2184a7f10aa26f2ed3ea6cfc4f098f736051d9983a7d28230d77cb9fc2f56a59?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                  className="object-contain shrink-0 max-w-full aspect-square w-[115px]"
-                />
-                <img
-                  loading="lazy"
-                  srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/e9fe7cba642da802033d61be4ac132d471652dd9b5a42901acab73283952516c?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9fe7cba642da802033d61be4ac132d471652dd9b5a42901acab73283952516c?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9fe7cba642da802033d61be4ac132d471652dd9b5a42901acab73283952516c?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9fe7cba642da802033d61be4ac132d471652dd9b5a42901acab73283952516c?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9fe7cba642da802033d61be4ac132d471652dd9b5a42901acab73283952516c?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9fe7cba642da802033d61be4ac132d471652dd9b5a42901acab73283952516c?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9fe7cba642da802033d61be4ac132d471652dd9b5a42901acab73283952516c?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9fe7cba642da802033d61be4ac132d471652dd9b5a42901acab73283952516c?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                  className="object-contain shrink-0 max-w-full aspect-[0.99] w-[114px]"
-                />
-                <img
-                  loading="lazy"
-                  srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/00bc708736c96daf25d7e21d81fe1906dbaa080ae25f5916f3e76ada3e1f9a71?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/00bc708736c96daf25d7e21d81fe1906dbaa080ae25f5916f3e76ada3e1f9a71?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/00bc708736c96daf25d7e21d81fe1906dbaa080ae25f5916f3e76ada3e1f9a71?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/00bc708736c96daf25d7e21d81fe1906dbaa080ae25f5916f3e76ada3e1f9a71?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/00bc708736c96daf25d7e21d81fe1906dbaa080ae25f5916f3e76ada3e1f9a71?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/00bc708736c96daf25d7e21d81fe1906dbaa080ae25f5916f3e76ada3e1f9a71?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/00bc708736c96daf25d7e21d81fe1906dbaa080ae25f5916f3e76ada3e1f9a71?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/00bc708736c96daf25d7e21d81fe1906dbaa080ae25f5916f3e76ada3e1f9a71?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                  className="object-contain shrink-0 max-w-full aspect-square w-[115px]"
-                />
-              </div> */}
-
-                            {/* <div className="flex">
-                <img
-                  loading="lazy"
-                  srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/d9aa79b9f774b0bbbbb129e711af8ac189215c24e6c6379be5661eb075855e69?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/d9aa79b9f774b0bbbbb129e711af8ac189215c24e6c6379be5661eb075855e69?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/d9aa79b9f774b0bbbbb129e711af8ac189215c24e6c6379be5661eb075855e69?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/d9aa79b9f774b0bbbbb129e711af8ac189215c24e6c6379be5661eb075855e69?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/d9aa79b9f774b0bbbbb129e711af8ac189215c24e6c6379be5661eb075855e69?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/d9aa79b9f774b0bbbbb129e711af8ac189215c24e6c6379be5661eb075855e69?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/d9aa79b9f774b0bbbbb129e711af8ac189215c24e6c6379be5661eb075855e69?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/d9aa79b9f774b0bbbbb129e711af8ac189215c24e6c6379be5661eb075855e69?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                  className="object-contain shrink-0 max-w-full aspect-square w-[115px]"
-                />
-                <img
-                  loading="lazy"
-                  srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/757702c97778c1de08173be210ca813717222d4b9e9f56e6d208825c56eb8aff?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/757702c97778c1de08173be210ca813717222d4b9e9f56e6d208825c56eb8aff?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/757702c97778c1de08173be210ca813717222d4b9e9f56e6d208825c56eb8aff?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/757702c97778c1de08173be210ca813717222d4b9e9f56e6d208825c56eb8aff?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/757702c97778c1de08173be210ca813717222d4b9e9f56e6d208825c56eb8aff?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/757702c97778c1de08173be210ca813717222d4b9e9f56e6d208825c56eb8aff?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/757702c97778c1de08173be210ca813717222d4b9e9f56e6d208825c56eb8aff?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/757702c97778c1de08173be210ca813717222d4b9e9f56e6d208825c56eb8aff?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                  className="object-contain shrink-0 max-w-full aspect-[0.99] w-[114px]"
-                />
-                <img
-                  loading="lazy"
-                  srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/1501003b8c1f186ed25673b6bb8978823d74d7cdf042117eec3722579cc458a7?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/1501003b8c1f186ed25673b6bb8978823d74d7cdf042117eec3722579cc458a7?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/1501003b8c1f186ed25673b6bb8978823d74d7cdf042117eec3722579cc458a7?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/1501003b8c1f186ed25673b6bb8978823d74d7cdf042117eec3722579cc458a7?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/1501003b8c1f186ed25673b6bb8978823d74d7cdf042117eec3722579cc458a7?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/1501003b8c1f186ed25673b6bb8978823d74d7cdf042117eec3722579cc458a7?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/1501003b8c1f186ed25673b6bb8978823d74d7cdf042117eec3722579cc458a7?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/1501003b8c1f186ed25673b6bb8978823d74d7cdf042117eec3722579cc458a7?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184"
-                  className="object-contain shrink-0 max-w-full aspect-square w-[115px]"
-                />
-              </div>
-
-              <h1 className="self-start mt-14 text-base font-medium leading-loose text-zinc-300 max-md:mt-10 max-md:ml-1.5">
-                @username
-              </h1> */}
+                            </div> 
                         </div>
                     </div>
-                </div>
-
+                </div> 
 
                 {/* Comment section */}
                 <div className="mt-20 max-w-full w-[86%] max-md:mt-10 ">
                     {card && <DiscussionEmbedComponent article={card} />}
                 </div>
-                {/* <div className="flex  shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" /> */}
             </div>
 
             {/* Author section */}
@@ -535,31 +383,25 @@ const CardDetails = () => {
                                 src={author?.profileImage}
                                 alt={author?.name || "No author found"}
                                 className="h-14 w-14 rounded-full object-cover"
-                            />
-
-                            <h1 className="xl font-semibold"> Written by {author?.name || "Unknown"}</h1>
-
+                            /> 
+                            <h1 className="xl font-semibold"> Written by {author?.name || "Unknown"}</h1> 
                             <div className="flex gap-3 items-center">
                                 <div className="flex gap-2">
                                     <p>{author?.posts?.length} Articles</p>
                                     {/* <p className="text-red-600">View All</p> */}
                                 </div>
-
                                 <div className="flex gap-1">
                                     <div className="w-8 cursor-pointer h-8 bg-[#4e4e50] rounded-full flex justify-center items-center">
                                         <FaLinkedin className="w-4 h-4" />
-                                    </div>
-
+                                    </div> 
                                     <div className="w-8 h-8 cursor-pointer bg-[#4e4e50] rounded-full flex justify-center items-center">
                                         <FaTwitter className="w-4 h-4" />
                                     </div>
                                 </div>
-                            </div>
-
+                            </div> 
                             <p className="text-justify text-sm text-[#ADADAD] w-[80%]">
                                 {author?.bio}
-                            </p>
-
+                            </p> 
                         </div>
 
                     </div>
@@ -569,41 +411,7 @@ const CardDetails = () => {
 
 
             <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg">
-                {/* <div className="py-10 border-b border-neutral-800">
-          <div className="flex flex-col gap-5">
-            <img
-              src={author?.profileImage} 
-              alt={author?.name || "No author found"}
-              className="h-14 w-14 rounded-full object-cover"
-            />
-
-            <h1>Written by {author?.name || "Unknown"}</h1>
-
-            <div className="flex gap-5 items-center">
-              <div className="flex gap-2">
-                <p>{author?.posts?.length} Articles</p>
-
-              </div>
-
-              <div className="flex gap-1">
-                <div className="w-10 cursor-pointer h-10 bg-[#4e4e50] rounded-full flex justify-center items-center">
-                  <FaLinkedin className="w-5 h-5" />
-                </div>
-
-                <div className="w-10 h-10 cursor-pointer bg-[#4e4e50] rounded-full flex justify-center items-center">
-                  <FaTwitter className="w-5 h-5" />
-                </div>
-              </div>
-            </div>
-
-            <p className="w-[60%] text-[#ADADAD]">
-              {author?.bio} {" "}
-
-            </p>
-          </div>
-        </div>  */}
-
-                <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
+              <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
                     <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
                         <div className="flex flex-col gap-5">
                             <h1 className="text-2xl font-semibold ">Get connected</h1>
@@ -613,32 +421,26 @@ const CardDetails = () => {
                                     <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
                                         <FaLinkedin className="w-5 h-5" />
                                     </div>
-                                </a>
-
+                                </a> 
                                 {/* Twitter */}
                                 <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
                                     <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                                         <FaXTwitter className="w-5 h-5" />
                                     </div>
-                                </a>
-
+                                </a> 
                                 {/* Facebook */}
                                 <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
                                     <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                                         <FaFacebookSquare className="w-5 h-5" />
                                     </div>
-                                </a>
-
+                                </a> 
                                 {/* YouTube */}
                                 <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
                                     <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                                         <FaInstagram className="w-5 h-5" />
                                     </div>
                                 </a>
-                            </div>
-
-
-
+                            </div> 
                         </div>
 
                         <div className="">

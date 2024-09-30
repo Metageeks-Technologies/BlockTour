@@ -1,7 +1,5 @@
 "use client";
-import {getCurrentUser} from "@/app/redux/feature/contributor/api";
-import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
-import UserHearder from "@/components/UserHearder";
+import {useAppSelector} from "@/app/redux/hooks";
 import instance from "@/utils/axios";
 import {useRouter} from "next/navigation";
 import React, {useEffect, useState} from "react";
@@ -22,7 +20,6 @@ type PostData = {
 
 const Page = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const [posts, setPosts] = useState<PostData[]>( [] );
   const [filteredPosts, setFilteredPosts] = useState<PostData[]>( [] );
   const [searchQuery, setSearchQuery] = useState<string>( "" );
@@ -34,9 +31,9 @@ const Page = () => {
 
   useEffect( () => {
     fetchAllPosts();
-  }, [user] ); 
-  
-  console.log("User:-",user)
+  }, [user] );
+
+  console.log( "User:-", user );
 
   useEffect( () => {
     handleSearch();

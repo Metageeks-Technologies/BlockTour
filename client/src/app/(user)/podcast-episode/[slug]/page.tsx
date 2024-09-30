@@ -104,20 +104,16 @@ const CardDetails = () => {
                                     <div className="py-12">
                                         <div className="w-full h-auto">
                                             <HtmlContent htmlContent={podcast?.embededCode || ""} />
-                                        </div>
-
+                                        </div> 
                                         <p className="text-lg text-[#DF841C] text-center mt-4">
                                             Podcast
-                                        </p>
-
+                                        </p> 
                                         <h1 className="mt-2 w-[80%] m-auto text-center lg:text-3xl md:text-2xl text-2xl font-medium text-[#BBBBBB]">
                                             {podcast?.title}
-                                        </h1>
-
+                                        </h1> 
                                         <p className="text-center mt-2 text-[#999999] capitalize">
                                             {podcast?.permaLink.split( "-" ).join( " " )}
-                                        </p>
-
+                                        </p> 
                                         <div className="flex justify-center gap-3 mt-3 text-[#999999]">
                                             {podcast?.category.map( ( cat: any, index: any ) => (
                                                 <button
@@ -127,8 +123,7 @@ const CardDetails = () => {
                                                     {cat}
                                                 </button>
                                             ) )}
-                                        </div>
-
+                                        </div> 
                                         <div className="mt-3 text-[#999999]  flex justify-center gap-4">
                                             {formatDateTime( podcast?.createdAt ?? "No date available" )}
 
@@ -325,50 +320,14 @@ const CardDetails = () => {
 
 
             <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg">
-                {/* <div className="py-10 border-b border-neutral-800">
-            <div className="flex flex-col gap-5">
-                <img
-                src={author?.profileImage} 
-                alt={author?.name || "No author found"}
-                className="h-14 w-14 rounded-full object-cover"
-                />
-
-                <h1>Written by {author?.name || "Unknown"}</h1>
-
-                <div className="flex gap-5 items-center">
-                <div className="flex gap-2">
-                    <p>{author?.posts?.length} Articles</p>
-
-                </div>
-
-                <div className="flex gap-1">
-                    <div className="w-10 cursor-pointer h-10 bg-[#4e4e50] rounded-full flex justify-center items-center">
-                    <FaLinkedin className="w-5 h-5" />
-                    </div>
-
-                    <div className="w-10 h-10 cursor-pointer bg-[#4e4e50] rounded-full flex justify-center items-center">
-                    <FaTwitter className="w-5 h-5" />
-                    </div>
-                </div>
-                </div>
-
-                <p className="w-[60%] text-[#ADADAD]">
-                {author?.bio} {" "}
-
-                </p>
-            </div>
-            </div>  */}
-
                 <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
                     <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
                         <div className="flex flex-col gap-5">
-                            <h1 className="text-2xl font-semibold ">Get connected</h1>
-
+                            <h1 className="text-2xl font-semibold ">Get connected</h1> 
                             <div className="flex gap-3">
                                 <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
                                     <FaLinkedin className="w-5 h-5" />
-                                </div>
-
+                                </div> 
                                 <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                                     <FaXTwitter className="w-5 h-5" />
                                 </div>

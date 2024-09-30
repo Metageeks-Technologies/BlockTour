@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import {useRouter} from "next/navigation";
 import React from "react";
-import { IoSearchOutline } from "react-icons/io5";
+import {IoSearchOutline} from "react-icons/io5";
 
 // const page = () => {
 //   return (

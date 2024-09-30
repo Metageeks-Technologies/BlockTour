@@ -67,8 +67,7 @@ const UserTable: React.FC = () => {
         return a.name.localeCompare(b.name);
       }
       return 0;
-    });
-
+    }); 
     setFilteredPosts(filtered);
   };
 
@@ -126,11 +125,7 @@ const UserTable: React.FC = () => {
 
         <div className="flex gap-2 items-center px-4">
           <p>View</p>
-          <select
-            className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded"
-            value={itemsPerPage}
-            onChange={( e ) => setItemsPerPage( Number( e.target.value ) )}
-          >
+          <select className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded" value={itemsPerPage} onChange={( e ) => setItemsPerPage( Number( e.target.value ) )} >
             <option>10</option>
             <option>20</option>
             <option>50</option>

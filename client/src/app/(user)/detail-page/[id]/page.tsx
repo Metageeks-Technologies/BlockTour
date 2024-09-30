@@ -14,7 +14,6 @@ import {FaFacebookSquare, FaLinkedin, FaTwitter, } from "react-icons/fa";
 import {IoLogoYoutube} from "react-icons/io";
 import {FaXTwitter} from "react-icons/fa6";
 import instance from "@/utils/axios";
-import Link from "next/link";
 
 const CardDetails = () => {
   const {id} = useParams<{id: string;}>();
@@ -31,7 +30,7 @@ const CardDetails = () => {
   useEffect( () => {
     if ( id ) {
       // dispatch( getPostById( id ) );
-      getPostById( dispatch, id ); 
+      getPostById( dispatch, id );
     }
   }, [dispatch, id] );
 
@@ -64,7 +63,7 @@ const CardDetails = () => {
     }
   };
 
-  const CreateSubscriber = async () => { 
+  const CreateSubscriber = async () => {
     if ( emailError ) {
       return;
     }
@@ -143,10 +142,8 @@ const CardDetails = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> 
 
-         
-          
           {/* right */}
           <div className="flex flex-col ml-5 lg:w-[30%] md:w-[35%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col w-full max-md:mt-10 py-4">
@@ -236,7 +233,7 @@ const CardDetails = () => {
                     <button className="py-4 px-12 bg-red-600 hover:bg-red-500 rounded-3xl whitespace-nowrap disabled:cursor-not-allowed" onClick={CreateSubscriber} disabled={!email || !!emailError} >
                       Join for free
                     </button>
-                    
+
                   </div>
                 </div>
               </div>
@@ -369,12 +366,12 @@ const CardDetails = () => {
         {/* Comment section */}
         <div className="mt-20 max-w-full w-[86%] max-md:mt-10 ">
           {card && <DiscussionEmbedComponent article={card} />}
-        </div> 
+        </div>
         {/* <div className="flex  shrink-0 mt-20 max-w-full h-px border-t border-white border-opacity-10 w-[1192px] max-md:mt-10" /> */}
       </div>
 
 
-     
+
       <div className="mt-5 lg:ml-52 rounded-lg px-20">
         <div className="py-10 flex border-neutral-800">
           <div className="flex flex-col gap-3">
@@ -402,17 +399,17 @@ const CardDetails = () => {
                 </div>
               </div>
             </div>
-            
+
             <p className="text-justify text-sm text-[#ADADAD] w-[80%]">
-                {author?.bio}
+              {author?.bio}
             </p>
 
           </div>
-           
+
         </div>
       </div>
-      
-      
+
+
 
 
 
@@ -492,7 +489,7 @@ const CardDetails = () => {
                   </div>
                   <button
                     className="bg-orange-500 whitespace-nowrap text-white px-10 py-3.5 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg hover:bg-orange-600 transition"
-                    disabled={ !email || !!emailError}
+                    disabled={!email || !!emailError}
                     onClick={CreateSubscriber}
                   >
                     Join for Free

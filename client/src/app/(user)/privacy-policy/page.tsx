@@ -1,20 +1,20 @@
 "use client";
 import {useAppSelector} from "@/app/redux/hooks";
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import {useRouter} from "next/navigation";
-import { IoSearchOutline } from "react-icons/io5";
+import {IoSearchOutline} from "react-icons/io5";
 
 export default function Home () {
   const user = useAppSelector( ( state: any ) => state.contributor?.currentUser );
   const router = useRouter();
+
   return (
     <div className="lg:ml-52 ">
-      <div className="flex w-[90%] m-auto"> 
+      <div className="flex w-[90%] m-auto">
         <div className="w-full lg:mr-5">
           <div className="w-[80%] m-auto py-8">
             <div>
-              <h1 className="text-4xl">Privacy Policy</h1> 
+              <h1 className="text-4xl">Privacy Policy</h1>
               <div className=" flex flex-col gap-6 text-[#ADADAD] ">
                 <p className="mt-2 ">
                   Welcome to BlockTour.org. We are committed to protecting the
@@ -194,11 +194,11 @@ export default function Home () {
             </button>
           </div>
           {!user ? (
-          <div className="  flex items-center justify-between   py-6">
-            <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg">
-              Join for free
-            </button>
-            <p className="text-lg hover:underline">Sign In</p>
+            <div className="  flex items-center justify-between   py-6">
+              <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg">
+                Join for free
+              </button>
+              <p className="text-lg hover:underline">Sign In</p>
             </div>
           ) : (
             <div className="  flex items-center justify-end gap-8 py-6 cursor-pointer" onClick={() => router.push( "/view-profile" )}>

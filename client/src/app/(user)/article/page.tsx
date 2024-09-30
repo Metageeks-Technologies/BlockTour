@@ -181,7 +181,6 @@ const ArticlePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-4 ">
 
             {trendingPosts.length === 0 ? (
-              // make it same as the layout of the post
               <div className="bg-gray-700 rounded-xl h-80 flex justify-center items-center w-full col-span-4">
                 <div className="text-center text-gray-400 w-full">
                   <h1 className="text-2xl font-semibold">No posts found</h1>
