@@ -1,5 +1,9 @@
+"use client";
+
+import {useAppSelector} from "@/app/redux/hooks";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import {useRouter} from "next/navigation";
 import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
 
@@ -116,6 +120,8 @@ import { IoSearchOutline } from "react-icons/io5";
 // export default page;
 
 const page = () => {
+  const user = useAppSelector( ( state: any ) => state.contributor?.currentUser );
+  const router = useRouter();
   return (
     <div className="lg:ml-52">
       <div className=" flex pb-12 w-[90%] m-auto">
@@ -215,12 +221,19 @@ const page = () => {
               <IoSearchOutline className="h-6 w-6" />
             </button>
           </div>
-          <div className="  flex items-center justify-between   py-6">
-            <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg">
-              Join for free
-            </button>
-            <p className="text-lg hover:underline">Sign In</p>
-          </div>
+          {!user ? (
+            <div className="  flex items-center justify-evenly py-6">
+              <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg" onClick={() => router.push( "/auth/user/signup" )}>
+                Join for free
+              </button>
+              <p className="text-lg hover:underline" onClick={() => router.push( "/auth/user/login" )}>Sign In</p>
+            </div>
+          ) : (
+            <div className="  flex items-center justify-end gap-8 py-6 cursor-pointer" onClick={() => router.push( "/view-profile" )}>
+              <p className="text-lg font-semibold">{user?.name}</p>
+              <img src={user?.profileImage} alt="" className="w-10 h-10 rounded-full" />
+            </div>
+          )}
         </div>
       </div>
       <Footer />
