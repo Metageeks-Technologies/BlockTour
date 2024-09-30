@@ -1,18 +1,14 @@
 "use client";
 import React, {Suspense, useEffect, useRef, useState} from "react";
-import {BsLightningChargeFill} from "react-icons/bs";
-import {FaEye, FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter} from "react-icons/fa";
-import {getAllPosts} from "@/app/redux/feature/posts/api";
+import {FaEye, FaFacebookSquare, FaInstagram, FaLinkedin} from "react-icons/fa";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
-import {IoLogoYoutube} from "react-icons/io";
 import {IoSearchOutline} from "react-icons/io5";
-import {PiMicrophone} from "react-icons/pi";
 import {FaXTwitter} from "react-icons/fa6";
 import Footer from "@/components/Footer";
 import instance from "@/utils/axios";
 import HtmlContent from "@/components/HtmlContent";
-import { useRouter, useSearchParams } from "next/navigation";
-import { getAllCategories } from "@/app/redux/feature/category/api";
+import {useRouter, useSearchParams} from "next/navigation";
+import {getAllCategories} from "@/app/redux/feature/category/api";
 
 export interface NewsItem {
   _id: string;
@@ -29,7 +25,7 @@ export interface NewsItem {
   category: string[];
   postType: string;
   embededCode: string;
-  views:number;
+  views: number;
 }
 
 const Page = () => {
@@ -55,7 +51,6 @@ const PodcastPage = () => {
   const categories = useAppSelector( ( state ) => state.category.categories );
   const category = searchParams.get( "category" );
 
-  console.log( "cat", categories );
   const fetchPostCast = async () => {
     try {
       setIsLoading( true );
@@ -104,9 +99,9 @@ const PodcastPage = () => {
     <div className="animate-pulse">
       {/* Trending section skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
-        {[...Array(4)].map((_, index) => (
+        {[...Array( 4 )].map( ( _, index ) => (
           <div key={index} className="bg-gray-700 rounded-xl h-80"></div>
-        ))}
+        ) )}
       </div>
 
       {/* Newsletter skeleton */}
@@ -116,16 +111,16 @@ const PodcastPage = () => {
       <div className="mt-6">
         <div className="h-8 bg-gray-700 w-1/3 rounded"></div>
         <div className="flex gap-5 py-4 mt-4">
-          {[...Array(4)].map((_, index) => (
+          {[...Array( 4 )].map( ( _, index ) => (
             <div key={index} className="h-6 bg-gray-700 w-20 rounded"></div>
-          ))}
+          ) )}
         </div>
       </div>
 
       {/* Article list skeleton */}
-      {[...Array(3)].map((_, index) => (
+      {[...Array( 3 )].map( ( _, index ) => (
         <div key={index} className="bg-gray-700 h-40 rounded-lg mt-4"></div>
-      ))}
+      ) )}
     </div>
   );
 
@@ -190,42 +185,42 @@ const PodcastPage = () => {
           <LoadingSkeleton />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-2 ">
-              {filteredPosts.length > 0 ? (
-                filteredPosts.slice( 0, 4 ).map( ( post, index ) => (
-              <div
-                key={post._id}
-                className="cursor-pointer rounded-xl border group border-[#17161B] overflow-hidden bg-[#0A090F] pb-4"
-                onClick={() => {
-                  router.push( `/podcast-episode/${post.permaLink}` );
-                }}
-              >
-                <div className="relative"> 
-                  <HtmlContent htmlContent={post?.embededCode || ""} /> 
-                </div>
+            {filteredPosts.length > 0 ? (
+              filteredPosts.slice( 0, 4 ).map( ( post, index ) => (
+                <div
+                  key={post._id}
+                  className="cursor-pointer rounded-xl border group border-[#17161B] overflow-hidden bg-[#0A090F] pb-4"
+                  onClick={() => {
+                    router.push( `/podcast-episode/${post.permaLink}` );
+                  }}
+                >
+                  <div className="relative">
+                    <HtmlContent htmlContent={post?.embededCode || ""} />
+                  </div>
 
-                <div className="px-4 py-2 mt-2">
-                  <p className="text-xs text-[#767676] font-semibold">
-                    Podcast
-                  </p>
+                  <div className="px-4 py-2 mt-2">
+                    <p className="text-xs text-[#767676] font-semibold">
+                      Podcast
+                    </p>
+                  </div>
+                  <div className="px-4">
+                    <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2 group-hover:text-[#DF841C]">
+                      {post.title}
+                    </h1>
+                    <p className="text-sm mt-0.5 text-[#999999] line-clamp-2 capitalize">
+                      {post.permaLink.split( "-" ).join( " " )}
+                    </p>
+
+                    <p className="mt-2 text-[#767676]"> 2 days ago</p>
+                  </div>
                 </div>
-                <div className="px-4">
-                  <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2 group-hover:text-[#DF841C]">
-                    {post.title}
-                  </h1>
-                  <p className="text-sm mt-0.5 text-[#999999] line-clamp-2 capitalize">
-                    {post.permaLink.split("-").join(" ")}
-                  </p>
-                  
-                  <p className="mt-2 text-[#767676]"> 2 days ago</p>
-                </div>
+              ) ) )
+              :
+              // same skeleton with no data found for this category
+              <div className="bg-gray-700 h-40 rounded-lg mt-4 flex justify-center items-center col-span-4">
+                <p className="text-center text-gray-500 text-lg justify-center items-center flex">No podcasts found for this category</p>
               </div>
-                ) ))
-                :
-                // same skeleton with no data found for this category
-                <div className="bg-gray-700 h-40 rounded-lg mt-4 flex justify-center items-center col-span-4">
-                  <p className="text-center text-gray-500 text-lg justify-center items-center flex">No podcasts found for this category</p>
-                </div>
-          }
+            }
           </div>
         )}
 
@@ -322,8 +317,8 @@ const PodcastPage = () => {
               <p
                 key={category._id}
                 className={`hover:text-white cursor-pointer ${activeCategory.toLowerCase() === category.name.toLowerCase()
-                    ? "text-white font-semibold"
-                    : ""
+                  ? "text-white font-semibold"
+                  : ""
                   } bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded`}
                 onClick={() => handleCategoryClick( category.name )}
               >
@@ -336,37 +331,37 @@ const PodcastPage = () => {
         <div className=" mx-auto mt-5">
           {
             filteredPosts.length > 0 ? (
-            filteredPosts.map( ( newsItem, index ) => (
-            <div
-              key={newsItem._id}
-              className="bg-[#0A090F] group cursor-pointer border border-[#17161B] p-5 rounded-lg shadow-lg flex space-x-5 mb-5"
-              onClick={() => {
-                router.push( `/podcast-episode/${newsItem.permaLink}` );
-              }}
-            >
-              <HtmlContent htmlContent={newsItem?.embededCode || ""} />
+              filteredPosts.map( ( newsItem, index ) => (
+                <div
+                  key={newsItem._id}
+                  className="bg-[#0A090F] group cursor-pointer border border-[#17161B] p-5 rounded-lg shadow-lg flex space-x-5 mb-5"
+                  onClick={() => {
+                    router.push( `/podcast-episode/${newsItem.permaLink}` );
+                  }}
+                >
+                  <HtmlContent htmlContent={newsItem?.embededCode || ""} />
 
-              <div className="flex-1">
-                <p className="text-sm text-[#858585]">
-                  Published in{" "}
-                  {new Date( newsItem?.publishedDate ).toLocaleDateString()}
-                </p>
-                <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC] group-hover:text-[#DF841C] line-clamp-2">
-                  {newsItem.title}
-                </h3>
-                <div className=" mb-3 flex gap-4">
+                  <div className="flex-1">
+                    <p className="text-sm text-[#858585]">
+                      Published in{" "}
+                      {new Date( newsItem?.publishedDate ).toLocaleDateString()}
+                    </p>
+                    <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC] group-hover:text-[#DF841C] line-clamp-2">
+                      {newsItem.title}
+                    </h3>
+                    <div className=" mb-3 flex gap-4">
 
-                <p className="text-sm text-[#B0AFAF] capitalize line-clamp-2">
-                  {newsItem.permaLink.split( "-" ).join( " " )}
-                </p>
-                <span className="text-neutral-400 text-sm flex items-center">
-                    <FaEye className="mr-1 mt-0.5" />
-                    {newsItem?.views || 0} views
-                  </span>
-                </div>
-                
+                      <p className="text-sm text-[#B0AFAF] capitalize line-clamp-2">
+                        {newsItem.permaLink.split( "-" ).join( " " )}
+                      </p>
+                      <span className="text-neutral-400 text-sm flex items-center">
+                        <FaEye className="mr-1 mt-0.5" />
+                        {newsItem?.views || 0} views
+                      </span>
+                    </div>
 
-                {/* <div className="flex items-center space-x-4 text-sm mt-3">
+
+                    {/* <div className="flex items-center space-x-4 text-sm mt-3">
                   <div className=" bg-[#1F1C2C] flex gap-1 px-2 py-0.5 rounded items-center">
                     <BsLightningChargeFill />
                     <p className="text-xs">Early Access</p>
@@ -377,31 +372,31 @@ const PodcastPage = () => {
                   </div>
                 </div> */}
 
-                <div className="flex gap-3 mt-3 text-[#999999]">
-                  {newsItem?.category.map( ( cat:any ) => (
-                    <button
-                      key={cat._id}
-                      className=" py-0.5 px-4 bg-[#1F1C2C] border border-[#17161B] text-[#CCCCCC] text-xs rounded"
-                    >
-                      {cat}
-                    </button>
-                  ) )}
+                    <div className="flex gap-3 mt-3 text-[#999999]">
+                      {newsItem?.category.map( ( cat: any ) => (
+                        <button
+                          key={cat._id}
+                          className=" py-0.5 px-4 bg-[#1F1C2C] border border-[#17161B] text-[#CCCCCC] text-xs rounded"
+                        >
+                          {cat}
+                        </button>
+                      ) )}
+                    </div>
+                  </div>
                 </div>
+              ) ) )
+              :
+              // same skeleton with no data found for this category
+              <div className="bg-gray-700 h-40 rounded-lg mt-4 flex justify-center items-center col-span-4">
+                <p className="text-center text-gray-500 text-lg justify-center items-center flex">No podcasts found for this category</p>
               </div>
-            </div>
-          ) ))
-            :
-            // same skeleton with no data found for this category
-            <div className="bg-gray-700 h-40 rounded-lg mt-4 flex justify-center items-center col-span-4">
-              <p className="text-center text-gray-500 text-lg justify-center items-center flex">No podcasts found for this category</p>
-            </div>
           }
         </div>
       </div>
 
-      
 
-<div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
+
+      <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
         <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
           <div className="flex flex-col gap-5">
             <h1 className="text-2xl font-semibold text-[#FFFFFF]">
@@ -470,7 +465,7 @@ const PodcastPage = () => {
         </div>
       </div>
 
-     <Footer />
+      <Footer />
     </div >
   );
 };

@@ -15,7 +15,6 @@ const Trending = () => {
 
   const cryptoPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Crypto" ) ).sort( () => 0.5 - Math.random() ).slice( 0, 2 );
   const web3Posts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Web3" ) ).sort( () => 0.5 - Math.random() ).slice( 0, 2 );
-  // const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).reverse().slice( 0, 4 ); 
   const router = useRouter();
 
   return (
@@ -23,7 +22,7 @@ const Trending = () => {
       <div className="flex flex-col gap-y-10 lg:w-[69%] md:w-[60%]">
         {trendingPosts.length === 0 ? (
           <div className="animate-pulse">
-            <div className="flex flex-col gap-y-10 lg:basis-[69%] md:basis-[60%]"> 
+            <div className="flex flex-col gap-y-10 lg:basis-[69%] md:basis-[60%]">
               {[...Array( 4 )].map( ( _, index ) => (
                 <div key={index} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full">
                   <div className="h-56 lg:w-80 md:w-full bg-gray-300"></div>

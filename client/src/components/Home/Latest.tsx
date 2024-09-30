@@ -2,7 +2,7 @@ import {useAppSelector} from "@/app/redux/hooks";
 import {formatDateTime} from "@/utils/DateFormat";
 import {useRouter} from "next/navigation";
 import React, {useState, useEffect, useMemo} from "react";
-import { FaEye } from "react-icons/fa";
+import {FaEye} from "react-icons/fa";
 import {IoArrowForward} from "react-icons/io5";
 
 const Latest = () => {
@@ -10,7 +10,6 @@ const Latest = () => {
   const [loading, setLoading] = useState( true );
   const [publishedPosts, setPublishedPosts] = useState<any[]>( [] );
   const router = useRouter();
-
 
   useEffect( () => {
     if ( posts.length > 0 ) {
@@ -83,8 +82,8 @@ const Latest = () => {
         <div className="flex flex-col w-full max-md:mt-10">
           <div className="lg:h-72 md:h-60 h-72 w-full mt-10  flex justify-center items-center">
             {/* <h1 className="text-white text-xl">Advertisement</h1> */}
-            <img src="https://demo.tagdiv.com/newspaper_black_pro/wp-content/uploads/2019/12/custom-rec-2.jpg" alt="" 
-            className="w-full"
+            <img src="https://demo.tagdiv.com/newspaper_black_pro/wp-content/uploads/2019/12/custom-rec-2.jpg" alt=""
+              className="w-full"
             />
           </div>
           {/* User profile section */}

@@ -70,7 +70,7 @@ const ArticlePage = () => {
   }, [dispatch, searchParams, router, categories.length, categoryName] );
 
   const filteredPosts = activeCategory.toLowerCase() === "all" ? posts : posts.filter( ( post: any ) => post.category && post.status.toLowerCase() === "published" && post.category.some( ( cat: any ) => cat.toLowerCase().includes( activeCategory.toLowerCase() ) ) );
-  console.log( "filteredPosts", filteredPosts );
+  // console.log( "filteredPosts", filteredPosts );
   const handleCategoryClick = ( category: string ) => {
     setActiveCategory( category );
     if ( category.toLowerCase() === 'all' ) {
@@ -80,18 +80,18 @@ const ArticlePage = () => {
     }
   };
 
-// Sort posts by views and then filter by category;
+  // Sort posts by views and then filter by category;
   const trendingPosts = useMemo( () => {
     return posts
       .slice() // Create a shallow copy to avoid mutating the original array
-      .sort( ( a:any, b:any ) => ( b.views || 0 ) - ( a.views || 0 ) ).filter( ( post: any ) =>
+      .sort( ( a: any, b: any ) => ( b.views || 0 ) - ( a.views || 0 ) ).filter( ( post: any ) =>
         activeCategory.toLowerCase() === "all" ||
         ( post.category && post.status.toLowerCase() === "published" &&
           post.category.some( ( cat: string ) => cat.toLowerCase().includes( activeCategory.toLowerCase() ) ) )
       ).slice( 0, 4 );
   }, [posts, activeCategory] );
 
-  console.log( "trendingPosts", trendingPosts ); 
+  console.log( "trendingPosts", trendingPosts );
 
   const validateEmail = ( email: string ) => {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -191,7 +191,7 @@ const ArticlePage = () => {
                 </div>
               </div>
             ) : (
-                trendingPosts.map( ( post: any ) => (
+              trendingPosts.map( ( post: any ) => (
                 <div
                   key={post._id}
                   className="cursor-pointer group rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4 shadow-lg hover:shadow-xl transition-shadow duration-300"
@@ -368,7 +368,7 @@ const ArticlePage = () => {
                     </p>
                     <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC] group-hover:text-[#DF841C] line-clamp-1">
                       {post.title}
-                    </h3> 
+                    </h3>
                     <div
                       className="text-sm text-[#B0AFAF] mb-3 line-clamp-2"
                       dangerouslySetInnerHTML={{__html: post.description}}
