@@ -94,7 +94,7 @@ const viewCache = new NodeCache({ stdTTL: 300 });
       if (!viewCache.has(cacheKey)) {
         // If not cached, update the view count
         post = await Post.findOneAndUpdate( { _id: post._id }, { $inc: { views: 1 } }, { new: true } );
-        console.log(`View count for post ${post?._id}: ${post?.views}`);
+        // console.log(`View count for post ${post?._id}: ${post?.views}`);
         
         // Set the cache to prevent immediate re-counting
         viewCache.set(cacheKey, true);

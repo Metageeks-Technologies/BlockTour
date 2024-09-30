@@ -69,7 +69,7 @@ export const getPodcastByPermaLink = async (req: Request, res: Response) => {
       // Check if the post view has been cached
       if (!viewCache.has(cacheKey)) {
         // If not cached, update the view count
-        podcast = await Podcast.findByIdAndUpdate( podcast._id, { $inc: { views: 1 } }, { new: true } );
+        // podcast = await Podcast.findByIdAndUpdate( podcast._id, { $inc: { views: 1 } }, { new: true } );
         // console.log(`View count for podcast ${podcast?._id}: ${podcast?.views}`);
 
         // Set the cache to prevent immediate re-counting
