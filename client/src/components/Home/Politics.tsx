@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {useAppSelector} from "@/app/redux/hooks";
 import {useRouter} from "next/navigation";
 import {formatDateTime} from "@/utils/DateFormat";
+import { FaEye } from "react-icons/fa";
 const Politics = () => {
   const router = useRouter();
   const posts = useAppSelector( ( state: any ) => state.post.posts );
   const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Politics" ) || post.category.includes( "politics" ) ).reverse().slice( 0, 4 );
+
+   
 
   return (
     <div className="gap-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
@@ -31,6 +34,11 @@ const Politics = () => {
                   {post.category}
                 </button>
                 <p className="my-auto text-neutral-500">{formatDateTime( post.createdAt )}</p>
+                <span className="text-neutral-400 text-sm flex items-center">
+                  {/* views */}
+                    <FaEye className="mr-1 mt-0.5" />
+                    {post.views || 0} views
+                  </span>
               </div>
             </div>
           </div>

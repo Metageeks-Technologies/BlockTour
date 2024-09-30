@@ -10,7 +10,7 @@ import {formatDateTime} from "@/utils/DateFormat";
 import {useParams, useRouter} from "next/navigation";
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
-import {FaFacebookSquare, FaLinkedin, FaTwitter, } from "react-icons/fa";
+import {FaEye, FaFacebookSquare, FaLinkedin, FaTwitter, } from "react-icons/fa";
 import {IoLogoYoutube} from "react-icons/io";
 import {FaXTwitter} from "react-icons/fa6"; 
 import instance from "@/utils/axios";
@@ -149,8 +149,13 @@ import {getAllPodcasts} from "@/app/redux/feature/podcast/api";
                                                 ) )}
                                             </div>
 
-                                            <div className="mt-3 text-[#999999] text-center">
+                                            <div className="mt-3 text-[#999999]  flex justify-center gap-4">
                                                 {formatDateTime( podcast?.createdAt ?? "No date available" )}
+
+                                                <span className="text-neutral-400 text-sm flex items-center">
+                    <FaEye className="mr-1 mt-0.5" />
+                    {podcast?.views || 0} views
+                  </span>
                                             </div>
                                         </div>
                                     ) : (

@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {useAppSelector} from '@/app/redux/hooks';
 import {useRouter} from 'next/navigation';
 import {formatDateTime} from '@/utils/DateFormat';
+import { FaEye } from 'react-icons/fa';
 
 const CryptoPage = () => {
   const posts = useAppSelector( ( state: any ) => state.post.posts );
   const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Crypto" ) ).reverse().slice( 0, 3 );
   const musicPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Music" ) ).reverse().slice( 0, 3 );
   const router = useRouter();
+
+
+
 
   return (
     <>
@@ -83,6 +87,11 @@ const CryptoPage = () => {
                     {card.category.join( ", " )}
                   </button>
                   <p className="text-sm text-neutral-400">{formatDateTime( card.createdAt )}</p>
+                  {/* views */}
+                 <span className="text-neutral-400 text-sm flex items-center">
+                    <FaEye className="mr-1 mt-0.5" />
+                    {card.views || 0} views
+                  </span>
                 </div>
                 <div className="text-neutral-400 mt-5 line-clamp-4" dangerouslySetInnerHTML={{__html: card?.description}} />
               </div>

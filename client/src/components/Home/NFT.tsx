@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {useAppSelector} from "@/app/redux/hooks";
 import {useRouter} from "next/navigation";
 import {formatDateTime} from "@/utils/DateFormat";
+import { FaEye } from "react-icons/fa";
 const NFT = () => {
   const router = useRouter();
   const posts = useAppSelector( ( state: any ) => state.post.posts );
   const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && ["NFT", "nft", "Nft"].some( category => post.category.includes( category ) ) ).reverse().slice( 0, 3 );
+
+  
+
+
   console.log( publishedPosts );
   return (
     <div className="gap-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
@@ -31,6 +36,10 @@ const NFT = () => {
                   {post.category}
                 </button>
                 <p className="my-auto text-neutral-500">{formatDateTime( post.createdAt )}</p>
+                <span className="text-neutral-400 text-sm flex items-center">
+                    <FaEye className="mr-1 mt-0.5" />
+                    {post.views || 0} views
+                  </span>
               </div>
             </div>
           </div>

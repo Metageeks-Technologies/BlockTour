@@ -1,14 +1,18 @@
 "use client";
 import {useAppSelector} from '@/app/redux/hooks';
 import {useRouter} from 'next/navigation';
-import React from 'react';
+import React, { useMemo } from 'react';
 import HtmlContent from '../HtmlContent';
 import {formatDateTime} from '@/utils/DateFormat';
+import { FaEye } from 'react-icons/fa';
 
 const Blockchain = () => {
   const router = useRouter();
   const posts = useAppSelector( ( state: any ) => state.post.posts );
   const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Blockchain" ) ).reverse().slice( 0, 4 );
+
+
+
 
   return (
     <div className="flex lg:flex-row md:flex-row flex-col gap-6  ">
@@ -80,7 +84,13 @@ const Blockchain = () => {
                     {card.category.join( ", " )}
                   </button>
                   <p className="text-sm text-neutral-400">{formatDateTime( card.createdAt )}</p>
+                   {/* views */}
+                 <span className="text-neutral-400 text-sm flex items-center">
+                    <FaEye className="mr-1 mt-0.5" />
+                    {card.views || 0} views
+                  </span>
                 </div>
+                
                 <div className="text-neutral-400 mt-5 line-clamp-4" dangerouslySetInnerHTML={{__html: card?.description}} />
               </div>
             </div>

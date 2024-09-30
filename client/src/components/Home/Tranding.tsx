@@ -74,7 +74,7 @@ const Trending = () => {
                   <p className="text-sm text-neutral-400">{formatDateTime( card.createdAt )}</p>
                   {/* views */}
                   <span className="text-neutral-400 text-sm flex items-center">
-                    <FaEye className="mr-1" />
+                    <FaEye className="mr-1 mt-0.5" />
                     {card.views || 0} views
                   </span>
                 </div>

@@ -1,7 +1,8 @@
 import {useAppSelector} from "@/app/redux/hooks";
 import {formatDateTime} from "@/utils/DateFormat";
 import {useRouter} from "next/navigation";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useMemo} from "react";
+import { FaEye } from "react-icons/fa";
 import {IoArrowForward} from "react-icons/io5";
 
 const Latest = () => {
@@ -9,6 +10,7 @@ const Latest = () => {
   const [loading, setLoading] = useState( true );
   const [publishedPosts, setPublishedPosts] = useState<any[]>( [] );
   const router = useRouter();
+
 
   useEffect( () => {
     if ( posts.length > 0 ) {
@@ -68,6 +70,10 @@ const Latest = () => {
                     {card.category.join( ", " )}
                   </button>
                   <p className="text-sm text-neutral-400">{formatDateTime( card.createdAt )}</p>
+                  <span className="text-neutral-400 text-sm flex items-center">
+                    <FaEye className="mr-1 mt-0.5" />
+                    {card.views || 0} views
+                  </span>
                 </div>
               </div>
             ) )}

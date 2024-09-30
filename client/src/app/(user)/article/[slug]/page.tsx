@@ -10,7 +10,7 @@ import {formatDateTime} from "@/utils/DateFormat";
 import {useParams, useRouter} from "next/navigation";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
-import {FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter, } from "react-icons/fa";
+import {FaEye, FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter, } from "react-icons/fa";
 import {IoLogoYoutube} from "react-icons/io";
 import {FaXTwitter} from "react-icons/fa6";
 import instance from "@/utils/axios";
@@ -62,6 +62,17 @@ const CardDetails = () => {
             }
         }
     }, [card, dispatch] );
+
+
+    // const trendingPosts = useMemo( () => {
+    //     return posts
+    //       .slice().sort( ( a:any, b:any ) => ( b.views || 0 ) - ( a.views || 0 ) ).filter( ( post: any ) =>
+    //         activeCategory.toLowerCase() === "all" ||
+    //         ( post.category && post.status.toLowerCase() === "published" &&
+    //           post.category.some( ( cat: string ) => cat.toLowerCase().includes( activeCategory.toLowerCase() ) ) )
+    //       ).slice( 0, 4 );
+    //   }, [posts, activeCategory] );
+    
 
     const getRandomPosts = useMemo( () => {
         const filterAndShuffle = ( posts: any, count: number, category?: string ) => {
@@ -193,10 +204,16 @@ const CardDetails = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-
+                                               <div className="flex gap-4">
                                                 <div className="h-7 w-7 bg-[#1C1C1D] hover:bg-[#232324] flex justify-center items-center  rounded-full">
                                                     <IoBookmarkOutline className="h-4 w-4 cursor-pointer text-neutral-400" />
                                                 </div>
+                                                {/* here are views */}
+                      <span className="text-[#767676] flex items-center">
+                        <FaEye className="mr-1" />
+                        {card?.views || 0} views
+                      </span>
+                                            </div>
                                             </div>
 
                                             <div className="flex overflow-hidden relative flex-col flex-wrap gap-1.5 items-start pt-96 pr-20 w-full min-h-[450px] max-md:pt-24 max-md:pr-5 max-md:max-w-full rounded-lg">
@@ -283,6 +300,7 @@ const CardDetails = () => {
                                                                 dangerouslySetInnerHTML={{__html: post.description}}
                                                             />
                                                         </div>
+                                                        
                                                     </div>
                                                 ) )}
                                             </div>

@@ -1,7 +1,7 @@
 "use client";
 import React, {Suspense, useEffect, useRef, useState} from "react";
 import {BsLightningChargeFill} from "react-icons/bs";
-import {FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter} from "react-icons/fa";
+import {FaEye, FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter} from "react-icons/fa";
 import {getAllPosts} from "@/app/redux/feature/posts/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import {IoLogoYoutube} from "react-icons/io";
@@ -29,6 +29,7 @@ export interface NewsItem {
   category: string[];
   postType: string;
   embededCode: string;
+  views:number;
 }
 
 const Page = () => {
@@ -214,6 +215,7 @@ const PodcastPage = () => {
                   <p className="text-sm mt-0.5 text-[#999999] line-clamp-2 capitalize">
                     {post.permaLink.split("-").join(" ")}
                   </p>
+                  
                   <p className="mt-2 text-[#767676]"> 2 days ago</p>
                 </div>
               </div>
@@ -352,9 +354,16 @@ const PodcastPage = () => {
                 <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC] group-hover:text-[#DF841C] line-clamp-2">
                   {newsItem.title}
                 </h3>
-                <p className="text-sm text-[#B0AFAF] mb-3 capitalize line-clamp-2">
+                <div className=" mb-3 flex gap-4">
+
+                <p className="text-sm text-[#B0AFAF] capitalize line-clamp-2">
                   {newsItem.permaLink.split( "-" ).join( " " )}
                 </p>
+                <span className="text-neutral-400 text-sm flex items-center">
+                    <FaEye className="mr-1 mt-0.5" />
+                    {newsItem?.views || 0} views
+                  </span>
+                </div>
                 
 
                 {/* <div className="flex items-center space-x-4 text-sm mt-3">
@@ -390,77 +399,7 @@ const PodcastPage = () => {
         </div>
       </div>
 
-      {/* <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
-        <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
-          <div className="flex flex-col gap-5">
-            <h1 className="text-2xl font-semibold text-[#FFFFFF]">
-              Get connected
-            </h1>
-
-            <div className="flex gap-3">
-              <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
-                <FaLinkedin className="w-5 h-5" />
-              </div>
-
-              <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaXTwitter className="w-5 h-5" />
-              </div>
-
-              <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaFacebookSquare className="w-5 h-5" />
-              </div>
-
-              <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <IoLogoYoutube className="w-5 h-5" />
-              </div>
-            </div>
-          </div>
-
-          < className="">
-            <h1 className="text-3xl text-[#FFFFFF] pb-3">
-              Receive your daily crypto update
-            </h1>
-
-            <div className="flex items-center gap-4">
-              <div className="relative w-full sm:w-96">
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  value={email}
-                  onChange={handleEmailChange}
-                  className={`bg-[#1F1C2C] border ${emailError ? 'border-red-500' : 'border-[#474457]'
-                    } text-white py-3.5 px-5 rounded-lg w-full focus:outline-none`}
-                />
-                {emailError && (
-                  <p className="text-red-500 text-sm my-1 whitespace-nowrap absolute">{emailError}</p>
-                )}
-              </div>
-              <button
-                className="bg-orange-500 whitespace-nowrap text-white px-10 py-3.5 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg hover:bg-orange-600 transition"
-                disabled={isLoading || !email || !!emailError}
-                onClick={CreateSubscriber}
-              >
-                Join for Free
-              </button>
-            </div>
-
-            {/* Terms and Privacy */}
-      {/* <div className="flex items-center mt-8">
-        <input type="checkbox" id="agree" className="mr-2 focus:outline-1" ref={termsCheckboxRef} onChange={() => {
-          setIsTermsAndPrivacy( !isTermsAndPrivacy );
-          handleEmailChange( {target: {value: email}} as React.ChangeEvent<HTMLInputElement> );
-        }} />
-        <label htmlFor="agree" className="text-gray-400 text-sm">
-          By joining, I agree to the Blockbar{" "}
-          <a href="/terms-and-conditions" className="underline text-gray-300">
-            Terms and Conditions
-          </a>{" "}
-          <a href="/privacy-policy" className="underline text-gray-300">
-            Privacy Policy
-          </a>{" "}
-          statements.
-        </label>
-      </div>  */}
+      
 
 <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
         <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
