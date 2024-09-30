@@ -16,7 +16,7 @@ interface IPost extends Document {
     authorName?: string;
     creatorId?: mongoose.Schema.Types.ObjectId;
     postType?: string; 
-
+    views?: number; 
 }
 
 // Define the schema
@@ -36,6 +36,7 @@ const PostSchema: Schema = new Schema({
     creatorId: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
     authorName: { type: String },
     postType: {type: String}, 
+    views: {type: Number, default: 0},
 }, {
     timestamps: true,
     versionKey: false 

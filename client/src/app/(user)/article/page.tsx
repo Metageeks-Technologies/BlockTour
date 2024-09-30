@@ -7,7 +7,7 @@ import instance from "@/utils/axios";
 import {formatDateTime} from "@/utils/DateFormat";
 import {useRouter, useSearchParams} from "next/navigation";
 import React, {Suspense, useEffect, useMemo, useRef, useState} from "react";
-import {FaFacebookSquare, FaLinkedin} from "react-icons/fa";
+import {FaEye, FaFacebookSquare, FaLinkedin} from "react-icons/fa";
 import {FaInstagram, FaXTwitter} from "react-icons/fa6";
 import {IoLogoYoutube} from "react-icons/io";
 import {IoSearchOutline} from "react-icons/io5";
@@ -67,35 +67,31 @@ const ArticlePage = () => {
     if ( categoryName?.toLowerCase() === 'all' ) {
       router.replace( '/article' );
     }
-  }, [dispatch, searchParams, router, categories.length, categoryName] ); 
-  
-  const filteredPosts = activeCategory.toLowerCase() === "all" ? posts : posts.filter( ( post:any ) => post.category && post.status.toLowerCase() === "published" && post.category.some( ( cat:any ) => cat.toLowerCase().includes( activeCategory.toLowerCase() ) ) );
+  }, [dispatch, searchParams, router, categories.length, categoryName] );
 
+  const filteredPosts = activeCategory.toLowerCase() === "all" ? posts : posts.filter( ( post: any ) => post.category && post.status.toLowerCase() === "published" && post.category.some( ( cat: any ) => cat.toLowerCase().includes( activeCategory.toLowerCase() ) ) );
+  console.log( "filteredPosts", filteredPosts );
   const handleCategoryClick = ( category: string ) => {
     setActiveCategory( category );
     if ( category.toLowerCase() === 'all' ) {
       router.replace( '/article' );
     } else {
       router.replace( `/article?category=${category.toLowerCase().replace( / /g, "-" )}` );
-    } 
+    }
   };
 
-  const getRandomPosts = useMemo( () => {
-    const filterAndShuffle = ( posts: any, count: number, category?: string ) => {
-      let filteredPosts = posts;
-      if ( category && category !== "All" ) {
-        filteredPosts = posts.filter( ( post: Post ) =>
-          post.category &&
-          post.status.toLowerCase() === "published" &&
-          post.category.some( ( cat: string ) => cat.toLowerCase().includes( category.toLowerCase() ) )
-        );
-      }
-      const shuffled = [...filteredPosts].sort( () => 0.5 - Math.random() );
-      return shuffled.slice( 0, count );
-    };
-
-    return filterAndShuffle( posts, 4, activeCategory );
+// Sort posts by views and then filter by category;
+  const trendingPosts = useMemo( () => {
+    return posts
+      .slice() // Create a shallow copy to avoid mutating the original array
+      .sort( ( a:any, b:any ) => ( b.views || 0 ) - ( a.views || 0 ) ).filter( ( post: any ) =>
+        activeCategory.toLowerCase() === "all" ||
+        ( post.category && post.status.toLowerCase() === "published" &&
+          post.category.some( ( cat: string ) => cat.toLowerCase().includes( activeCategory.toLowerCase() ) ) )
+      ).slice( 0, 4 );
   }, [posts, activeCategory] );
+
+  console.log( "trendingPosts", trendingPosts ); 
 
   const validateEmail = ( email: string ) => {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -184,7 +180,7 @@ const ArticlePage = () => {
         {isLoading ? <LoadingSkeleton /> : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-4 ">
 
-            {getRandomPosts.length === 0 ? (
+            {trendingPosts.length === 0 ? (
               // make it same as the layout of the post
               <div className="bg-gray-700 rounded-xl h-80 flex justify-center items-center w-full col-span-4">
                 <div className="text-center text-gray-400 w-full">
@@ -195,7 +191,7 @@ const ArticlePage = () => {
                 </div>
               </div>
             ) : (
-              getRandomPosts.map( ( post: any ) => (
+                trendingPosts.map( ( post: any ) => (
                 <div
                   key={post._id}
                   className="cursor-pointer group rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4 shadow-lg hover:shadow-xl transition-shadow duration-300"
@@ -239,7 +235,7 @@ const ArticlePage = () => {
               ) ) )}
           </div>
         )}
-  
+
         <div className="bg-[#0A090F] text-white p-14 rounded-lg mt-5 border border-[#17161B]">
           <div className="flex lg:flex-row flex-col justify-between gap-12 items-center">
             {/* Left Section */}
@@ -370,9 +366,9 @@ const ArticlePage = () => {
                       Written by{" "}
                       <span className="font-semibold">{post.authorName}</span>
                     </p>
-                    <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC] group-hover:text-[#DF841C]">
+                    <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC] group-hover:text-[#DF841C] line-clamp-1">
                       {post.title}
-                    </h3>
+                    </h3> 
                     <div
                       className="text-sm text-[#B0AFAF] mb-3 line-clamp-2"
                       dangerouslySetInnerHTML={{__html: post.description}}
@@ -388,6 +384,11 @@ const ArticlePage = () => {
                           ? formatDateTime( post.createdAt )
                           : "No date available"}
                       </span>
+                      {/* here are views */}
+                      <span className="text-[#767676] flex items-center">
+                        <FaEye className="mr-1" />
+                        {post?.views || 0} views
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -396,7 +397,7 @@ const ArticlePage = () => {
           )}
         </div>
       </div>
-        <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
+      <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
         <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
           <div className="flex flex-col gap-5">
             <h1 className="text-2xl font-semibold text-[#FFFFFF]">
@@ -463,7 +464,7 @@ const ArticlePage = () => {
             </div>
           </div>
         </div>
-      </div> 
+      </div>
       <Footer />
     </div>
   );

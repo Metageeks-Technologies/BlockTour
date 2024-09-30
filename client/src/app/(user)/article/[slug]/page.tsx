@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 import HtmlContent from "@/components/HtmlContent";
 import {formatDateTime} from "@/utils/DateFormat";
 import {useParams, useRouter} from "next/navigation";
-import React, {useEffect, useMemo, useRef, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
 import {FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter, } from "react-icons/fa";
 import {IoLogoYoutube} from "react-icons/io";
@@ -31,38 +31,37 @@ const CardDetails = () => {
     const posts = useAppSelector( ( state ) => state.post.posts );
     const user = useAppSelector( ( state: any ) => state.contributor?.currentUser );
 
-    const getPostBySlug = async () => {
+    const getPostBySlug = useCallback( async () => {
         try {
             const response = await instance.get( `/post/posts/${slug}` );
-            console.log( "response", response );
             if ( response.data.post.length > 0 ) {
                 setData( response.data.post );
-            } else setCard( response.data.post );
+            } else {
+                setCard( response.data.post );
+            }
         } catch ( error: any ) {
             console.error( error );
+        } finally {
+            setIsLoading( false );
         }
-    };
+    }, [slug] );
 
     useEffect( () => {
         if ( slug ) {
-            setIsLoading( true );
             getPostBySlug();
-            getAllPosts( dispatch ); 
-            setIsLoading( false );
+            getAllPosts( dispatch );
         }
-    }, [dispatch, slug] ); 
+    }, [slug, getPostBySlug, dispatch] );
 
     useEffect( () => {
         if ( card ) {
             if ( card.creatorId ) {
-                // dispatch( getAuthor( card.creatorId ) );
                 getAuthor( dispatch, card.creatorId );
             } else if ( card.authorId ) {
-                // dispatch( getAdminAuthor( card.authorId ) );
                 getAdminAuthor( dispatch, card.authorId );
             }
         }
-    }, [dispatch, card] );
+    }, [card, dispatch] );
 
     const getRandomPosts = useMemo( () => {
         const filterAndShuffle = ( posts: any, count: number, category?: string ) => {
@@ -319,7 +318,7 @@ const CardDetails = () => {
                                     <p className="text-lg hover:underline" onClick={() => router.push( "/auth/user/login" )}>Sign In</p>
                                 </div>
                             ) : (
-                                    <div className="  flex items-center justify-end gap-4 py-6 cursor-pointer" onClick={() => router.push( "/view-profile" )}>
+                                <div className="  flex items-center justify-end gap-4 py-6 cursor-pointer" onClick={() => router.push( "/view-profile" )}>
                                     <p className="text-lg font-semibold">{user?.name}</p>
                                     <img src={user?.profileImage} alt="" className="w-10 h-10 rounded-full" />
                                 </div>
@@ -601,36 +600,36 @@ const CardDetails = () => {
                 <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
                     <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
                         <div className="flex flex-col gap-5">
-                            <h1 className="text-2xl font-semibold ">Get connected</h1>                    
-            <div className="flex gap-3">
-              {/* LinkedIn */}
-              <a href="https://www.linkedin.com/company/blocktourmedia" target="_blank" rel="noopener noreferrer">
-                <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
-                  <FaLinkedin className="w-5 h-5" />
-                </div>
-              </a>
+                            <h1 className="text-2xl font-semibold ">Get connected</h1>
+                            <div className="flex gap-3">
+                                {/* LinkedIn */}
+                                <a href="https://www.linkedin.com/company/blocktourmedia" target="_blank" rel="noopener noreferrer">
+                                    <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
+                                        <FaLinkedin className="w-5 h-5" />
+                                    </div>
+                                </a>
 
-              {/* Twitter */}
-              <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
-                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                  <FaXTwitter className="w-5 h-5" />
-                </div>
-              </a>
+                                {/* Twitter */}
+                                <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
+                                    <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                                        <FaXTwitter className="w-5 h-5" />
+                                    </div>
+                                </a>
 
-              {/* Facebook */}
-              <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
-                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                  <FaFacebookSquare className="w-5 h-5" />
-                </div>
-              </a>
+                                {/* Facebook */}
+                                <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+                                    <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                                        <FaFacebookSquare className="w-5 h-5" />
+                                    </div>
+                                </a>
 
-              {/* YouTube */}
-              <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
-                <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                  <FaInstagram className="w-5 h-5" />
-                </div>
-              </a>
-            </div>
+                                {/* YouTube */}
+                                <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+                                    <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
+                                        <FaInstagram className="w-5 h-5" />
+                                    </div>
+                                </a>
+                            </div>
 
 
 

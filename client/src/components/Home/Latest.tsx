@@ -62,7 +62,7 @@ const Latest = () => {
                 ) : (
                   <img loading="lazy" src={card?.previewImageUrl} alt={card?.title} className="h-56 w-full object-cover" />
                 )}
-                <h1 className="text-xl text-white font-semibold group-hover:text-[#DF841C]">{card.title}</h1>
+                <h1 className="text-xl text-white font-semibold group-hover:text-[#DF841C] line-clamp-2">{card.title}</h1>
                 <div className="mt-1 flex gap-3 items-center">
                   <button className="bg-[#DF841C] py-0.5 px-3">
                     {card.category.join( ", " )}

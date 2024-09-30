@@ -25,7 +25,7 @@ const NFT = () => {
               </div>
             )}
             <div className="py-3 rounded-xl bg-stone-950  ">
-              <h1 className="text-xl font-medium leading-7 mb-3 group-hover:text-[#DF841C]">{post.title}</h1>
+              <h1 className="text-xl font-medium leading-7 mb-3 group-hover:text-[#DF841C] line-clamp-2">{post.title}</h1>
               <div className="flex gap-3">
                 <button className="px-2 whitespace-nowrap bg-amber-600 text-stone-950">
                   {post.category}

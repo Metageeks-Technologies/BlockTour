@@ -60,7 +60,7 @@ const PodcastPage = () => {
       setIsLoading( true );
       const response = await instance.get( "/podcast/all-podcasts" );
       console.log( "podcast", response );
-      setData( response.data.podcasts );
+      setData( response.data.podcasts.filter( ( post: any ) => post.status.toLowerCase() === "published" ) );
       setIsLoading( false );
 
     } catch ( error ) {
@@ -349,10 +349,10 @@ const PodcastPage = () => {
                   Published in{" "}
                   {new Date( newsItem?.publishedDate ).toLocaleDateString()}
                 </p>
-                <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC] group-hover:text-[#DF841C]">
+                <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC] group-hover:text-[#DF841C] line-clamp-2">
                   {newsItem.title}
                 </h3>
-                <p className="text-sm text-[#B0AFAF] mb-3 capitalize">
+                <p className="text-sm text-[#B0AFAF] mb-3 capitalize line-clamp-2">
                   {newsItem.permaLink.split( "-" ).join( " " )}
                 </p>
                 

@@ -110,7 +110,7 @@ const CryptoPage = () => {
                   router.push( `/article/${card.permaLink}` );
                 }}>
                   <div>
-                    <p className="text-sm text-white group-hover:text-[#DF841C] ">
+                    <p className="text-sm text-white group-hover:text-[#DF841C] line-clamp-2">
                       {card.title}
                     </p>
                     <p className="text-neutral-400 mt-3">

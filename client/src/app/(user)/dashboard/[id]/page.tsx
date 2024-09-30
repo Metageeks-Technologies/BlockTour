@@ -75,7 +75,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       <div className="flex flex-col mt-5 lg:px-28 sm:px-8 px-4">
         <div className="flex flex-col">
           {/* Title */}
-          <h1 className="sm:mt-2 lg:text-3xl md:text-2xl text-2xl font-medium text-white  max-md:max-w-full line-clamp-2">
+          <h1 className="sm:mt-2 lg:text-3xl md:text-2xl text-2xl font-medium text-white  max-md:max-w-full ">
             {post.title}
           </h1>
 
