@@ -1,13 +1,18 @@
 import {useAppSelector} from "@/app/redux/hooks";
 import {useRouter} from "next/navigation";
-import React from "react";
-import HtmlContent from "../HtmlContent";
+import React, {useMemo} from "react";
 import {formatDateTime} from "@/utils/DateFormat";
+import {FaEye} from "react-icons/fa";
 
 const Trending = () => {
   const posts = useAppSelector( ( state: any ) => state.post.posts );
-  // i want the random 4 posts from the published posts
-  const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).sort( () => 0.5 - Math.random() ).slice( 0, 4 );
+  // Sort posts by views and then filter by category;
+  const trendingPosts = useMemo( () => {
+    return posts.slice().sort( ( a: any, b: any ) => ( b.views || 0 ) - ( a.views || 0 ) ).filter( ( post: any ) => ( post.status.toLowerCase() === "published" ) ).slice( 0, 4 );
+  }, [posts] );
+
+  console.log( "trendingPosts", trendingPosts );
+
   const cryptoPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Crypto" ) ).sort( () => 0.5 - Math.random() ).slice( 0, 2 );
   const web3Posts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Web3" ) ).sort( () => 0.5 - Math.random() ).slice( 0, 2 );
   // const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" ).reverse().slice( 0, 4 ); 
@@ -16,10 +21,9 @@ const Trending = () => {
   return (
     <div className="flex lg:flex-row md:flex-row flex-col gap-5  ">
       <div className="flex flex-col gap-y-10 lg:w-[69%] md:w-[60%]">
-        {publishedPosts.length === 0 ? (
+        {trendingPosts.length === 0 ? (
           <div className="animate-pulse">
-            <div className="flex flex-col gap-y-10 lg:basis-[69%] md:basis-[60%]">
-
+            <div className="flex flex-col gap-y-10 lg:basis-[69%] md:basis-[60%]"> 
               {[...Array( 4 )].map( ( _, index ) => (
                 <div key={index} className="flex lg:flex-row md:flex-col flex-col gap-8 w-full">
                   <div className="h-56 lg:w-80 md:w-full bg-gray-300"></div>
@@ -40,7 +44,7 @@ const Trending = () => {
             </div>
           </div>
         ) : (
-          publishedPosts.map( ( card: any ) => (
+          trendingPosts.map( ( card: any ) => (
             <div key={card.id} className="flex group lg:flex-row md:flex-col flex-col gap-8 w-full cursor-pointer" onClick={() => {
               router.push( `/article/${card.permaLink}` );
             }}>
@@ -68,6 +72,11 @@ const Trending = () => {
                     {card.category.join( ", " )}
                   </button>
                   <p className="text-sm text-neutral-400">{formatDateTime( card.createdAt )}</p>
+                  {/* views */}
+                  <span className="text-neutral-400 text-sm flex items-center">
+                    <FaEye className="mr-1 mt-0.5" />
+                    {card.views || 0} views
+                  </span>
                 </div>
                 <div className="text-neutral-400 mt-5 line-clamp-4" dangerouslySetInnerHTML={{__html: card?.description}} />
               </div>
@@ -91,13 +100,13 @@ const Trending = () => {
               className="object-contain shrink-0 rounded-none aspect-[0.96] w-[43px]"
             /> */}
           </div>
-          
+
           {/* Advertisement */}
           <div className="lg:h-72 md:h-60 h-72 w-full mt-10  flex justify-center items-center">
             {/* <h1 className="text-white text-xl">Advertisement</h1> */}
             <img src="https://demo.tagdiv.com/newspaper_black_pro/wp-content/uploads/2019/12/custom-rec-1.jpg" alt=""
-             className="w-full"
-             />
+              className="w-full"
+            />
           </div>
 
           <div className="flex gap-5 mt-12 max-md:mt-10 ">
@@ -116,7 +125,7 @@ const Trending = () => {
                   router.push( `/article/${card.permaLink}` );
                 }}>
                   <div>
-                    <p className="text-sm text-white group-hover:text-[#DF841C] ">
+                    <p className="text-sm text-white group-hover:text-[#DF841C] line-clamp-2">
                       {card.title}
                     </p>
                     <p className="text-neutral-400 mt-3">
@@ -129,9 +138,9 @@ const Trending = () => {
                     className="w-20 h-20 object-cover"
                   />
                 </div>
-              ))}
+              ) )}
 
-              
+
               {/* <div className="flex gap-5 mt-5 justify-between items-center">
               <div className="flex gap-5 mt-5 group justify-between items-center">
                 <div>
@@ -175,7 +184,7 @@ const Trending = () => {
                   router.push( `/article/${card.permaLink}` );
                 }}>
                   <div >
-                    <p className="text-sm text-white group-hover:text-[#DF841C] ">
+                    <p className="text-sm text-white group-hover:text-[#DF841C] line-clamp-2">
                       {card.title}
                     </p>
                     <p className="text-neutral-400 mt-3">
@@ -188,10 +197,10 @@ const Trending = () => {
                     className="w-20 h-20 object-cover"
                   />
                 </div>
-              ))}
+              ) )}
 
 
-{/* 
+              {/* 
               <div className="flex gap-5 mt-5 justify-between items-center">
               <div className="flex gap-5 mt-5 justify-between items-center group">
                 <div>

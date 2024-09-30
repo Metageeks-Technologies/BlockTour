@@ -1,7 +1,8 @@
 import {useAppSelector} from "@/app/redux/hooks";
 import {formatDateTime} from "@/utils/DateFormat";
 import {useRouter} from "next/navigation";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useMemo} from "react";
+import { FaEye } from "react-icons/fa";
 import {IoArrowForward} from "react-icons/io5";
 
 const Latest = () => {
@@ -9,6 +10,7 @@ const Latest = () => {
   const [loading, setLoading] = useState( true );
   const [publishedPosts, setPublishedPosts] = useState<any[]>( [] );
   const router = useRouter();
+
 
   useEffect( () => {
     if ( posts.length > 0 ) {
@@ -62,12 +64,16 @@ const Latest = () => {
                 ) : (
                   <img loading="lazy" src={card?.previewImageUrl} alt={card?.title} className="h-56 w-full object-cover" />
                 )}
-                <h1 className="text-xl text-white font-semibold group-hover:text-[#DF841C]">{card.title}</h1>
+                <h1 className="text-xl text-white font-semibold group-hover:text-[#DF841C] line-clamp-2">{card.title}</h1>
                 <div className="mt-1 flex gap-3 items-center">
                   <button className="bg-[#DF841C] py-0.5 px-3">
                     {card.category.join( ", " )}
                   </button>
                   <p className="text-sm text-neutral-400">{formatDateTime( card.createdAt )}</p>
+                  <span className="text-neutral-400 text-sm flex items-center">
+                    <FaEye className="mr-1 mt-0.5" />
+                    {card.views || 0} views
+                  </span>
                 </div>
               </div>
             ) )}

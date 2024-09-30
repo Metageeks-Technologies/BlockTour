@@ -1,13 +1,12 @@
 import instance from "@/utils/axios";
 import {AppDispatch} from "../../store";
-import {fetchCurrentPost, fetchPostsFailure, fetchPostsStart, fetchPostsSuccess} from "./slice";
-
+import {fetchCurrentPost, fetchPostsFailure, fetchPostsStart, fetchPostsSuccess} from "./slice"; 
 
 export const getAllPosts = async (dispatch:AppDispatch) => {
   dispatch(fetchPostsStart()); 
     try {
         const response = await instance.get( '/post/all-posts' );
-        dispatch(fetchPostsSuccess(response.data.posts))
+        dispatch(fetchPostsSuccess(response.data.posts.filter((post:any)=>post.status.toLowerCase()==="published")))
     } catch (error:any) {
         console.error( error );
     dispatch(fetchPostsFailure(error.message));     }

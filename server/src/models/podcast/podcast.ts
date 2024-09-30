@@ -16,6 +16,7 @@ interface IPodcast extends Document {
     postType?: string; 
     createdAt?: Date;
     updatedAt?: Date;
+    views?: number;
 }
 
 // Define the schema
@@ -32,6 +33,7 @@ const PodcastSchema: Schema = new Schema({
     creatorId: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
     authorName: { type: String },
     postType: {type: String}, 
+    views: {type:Number,default:0},
 }, {
     timestamps: true,
     versionKey: false 

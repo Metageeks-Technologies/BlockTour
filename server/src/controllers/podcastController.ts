@@ -2,6 +2,7 @@
 import mongoose from 'mongoose';
 import Podcast from '../models/podcast/podcast';
 import { Request, Response } from 'express';
+import NodeCache from 'node-cache';
 
 interface IPodcast extends Document {
     title: string;
@@ -54,34 +55,54 @@ export const getPodcastById = async (req: Request, res: Response) => {
   }
 };
 
+const viewCache = new NodeCache({ stdTTL: 300 });
+
 export const getPodcastByPermaLink = async (req: Request, res: Response) => {
-  const {permaLink} = req.params;
+  const { permaLink } = req.params;
   try {
     // First, try to find an exact match
-    let podcast = await Podcast.findOne( {permaLink} );
+    let podcast = await Podcast.findOne({ permaLink });
+
+    if (podcast) {
+      const cacheKey = `podcast_view_${podcast._id}`;
+
+      // Check if the post view has been cached
+      if (!viewCache.has(cacheKey)) {
+        // If not cached, update the view count
+        // podcast = await Podcast.findByIdAndUpdate( podcast._id, { $inc: { views: 1 } }, { new: true } );
+        // console.log(`View count for podcast ${podcast?._id}: ${podcast?.views}`);
+
+        // Set the cache to prevent immediate re-counting
+        viewCache.set(cacheKey, true);
+      }
+
+      return res.status(200).json({
+        message: 'Podcast retrieved successfully',
+        success: true,
+        podcast,
+      });
+    }
 
     // If no exact match is found, search for similar permalinks
-    if (!podcast) {
-      const regex = new RegExp(permaLink, 'i'); // 'i' flag for case-insensitive search
-      const similarPodcasts = await Podcast.find({ permaLink: regex }).limit(5);
+    const regex = new RegExp(permaLink, 'i'); // 'i' flag for case-insensitive search
+    const similarPodcasts = await Podcast.find({ permaLink: regex }).limit(5);
 
-      if (similarPodcasts.length > 0) {
-        return res.status(200).json({
-          message: 'Similar podcasts found',
-          success: true,
-          podcast: similarPodcasts,
-        });
-      }
+    if (similarPodcasts.length > 0) {
+      return res.status(200).json({
+        message: 'Similar podcasts found',
+        success: true,
+        podcasts: similarPodcasts,
+      });
     }
 
-    if ( podcast ) {
-      res.status( 200 ).json( {message: 'Podcast retrieved successfully', success: true, podcast: podcast} );
-    } else {
-      res.status(404).json({ success: false, error: 'No posts found with similar permalinks' });
-    }
+    // No podcasts found
+    return res.status(404).json({
+      success: false,
+      error: 'No podcasts found with the given permalink or similar permalinks',
+    });
   } catch (error: any) {
     console.error(error);
-    res.status(500).json({ error: 'Unable to retrieve post', details: error.message });
+    res.status(500).json({ error: 'Unable to retrieve podcast', details: error.message });
   }
 };
 

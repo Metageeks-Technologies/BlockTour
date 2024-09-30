@@ -18,7 +18,7 @@ export const getPodcastById = async (dispatch:AppDispatch, id:string) => {
     try {
         const response = await instance.get( `podcast/podcast/${id}` );
         console.log(response)
-        dispatch(fetchCurrentPodcast(response.data.post))
+        dispatch(fetchCurrentPodcast(response.data.post.filter((post:any)=>post.status.toLowerCase()==="published")))
     } catch (error:any) {
         console.error( error );
         dispatch( fetchPodcastsFailure( error.message ) );

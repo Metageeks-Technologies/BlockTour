@@ -3,6 +3,7 @@ import Post from '../models/post/post';
 import User from '../models/user/user';
 import mongoose, {ObjectId} from 'mongoose';
 import Admin from '../models/admin/admin';
+import NodeCache from 'node-cache';
 
 // Create a new post for admin
 
@@ -78,27 +79,27 @@ export const getPostById = async ( req: Request, res: Response ) => {
   }
 };
 
-// get post by permaLink
-// export const getPostByPermaLink = async (req: Request, res: Response) => {
-//   const { permaLink } = req.params;
-//   try {
-//     const post = await Post.findOne({ permaLink });
-//     if (post) {
-//       res.status(200).json({ message: 'Post retrieved successfully', success: true, post });
-//     } else {
-//       res.status(404).json({ success: false, error: 'Post not found' });
-//     }
-//   } catch (error: any) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Unable to retrieve post', details: error.message });
-//   }
-// };
+const viewCache = new NodeCache({ stdTTL: 300 });
 
-export const getPostByPermaLink = async (req: Request, res: Response) => {
+// get post by permaLink
+ export const getPostByPermaLink = async (req: Request, res: Response) => {
   const { permaLink } = req.params;
   try {
     // First, try to find an exact match
-    let post = await Post.findOne({ permaLink });
+      let post = await Post.findOne({ permaLink });
+   if (post) {
+      const cacheKey = `post_view_${post._id}`;
+      
+      // Check if the post view has been cached
+      if (!viewCache.has(cacheKey)) {
+        // If not cached, update the view count
+        post = await Post.findOneAndUpdate( { _id: post._id }, { $inc: { views: 1 } }, { new: true } );
+        // console.log(`View count for post ${post?._id}: ${post?.views}`);
+        
+        // Set the cache to prevent immediate re-counting
+        viewCache.set(cacheKey, true);
+      }
+    }
 
     // If no exact match is found, search for similar permalinks
     if (!post) {
@@ -178,9 +179,7 @@ export const getPostsByIds = async (req: Request, res: Response) => {
   const skip = (page - 1) * limit;
 
   try {
-    const posts = await Post.find({ _id: { $in: ids } })
-      .skip(skip)
-      .limit(limit);
+    const posts = await Post.find({ _id: { $in: ids } }).skip(skip).limit(limit);
 
     const totalPosts = await Post.countDocuments({ _id: { $in: ids } });
 

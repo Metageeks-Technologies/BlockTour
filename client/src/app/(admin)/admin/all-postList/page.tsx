@@ -218,7 +218,7 @@ const PostsTable: React.FC = () => {
                     <input type="checkbox" />
                   </td> */}
                   <td className="py-3 px-4 text-center">{index + 1}</td>
-                  <td className="py-3 px-4">{post.title}</td>
+                  <td className="py-3 px-4 line-clamp-2">{post.title}</td>
                   <td className="py-3 px-4 flex items-center space-x-2">
                     {/* <img src={post.author.avatar} alt={post.authorName} className="w-10 h-10 rounded-full" /> */}
                     <span>{post?.authorName}</span>

@@ -270,8 +270,8 @@ const AdminDashboard: React.FC = () => {
                 currentItems.map( ( post: any, index: number ) => (
                   <tr key={post._id} className="border-b border-[#28272D] hover:bg-[#28272D] cursor-pointer" onClick={() => router.push( `/admin/all-postList/${post._id}` )}>
                     <td className="py-3 px-4 text-center">{index + 1}</td>
-                    <td className="py-3 px-4">{post.title}</td>
-                    <td className="py-3 px-4">{post.authorName}</td>
+                    <td className="py-3 px-4 line-clamp-2">{post.title}</td>
+                    <td className="py-3 px-4 whitespace-nowrap">{post.authorName}</td>
                     <td className="py-3 px-4">{post.category.join( ', ' )}</td>
                     <td className="py-3 px-4">
                       {post.tags.map( ( tag: string, index: number ) => (
