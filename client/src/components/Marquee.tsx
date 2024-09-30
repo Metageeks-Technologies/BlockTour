@@ -4,7 +4,7 @@ import Marquee from 'react-fast-marquee';
 
 const BlogMarquee: React.FC = () => {
   return (
-    <div className="bg-black px-2">
+    <div className="bg-tra px-2">
       <Marquee
         speed={60}
         className="text-white h-12 text-xl font-semibold tracking-wider w-[90%]"
