@@ -13,6 +13,7 @@ import categoryRouter from "./routes/category/category";
 import notificationRouter from "./routes/notification/notification";
 import podcastRouter from "./routes/podcast/podcast";
 import bookmarkRouter from "./routes/bookmark/bookmark";
+import newsRouter from "./routes/news/news";
 
 dotenv.config();
 
@@ -40,7 +41,8 @@ app.use( "/api/v1/aws", s3Router );
 app.use( '/api/v1/category', categoryRouter )
 app.use( '/api/v1/notification', notificationRouter );
 app.use( '/api/v1/podcast', podcastRouter )
-app.use( '/api/v1/bookmark', bookmarkRouter )
+app.use( '/api/v1/bookmark', bookmarkRouter );
+app.use( '/api/v1/news', newsRouter );
 
 
 // Database connection and server start
