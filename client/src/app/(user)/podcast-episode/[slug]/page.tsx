@@ -20,6 +20,7 @@ const CardDetails = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [podcast, setPodcast] = useState<any>( null );
+    const [data, setData] = useState<any>( null );
     const [isLoading, setIsLoading] = useState<boolean>( true );
     const [email, setEmail] = useState<string>( "" );
     const [emailError, setEmailError] = useState<string>( "" );
@@ -31,7 +32,11 @@ const CardDetails = () => {
     const getPodcastBySlug = async () => {
         try {
             const response = await instance.get( `/podcast/podcast/${slug}` );
-            setPodcast( response.data.podcast );
+            if ( response.data.podcast.length > 0 ) {
+                setData( response.data.podcast );
+            } else {
+                setPodcast( response.data.podcast );
+            }
         } catch ( error: any ) {
             console.error( error );
         }
@@ -100,7 +105,51 @@ const CardDetails = () => {
                             </div>
                         ) : (
                             <>
-                                {podcast ? (
+                                    {data && data.length > 0 ? (
+                                        data?.map( ( podcast: any ) => (
+                                            <div
+                                                key={podcast._id}
+                                                className="bg-[#0A090F] group cursor-pointer border border-[#17161B] p-5 rounded-lg shadow-lg flex space-x-5 mb-5"
+                                                onClick={() => {
+                                                    router.push( `/podcast-episode/${podcast.permaLink}` );
+                                                }}
+                                            >
+                                                <HtmlContent htmlContent={podcast?.embededCode || ""} />
+
+                                                <div className="flex-1">
+                                                    <p className="text-sm text-[#858585]">
+                                                        Published in{" "}
+                                                        {formatDateTime( podcast?.publishedDate )}
+                                                    </p>
+                                                    <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC] group-hover:text-[#DF841C] line-clamp-2">
+                                                        {podcast.title}
+                                                    </h3>
+                                                    <div className=" mb-3 flex gap-4">
+
+                                                        <p className="text-sm text-[#B0AFAF] capitalize line-clamp-2">
+                                                            {podcast.permaLink.split( "-" ).join( " " )}
+                                                        </p>
+                                                        <span className="text-neutral-400 text-sm flex items-center">
+                                                            <FaEye className="mr-1 mt-0.5" />
+                                                            {podcast?.views || 0} views
+                                                        </span>
+                                                    </div>
+
+                                                    <div className="flex gap-3 mt-3 text-[#999999]">
+                                                        {podcast?.category.map( ( cat: any ) => (
+                                                            <button
+                                                                key={cat._id}
+                                                                className=" py-0.5 px-4 bg-[#1F1C2C] border border-[#17161B] text-[#CCCCCC] text-xs rounded"
+                                                            >
+                                                                {cat}
+                                                            </button>
+                                                        ) )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ) ) )
+
+                                        : podcast ? (
                                     <div className="py-12">
                                         <div className="w-full h-auto">
                                             <HtmlContent htmlContent={podcast?.embededCode || ""} />

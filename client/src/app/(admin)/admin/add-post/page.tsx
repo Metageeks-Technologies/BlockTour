@@ -9,12 +9,14 @@ import instance from "@/utils/axios";
 import {notifyError, notifySuccess, notifyWarn} from "@/utils/toast";
 import {getAllCategories} from "@/app/redux/feature/category/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
+import {useRouter} from "next/navigation";
 
 // Dynamically import ReactQuill with SSR disabled
 const ReactQuill = dynamic( () => import( "react-quill" ), {ssr: false} );
 
 const AddPostPage = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const currentAdmin = useAppSelector( ( state: any ) => state?.superAdmin?.admin );
   const categories = useAppSelector( ( state ) => state.category.categories );
   const [isLoading, setIsLoading] = useState( false );
@@ -168,6 +170,25 @@ const AddPostPage = () => {
       notifySuccess( "Post created successfully!" );
       console.log( "Form submitted successfully:", response.data );
       // Reset form data here
+      setData( {
+        title: "",
+        permaLink: "",
+        description: "",
+        publishedDate: new Date().toISOString().split( 'T' )[0],
+        visibility: "Public",
+        status: "Draft",
+        postType: "",
+        category: [] as string[],
+        tags: [] as string[],
+        postSliderImageUrl: [] as string[],
+        previewImageUrl: "",
+        authorId: "",
+        authorName: ""
+      } );
+      setSliderImages( [] );
+      setPreviewFile( null );
+      setIsLoading( false );
+      router.push( `/admin/dashboard` );
     } catch ( error: any ) {
       notifyError( `${error?.response?.data?.message || "An error occurred"}` );
       console.error( "Error submitting the form:", error );
@@ -360,15 +381,15 @@ const AddPostPage = () => {
         </div>
 
         {/* Right Column (Post Settings) */}
-        <div className="basis-[30%] mt-5">
+        <div className="basis-[30%] mt-7">
           <div className="flex flex-col gap-2">
-            <button
+            {/* <button
               type="button"
               className="bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-600"
               disabled={isLoading}
             >
               Preview Changes
-            </button>
+            </button> */}
             <button
               type="submit"
               className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-400"
