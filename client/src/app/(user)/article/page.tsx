@@ -1,16 +1,16 @@
 "use client";
-import {getAllCategories} from "@/app/redux/feature/category/api";
-import {getAllPosts} from "@/app/redux/feature/posts/api";
-import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
+import { getAllCategories } from "@/app/redux/feature/category/api";
+import { getAllPosts } from "@/app/redux/feature/posts/api";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import Footer from "@/components/Footer";
 import instance from "@/utils/axios";
-import {formatDateTime} from "@/utils/DateFormat";
-import {useRouter, useSearchParams} from "next/navigation";
-import React, {Suspense, useEffect, useMemo, useRef, useState} from "react";
-import {FaEye, FaFacebookSquare, FaLinkedin} from "react-icons/fa";
-import {FaInstagram, FaXTwitter} from "react-icons/fa6";
-import {IoLogoYoutube} from "react-icons/io";
-import {IoSearchOutline} from "react-icons/io5";
+import { formatDateTime } from "@/utils/DateFormat";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { FaEye, FaFacebookSquare, FaLinkedin } from "react-icons/fa";
+import { FaInstagram, FaXTwitter } from "react-icons/fa6";
+import { IoLogoYoutube } from "react-icons/io";
+import { IoSearchOutline } from "react-icons/io5";
 
 export interface Post {
   _id: string;
@@ -40,34 +40,34 @@ const ArticlePage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [isLoading, setIsLoading] = useState( true );
-  const [activeCategory, setActiveCategory] = useState( "All" );
-  const [email, setEmail] = useState( "" );
-  const [emailError, setEmailError] = useState( "" );
-  const [isTermsAndPrivacy, setIsTermsAndPrivacy] = useState( false );
-  const posts = useAppSelector( ( state ) => state.post.posts );
-  const categories = useAppSelector( ( state ) => state.category.categories );
-  const termsCheckboxRef = useRef<HTMLInputElement>( null );
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [isTermsAndPrivacy, setIsTermsAndPrivacy] = useState(false);
+  const posts = useAppSelector((state) => state.post.posts);
+  const categories = useAppSelector((state) => state.category.categories);
+  const termsCheckboxRef = useRef<HTMLInputElement>(null);
 
-  const category = searchParams.get( 'category' );
-  const categoryName = category?.replace( /-/g, ' ' );
+  const category = searchParams.get("category");
+  const categoryName = category?.replace(/-/g, " ");
 
-  useEffect( () => {
-    setActiveCategory( categoryName || 'All' );
-    if ( categories.length === 0 ) {
-      getAllCategories( dispatch );
+  useEffect(() => {
+    setActiveCategory(categoryName || "All");
+    if (categories.length === 0) {
+      getAllCategories(dispatch);
     }
     const fetchPosts = async () => {
-      setIsLoading( true );
-      await getAllPosts( dispatch );
-      setIsLoading( false );
+      setIsLoading(true);
+      await getAllPosts(dispatch);
+      setIsLoading(false);
     };
     fetchPosts();
 
-    if ( categoryName?.toLowerCase() === 'all' ) {
-      router.replace( '/article' );
+    if (categoryName?.toLowerCase() === "all") {
+      router.replace("/article");
     }
-  }, [dispatch, searchParams, router, categories.length, categoryName] );
+  }, [dispatch, searchParams, router, categories.length, categoryName]);
 
   const filteredPosts = activeCategory.toLowerCase() === "all" ? posts : posts.filter( ( post: any ) => post.category && post.status.toLowerCase() === "published" && post.category.some( ( cat: any ) => cat.toLowerCase().includes( activeCategory.toLowerCase() ) ) );
   // console.log( "filteredPosts", filteredPosts );
@@ -76,7 +76,9 @@ const ArticlePage = () => {
     if ( category.toLowerCase() === 'all' ) {
       router.replace( '/article' );
     } else {
-      router.replace( `/article?category=${category.toLowerCase().replace( / /g, "-" )}` );
+      router.replace(
+        `/article?category=${category.toLowerCase().replace(/ /g, "-")}`
+      );
     }
   };
 
@@ -93,37 +95,48 @@ const ArticlePage = () => {
 
   console.log( "trendingPosts", trendingPosts );
 
-  const validateEmail = ( email: string ) => {
+  const validateEmail = (email: string) => {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return re.test( email );
+    return re.test(email);
   };
 
-  const handleEmailChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
-    setEmail( newEmail );
-    if ( newEmail && !validateEmail( newEmail ) ) {
-      setEmailError( "Please enter a valid email address" );
+    setEmail(newEmail);
+    if (newEmail && !validateEmail(newEmail)) {
+      setEmailError("Please enter a valid email address");
     } else {
-      setEmailError( termsCheckboxRef.current?.checked ? "" : "Please agree to the Terms and Conditions and Privacy Policy" );
+      setEmailError(
+        termsCheckboxRef.current?.checked
+          ? ""
+          : "Please agree to the Terms and Conditions and Privacy Policy"
+      );
     }
   };
 
   const CreateSubscriber = async () => {
-    if ( !isTermsAndPrivacy ) {
-      alert( "Please agree to the Terms and Conditions and Privacy Policy" );
+    if (!isTermsAndPrivacy) {
+      alert("Please agree to the Terms and Conditions and Privacy Policy");
       termsCheckboxRef.current?.focus();
       return;
     }
 
     try {
-      const response = await instance.post( '/subscriber/subscribers', {email} );
-      alert( `${response.data.message || "Subscribed Successfully"}` );
-      setEmail( "" );
-      setIsTermsAndPrivacy( false );
-    } catch ( error: any ) {
-      console.error( error );
-      alert( `${error.response?.data?.message || "There is some error in creating subscriber"}` );
-      setEmailError( "" );
+      const response = await instance.post("/subscriber/subscribers", {
+        email,
+      });
+      alert(`${response.data.message || "Subscribed Successfully"}`);
+      setEmail("");
+      setIsTermsAndPrivacy(false);
+    } catch (error: any) {
+      console.error(error);
+      alert(
+        `${
+          error.response?.data?.message ||
+          "There is some error in creating subscriber"
+        }`
+      );
+      setEmailError("");
     }
   };
 
@@ -131,9 +144,9 @@ const ArticlePage = () => {
     <div className="animate-pulse">
       {/* Trending section skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
-        {[...Array( 4 )].map( ( _, index ) => (
+        {[...Array(4)].map((_, index) => (
           <div key={index} className="bg-gray-700 rounded-xl h-80"></div>
-        ) )}
+        ))}
       </div>
 
       {/* Newsletter skeleton */}
@@ -143,19 +156,23 @@ const ArticlePage = () => {
       <div className="mt-6">
         <div className="h-8 bg-gray-700 w-1/3 rounded"></div>
         <div className="flex gap-5 py-4 mt-4">
-          {[...Array( 4 )].map( ( _, index ) => (
+          {[...Array(4)].map((_, index) => (
             <div key={index} className="h-6 bg-gray-700 w-20 rounded"></div>
-          ) )}
+          ))}
         </div>
       </div>
 
       {/* Article list skeleton */}
-      {[...Array( 3 )].map( ( _, index ) => (
+      {[...Array(3)].map((_, index) => (
         <div key={index} className="bg-gray-700 h-40 rounded-lg mt-4"></div>
-      ) )}
+      ))}
     </div>
   );
 
+  const formatDate = (dateString: any) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(); // Default format based on locale, e.g., MM/DD/YYYY
+  };
 
   return (
     <div className="lg:ml-52">
@@ -177,15 +194,17 @@ const ArticlePage = () => {
 
       <div className="px-4">
         <h1 className="text-lg font-semibold  text-[#999999]">Trending</h1>
-        {isLoading ? <LoadingSkeleton /> : (
+        {isLoading ? (
+          <LoadingSkeleton />
+        ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-4 ">
-
             {trendingPosts.length === 0 ? (
               <div className="bg-gray-700 rounded-xl h-80 flex justify-center items-center w-full col-span-4">
                 <div className="text-center text-gray-400 w-full">
                   <h1 className="text-2xl font-semibold">No posts found</h1>
                   <p className="text-sm text-gray-400">
-                    No posts found for "{activeCategory}". Please try again later.
+                    No posts found for "{activeCategory}". Please try again
+                    later.
                   </p>
                 </div>
               </div>
@@ -195,9 +214,10 @@ const ArticlePage = () => {
                   key={post._id}
                   className="cursor-pointer group rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4 shadow-lg hover:shadow-xl transition-shadow duration-300"
                   style={{
-                    boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px"
+                    boxShadow:
+                      "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
                   }}
-                  onClick={() => router.push( `/article/${post.permaLink}` )}
+                  onClick={() => router.push(`/article/${post.permaLink}`)}
                 >
                   <img
                     loading="lazy"
@@ -215,7 +235,7 @@ const ArticlePage = () => {
 
                     <span className="text-[#767676]">
                       {post.createdAt
-                        ? formatDateTime( post.createdAt )
+                        ? formatDateTime(post.createdAt)
                         : "No date available"}
                     </span>
                   </div>
@@ -227,19 +247,20 @@ const ArticlePage = () => {
 
                     <div
                       className="text-sm text-[#B0AFAF] mt-2 mb-2 line-clamp-2"
-                      dangerouslySetInnerHTML={{__html: post.description}}
+                      dangerouslySetInnerHTML={{ __html: post.description }}
                     />
                   </div>
                 </div>
-              ) ) )}
+              ))
+            )}
           </div>
         )}
 
         <div className="bg-[#0A090F] text-white p-14 rounded-lg mt-5 border border-[#17161B]">
-          <div className="flex lg:flex-row flex-col justify-between gap-12 items-center">
+          <div className="flex lg:flex-row flex-col sm:justify-between justify-center gap-12 items-center">
             {/* Left Section */}
             <div className="w-full ">
-              <h2 className="text-2xl font-bold mb-2">
+              <h2 className="sm:text-2xl text-3xl font-bold mb-2 text-center">
                 Level up on Crypto in 3 Mins
               </h2>
               <p className="text-[#999999]">
@@ -257,15 +278,18 @@ const ArticlePage = () => {
                     placeholder="Enter your email address"
                     value={email}
                     onChange={handleEmailChange}
-                    className={`bg-[#1F1C2C] border ${emailError ? 'border-red-500' : 'border-[#474457]'
-                      } text-white py-3.5 px-5 rounded-lg w-full focus:outline-none`}
+                    className={`bg-[#1F1C2C] border ${
+                      emailError ? "border-red-500" : "border-[#474457]"
+                    } text-white py-3.5 px-5 rounded-lg w-full focus:outline-none`}
                   />
                   {emailError && (
-                    <p className="text-red-500 text-sm my-1 whitespace-nowrap absolute">{emailError}</p>
+                    <p className="text-red-500 text-sm my-1 whitespace-nowrap absolute">
+                      {emailError}
+                    </p>
                   )}
                 </div>
                 <button
-                  className="bg-orange-500 whitespace-nowrap text-white px-10 py-3.5 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg hover:bg-orange-600 transition"
+                  className="bg-orange-500 whitespace-nowrap text-white sm:px-10 sm:w-[40%] w-full py-3.5  disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg hover:bg-orange-600 transition"
                   disabled={isLoading || !email || !!emailError}
                   onClick={CreateSubscriber}
                 >
@@ -275,13 +299,24 @@ const ArticlePage = () => {
 
               {/* Terms and Privacy */}
               <div className="flex items-center mt-8">
-                <input type="checkbox" id="agree" className="mr-2 focus:outline-1" ref={termsCheckboxRef} onChange={() => {
-                  setIsTermsAndPrivacy( !isTermsAndPrivacy );
-                  handleEmailChange( {target: {value: email}} as React.ChangeEvent<HTMLInputElement> );
-                }} />
-                <label htmlFor="agree" className="text-gray-400 text-sm">
+                <input
+                  type="checkbox"
+                  id="agree"
+                  className="mr-2 focus:outline-1"
+                  ref={termsCheckboxRef}
+                  onChange={() => {
+                    setIsTermsAndPrivacy(!isTermsAndPrivacy);
+                    handleEmailChange({
+                      target: { value: email },
+                    } as React.ChangeEvent<HTMLInputElement>);
+                  }}
+                />
+                <label htmlFor="agree" className="text-gray-400 sm:text-sm text-xs">
                   By joining, I agree to the Blockbar{" "}
-                  <a href="/terms-and-conditions" className="underline text-gray-300">
+                  <a
+                    href="/terms-and-conditions"
+                    className="underline text-gray-300"
+                  >
                     Terms and Conditions
                   </a>{" "}
                   <a href="/privacy-policy" className="underline text-gray-300">
@@ -291,20 +326,19 @@ const ArticlePage = () => {
                 </label>
               </div>
             </div>
-
           </div>
         </div>
 
         <div className="mt-6">
-          <div className="flex justify-between items-center">
+          <div className="flex sm:flex-row flex-col gap-4 justify-between items-center">
             <h1 className="text-3xl font-semibold">Browse all articles</h1>
 
             <div className="flex gap-2 items-center">
               <p>View</p>
               <select
                 className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded"
-              // value={postsPerPage}
-              // onChange={( e ) => setPostsPerPage( Number( e.target.value ) )}
+                // value={postsPerPage}
+                // onChange={( e ) => setPostsPerPage( Number( e.target.value ) )}
               >
                 <option>Most Recent</option>
                 <option>Trending</option>
@@ -315,23 +349,38 @@ const ArticlePage = () => {
           </div>
         </div>
 
-        <div className="sticky top-0 bg-black ">
+        <div className="sticky top-0 bg-black lg:block hidden ">
           <div className="flex  gap-5 py-4 border-b border-[#17161B]  text-[#999999] items-center">
-            <p className={`hover:text-white cursor-pointer ${activeCategory.toLowerCase() === "all" ? "text-white font-semibold" : ""}`}
-              onClick={() => handleCategoryClick( "All" )}
+            <p
+              className={`hover:text-white cursor-pointer ${
+                activeCategory.toLowerCase() === "all"
+                  ? "text-white font-semibold"
+                  : ""
+              }`}
+              onClick={() => handleCategoryClick("All")}
             >
               All
             </p>
-            {categories.map( ( category: any ) => (
+            {categories.map((category: any) => (
               <p
                 key={category._id}
-                className={`hover:text-white cursor-pointer ${activeCategory.toLowerCase() === category.name.toLowerCase() ? "text-white font-semibold" : ""
-                  } bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded `}
-                onClick={() => {router.push( `/article?category=${category.name.toLowerCase().split( " " ).join( "-" )}` );}}
+                className={`hover:text-white cursor-pointer ${
+                  activeCategory.toLowerCase() === category.name.toLowerCase()
+                    ? "text-white font-semibold"
+                    : ""
+                } bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded `}
+                onClick={() => {
+                  router.push(
+                    `/article?category=${category.name
+                      .toLowerCase()
+                      .split(" ")
+                      .join("-")}`
+                  );
+                }}
               >
-                {category.name.charAt( 0 ).toUpperCase() + category.name.slice( 1 )}
+                {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
               </p>
-            ) )}
+            ))}
           </div>
         </div>
 
@@ -341,111 +390,129 @@ const ArticlePage = () => {
               <div className="text-center text-gray-400 w-full">
                 <h1 className="text-2xl font-semibold">No posts found</h1>
                 <p className="text-sm text-gray-400">
-                  No posts found for "{activeCategory}". Browse other categories.
+                  No posts found for "{activeCategory}". Browse other
+                  categories.
                 </p>
               </div>
             </div>
           ) : (
             <>
-              {filteredPosts.map( ( post: any ) => (
+              {filteredPosts.map((post: any) => (
                 <div
                   key={post._id}
-                  className="bg-[#0A090F] group cursor-pointer p-5 rounded-lg shadow-lg flex space-x-5 mb-4 border border-[#17161B]"
+                  className="bg-[#0A090F] group w-full cursor-pointer sm:p-5 p-2  rounded-lg shadow-lg flex sm:space-x-5 space-x-3 mb-4 border border-[#17161B]"
                   onClick={() => {
-                    router.push( `/article/${post.permaLink}` );
+                    router.push(`/article/${post.permaLink}`);
                   }}
                 >
                   <img
                     src={post.previewImageUrl}
                     alt="Thumbnail"
-                    className="w-44 h-36 object-cover"
+                    className="sm:w-44 sm:h-32 w-32 h-24 object-cover"
                   />
                   <div className="flex-1">
-                    <p className="text-[#858585] text-sm">
+                    <p className="text-[#858585] sm:text-sm text-xs">
                       Written by{" "}
                       <span className="font-semibold">{post.authorName}</span>
                     </p>
-                    <h3 className="text-xl font-bold mb-2 mt-2 text-[#CCCCCC] group-hover:text-[#DF841C] line-clamp-1">
+                    <h3 className="sm:text-xl text-sm  sm:font-bold font-semibold sm:mb-2 sm:mt-2 mt-0.5 mb-0.5 text-[#CCCCCC] group-hover:text-[#DF841C] sm:line-clamp-1 line-clamp-2">
                       {post.title}
                     </h3>
                     <div
-                      className="text-sm text-[#B0AFAF] mb-3 line-clamp-2"
+                      className="sm:text-sm text-xs text-[#B0AFAF] sm:mb-3 mb-2 sm:line-clamp-2 line-clamp-1"
                       dangerouslySetInnerHTML={{__html: post.description}}
                     />
                     <div className="flex items-center space-x-4 text-sm">
                       {post?.category && post.category.length > 0 && (
-                        <span className="bg-[#DF841C] text-[#000000] font-semibold px-2 py-0.5 rounded">
+                        <span className="bg-[#DF841C] text-[#000000] font-semibold px-2 sm:py-0.5 py-[1px] rounded">
                           {post.category[0] ?? "No Category"}{" "}
                         </span>
                       )}
                       <span className="text-[#767676]">
                         {post?.createdAt
-                          ? formatDateTime( post.createdAt )
+                          ? formatDate(post.createdAt)
                           : "No date available"}
                       </span>
                       {/* here are views */}
-                      <span className="text-[#767676] flex items-center">
+                      <div className="sm:block hidden">
+                      <span className="text-[#767676] flex items-center first-letter:">
                         <FaEye className="mr-1" />
                         {post?.views || 0} views
                       </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              ) )}
+              ))}
             </>
           )}
         </div>
       </div>
       <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
-        <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
-          <div className="flex flex-col gap-5">
+        <div className="w-[90%] m-auto sm:flex-row flex-col gap-5 flex justify-between py-10 text-[#FFFCFC99]">
+          <div className="flex flex-col">
             <h1 className="text-2xl font-semibold text-[#FFFFFF]">
               Get connected
             </h1>
 
-            <div className="flex gap-3">
+            <div className="flex gap-3 lg:mt-0 mt-3">
               {/* LinkedIn */}
-              <a href="https://www.linkedin.com/company/blocktourmedia" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://www.linkedin.com/company/blocktourmedia"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
                   <FaLinkedin className="w-5 h-5" />
                 </div>
               </a>
 
               {/* Twitter */}
-              <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://x.com/blocktourmedia"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                   <FaXTwitter className="w-5 h-5" />
                 </div>
               </a>
 
               {/* Facebook */}
-              <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://www.instagram.com/blocktourmedia/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                   <FaFacebookSquare className="w-5 h-5" />
                 </div>
               </a>
 
               {/* YouTube */}
-              <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://www.instagram.com/blocktourmedia/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                   <FaInstagram className="w-5 h-5" />
                 </div>
               </a>
             </div>
-
           </div>
 
           <div className="">
-            <h1 className="text-3xl text-[#FFFFFF] pb-3">
+            <h1 className="sm:text-3xl text-xl text-[#FFFFFF] pb-3">
               Receive your daily crypto update
             </h1>
-            <div className="flex items-center gap-4">
+            <div className="flex lg:flex-row flex-col items-center gap-4">
               <input
                 type="email"
                 placeholder="Enter your email address"
                 className="bg-[#1F1C2C] border border-[#474457] text-white py-3.5 px-5 rounded-lg  w-full sm:w-96 focus:outline-none"
               />
-              <button className="bg-orange-500 text-white px-10 py-3.5 rounded-lg hover:bg-orange-600 transition">
+              <button className="bg-orange-500 text-white sm:px-10 sm:w-[40%] w-full py-3.5 rounded-lg hover:bg-orange-600 transition">
                 Join for Free
               </button>
             </div>
@@ -453,7 +520,7 @@ const ArticlePage = () => {
             {/* Terms and Privacy */}
             <div className="flex items-center mt-4">
               <input type="checkbox" id="agree" className="mr-2" />
-              <label htmlFor="agree" className="text-gray-400 text-sm">
+              <label htmlFor="agree" className="text-gray-400 sm:text-sm text-xs">
                 By joining, I agree to the Blockbar{" "}
                 <a href="#" className="underline text-gray-300">
                   Terms and Privacy

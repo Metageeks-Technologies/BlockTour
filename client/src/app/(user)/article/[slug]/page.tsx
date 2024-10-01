@@ -13,6 +13,7 @@ import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
 import {FaEye, FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter, } from "react-icons/fa";
 import {FaXTwitter} from "react-icons/fa6";
 import instance from "@/utils/axios";
+import { FiHeart } from "react-icons/fi";
 
 const CardDetails = () => {
     const {slug} = useParams<{slug: string;}>();
@@ -112,10 +113,10 @@ const CardDetails = () => {
     return (
         <div>
             {/* <Navbar/> */}
-            <div className=" lg:ml-40 flex overflow-hidden flex-col items-center pb-6 bg-black  md:px-12 ">
+            <div className=" lg:ml-40 flex overflow-hidden flex-col items-center pb-6 bg-black  lg:px-12 ">
                 {/* where i scroll first left side then right side */}
-                <div className="flex max-h-screen sticky top-0">
-                    <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full md:ml-5 overflow-y-auto scrollbar-hide">
+                <div className="flex sm:flex-row flex-col max-h-screen sm:sticky sm:top-0">
+                    <div className="flex flex-col lg:w-[70%] max-md:ml-0 max-md:w-full lg:ml-5 overflow-y-auto scrollbar-hide ">
                         {isLoading ? (
                             <div className="flex justify-center items-center h-screen">
                                 <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 border-t-orange-500 border-b-transparent border-r-transparent border-l-transparent rounded-full" role="status">
@@ -128,7 +129,7 @@ const CardDetails = () => {
                                     data?.map( ( post: any ) => (
                                         <div
                                             key={post._id}
-                                            className="bg-[#0A090F] cursor-pointer p-5 rounded-lg shadow-lg flex space-x-5 mb-4 border border-[#17161B]"
+                                            className="bg-[#0A090F] cursor-pointer lg:p-5 rounded-lg shadow-lg flex space-x-5 mb-4 border border-[#17161B]"
                                             onClick={() => {
                                                 router.push( `/article/${post.permaLink}` );
                                             }}
@@ -191,16 +192,28 @@ const CardDetails = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="flex gap-4">
-                                                    <div className="h-7 w-7 bg-[#1C1C1D] hover:bg-[#232324] flex justify-center items-center  rounded-full">
-                                                        <IoBookmarkOutline className="h-4 w-4 cursor-pointer text-neutral-400" />
-                                                    </div>
-                                                    {/* here are views */}
-                                                    <span className="text-[#767676] flex items-center">
-                                                        <FaEye className="mr-1" />
-                                                        {card?.views || 0} views
-                                                    </span>
-                                                </div>
+                                               <div className="flex gap-6">
+                                              
+                                                {/* here are views */}
+                                            <span className="text-[#767676] flex items-center">
+                                       <FaEye className="mr-1" />
+                                      {card?.views || 0} views
+                                           </span>
+                                            <span className="text-[#767676] flex items-center gap-1">
+                                            <img src="/asset/Like.svg" alt="" />
+                                              0
+                                            </span>
+                                           
+                                                 <span className="text-[#767676] flex items-center gap-1">
+                                                 <img src="/asset/share1.svg" alt="" />
+                                                 0
+                                                 </span>
+                                           
+                                                 <span className="text-[#767676] flex items-center gap-1">
+                                                    <img src="/asset/Bookmark.svg" alt="" />
+                                                </span>
+                                                
+                                            </div>
                                             </div>
 
                                             <div className="flex overflow-hidden relative flex-col flex-wrap gap-1.5 items-start pt-96 pr-20 w-full min-h-[450px] max-md:pt-24 max-md:pr-5 max-md:max-w-full rounded-lg">
@@ -300,7 +313,7 @@ const CardDetails = () => {
 
 
                     {/* right */}
-                    <div className="flex flex-col ml-5 lg:w-[30%] md:w-[35%] max-md:ml-0 max-md:w-full">
+                    <div className="flex flex-col lg:ml-5 px-4 lg:w-[30%] md:w-[35%] max-md:ml-0 max-md:w-full">
                         <div className="flex flex-col w-full max-md:mt-10 py-4">
                             <div className="relative border border-[#28272D] rounded flex justify-between">
                                 <input
@@ -308,7 +321,7 @@ const CardDetails = () => {
                                     placeholder="Search"
                                     // value={searchQuery}
                                     // onChange={( e ) => setSearchQuery( e.target.value )}
-                                    className="bg-[#0A090F] text-[#7B7A7F] sm:w-80 w-40 px-4 py-2 rounded border-none focus:outline-none"
+                                    className="bg-[#0A090F] text-[#7B7A7F] lg:w-80 sm:w-48 w-40 px-4 py-2 rounded border-none focus:outline-none"
                                 />
                                 <button className="bg-[#DF841C] text-white px-3 py-1.5 rounded">
                                     <IoSearchOutline className="h-6 w-6" />
@@ -317,7 +330,7 @@ const CardDetails = () => {
 
                             {!user ? (
                                 <div className="  flex items-center justify-evenly py-6">
-                                    <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg" onClick={() => router.push( "/auth/user/signup" )}>
+                                    <button className="py-3.5 lg:px-12 sm:px-6 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg" onClick={() => router.push( "/auth/user/signup" )}>
                                         Join for free
                                     </button>
                                     <p className="text-lg hover:underline" onClick={() => router.push( "/auth/user/login" )}>Sign In</p>
@@ -330,7 +343,7 @@ const CardDetails = () => {
                             )}
 
                             {/* it should be sticky at top till footer comes to screen */}
-                            <div className=" h-[32rem] rounded-lg sticky  top-0 z-40  flex justify-center items-center bg-[#0A090F]">
+                            <div className=" h-[32rem] rounded-lg lg:sticky  lg:top-0 lg:z-40  flex justify-center items-center bg-[#0A090F]">
                                 <div className="flex flex-col gap-8 px-12 ">
                                     <div className=" flex items-center justify-center">
                                         <img
@@ -369,14 +382,14 @@ const CardDetails = () => {
                 </div> 
 
                 {/* Comment section */}
-                <div className="mt-20 max-w-full w-[86%] max-md:mt-10 ">
+                <div className="mt-20 max-w-full lg:w-[86%] sm:w-[90%] w-[90%] max-md:mt-10 ">
                     {card && <DiscussionEmbedComponent article={card} />}
                 </div>
             </div>
 
             {/* Author section */}
             {card && (
-                <div className="mt-5 lg:ml-52 rounded-lg px-20">
+                <div className="mt-5 lg:ml-52 rounded-lg lg:px-20 sm:px-10 px-4">
                     <div className="py-10 flex border-neutral-800">
                         <div className="flex flex-col gap-3">
                             <img
@@ -398,8 +411,9 @@ const CardDetails = () => {
                                         <FaTwitter className="w-4 h-4" />
                                     </div>
                                 </div>
-                            </div> 
-                            <p className="text-justify text-sm text-[#ADADAD] w-[80%]">
+                            </div>
+
+                            <p className="text-justify text-sm text-[#ADADAD] sm:w-[80%]">
                                 {author?.bio}
                             </p> 
                         </div>
@@ -443,7 +457,7 @@ const CardDetails = () => {
                             </div> 
                         </div>
 
-                        <div className="">
+                        {/* <div className="">
                             <h1 className="text-3xl pb-2 font-semibold text-[#FFFFFF]">Receive your daily crypto update</h1>
                             <div className="w-full">
                                 <div className="flex items-center gap-4">
@@ -469,7 +483,7 @@ const CardDetails = () => {
                                     </button>
                                 </div>
 
-                                {/* Terms and Privacy */}
+                               
                                 <div className="flex items-center mt-8">
                                     <input type="checkbox" id="agree" className="mr-2 focus:outline-1" ref={termsCheckboxRef} onChange={() => {
                                         setIsTermsAndPrivacy( !isTermsAndPrivacy );
@@ -487,7 +501,7 @@ const CardDetails = () => {
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <Footer />

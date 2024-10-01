@@ -5,6 +5,7 @@ import {ReduxProvider} from "../redux/provider";
 // import {ToastContainer} from "react-toastify";
 import Sidebar from "@/components/contributor/Sidebar";
 import {IntialLoader} from "@/components/inititalLoader/IntialLoader";
+import UserHearder from "@/components/UserHearder";
 
 // import {ReduxProvider} from "./redux/provider";
 
@@ -22,6 +23,7 @@ export default function RootLayout ( {children, }: Readonly<{children: React.Rea
         {/* <ToastContainer /> */}
         <ReduxProvider>
         <IntialLoader>
+          <UserHearder/>
         <div className="flex">
             <Sidebar />
             {children}

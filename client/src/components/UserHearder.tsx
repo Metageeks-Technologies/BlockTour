@@ -46,7 +46,7 @@ const UserHearder = () => {
   };
 
   return (
-    <div className="sticky z-30 top-0">
+    <div className="sticky z-30 top-0 lg:hidden block">
       <header className="bg-[#0A090F] text-white  flex items-center justify-between px-6 py-2">
         <div className="flex items-center">
           <img
@@ -57,32 +57,8 @@ const UserHearder = () => {
           />
         </div>
 
-        {/* <ul className="flex space-x-4">
-          <li
-            className="cursor-pointer text-[#bdbcc0] font-bold hover:text-[#DF841C]"
-            onClick={() => router.push( "/dashboard" )}
-          >
-            Dashboard
-          </li>
-        </ul>
-        <ul className="flex space-x-4">
-          <li
-            className="cursor-pointer text-[#bdbcc0] font-bold hover:text-[#DF841C]"
-            onClick={() => router.push( "/" )}
-          >
-            Homepage
-          </li>
-        </ul>
-        <ul className="flex space-x-4">
-          <li className="cursor-pointer font-bold text-[#c8c8c9] hover:text-[#DF841C]"
-            onClick={() => router.push( "/add-post" )}
-          >
-            Contribute
-          </li>
-        </ul> */}
-
         {/* for desktop */}
-        <div className="flex items-center space-x-5">
+        {/* <div className="flex items-center space-x-5">
           <div>
             <div onClick={togglePopup} className="relative cursor-pointer">
               <IoMdNotificationsOutline className="h-7 w-7 cursor-pointer lg:block hidden" />
@@ -131,10 +107,19 @@ const UserHearder = () => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
 
         {/* for mobile*/}
         <div className="lg:hidden flex gap-3 items-center">
+          <div className="flex gap-4 items-center">
+          <button className="text-xs">
+           Join for Free
+          </button>
+          <h1 className="text-sm">
+            Sign in
+          </h1>
+          </div>
+
           <div>
             <div onClick={togglePopup} className="relative cursor-pointer">
               <IoMdNotificationsOutline className="h-7 w-7 cursor-pointer lg:hidden" />
@@ -154,6 +139,7 @@ const UserHearder = () => {
         </button> */}
           <img src="/asset/sink.svg" alt="" onClick={toggleSidebar} />
         </div>
+
       </header>
       <Sidebarpop isOpen={isOpen} toggleSidebar={toggleSidebar} />
     </div>
