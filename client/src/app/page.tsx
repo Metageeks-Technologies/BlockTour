@@ -81,7 +81,7 @@ export default function Home () {
                         <h1 className="line-clamp-2 cursor-pointer" onClick={() => router.push( `/article/${post.permaLink}` )}>{post.title}</h1>
 
                         <div className="flex gap-2.5 mt-6 text-sm font-bold leading-none">
-                          <div className="px-1.5 py-1 bg-amber-600 text-stone-950">Press Release</div>
+                          <div className="px-1.5 py-1 bg-amber-600 text-stone-950">{post?.category.join( ", " )}</div>
                           <div className="my-auto text-white text-opacity-50">
                             {formatDateTime( post?.createdAt )}
                           </div>
