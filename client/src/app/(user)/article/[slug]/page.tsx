@@ -457,7 +457,7 @@ const CardDetails = () => {
                             </div> 
                         </div>
 
-                        {/* <div className="">
+                        <div className="">
                             <h1 className="text-3xl pb-2 font-semibold text-[#FFFFFF]">Receive your daily crypto update</h1>
                             <div className="w-full">
                                 <div className="flex items-center gap-4">
@@ -501,7 +501,7 @@ const CardDetails = () => {
                                     </label>
                                 </div>
                             </div>
-                        </div> */}
+                        </div>
                     </div>
                 </div>
                 <Footer />
