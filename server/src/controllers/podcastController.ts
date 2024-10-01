@@ -61,7 +61,8 @@ export const getPodcastByPermaLink = async (req: Request, res: Response) => {
   const { permaLink } = req.params;
   try {
     // First, try to find an exact match
-    let podcast = await Podcast.findOne({ permaLink });
+    let podcast = await Podcast.findOne( {permaLink} );
+    console.log( "podcast:-", podcast );
 
     if (podcast) {
       const cacheKey = `podcast_view_${podcast._id}`;
@@ -69,7 +70,7 @@ export const getPodcastByPermaLink = async (req: Request, res: Response) => {
       // Check if the post view has been cached
       if (!viewCache.has(cacheKey)) {
         // If not cached, update the view count
-        // podcast = await Podcast.findByIdAndUpdate( podcast._id, { $inc: { views: 1 } }, { new: true } );
+        podcast = await Podcast.findByIdAndUpdate( podcast._id, { $inc: { views: 1 } }, { new: true } );
         // console.log(`View count for podcast ${podcast?._id}: ${podcast?.views}`);
 
         // Set the cache to prevent immediate re-counting
@@ -86,12 +87,12 @@ export const getPodcastByPermaLink = async (req: Request, res: Response) => {
     // If no exact match is found, search for similar permalinks
     const regex = new RegExp(permaLink, 'i'); // 'i' flag for case-insensitive search
     const similarPodcasts = await Podcast.find({ permaLink: regex }).limit(5);
-
+    console.log( "similarPodcasts:-", similarPodcasts );
     if (similarPodcasts.length > 0) {
       return res.status(200).json({
         message: 'Similar podcasts found',
         success: true,
-        podcasts: similarPodcasts,
+        podcast: similarPodcasts,
       });
     }
 

@@ -10,10 +10,10 @@ import {formatDateTime} from "@/utils/DateFormat";
 import {useParams, useRouter} from "next/navigation";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
-import {FaEye, FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter, } from "react-icons/fa";
+import {FaBookmark, FaEye, FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter, } from "react-icons/fa";
 import {FaXTwitter} from "react-icons/fa6";
 import instance from "@/utils/axios";
-import { FiHeart } from "react-icons/fi";
+import {FiHeart} from "react-icons/fi";
 
 const CardDetails = () => {
     const {slug} = useParams<{slug: string;}>();
@@ -60,7 +60,7 @@ const CardDetails = () => {
                 getAdminAuthor( dispatch, card.authorId );
             }
         }
-    }, [card, dispatch] ); 
+    }, [card, dispatch] );
 
     const getRandomPosts = useMemo( () => {
         const filterAndShuffle = ( posts: any, count: number, category?: string ) => {
@@ -110,6 +110,30 @@ const CardDetails = () => {
         }
     };
 
+    const handleBookmark = async (id:any) => {
+        try {
+            const response = await instance.post( '/bookmark/add', {postId: id, userId: user._id} );
+            getPostBySlug();
+            console.log(response.data);
+            alert( `${response.data.message || "Bookmarked Successfully"}` );
+        } catch ( error: any ) {
+            console.error( error );
+            alert( `${error.response.data.message || "There is some error in bookmarking"}` );
+        }
+    };
+
+    const handleBookmarkRemove = async (id:any) => {
+        try {
+            const response = await instance.post( '/bookmark/remove', {postId:id, userId: user._id} );
+            console.log( response.data );
+            getPostBySlug();
+            alert( `${response.data.message || "Bookmarked Successfully"}` );
+        } catch ( error: any ) {
+            console.error( error );
+            alert( `${error.response.data.message || "There is some error in bookmarking"}` );
+        }
+    };
+    
     return (
         <div>
             {/* <Navbar/> */}
@@ -192,28 +216,34 @@ const CardDetails = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                               <div className="flex gap-6">
-                                              
-                                                {/* here are views */}
-                                            <span className="text-[#767676] flex items-center">
-                                       <FaEye className="mr-1" />
-                                      {card?.views || 0} views
-                                           </span>
-                                            <span className="text-[#767676] flex items-center gap-1">
-                                            <img src="/asset/Like.svg" alt="" />
-                                              0
-                                            </span>
-                                           
-                                                 <span className="text-[#767676] flex items-center gap-1">
-                                                 <img src="/asset/share1.svg" alt="" />
-                                                 0
-                                                 </span>
-                                           
-                                                 <span className="text-[#767676] flex items-center gap-1">
-                                                    <img src="/asset/Bookmark.svg" alt="" />
-                                                </span>
-                                                
-                                            </div>
+                                                <div className="flex gap-6">
+
+                                                    {/* here are views */}
+                                                    <span className="text-[#767676] flex items-center">
+                                                        <FaEye className="mr-1" />
+                                                        {card?.views || 0} views
+                                                    </span>
+                                                    <span className="text-[#767676] flex items-center gap-1">
+                                                        <img src="/asset/Like.svg" alt="" />
+                                                        0
+                                                    </span>
+
+                                                    <span className="text-[#767676] flex items-center gap-1">
+                                                        <img src="/asset/share1.svg" alt="" />
+                                                        0
+                                                    </span>
+
+
+                                                    {card?.bookmarkedBy?.includes( user?._id ) ? (
+                                                        <span className="text-[#767676] flex items-center gap-1 cursor-pointer" onClick={() => handleBookmarkRemove(card._id)}>
+                                                            <FaBookmark className="w-5 h-5" />
+                                                        </span>
+                                                    ) : (
+                                                        <span className="text-[#767676] flex items-center gap-1 cursor-pointer" onClick={() => handleBookmark(card._id)}>
+                                                            <img src="/asset/Bookmark.svg" alt="Bookmark" />
+                                                        </span>
+                                                    )}  
+                                                </div>
                                             </div>
 
                                             <div className="flex overflow-hidden relative flex-col flex-wrap gap-1.5 items-start pt-96 pr-20 w-full min-h-[450px] max-md:pt-24 max-md:pr-5 max-md:max-w-full rounded-lg">
@@ -376,10 +406,10 @@ const CardDetails = () => {
 
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         </div>
                     </div>
-                </div> 
+                </div>
 
                 {/* Comment section */}
                 <div className="mt-20 max-w-full lg:w-[86%] sm:w-[90%] w-[90%] max-md:mt-10 ">
@@ -396,8 +426,8 @@ const CardDetails = () => {
                                 src={author?.profileImage}
                                 alt={author?.name || "No author found"}
                                 className="h-14 w-14 rounded-full object-cover"
-                            /> 
-                            <h1 className="xl font-semibold"> Written by {author?.name || "Unknown"}</h1> 
+                            />
+                            <h1 className="xl font-semibold"> Written by {author?.name || "Unknown"}</h1>
                             <div className="flex gap-3 items-center">
                                 <div className="flex gap-2">
                                     <p>{author?.posts?.length} Articles</p>
@@ -406,7 +436,7 @@ const CardDetails = () => {
                                 <div className="flex gap-1">
                                     <div className="w-8 cursor-pointer h-8 bg-[#4e4e50] rounded-full flex justify-center items-center">
                                         <FaLinkedin className="w-4 h-4" />
-                                    </div> 
+                                    </div>
                                     <div className="w-8 h-8 cursor-pointer bg-[#4e4e50] rounded-full flex justify-center items-center">
                                         <FaTwitter className="w-4 h-4" />
                                     </div>
@@ -415,7 +445,7 @@ const CardDetails = () => {
 
                             <p className="text-justify text-sm text-[#ADADAD] sm:w-[80%]">
                                 {author?.bio}
-                            </p> 
+                            </p>
                         </div>
 
                     </div>
@@ -425,7 +455,7 @@ const CardDetails = () => {
 
 
             <div className="mt-5 lg:ml-52 bg-[#0A090F] rounded-lg">
-              <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
+                <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">
                     <div className="w-[90%] m-auto  flex justify-between py-10 text-[#FFFCFC99]">
                         <div className="flex flex-col gap-5">
                             <h1 className="text-2xl font-semibold ">Get connected</h1>
@@ -435,26 +465,26 @@ const CardDetails = () => {
                                     <div className="w-10 cursor-pointer h-10 border border-[#666666] rounded-full flex justify-center items-center">
                                         <FaLinkedin className="w-5 h-5" />
                                     </div>
-                                </a> 
+                                </a>
                                 {/* Twitter */}
                                 <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
                                     <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                                         <FaXTwitter className="w-5 h-5" />
                                     </div>
-                                </a> 
+                                </a>
                                 {/* Facebook */}
                                 <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
                                     <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                                         <FaFacebookSquare className="w-5 h-5" />
                                     </div>
-                                </a> 
+                                </a>
                                 {/* YouTube */}
                                 <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
                                     <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                                         <FaInstagram className="w-5 h-5" />
                                     </div>
                                 </a>
-                            </div> 
+                            </div>
                         </div>
 
                         <div className="">
@@ -483,7 +513,7 @@ const CardDetails = () => {
                                     </button>
                                 </div>
 
-                               
+
                                 <div className="flex items-center mt-8">
                                     <input type="checkbox" id="agree" className="mr-2 focus:outline-1" ref={termsCheckboxRef} onChange={() => {
                                         setIsTermsAndPrivacy( !isTermsAndPrivacy );
