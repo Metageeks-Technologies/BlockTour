@@ -9,12 +9,12 @@ export default function Home () {
   const router = useRouter();
   return (
     <div className=" lg:ml-52">
-      <div className=" flex w-[90%] m-auto ">
+      <div className=" flex lg:w-[90%] m-auto lg:gap-1 sm:gap-8 lg:px-1 sm:px-6 px-4 sm:flex-row flex-col ">
 
         <div className="w-full lg:mr-5">
 
-          <div className="w-[80%] m-auto py-8">
-            <h1 className="text-4xl mt-2">Terms and Conditions</h1>
+          <div className="lg:w-[80%] m-auto py-8">
+            <h1 className="sm:text-4xl text-3xl mt-2">Terms and Conditions</h1>
 
             <div className=" flex flex-col gap-6 text-[#ADADAD] ">
               <div className="mt-2">
@@ -305,12 +305,12 @@ export default function Home () {
             </div>
           </div>
         </div>
-        <div className="w-[35%] lg:pl-8 mt-4 ">
+        <div className="lg:w-[35%] sm:w-[50%]  lg:pl-8 mt-4  sm:block hidden">
           <div className="relative border border-[#28272D] rounded flex justify-between">
             <input
               type="text"
               placeholder="Search"
-              className="bg-[#0A090F] text-[#7B7A7F] sm:w-80 w-40 px-4 py-2 rounded border-none focus:outline-none"
+              className="bg-[#0A090F] text-[#7B7A7F] lg:w-80 sm:w-full w-40 px-4 py-2 rounded border-none focus:outline-none"
             />
             <button className="bg-[#DF841C] text-white px-3 py-1.5 rounded">
               <IoSearchOutline className="h-6 w-6" />
@@ -318,7 +318,7 @@ export default function Home () {
           </div>
           {!user ? (
             <div className="  flex items-center justify-between   py-6">
-              <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg">
+              <button className="py-3.5 lg:px-12 px-6 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg">
                 Join for free
               </button>
               <p className="text-lg hover:underline">Sign In</p>

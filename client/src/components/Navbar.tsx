@@ -37,40 +37,51 @@ const Navbar = () => {
           <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'NFT' )}>NFT</li>
           <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Web3' )}>Web3</li>
           <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Press Releases' )}>Press Releases</li>
-          {user ?
-            <li className="hover:text-amber-600 my-auto" onClick={() => router.push( "/dashboard" )}>Dashboard</li> :
-            <li className="hover:text-amber-600 leading-[75px]" onClick={() => router.push( "/auth/user/login" )}>  Sign in </li>
-          }
+          
+          {/* {user ?
+            <li className="text-amber-600 font-bold my-auto" onClick={() => router.push( "/dashboard" )}>Dashboard</li> :
+            <li className="text-amber-600 font-bold leading-[75px]" onClick={() => router.push( "/auth/user/login" )}>  Sign in </li>
+          } */}
         </ul>
 
         {/* Social Icons - Always visible */}
         <div className="flex items-center gap-8 my-auto cursor-pointer text-black">
-          <div className="flex gap-3">
+          <div className="flex gap-3 items-end  ">
+
+          
+           
+           <div className="mb-1">
+          {user ?
+            <p className="text-amber-600 font-bold text-lg my-auto" onClick={() => router.push( "/dashboard" )}>Dashboard</p> :
+            <p className="text-amber-600 font-bold text-lg " onClick={() => router.push( "/auth/user/login" )}>  Sign in </p>
+          }
+          </div>
+
             {/* LinkedIn */}
             <a href="https://www.linkedin.com/company/blocktourmedia" target="_blank" rel="noopener noreferrer">
               <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaLinkedin className="w-4 h-4 text-gray-400"  />
+                <FaLinkedin className="w-4 h-4 text-white"  />
               </div>
             </a>
 
             {/* Twitter */}
             <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
               <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaXTwitter className="w-4 h-4 text-gray-400"  />
+                <FaXTwitter className="w-4 h-4 text-white"  />
               </div>
             </a>
 
             {/* Facebook */}
-            <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+            {/* <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
               <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaFacebookSquare className="w-4 h-4 text-gray-400"  />
+                <FaFacebookSquare className="w-4 h-4 text-white"  />
               </div>
-            </a>
+            </a> */}
 
             {/* Instagram */}
             <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
               <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaInstagram className="w-4 h-4 text-gray-400"  />
+                <FaInstagram className="w-4 h-4 text-white"  />
               </div>
             </a>
           </div>
