@@ -7,7 +7,7 @@ import instance from "@/utils/axios";
 import { formatDateTime } from "@/utils/DateFormat";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { FaEye, FaFacebookSquare, FaLinkedin } from "react-icons/fa";
+import { FaEye, FaFacebookSquare, FaLinkedin, FaRegClock } from "react-icons/fa";
 import { FaInstagram, FaXTwitter } from "react-icons/fa6";
 import { IoLogoYoutube } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
@@ -438,8 +438,12 @@ const ArticlePage = () => {
                       <span className="text-[#767676] flex items-center first-letter:">
                         <FaEye className="mr-1" />
                         {post?.views || 0} views
-                      </span>
+                        </span> 
                       </div>
+                      <span className="text-[#767676] flex items-center">
+                        <FaRegClock className="mr-1" />
+                        {post?.readingTime} min read
+                        </span>
                     </div>
                   </div>
                 </div>

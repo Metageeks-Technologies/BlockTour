@@ -18,6 +18,7 @@ interface IPost extends Document {
     postType?: string; 
     views?: number; 
     bookmarkedBy?: mongoose.Schema.Types.ObjectId[];
+    readingTime?: number;
 }
 
 // Define the schema
@@ -39,10 +40,13 @@ const PostSchema: Schema = new Schema({
     postType: {type: String}, 
     views: {type: Number, default: 0},
     bookmarkedBy: [{type: mongoose.Schema.Types.ObjectId, ref: 'user'}],
+    readingTime: {type: Number, default: 0},
 }, {
     timestamps: true,
     versionKey: false 
 });
+
+PostSchema.index({ title: 'text', description: 'text', tags: 'text', category: 'text' });
 
 // Create a model
 const Post: Model<IPost> = mongoose.model<IPost>('Post', PostSchema);

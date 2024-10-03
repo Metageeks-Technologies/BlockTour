@@ -10,7 +10,7 @@ import {formatDateTime} from "@/utils/DateFormat";
 import {useParams, useRouter} from "next/navigation";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
-import {FaBookmark, FaEye, FaFacebookSquare, FaInstagram, FaLinkedin, FaTwitter, } from "react-icons/fa";
+import {FaBookmark, FaEye, FaFacebookSquare, FaInstagram, FaLinkedin, FaRegClock, FaTwitter, } from "react-icons/fa";
 import {FaXTwitter} from "react-icons/fa6";
 import instance from "@/utils/axios";
 import {FiHeart} from "react-icons/fi";
@@ -110,11 +110,11 @@ const CardDetails = () => {
         }
     };
 
-    const handleBookmark = async (id:any) => {
+    const handleBookmark = async ( id: any ) => {
         try {
-            const response = await instance.post( '/bookmark/add', {postId: id, userId: user._id} );
+            const response = await instance.post( '/bookmark/add', {postId: id, userId: user?._id} );
             getPostBySlug();
-            console.log(response.data);
+            console.log( response.data );
             alert( `${response.data.message || "Bookmarked Successfully"}` );
         } catch ( error: any ) {
             console.error( error );
@@ -122,9 +122,9 @@ const CardDetails = () => {
         }
     };
 
-    const handleBookmarkRemove = async (id:any) => {
+    const handleBookmarkRemove = async ( id: any ) => {
         try {
-            const response = await instance.post( '/bookmark/remove', {postId:id, userId: user._id} );
+            const response = await instance.post( '/bookmark/remove', {postId: id, userId: user._id} );
             console.log( response.data );
             getPostBySlug();
             alert( `${response.data.message || "Bookmarked Successfully"}` );
@@ -133,7 +133,7 @@ const CardDetails = () => {
             alert( `${error.response.data.message || "There is some error in bookmarking"}` );
         }
     };
-    
+
     return (
         <div>
             {/* <Navbar/> */}
@@ -217,7 +217,11 @@ const CardDetails = () => {
                                                     </div>
                                                 </div>
                                                 <div className="flex gap-6">
-
+                                                    {/* read by */}
+                                                    <span className="text-[#767676] flex items-center">
+                                                        <FaRegClock className="mr-1" />
+                                                        {card?.readingTime} min read
+                                                    </span>
                                                     {/* here are views */}
                                                     <span className="text-[#767676] flex items-center">
                                                         <FaEye className="mr-1" />
@@ -235,14 +239,26 @@ const CardDetails = () => {
 
 
                                                     {card?.bookmarkedBy?.includes( user?._id ) ? (
-                                                        <span className="text-[#767676] flex items-center gap-1 cursor-pointer" onClick={() => handleBookmarkRemove(card._id)}>
+                                                        <span className="text-[#767676] flex items-center gap-1 cursor-pointer" onClick={() => {
+                                                            if ( user ) {
+                                                                handleBookmarkRemove( card._id );
+                                                            } else {
+                                                                alert( "Please login to bookmark" );
+                                                            }
+                                                        }}>
                                                             <FaBookmark className="w-5 h-5" />
                                                         </span>
                                                     ) : (
-                                                        <span className="text-[#767676] flex items-center gap-1 cursor-pointer" onClick={() => handleBookmark(card._id)}>
+                                                        <span className="text-[#767676] flex items-center gap-1 cursor-pointer" onClick={() => {
+                                                            if ( user ) {
+                                                                handleBookmark( card._id );
+                                                            } else {
+                                                                alert( "Please login to bookmark" );
+                                                            }
+                                                        }}>
                                                             <img src="/asset/Bookmark.svg" alt="Bookmark" />
                                                         </span>
-                                                    )}  
+                                                    )}
                                                 </div>
                                             </div>
 
