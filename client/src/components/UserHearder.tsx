@@ -30,10 +30,15 @@ const UserHearder = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogout = async () => {
-    await logout(dispatch);
-    router.push("/");
+  // const handleLogout = async () => {
+  //   await logout(dispatch);
+  //   router.push("/");
+  // };
+
+  const handleJoinForFree = () => {
+    router.push( "/auth/user/signup" );
   };
+
 
   useEffect(() => {
     if (!user) {
@@ -112,7 +117,9 @@ const UserHearder = () => {
         {/* for mobile*/}
         <div className="lg:hidden flex gap-3 items-center">
          
-          <button className="text-xs bg-[#DF841C] py-2 px-3 rounded">
+          <button className="text-xs bg-[#DF841C] py-2 px-3 rounded"
+             onClick={handleJoinForFree}
+          >
            Join for Free
           </button>
           

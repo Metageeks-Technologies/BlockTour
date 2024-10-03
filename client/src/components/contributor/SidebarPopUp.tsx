@@ -9,6 +9,9 @@ import { IoClose } from "react-icons/io5";
 import { IoMdHome } from "react-icons/io";
 import { HiMiniPlayCircle } from "react-icons/hi2";
 import { LuBookMinus } from "react-icons/lu";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import { logout } from "@/app/redux/feature/contributor/api";
+import { FiLogOut } from "react-icons/fi";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -18,9 +21,23 @@ interface SidebarProps {
 const Sidebarpop: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
-  const toggleMenu = (menu: string) => {
-    setOpenMenu(openMenu === menu ? null : menu);
+  const user = useAppSelector( ( state: any ) => state.contributor.currentUser );
+
+  // console.log("sidebar user", user)
+
+  const handleLogout = async () => {
+    await logout( dispatch );
+    // router.push("/auth/user/login");
+  };
+
+  // const toggleMenu = (menu: string) => {
+  //   setOpenMenu(openMenu === menu ? null : menu);
+  // };
+
+  const handleJoinForFree = () => {
+    router.push( "/auth/user/signup" );
   };
 
   return (
@@ -39,9 +56,37 @@ const Sidebarpop: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
             <h1>Md Sajid</h1>
           </div> */}
 
-          <button className="text-xs bg-[#DF841C] py-2 px-3 rounded ml-5">
+
+{user ? (
+            <>
+              <div className="flex gap-3 text-[#999999] items-center">
+                <img src={user.profileImage} alt={user.name || "No author found"} className="h-14 w-14 rounded-full object-cover"  />
+                <div className="flex flex-col gap-1">
+                  <h1 className="text-lg font-bold text-[#FFFFFF] whitespace-nowrap">
+                    {user.name}
+                  </h1>
+                  <button  className="flex font-semibold gap-1 items-center bg-[#DF841C] rounded py-0.5 px-2 text-[#FFFFFF]" onClick={handleLogout}  >
+                    <FiLogOut className="font-semibold w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+          <button className="text-xs bg-[#DF841C] py-2 px-3 rounded ml-5"
+          onClick={handleJoinForFree}
+          >
             Join for Free
           </button>
+            </>
+          )}
+
+          {/* <button className="text-xs bg-[#DF841C] py-2 px-3 rounded ml-5"
+          onClick={handleJoinForFree}
+          >
+            Join for Free
+          </button> */}
 
           <button
             className="text-xl mr-3 text-[#DF841C]"
