@@ -4,12 +4,10 @@ import { getAllPosts } from "@/app/redux/feature/posts/api";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import Footer from "@/components/Footer";
 import instance from "@/utils/axios";
-import { formatDateTime } from "@/utils/DateFormat";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { FaEye, FaFacebookSquare, FaLinkedin, FaRegClock } from "react-icons/fa";
 import { FaInstagram, FaXTwitter } from "react-icons/fa6";
-import { IoLogoYoutube } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 
 export interface Post {
@@ -169,9 +167,14 @@ const ArticlePage = () => {
     </div>
   );
 
-  const formatDate = (dateString: any) => {
+  // set the date month and year
+  const formatDateTime = (dateString: string | Date) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString(); // Default format based on locale, e.g., MM/DD/YYYY
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
   };
 
   return (
@@ -260,7 +263,7 @@ const ArticlePage = () => {
           <div className="flex lg:flex-row flex-col sm:justify-between justify-center gap-12 items-center">
             {/* Left Section */}
             <div className="w-full ">
-              <h2 className="sm:text-2xl text-3xl font-bold mb-2 text-center">
+              <h2 className="sm:text-2xl text-3xl font-bold mb-2 sm:text-start text-center">
                 Level up on Crypto in 3 Mins
               </h2>
               <p className="text-[#999999]">
@@ -425,12 +428,19 @@ const ArticlePage = () => {
                     <div className="flex items-center space-x-4 text-sm">
                       {post?.category && post.category.length > 0 && (
                         <span className="bg-[#DF841C] text-[#000000] font-semibold px-2 sm:py-0.5 py-[1px] rounded">
-                          {post.category[0] ?? "No Category"}{" "}
+                       {/* Show only the first word in mobile */}
+                        <span className="block sm:hidden">
+                          {post.category[0].split(' ')[0]} 
                         </span>
+                        {/* Show full category on larger screens */}
+                        <span className="hidden sm:block">
+                          {post.category[0] ?? "No Category"} 
+                        </span>
+                      </span>
                       )}
-                      <span className="text-[#767676]">
+                      <span className="text-[#767676] text-sm">
                         {post?.createdAt
-                          ? formatDate(post.createdAt)
+                          ? formatDateTime(post.createdAt)
                           : "No date available"}
                       </span>
                       {/* here are views */}

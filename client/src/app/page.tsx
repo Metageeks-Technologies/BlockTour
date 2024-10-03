@@ -51,7 +51,7 @@ export default function Home () {
     <div>
       <BlogMarquee />
       <div className="flex flex-col max-md:pb-24">
-        <div className="absolute px-16 top-12 left-0 right-0 z-50  bg-transparent">
+        <div className="absolute lg:px-16  top-12 left-0 right-0 z-50  bg-transparent">
           <Navbar />
         </div>
 
@@ -77,7 +77,7 @@ export default function Home () {
                     {/* Post Content */}
                     <div className="flex relative flex-col items-start max-w-full w-[1220px] px-4 lg:px-20 md:px-4 ">
                       {/* Title and Post Info */}
-                      <div className="py-2 mt-96 lg:block md:block hidden max-w-full text-4xl font-medium text-white bg-white bg-opacity-0 leading-[53px] w-[763px] max-md:mt-10 max-md:max-w-full">
+                      <div className="py-2 pt-96  max-w-full text-4xl font-medium text-white bg-white bg-opacity-0 leading-[53px] w-[763px] max-md:mt-10 max-md:max-w-full">
                         <h1 className="line-clamp-2 cursor-pointer" onClick={() => router.push( `/article/${post.permaLink}` )}>{post.title}</h1>
 
                         <div className="flex gap-2.5 mt-6 text-sm font-bold leading-none">

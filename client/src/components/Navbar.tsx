@@ -2,20 +2,27 @@
 import {getCurrentUser} from "@/app/redux/feature/contributor/api";
 import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import {useRouter} from "next/navigation";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {FaFacebookSquare, FaInstagram, FaLinkedin} from "react-icons/fa";
 import {FaXTwitter} from "react-icons/fa6";
-import {IoMenu} from "react-icons/io5";
+import {IoClose, IoMenu} from "react-icons/io5";
 
 const Navbar = () => {
   const router = useRouter();
   const user = useAppSelector( ( state ) => state.contributor.currentUser );
   const dispatch = useAppDispatch();
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
  
 
   const handleCategoryClick = ( category: string ) => {
     const formattedCategory = category.toLowerCase().replace( /\s+/g, '-' );
     router.push( `/article?category=${formattedCategory}` );
+    setIsMenuOpen(false);
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen); // Toggle between open and close states
   };
 
   return (
@@ -37,50 +44,80 @@ const Navbar = () => {
           <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'NFT' )}>NFT</li>
           <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Web3' )}>Web3</li>
           <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Press Releases' )}>Press Releases</li>
-          {user ?
-            <li className="hover:text-amber-600 my-auto" onClick={() => router.push( "/dashboard" )}>Dashboard</li> :
-            <li className="hover:text-amber-600 leading-[75px]" onClick={() => router.push( "/auth/user/login" )}>  Sign in </li>
-          }
+          
+          {/* {user ?
+            <li className="text-amber-600 font-bold my-auto" onClick={() => router.push( "/dashboard" )}>Dashboard</li> :
+            <li className="text-amber-600 font-bold leading-[75px]" onClick={() => router.push( "/auth/user/login" )}>  Sign in </li>
+          } */}
         </ul>
 
         {/* Social Icons - Always visible */}
-        <div className="flex items-center gap-8 my-auto cursor-pointer text-black">
-          <div className="flex gap-3">
+        <div className="flex items-center gap-4 my-auto cursor-pointer text-black ">
+          <div className="flex gap-3 items-end  ">
+
+           <div className="mb-1">
+          {user ?
+            <p className="text-amber-600 font-bold text-lg my-auto" onClick={() => router.push( "/dashboard" )}>Dashboard</p> :
+            <p className="text-amber-600 font-bold text-lg " onClick={() => router.push( "/auth/user/login" )}>  Sign in </p>
+          }
+          </div>
+
             {/* LinkedIn */}
             <a href="https://www.linkedin.com/company/blocktourmedia" target="_blank" rel="noopener noreferrer">
               <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaLinkedin className="w-4 h-4 text-gray-400"  />
+                <FaLinkedin className="w-4 h-4 text-white"  />
               </div>
             </a>
 
             {/* Twitter */}
             <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
               <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaXTwitter className="w-4 h-4 text-gray-400"  />
+                <FaXTwitter className="w-4 h-4 text-white"  />
               </div>
             </a>
 
             {/* Facebook */}
-            <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
+            {/* <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
               <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaFacebookSquare className="w-4 h-4 text-gray-400"  />
+                <FaFacebookSquare className="w-4 h-4 text-white"  />
               </div>
-            </a>
+            </a> */}
 
             {/* Instagram */}
             <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
               <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaInstagram className="w-4 h-4 text-gray-400"  />
+                <FaInstagram className="w-4 h-4 text-white"  />
               </div>
             </a>
           </div>
-          <div className="flex items-center">
-          
-          </div>
-          <div className="flex lg:hidden items-center">
-            <IoMenu className="h-10 w-10 text-white" />
+         
+          <div className="flex lg:hidden items-center sm:mr-1 mr-4" onClick={toggleMenu}>
+            {isMenuOpen ? <IoClose className="h-8 w-8 text-white" /> : <IoMenu className="h-8 w-8 text-white" />}
           </div>
         </div>
+        
+
+        {isMenuOpen && (
+          <ul className="lg:hidden flex flex-col items-center absolute top-[60px] left-0 w-full bg-black opacity-60 text-white gap-5 p-5">
+            <li className="hover:text-amber-600" onClick={() => handleCategoryClick("Crypto")}>
+              Crypto
+            </li>
+            <li className="hover:text-amber-600" onClick={() => handleCategoryClick("Blockchain")}>
+              Blockchain
+            </li>
+            <li className="hover:text-amber-600" onClick={() => handleCategoryClick("NFT")}>
+              NFT
+            </li>
+            <li className="hover:text-amber-600" onClick={() => handleCategoryClick("Web3")}>
+              Web3
+            </li>
+            <li className="hover:text-amber-600" onClick={() => handleCategoryClick("Press Releases")}>
+              Press Releases
+            </li>
+          </ul>
+        )}
+
+
       </nav>
     </>
   );
