@@ -10,10 +10,11 @@ import {formatDateTime} from "@/utils/DateFormat";
 import {useParams, useRouter} from "next/navigation";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {IoBookmarkOutline, IoSearchOutline} from "react-icons/io5";
-import {FaBookmark, FaEye, FaFacebookSquare, FaInstagram, FaLinkedin, FaRegClock, FaTwitter, } from "react-icons/fa";
+import {FaBookmark, FaEye, FaFacebookSquare, FaHeart, FaInstagram, FaLinkedin, FaRegClock, FaRegHeart, FaTwitter, } from "react-icons/fa";
 import {FaXTwitter} from "react-icons/fa6";
 import instance from "@/utils/axios";
 import {FiHeart} from "react-icons/fi";
+import {addPostLike, removePostLike} from "@/app/redux/feature/like/api";
 
 const CardDetails = () => {
     const {slug} = useParams<{slug: string;}>();
@@ -221,9 +222,29 @@ const CardDetails = () => {
                                                     <FaEye className="mr-1" />
                                                     {card?.views || 0} views
                                                 </span>
-                                                <span className="text-[#767676] flex items-center gap-1">
-                                                    <img src="/asset/Like.svg" alt="" />
-                                                    0
+                                                <span className="text-[#767676] flex items-center gap-1 cursor-pointer">
+                                                            {card?.likes?.includes( user?._id ) ? (  
+                                                                <FaHeart className="text-red-500" onClick={() => {
+                                                                    if ( user ) {
+                                                                        addPostLike( card._id, user._id )( dispatch );
+                                                                    } else {
+                                                                        alert( "Please login to like" );
+                                                                    }
+                                                                }} />
+                                                            ) : (
+                                                                    <span onClick={() => {
+                                                                        if ( user ) {
+                                                                            removePostLike( card._id, user._id )( dispatch );
+                                                                        } else {
+                                                                            alert( "Please login to like" );
+                                                                        }
+                                                                    }}>
+
+                                                        <img src="/asset/Like.svg" alt="" />
+                                                                    </span>
+                                                    )}
+
+                                                    {card?.likes?.length || 0}
                                                 </span>
                                                 <span className="text-[#767676] flex items-center gap-1">
                                                     <img src="/asset/share1.svg" alt="" />

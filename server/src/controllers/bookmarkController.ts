@@ -107,8 +107,8 @@ export const removeBookmark = async (req: Request, res: Response) => {
             }
 
             // Remove podcastId from user's bookmarks
-            if (user.bookmarks && user.bookmarks.podcast) {
-                user.bookmarks.podcast = user.bookmarks.podcast.filter(id => id !== podcastId);
+            if (user?.bookmarks && user?.bookmarks?.podcast) {
+                user.bookmarks.podcast = user.bookmarks.podcast.filter(id => id.toString() !== podcastId);
                 await user.save();
             }
 
@@ -126,6 +126,5 @@ export const removeBookmark = async (req: Request, res: Response) => {
         console.error("Error removing bookmark:", error);
         res.status(500).json({ message: "Internal server error" });
     }
-}
-
-// get bookmarks by ids stored in user.bookmarks.post and user.bookmarks.podcast
+} 
+    

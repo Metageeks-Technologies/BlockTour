@@ -18,6 +18,7 @@ interface IPodcast extends Document {
     updatedAt?: Date;
     views?: number;
     bookmarkedBy?: mongoose.Schema.Types.ObjectId[];
+    likes?: mongoose.Schema.Types.ObjectId[];
 }
 
 // Define the schema
@@ -35,7 +36,8 @@ const PodcastSchema: Schema = new Schema({
     authorName: { type: String },
     postType: {type: String}, 
     views: {type:Number,default:0},
-    bookmarkedBy: {type: [mongoose.Schema.Types.ObjectId], ref: 'user'}
+    bookmarkedBy: {type: [mongoose.Schema.Types.ObjectId], ref: 'user'},
+    likes: {type: [mongoose.Schema.Types.ObjectId], ref: 'user'}
 }, {
     timestamps: true,
     versionKey: false 

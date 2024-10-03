@@ -19,6 +19,7 @@ interface IPost extends Document {
     views?: number; 
     bookmarkedBy?: mongoose.Schema.Types.ObjectId[];
     readingTime?: number;
+    likes?: mongoose.Schema.Types.ObjectId[];
 }
 
 // Define the schema
@@ -41,6 +42,7 @@ const PostSchema: Schema = new Schema({
     views: {type: Number, default: 0},
     bookmarkedBy: [{type: mongoose.Schema.Types.ObjectId, ref: 'user'}],
     readingTime: {type: Number, default: 0},
+    likes: [{type: mongoose.Schema.Types.ObjectId, ref: 'user'}],
 }, {
     timestamps: true,
     versionKey: false 
