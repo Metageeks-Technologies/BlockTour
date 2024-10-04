@@ -4,6 +4,7 @@ import User from '../models/user/user';
 import mongoose, {ObjectId} from 'mongoose';
 import Admin from '../models/admin/admin';
 import NodeCache from 'node-cache';
+import readingTime from 'reading-time';
 
 // Create a new post for admin
 
@@ -33,6 +34,8 @@ export const createPost = async ( req: Request, res: Response ) => {
       postType,
     } );
 
+    const stats = readingTime(newPost.description);
+    newPost.readingTime = Math.ceil(stats.minutes);
     const savedPost = await newPost.save();
   // console.log("Author id:-",authorId)
     const creator = await Admin.findById(authorId);
@@ -55,7 +58,6 @@ export const createPost = async ( req: Request, res: Response ) => {
 export const getAllPosts = async ( req: Request, res: Response ) => {
   try {
     const posts = await Post.find(); 
-
     res.status( 200 ).json( {message: 'Posts retrieved successfully', posts} );
   } catch ( error: any ) {
     console.error( error );
@@ -87,7 +89,8 @@ const viewCache = new NodeCache({ stdTTL: 300 });
   try {
     // First, try to find an exact match
       let post = await Post.findOne({ permaLink });
-   if (post) {
+    if ( post ) { 
+      
       const cacheKey = `post_view_${post._id}`;
       
       // Check if the post view has been cached

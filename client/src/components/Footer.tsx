@@ -200,71 +200,67 @@ import {IoLogoYoutube} from "react-icons/io";
 // components/Footer.tsx
 const Footer = () => {
   return (
-    <footer className="bg-[#0A090F] text-white  ">
-      <div className="container w-[90%] m-auto pt-8">
-        <div className="flex justify-between gap-5 h-72">
+    <footer className="bg-[#0A090F] text-white">
+      <div className="container w-[90%] mx-auto pt-8 px-4">
+        <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-5">
           {/* Logo & Description */}
-          <div className="basis-[40%]">
-
+          <div className="lg:basis-[40%]">
             <img
-              src="/asset/Block-logo.svg" // Replace this with the actual logo image URL
+              src="/asset/Block-logo.svg"
               alt="Block Tour"
               className="w-36 h-auto object-cover"
             />
-
             <p className="text-sm text-gray-400 mt-5">
               Block Tour is a web3 news publisher dedicated to delivering the latest, most accurate insights into blockchain and decentralized technologies. Covering everything from cryptocurrencies to NFTs and DeFi, it offers uncensored, real-time news, embodying the transparency and democracy inherent in the web3.
             </p>
           </div>
 
-           <div className="flex items-center basis-[55%] mt-1">
-          <div className="flex justify-between w-full">
-          {/* Go Blocktour Links */}
-          <div>
-            <h4 className="text-xl font-semibold mb-2">Go Blocktour</h4>
-            <ul className="space-y-2 text-sm">
+          <div className="lg:basis-[55%] mt-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Go Blocktour Links */}
+              <div>
+                <h4 className="text-xl font-semibold mb-2">Go Blocktour</h4>
+                <ul className="space-y-2 text-sm">
                   <li><a href="/article?category=crypto" className="text-gray-400 hover:text-white">Crypto</a></li>
-              <li><a href="/article?category=blockchain" className="text-gray-400 hover:text-white">Blockchain</a></li>
-              <li><a href="/article?category=nft" className="text-gray-400 hover:text-white">NFT</a></li>
-              <li><a href="/article?category=web3" className="text-gray-400 hover:text-white">Web3</a></li>
-              <li><a href="/article?category=press-release" className="text-gray-400 hover:text-white">Press Release</a></li>
-            </ul>
-          </div>
+                  <li><a href="/article?category=blockchain" className="text-gray-400 hover:text-white">Blockchain</a></li>
+                  <li><a href="/article?category=nft" className="text-gray-400 hover:text-white">NFT</a></li>
+                  <li><a href="/article?category=web3" className="text-gray-400 hover:text-white">Web3</a></li>
+                  <li><a href="/article?category=press-release" className="text-gray-400 hover:text-white">Press Release</a></li>
+                </ul>
+              </div>
 
-          {/* Media Links */}
-          <div>
-            <h4 className="text-xl font-semibold mb-2">Media</h4>
+              {/* Media Links */}
+              <div>
+                <h4 className="text-xl font-semibold mb-2">Media</h4>
                 <ul className="space-y-2 text-sm">
                   <li><a href="/article" className="text-gray-400 hover:text-white">Articles</a></li>
-              <li><a href="/podcast-episode" className="text-gray-400 hover:text-white">Episodes</a></li>
-              <li><a href="/guides" className="text-gray-400 hover:text-white">Guides</a></li>
+                  <li><a href="/podcast-episode" className="text-gray-400 hover:text-white">Episodes</a></li>
+                  <li><a href="/guides" className="text-gray-400 hover:text-white">Guides</a></li>
+                </ul>
+              </div>
 
-            </ul>
+              {/* Quick Links */}
+              <div>
+                <h4 className="text-xl font-semibold mb-2">Quick Link</h4>
+                <ul className="space-y-2 text-sm">
+                  <li><a href="/about-us" className="text-gray-400 hover:text-white">About Us</a></li>
+                  <li><a href="/contact-us" className="text-gray-400 hover:text-white">Contact Us</a></li>
+                  <li><a href="/privacy-policy" className="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                  <li><a href="/terms-and-conditions" className="text-gray-400 hover:text-white">Terms & Conditions</a></li>
+                </ul>
+              </div>
+            </div>
           </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-xl font-semibold mb-2">Quick Link</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="/about-us" className="text-gray-400 hover:text-white">About Us</a></li>
-              <li><a href="/contact-us" className="text-gray-400 hover:text-white">Contact Us</a></li>
-              <li><a href="/privacy-policy" className="text-gray-400 hover:text-white">Privacy Policy</a></li>
-              <li><a href="/terms-and-conditions" className="text-gray-400 hover:text-white">Terms & Conditions</a></li>
-            </ul>
-          </div>
         </div>
-        </div>
-        </div>
-  {/* Copyright Section */}
+      </div>
 
-      </div >
-  <div className="text-center text-gray-500 text-sm mt-10 py-2  border-t border-[#1F1D24]">
-    © Copyright - 2024 Block Tour. All rights reserved.
-  </div>
-
-    </footer >
+      {/* Copyright Section */}
+      <div className="text-center text-gray-500 text-sm mt-10 py-4 border-t border-[#1F1D24]">
+        © Copyright - 2024 Block Tour. All rights reserved.
+      </div>
+    </footer>
   );
-};
+}; 
 
 export default Footer;
 

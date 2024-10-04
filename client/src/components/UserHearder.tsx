@@ -30,10 +30,15 @@ const UserHearder = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogout = async () => {
-    await logout(dispatch);
-    router.push("/");
+  // const handleLogout = async () => {
+  //   await logout(dispatch);
+  //   router.push("/");
+  // };
+
+  const handleJoinForFree = () => {
+    router.push( "/auth/user/signup" );
   };
+
 
   useEffect(() => {
     if (!user) {
@@ -111,20 +116,19 @@ const UserHearder = () => {
 
         {/* for mobile*/}
         <div className="lg:hidden flex gap-3 items-center">
-          <div className="flex gap-4 items-center">
-          <button className="text-xs">
+         
+          <button className="text-xs bg-[#DF841C] py-2 px-3 rounded"
+             onClick={handleJoinForFree}
+          >
            Join for Free
           </button>
-          <h1 className="text-sm">
-            Sign in
-          </h1>
-          </div>
+          
 
           <div>
             <div onClick={togglePopup} className="relative cursor-pointer">
               <IoMdNotificationsOutline className="h-7 w-7 cursor-pointer lg:hidden" />
               <span className="absolute -top-1 -right-1 text-center bg-[#F6911D] rounded-full h-4 w-4  text-xs">
-                6
+                {noOfNotifications}
               </span>
             </div>
 

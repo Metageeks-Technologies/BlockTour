@@ -6,7 +6,9 @@ import contributorReducer from "./feature/contributor/slice";
 import categoryReducer from "./feature/category/slice";
 import postReducer from "./feature/posts/slice";
 import podcastReducer from "./feature/podcast/slice";
-
+import likeReducer from "./feature/like/slice";
+import newsReducer from "./feature/news/slice";
+  
 export const store = configureStore({
   reducer: {
     // superAdmin: adminSlice.reducer, 
@@ -14,7 +16,9 @@ export const store = configureStore({
     contributor: contributorReducer,  
     category: categoryReducer,
     post: postReducer,
-    podcast: podcastReducer
+    podcast: podcastReducer,
+    like: likeReducer,
+    news: newsReducer
   },
 });
 

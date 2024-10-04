@@ -1,38 +1,28 @@
 // components/BlogMarquee.tsx
-import React from 'react';
+"use client";
+import {getAllNews} from '@/app/redux/feature/news/api';
+import {useAppSelector, useAppDispatch} from '@/app/redux/hooks';
+import {RootState} from '@/app/redux/store';
+import React, {useEffect} from 'react';
 import Marquee from 'react-fast-marquee';
 
 const BlogMarquee: React.FC = () => {
+  const {news} = useAppSelector( ( state: RootState ) => state.news );
+  const dispatch = useAppDispatch();
+  useEffect( () => {
+    dispatch( getAllNews );
+  }, [] );
   return (
-    <div className="bg-tra px-2">
-      <Marquee
-        speed={60}
-        className="text-white h-12 text-xl font-semibold tracking-wider w-[90%]"
-      >
-        <div className="mx-6 flex items-center">
-          <span className="mr-2">📰</span> 
-          Discover the Latest Blockchain News!
-        </div>
-        <div className="mx-6 flex items-center">
-          <span className="mr-2">📊</span>
-          In-Depth Analysis on Crypto Market Trends!
-        </div>
-        <div className="mx-6 flex items-center">
-          <span className="mr-2">💡</span>
-          Learn Blockchain Basics: Beginner's Guides!
-        </div>
-        <div className="mx-6 flex items-center">
-          <span className="mr-2">🔐</span>
-          Secure Your Crypto with Our Best Practices!
-        </div>
-        <div className="mx-6 flex items-center">
-          <span className="mr-2">🎙️</span>
-          Interviews with Blockchain Thought Leaders!
-        </div>
-        <div className="mx-6 flex items-center">
-          <span className="mr-2">🚀</span>
-          Stay Ahead with Emerging Blockchain Innovations!
-        </div>
+    <div className="px-2">
+      <Marquee speed={60} className="text-white h-12 text-xl font-semibold tracking-wider w-[90%]" >
+        {news.map( ( news: any ) => {
+          return (
+            <div className="mx-6 flex items-center">
+              <span className="mr-2">{news?.icon}</span>
+              {news?.title}
+            </div>
+          );
+        } )} 
       </Marquee>
     </div>
   );

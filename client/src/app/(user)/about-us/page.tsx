@@ -123,10 +123,12 @@ const page = () => {
   const user = useAppSelector( ( state: any ) => state.contributor?.currentUser );
   const router = useRouter();
   return (
-    <div className="lg:ml-52">
-      <div className=" flex pb-12 w-[90%] m-auto">
+    <div className="lg:ml-52 ">
+
+      <div className=" flex sm:flex-row flex-col pb-12 lg:w-[90%] m-auto lg:px-1 sm:px-6 px-4">
+
         <div className="w-full m-auto pt-8">
-          <div className="w-[80%] m-auto">
+          <div className="lg:w-[80%]  m-auto">
             <h1 className="text-3xl">Welcome to BlockTour.org</h1>
 
             <div className=" flex flex-col gap-6 text-[#CCCCCC] ">
@@ -210,12 +212,13 @@ const page = () => {
             </div>
           </div>
         </div>
-        <div className="w-[35%] lg:pl-8 mt-8 ">
+
+        <div className="lg:w-[35%] sm:w-[50%] lg:pl-8 mt-8 sm:block hidden  ">
           <div className="relative border border-[#28272D] rounded flex justify-between">
             <input
               type="text"
               placeholder="Search"
-              className="bg-[#0A090F] text-[#7B7A7F] sm:w-80 w-40 px-4 py-2 rounded border-none focus:outline-none"
+              className="bg-[#0A090F] text-[#7B7A7F] lg:w-80 sm:w-full w-40 px-4 py-2 rounded border-none focus:outline-none"
             />
             <button className="bg-[#DF841C] text-white px-3 py-1.5 rounded">
               <IoSearchOutline className="h-6 w-6" />
@@ -223,7 +226,7 @@ const page = () => {
           </div>
           {!user ? (
             <div className="  flex items-center justify-evenly py-6">
-              <button className="py-3.5 px-12 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg" onClick={() => router.push( "/auth/user/signup" )}>
+              <button className="py-3.5 lg:px-12 px-4 bg-[#DF841C] hover:bg-[#1C1C1D] rounded-lg" onClick={() => router.push( "/auth/user/signup" )}>
                 Join for free
               </button>
               <p className="text-lg hover:underline" onClick={() => router.push( "/auth/user/login" )}>Sign In</p>
@@ -235,6 +238,7 @@ const page = () => {
             </div>
           )}
         </div>
+
       </div>
       <Footer />
     </div>

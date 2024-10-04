@@ -53,8 +53,7 @@ export default function Header() {
               {noOfNotifications}
             </span>
           </div>
-          <AdminNotificationPopUp isOpen={isPopupOpen} togglePopup={togglePopup} ids={currentAdmin?.notifications} setNoOfNotifications={setNoOfNotifications} />
-
+          <AdminNotificationPopUp isOpen={isPopupOpen} togglePopup={togglePopup} ids={currentAdmin?.notifications} setNoOfNotifications={setNoOfNotifications} /> 
         </div>
 
         <div className="relative">
