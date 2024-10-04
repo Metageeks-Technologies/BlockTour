@@ -200,6 +200,13 @@ const Sidebar = () => {
               {openMenu === "settings" && (
                 <ul className="pl-10 mt-2 space-y-1 text-gray-400">
                   <li
+                    onClick={() => router.push( "/admin/news" )}
+                    className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/news" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
+                      }`}
+                  >
+                    News
+                  </li>
+                  <li
                     onClick={() => router.push( "/admin/update-profile" )}
                     className={`cursor-pointer w-full hover:bg-[#1D1D21] pl-11 rounded py-2 ${isActive( "/admin/update-profile" ) ? "text-white font-bold" : "text-[#999999] font-semibold"
                       }`}

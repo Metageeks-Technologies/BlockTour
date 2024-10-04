@@ -21,6 +21,7 @@ const newsSchema = new Schema<INews>( {
     icon: {
         type: String,
         required: true,
+        default: '📰'
     },
 }, {
     timestamps: true,   
