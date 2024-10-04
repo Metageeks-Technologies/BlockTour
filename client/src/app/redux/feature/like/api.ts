@@ -4,7 +4,8 @@ import { requestStart, requestSuccess, requestFail } from './slice';
 import instance from '@/utils/axios';
 
 
-export const addPostLike = (postId: string, userId: string) => async (dispatch: AppDispatch) => {
+export const addPostLike = async ( dispatch: AppDispatch, postId: string, userId: string ) => {
+  console.log("postId", postId, "userId", userId)
   try {
     dispatch(requestStart());
     await instance.post(`/like/add`, { postId, userId });
@@ -14,7 +15,7 @@ export const addPostLike = (postId: string, userId: string) => async (dispatch: 
   }
 };
 
-export const removePostLike = (postId: string, userId: string) => async (dispatch: AppDispatch) => {
+export const removePostLike = async (dispatch: AppDispatch,postId: string, userId: string) => {
   try {
     dispatch(requestStart());
     await instance.post(`/like/remove`, { postId, userId });
@@ -24,7 +25,7 @@ export const removePostLike = (postId: string, userId: string) => async (dispatc
   }
 };
 
-export const addPodcastLike = (podcastId: string, userId: string) => async (dispatch: AppDispatch) => {
+export const addPodcastLike = async (dispatch: AppDispatch,podcastId: string, userId: string) => {
   try {
     dispatch(requestStart());
     await instance.post(`/like/add`, { podcastId, userId });
@@ -34,7 +35,7 @@ export const addPodcastLike = (podcastId: string, userId: string) => async (disp
   }
 }; 
 
-export const removePodcastLike = (podcastId: string, userId: string) => async (dispatch: AppDispatch) => {
+export const removePodcastLike = async (dispatch: AppDispatch,podcastId: string, userId: string) => {
   try {
     dispatch(requestStart());
     await instance.post(`/like/remove`, { podcastId, userId });

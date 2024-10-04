@@ -86,8 +86,8 @@ export const removeBookmark = async (req: Request, res: Response) => {
             }
 
             // Remove postId from user's bookmarks
-            if (user?.bookmarks && user?.bookmarks?.post) {
-                user.bookmarks.post = user.bookmarks.post.filter(id => id.toString() !== postId);
+            if (user.bookmarks?.post) {
+                user.bookmarks.post = user.bookmarks.post.filter(id => id.toString() !== postId) as any;
                 await user.save();
             }
 
@@ -107,8 +107,8 @@ export const removeBookmark = async (req: Request, res: Response) => {
             }
 
             // Remove podcastId from user's bookmarks
-            if (user?.bookmarks && user?.bookmarks?.podcast) {
-                user.bookmarks.podcast = user.bookmarks.podcast.filter(id => id.toString() !== podcastId);
+            if (user.bookmarks?.podcast) {
+                user.bookmarks.podcast = user.bookmarks.podcast.filter(id => id.toString() !== podcastId) as any;
                 await user.save();
             }
 
@@ -116,15 +116,12 @@ export const removeBookmark = async (req: Request, res: Response) => {
             if (podcast.bookmarkedBy) {
                 podcast.bookmarkedBy = podcast.bookmarkedBy.filter(id => id.toString() !== userId);
                 await podcast.save();
-            }
-
+            } 
             return res.status(200).json({ message: "Podcast bookmark removed successfully" });
-        }
-
+        } 
         return res.status(400).json({ message: "Either postId or podcastId must be provided" });
     } catch (error) {
         console.error("Error removing bookmark:", error);
         res.status(500).json({ message: "Internal server error" });
     }
-} 
-    
+}  

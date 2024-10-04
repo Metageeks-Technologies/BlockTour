@@ -493,7 +493,7 @@ const ArticlePage = () => {
               </a>
 
               {/* Facebook */}
-              <a
+              {/* <a
                 href="https://www.instagram.com/blocktourmedia/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -501,7 +501,7 @@ const ArticlePage = () => {
                 <div className="w-10 h-10 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
                   <FaFacebookSquare className="w-5 h-5" />
                 </div>
-              </a>
+              </a> */}
 
               {/* YouTube */}
               <a

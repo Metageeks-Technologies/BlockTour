@@ -15,6 +15,7 @@ import {FaXTwitter} from "react-icons/fa6";
 import instance from "@/utils/axios";
 import {FiHeart} from "react-icons/fi";
 import {addPostLike, removePostLike} from "@/app/redux/feature/like/api";
+import {toast} from "react-toastify";
 
 const CardDetails = () => {
     const {slug} = useParams<{slug: string;}>();
@@ -32,6 +33,7 @@ const CardDetails = () => {
     const user = useAppSelector( ( state: any ) => state.contributor?.currentUser );
 
     const getPostBySlug = useCallback( async () => {
+        console.log( "slug", slug );
         try {
             const response = await instance.get( `/post/posts/${slug}` );
             if ( response.data.post.length > 0 ) {
@@ -135,6 +137,39 @@ const CardDetails = () => {
         }
     };
 
+    const handleShare = async () => {
+        const shareUrl = `${process.env.NEXT_PUBLIC_CLIENT_URL}/article/${slug}`;
+        const shareTitle = card?.title || 'Check out this article';
+        const shareText = `🎙️ Just listened to "${shareTitle}" on Blockbar!\n\n🔥 Key topics:\n${card?.category.slice( 0, 3 ).map( ( cat: any ) => `• ${cat}` ).join( '\n' )}\n\n🎧 Listen now:`;
+
+        if ( navigator.share ) {
+            try {
+                await navigator.share( {
+                    title: shareTitle,
+                    text: shareText,
+                    url: shareUrl,
+                } );
+                toast.success( 'Shared successfully!' );
+            } catch ( error ) {
+                console.error( 'Error sharing:', error );
+                fallbackCopyToClipboard( `${shareText}\n${shareUrl}` );
+            }
+        } else {
+            fallbackCopyToClipboard( `${shareText}\n${shareUrl}` );
+        }
+    };
+
+    const fallbackCopyToClipboard = ( text: string ) => {
+        navigator.clipboard.writeText( text ).then( () => {
+            toast.success( 'Share text copied to clipboard!' );
+        } ).catch( ( err ) => {
+            console.error( 'Failed to copy:', err );
+            toast.error( 'Failed to copy share text. Please try again.' );
+        } );
+    };
+     
+
+
     return (
         <div className="bg-black">
             <div className="lg:ml-4 xl:ml-40 flex flex-col items-center pb-6 bg-black px-4 lg:px-12">
@@ -223,32 +258,34 @@ const CardDetails = () => {
                                                     {card?.views || 0} views
                                                 </span>
                                                 <span className="text-[#767676] flex items-center gap-1 cursor-pointer">
-                                                            {card?.likes?.includes( user?._id ) ? (  
-                                                                <FaHeart className="text-red-500" onClick={() => {
-                                                                    if ( user ) {
-                                                                        addPostLike( card._id, user._id )( dispatch );
-                                                                    } else {
-                                                                        alert( "Please login to like" );
-                                                                    }
-                                                                }} />
-                                                            ) : (
-                                                                    <span onClick={() => {
-                                                                        if ( user ) {
-                                                                            removePostLike( card._id, user._id )( dispatch );
-                                                                        } else {
-                                                                            alert( "Please login to like" );
-                                                                        }
-                                                                    }}>
+                                                    {card?.likes?.includes( user?._id ) ? (
+                                                        <FaHeart className="text-red-500" onClick={async () => {
+                                                            if ( user ) {
+                                                                await removePostLike( dispatch, card._id, user._id );
+                                                                getPostBySlug();
+                                                            } else {
+                                                                alert( "Please login to like" );
+                                                            }
+                                                        }} />
+                                                    ) : (
+                                                        <span onClick={async () => {
+                                                            if ( user ) {
+                                                                await addPostLike( dispatch, card._id, user._id );
+                                                                getPostBySlug();
+                                                            } else {
+                                                                alert( "Please login to like" );
+                                                            }
+                                                        }}>
 
-                                                        <img src="/asset/Like.svg" alt="" />
-                                                                    </span>
+                                                            <img src="/asset/Like.svg" alt="" />
+                                                        </span>
                                                     )}
 
                                                     {card?.likes?.length || 0}
                                                 </span>
-                                                <span className="text-[#767676] flex items-center gap-1">
+                                                <span className="text-[#767676] flex items-center gap-1 cursor-pointer" onClick={handleShare}>
                                                     <img src="/asset/share1.svg" alt="" />
-                                                    0
+                                                    
                                                 </span>
                                                 {card?.bookmarkedBy?.includes( user?._id ) ? (
                                                     <span className="text-[#767676] flex items-center gap-1 cursor-pointer" onClick={() => {
@@ -457,16 +494,16 @@ const CardDetails = () => {
                             <h2 className="text-2xl font-semibold text-white">Get connected</h2>
                             <p>Follow us on social media for the latest updates and news.</p>
                             <div className="flex gap-4">
-                                <a href="#" className="text-2xl hover:text-white transition-colors">
+                                {/* <a href="#" className="text-2xl hover:text-white transition-colors">
                                     <FaFacebookSquare className="w-8 h-8" />
-                                </a>
-                                <a href="#" className="text-2xl hover:text-white transition-colors">
+                                </a> */}
+                                <a href="https://www.instagram.com/blocktourmedia/" className="text-2xl hover:text-white transition-colors">
                                     <FaInstagram className="w-8 h-8" />
                                 </a>
-                                <a href="#" className="text-2xl hover:text-white transition-colors">
+                                <a href="https://twitter.com/blocktourmedia" className="text-2xl hover:text-white transition-colors">
                                     <FaTwitter className="w-8 h-8" />
                                 </a>
-                                <a href="#" className="text-2xl hover:text-white transition-colors">
+                                <a href="https://www.linkedin.com/company/blocktourmedia/" className="text-2xl hover:text-white transition-colors">
                                     <FaLinkedin className="w-8 h-8" />
                                 </a>
                             </div>

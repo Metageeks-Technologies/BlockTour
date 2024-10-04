@@ -128,7 +128,7 @@ const UserHearder = () => {
             <div onClick={togglePopup} className="relative cursor-pointer">
               <IoMdNotificationsOutline className="h-7 w-7 cursor-pointer lg:hidden" />
               <span className="absolute -top-1 -right-1 text-center bg-[#F6911D] rounded-full h-4 w-4  text-xs">
-                6
+                {noOfNotifications}
               </span>
             </div>
 

@@ -11,16 +11,14 @@ const Navbar = () => {
   const router = useRouter();
   const user = useAppSelector( ( state ) => state.contributor.currentUser );
   const dispatch = useAppDispatch();
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
- 
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
 
   const handleCategoryClick = ( category: string ) => {
     const formattedCategory = category.toLowerCase().replace( /\s+/g, '-' );
     router.push( `/article?category=${formattedCategory}` );
     setIsMenuOpen(false);
   };
-
+     
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen); // Toggle between open and close states
   };

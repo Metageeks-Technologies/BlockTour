@@ -13,7 +13,7 @@ const BlogMarquee: React.FC = () => {
     dispatch( getAllNews );
   }, [] );
   return (
-    <div className="bg-transparent px-2">
+    <div className="px-2">
       <Marquee speed={60} className="text-white h-12 text-xl font-semibold tracking-wider w-[90%]" >
         {news.map( ( news: any ) => {
           return (

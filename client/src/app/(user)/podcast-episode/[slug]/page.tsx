@@ -9,12 +9,13 @@ import {formatDateTime} from "@/utils/DateFormat";
 import {useParams, useRouter} from "next/navigation";
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import {IoSearchOutline} from "react-icons/io5";
-import {FaBookmark, FaEye, FaFacebookSquare, FaLinkedin, FaShare, FaTwitter, } from "react-icons/fa";
+import {FaBookmark, FaEye, FaFacebookSquare, FaHeart, FaLinkedin, FaShare, FaTwitter, } from "react-icons/fa";
 import {IoLogoYoutube} from "react-icons/io";
 import {FaXTwitter} from "react-icons/fa6";
 import instance from "@/utils/axios";
 import {getAllPodcasts} from "@/app/redux/feature/podcast/api";
 import {toast} from "react-toastify";
+import {addPodcastLike, removePodcastLike} from "@/app/redux/feature/like/api";
 
 const CardDetails = () => {
   const {slug} = useParams<{slug: string;}>();
@@ -133,6 +134,7 @@ const CardDetails = () => {
       console.error( error );
     }
   };
+  
   const handleShare = async () => {
     const shareUrl = `${process.env.NEXT_PUBLIC_CLIENT_URL}/podcast-episode/${slug}`;
     const shareTitle = podcast?.title || 'Check out this podcast';
@@ -202,18 +204,38 @@ const CardDetails = () => {
                         </button>
                       ) )}
                     </div>
-                    <div className="mt-3 text-[#999999]  flex justify-center gap-4">
-                      {formatDateTime(
-                        podcast?.createdAt ?? "No date available"
-                      )}
-
-                      <span className="text-neutral-400 text-sm flex items-center">
-                        <FaEye className="mr-1 mt-0.5" />
-                        {podcast?.views || 0} views
+                        <div className="mt-3 text-[#999999] flex flex-wrap justify-center gap-4">
+                          <span>{formatDateTime( podcast?.createdAt ?? "No date available" )}</span>
+                          <span className="text-neutral-400 text-sm flex items-center">
+                            <FaEye className="mr-1 mt-0.5" />
+                            {podcast?.views || 0} views
                           </span>
-                          <button onClick={handleShare}>
-                            <FaShare className="mr-1 mt-0.5" />
-                            Share
+                          <span className="text-[#767676] flex items-center gap-1 cursor-pointer">
+                            {podcast?.likes?.includes( user?._id ) ? (
+                              <FaHeart className="text-red-500" onClick={async () => {
+                                if ( user ) {
+                                  await removePodcastLike( dispatch, podcast._id, user._id );
+                                  getPodcastBySlug();
+                                } else {
+                                  toast.warning( "Please login to like" );
+                                }
+                              }} />
+                            ) : (
+                              <span onClick={async () => {
+                                if ( user ) {
+                                  await addPodcastLike( dispatch, podcast._id, user._id );
+                                  getPodcastBySlug();
+                                } else {
+                                  toast.warning( "Please login to like" );
+                                }
+                              }}>
+                                <img src="/asset/Like.svg" alt="" />
+                              </span>
+                            )}
+                            {podcast?.likes?.length || 0}
+                          </span>
+                          <button onClick={handleShare} className="flex items-center gap-1">
+                            <FaShare className="mr-1 mt-0.5" /> 
                           </button>
                           {podcast?.bookmarkedBy?.includes( user?._id ) ? (
                             <button onClick={() => handleBookmarkRemove( podcast?._id )} className="flex items-center gap-1">
@@ -226,8 +248,7 @@ const CardDetails = () => {
                               Bookmark
                             </button>
                           )}
-
-                    </div>
+                        </div>
                   </div>
                 ) : (
                   <>

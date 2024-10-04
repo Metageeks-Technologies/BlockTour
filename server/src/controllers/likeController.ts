@@ -6,9 +6,9 @@ import Podcast from "../models/podcast/podcast";
 
 export const addLike = async (req: Request, res: Response) => {
     const { userId, postId, podcastId } = req.body;
-    console.log(req.body);
+    console.log("req.body", req.body);
 
-    try {
+    try {   
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -24,8 +24,7 @@ export const addLike = async (req: Request, res: Response) => {
             if (!post.likes?.includes(userId)) {
                 post.likes?.push(userId);
                 await post.save();
-            }
-
+            } 
             return res.status(200).json({ message: "Post like added successfully" });
         }
 

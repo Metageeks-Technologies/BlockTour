@@ -436,16 +436,16 @@ const CardDetails = () => {
                             <h2 className="text-2xl font-semibold text-white">Get connected</h2>
                             <p>Follow us on social media for the latest updates and news.</p>
                             <div className="flex gap-4">
-                                <a href="#" className="text-2xl hover:text-white transition-colors">
+                                {/* <a href="#" className="text-2xl hover:text-white transition-colors">
                                     <FaFacebookSquare className="w-8 h-8" />
-                                </a>
-                                <a href="#" className="text-2xl hover:text-white transition-colors">
+                                </a> */}
+                                <a href="https://www.instagram.com/blocktourmedia/" className="text-2xl hover:text-white transition-colors">
                                     <FaInstagram className="w-8 h-8" />
                                 </a>
-                                <a href="#" className="text-2xl hover:text-white transition-colors">
+                                <a href="https://twitter.com/blocktourmedia" className="text-2xl hover:text-white transition-colors">
                                     <FaTwitter className="w-8 h-8" />
                                 </a>
-                                <a href="#" className="text-2xl hover:text-white transition-colors">
+                                <a href="https://www.linkedin.com/company/blocktourmedia/" className="text-2xl hover:text-white transition-colors">
                                     <FaLinkedin className="w-8 h-8" />
                                 </a>
                             </div>
