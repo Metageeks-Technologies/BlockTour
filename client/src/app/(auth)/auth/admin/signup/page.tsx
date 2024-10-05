@@ -5,23 +5,23 @@ import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {useRouter} from "next/navigation";
 import instance from "@/utils/axios";
-import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import {FaEye, FaEyeSlash} from "react-icons/fa6";
 
 export default function Page () {
   const [name, setName] = useState( "" );
   const [email, setEmail] = useState( "" );
   const [password, setPassword] = useState( "" );
-  const [loading, setLoading] = useState( false ); 
+  const [loading, setLoading] = useState( false );
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState( false );
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    setShowPassword( !showPassword );
   };
 
   const handleSignup = async ( e: React.FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
-    setLoading( true ); 
+    setLoading( true );
 
     try {
       const response = await instance.post(
@@ -40,7 +40,7 @@ export default function Page () {
 
       if ( response.status === 200 ) {
         toast.success( "Signup successful" );
-        
+
         setTimeout( () => {
           router.push( "/auth/admin/login" );
         }, 1000 );
@@ -55,61 +55,61 @@ export default function Page () {
   };
 
   return (
-    <>
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="w-[35rem] p-8 space-y-4 bg-[#0A090F] rounded-3xl shadow-md border border-[#2b2934]">
-        <div className="text-center">
-          <img
-            src="/asset/Block-logo.svg"
-            alt="Cluster Protocol"
-            className="mx-auto h-20 w-auto"
-            onClick={()=>router.push("/")}
-          />
-          <h2 className="mt-6 text-2xl font-extrabold text-white">
-            Create Your Account
-          </h2>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSignup}>
-          <div className="rounded-md shadow-sm space-y-6">
-            <div>
-              <span className="text-sm text-neutral-400">Name</span>
-              <input
-                name="name"
-                type="text"
-                value={name}
-                onChange={( e ) => setName( e.target.value )}
-                className="appearance-none mt-1 rounded-md bg-[#0A090F] relative block w-full px-3 py-2 border border-[#46454a] placeholder-gray-500 rounded-t-md focus:outline-none sm:text-sm"
-                placeholder="Enter your Name"
-              />
-            </div>
+    <div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-[35rem] p-8 space-y-4 bg-[#0A090F] rounded-3xl shadow-md border border-[#2b2934]">
+          <div className="text-center">
+            <img
+              src="/asset/Block-logo.svg"
+              alt="Cluster Protocol"
+              className="mx-auto h-20 w-auto"
+              onClick={() => router.push( "/" )}
+            />
+            <h2 className="mt-6 text-2xl font-extrabold text-white">
+              Create Your Account
+            </h2>
+          </div>
+          <form className="mt-8 space-y-6" onSubmit={handleSignup}>
+            <div className="rounded-md shadow-sm space-y-6">
+              <div>
+                <span className="text-sm text-neutral-400">Name</span>
+                <input
+                  name="name"
+                  type="text"
+                  value={name}
+                  onChange={( e ) => setName( e.target.value )}
+                  className="appearance-none mt-1 rounded-md bg-[#0A090F] relative block w-full px-3 py-2 border border-[#46454a] placeholder-gray-500 rounded-t-md focus:outline-none sm:text-sm"
+                  placeholder="Enter your Name"
+                />
+              </div>
 
-            <div>
-              <span className="text-sm text-neutral-400">Email Address</span>
-              <input
-                id="email-address"
-                name="email"
-                type="email"
-                value={email}
-                onChange={( e ) => setEmail( e.target.value )}
-                autoComplete="email"
-                required
-                className="appearance-none mt-1 rounded-md bg-[#0A090F] relative block w-full px-3 py-2 border border-[#46454a] placeholder-gray-500 rounded-t-md focus:outline-none sm:text-sm"
-                placeholder="Enter your email address"
-              />
-            </div>
+              <div>
+                <span className="text-sm text-neutral-400">Email Address</span>
+                <input
+                  id="email-address"
+                  name="email"
+                  type="email"
+                  value={email}
+                  onChange={( e ) => setEmail( e.target.value )}
+                  autoComplete="email"
+                  required
+                  className="appearance-none mt-1 rounded-md bg-[#0A090F] relative block w-full px-3 py-2 border border-[#46454a] placeholder-gray-500 rounded-t-md focus:outline-none sm:text-sm"
+                  placeholder="Enter your email address"
+                />
+              </div>
 
-            <div className="w-full relative">
-              <span className="text-sm text-neutral-400">Password</span>
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={( e ) => setPassword( e.target.value )}
-                className="appearance-none mt-1 bg-[#0A090F] rounded-md relative block w-full px-3 py-2 border border-[#46454a] placeholder-gray-500 focus:outline-none sm:text-sm"
-                placeholder="Enter your password"
-              />
-               <button
+              <div className="w-full relative">
+                <span className="text-sm text-neutral-400">Password</span>
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={( e ) => setPassword( e.target.value )}
+                  className="appearance-none mt-1 bg-[#0A090F] rounded-md relative block w-full px-3 py-2 border border-[#46454a] placeholder-gray-500 focus:outline-none sm:text-sm"
+                  placeholder="Enter your password"
+                />
+                <button
                   type="button"
                   className="absolute inset-y-0 right-3 top-7 flex items-center "
                   onClick={togglePasswordVisibility}
@@ -121,62 +121,62 @@ export default function Page () {
                   )}
                 </button>
 
+              </div>
+
             </div>
 
-          </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label
+                  htmlFor="remember-me"
+                  className="ml-2 block text-sm text-neutral-400"
+                >
+                  Agree to the{" "}
+                  <a href="#" className="text-sm text-neutral-400 underline">
+                    Terms & Privacy Policy
+                  </a>
+                </label>
+              </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 block text-sm text-neutral-400"
-              >
-                Agree to the{" "}
-                <a href="#" className="text-sm text-neutral-400 underline">
-                  Terms & Privacy Policy
+              <div className="text-sm">
+                <a
+                  href="#"
+                  className="font-medium text-neutral-400 hover:text-white underline"
+                >
+                  Forgot Password?
                 </a>
-              </label>
+              </div>
             </div>
 
-            <div className="text-sm">
-              <a
-                href="#"
-                className="font-medium text-neutral-400 hover:text-white underline"
+            <div>
+              <button
+                type="submit"
+                className={`group relative w-full flex justify-center py-2 px-2 border border-transparent text-sm font-medium rounded-md text-neutral-800 bg-[#F6911D] ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={loading}
               >
-                Forgot Password?
-              </a>
+                {loading ? "Signing Up..." : "Sign Up"}
+              </button>
             </div>
-          </div>
+          </form>
 
-          <div>
-            <button
-              type="submit"
-              className={`group relative w-full flex justify-center py-2 px-2 border border-transparent text-sm font-medium rounded-md text-neutral-800 bg-[#F6911D] ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={loading}
+          <div className="mt-6 text-center text-sm text-neutral-400">
+            Don&apos;t have an account?{" "}
+            <a
+              href="/auth/admin/login"
+              className="font-medium text-white hover:text-gray-300 underline"
             >
-              {loading ? "Signing Up..." : "Sign Up"}
-            </button>
+              Log In
+            </a>
           </div>
-        </form>
-
-        <div className="mt-6 text-center text-sm text-neutral-400">
-          Don&apos;t have an account?{" "}
-          <a
-            href="/auth/admin/login"
-            className="font-medium text-white hover:text-gray-300 underline"
-          >
-            Log In
-          </a>
         </div>
       </div>
+      <ToastContainer />
     </div>
-    <ToastContainer />
-    </>
   );
 }

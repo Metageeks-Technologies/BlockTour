@@ -24,101 +24,87 @@ const Navbar = () => {
   };
 
   return (
-    <>
-      <nav className="w-full flex justify-between items-center gap-5">
+    <nav className="w-full  text-white py-4 px-4 md:px-6 lg:px-8">
+      <div className=" mx-auto flex justify-between items-center">
         {/* Logo */}
         <img
+          onClick={() => router.push( '/' )}
           loading="lazy"
-          srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/d88c4a716ba9fc6d19f3233c293e1e90da54bbf8c89120323784061079cc9216?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/d88c4a716ba9fc6d19f3233c293e1e90da54bbf8c89120323784061079cc9216?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/d88c4a716ba9fc6d19f3233c293e1e90da54bbf8c89120323784061079cc9216?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/d88c4a716ba9fc6d19f3233c293e1e90da54bbf8c89120323784061079cc9216?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/d88c4a716ba9fc6d19f3233c293e1e90da54bbf8c89120323784061079cc9216?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/d88c4a716ba9fc6d19f3233c293e1e90da54bbf8c89120323784061079cc9216?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/d88c4a716ba9fc6d19f3233c293e1e90da54bbf8c89120323784061079cc9216?placeholderIfAbsent=true&apiKey=edd8c588fa7b4e2c93b6125029a35184&width=2000 2000w"
-          className="object-contain shrink-0 aspect-[1.66] w-[101px] cursor-pointer"
+          src="/asset/Block-logo.svg"
+          className="object-contain h-12 cursor-pointer"
           alt="Logo"
         />
 
-        {/* Links - Hidden on tablet and smaller devices */}
-        <ul className="hidden lg:flex cursor-pointer flex-wrap gap-10 items-center text-base font-medium leading-tight text-center text-white">
-          <li className="hover:text-amber-600 leading-[75px]" onClick={() => router.push( '/' )}>Home</li>
-          <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Crypto' )}>Crypto</li>
-          <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Blockchain' )}>Blockchain</li>
-          <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'NFT' )}>NFT</li>
-          <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Web3' )}>Web3</li>
-          <li className="hover:text-amber-600 my-auto" onClick={() => handleCategoryClick( 'Press Releases' )}>Press Releases</li>
-          
-          {/* {user ?
-            <li className="text-amber-600 font-bold my-auto" onClick={() => router.push( "/dashboard" )}>Dashboard</li> :
-            <li className="text-amber-600 font-bold leading-[75px]" onClick={() => router.push( "/auth/user/login" )}>  Sign in </li>
-          } */}
+        {/* Desktop Menu */}
+        <ul className="hidden lg:flex items-center space-x-6">
+          <li className="hover:text-amber-600" onClick={() => router.push( '/' )}>Home</li>
+          <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Crypto' )}>Crypto</li>
+          <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Blockchain' )}>Blockchain</li>
+          <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'NFT' )}>NFT</li>
+          <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Web3' )}>Web3</li>
+          <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Press Releases' )}>Press Releases</li>
         </ul>
 
-        {/* Social Icons - Always visible */}
-        <div className="flex items-center gap-4 my-auto cursor-pointer text-black ">
-          <div className="flex gap-3 items-end  ">
+        {/* Desktop Social Icons and Sign In/Dashboard */}
+        <div className="hidden lg:flex items-center space-x-4">
+          <SocialIcons />
+          <AuthButton user={user} router={router} onClick={toggleMenu} />
+        </div>
 
-           <div className="mb-1">
-          {user ?
-            <p className="text-amber-600 font-bold text-lg my-auto" onClick={() => router.push( "/dashboard" )}>Dashboard</p> :
-            <p className="text-amber-600 font-bold text-lg " onClick={() => router.push( "/auth/user/login" )}>  Sign in </p>
-          }
-          </div>
+        {/* Mobile Menu Toggle */}
+        <button className="lg:hidden text-white" onClick={toggleMenu}>
+          {isMenuOpen ? <IoClose className="h-8 w-8" /> : <IoMenu className="h-8 w-8" />}
+        </button>
+      </div>
 
-            {/* LinkedIn */}
-            <a href="https://www.linkedin.com/company/blocktourmedia" target="_blank" rel="noopener noreferrer">
-              <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaLinkedin className="w-4 h-4 text-white"  />
-              </div>
-            </a>
-
-            {/* Twitter */}
-            <a href="https://x.com/blocktourmedia" target="_blank" rel="noopener noreferrer">
-              <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaXTwitter className="w-4 h-4 text-white"  />
-              </div>
-            </a>
-
-            {/* Facebook */}
-            {/* <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
-              <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaFacebookSquare className="w-4 h-4 text-white"  />
-              </div>
-            </a> */}
-
-            {/* Instagram */}
-            <a href="https://www.instagram.com/blocktourmedia/" target="_blank" rel="noopener noreferrer">
-              <div className="w-8 h-8 cursor-pointer border border-[#666666] rounded-full flex justify-center items-center">
-                <FaInstagram className="w-4 h-4 text-white"  />
-              </div>
-            </a>
-          </div>
-         
-          <div className="flex lg:hidden items-center sm:mr-1 mr-4" onClick={toggleMenu}>
-            {isMenuOpen ? <IoClose className="h-8 w-8 text-white" /> : <IoMenu className="h-8 w-8 text-white" />}
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-90 flex flex-col items-center justify-center">
+          <button className="absolute top-4 right-4 text-white" onClick={toggleMenu}>
+            <IoClose className="h-8 w-8" />
+          </button>
+          <ul className="flex flex-col items-center space-y-6 text-xl">
+            <li className="hover:text-amber-600" onClick={() => {router.push( '/' ); toggleMenu();}}>Home</li>
+            <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Crypto' )}>Crypto</li>
+            <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Blockchain' )}>Blockchain</li>
+            <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'NFT' )}>NFT</li>
+            <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Web3' )}>Web3</li>
+            <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Press Releases' )}>Press Releases</li>
+            <AuthButton user={user} router={router} onClick={toggleMenu} />
+          </ul>
+          <div className="mt-8">
+            <SocialIcons />
           </div>
         </div>
-        
-
-        {isMenuOpen && (
-          <ul className="lg:hidden flex flex-col items-center absolute top-[60px] left-0 w-full bg-black opacity-60 text-white gap-5 p-5">
-            <li className="hover:text-amber-600" onClick={() => handleCategoryClick("Crypto")}>
-              Crypto
-            </li>
-            <li className="hover:text-amber-600" onClick={() => handleCategoryClick("Blockchain")}>
-              Blockchain
-            </li>
-            <li className="hover:text-amber-600" onClick={() => handleCategoryClick("NFT")}>
-              NFT
-            </li>
-            <li className="hover:text-amber-600" onClick={() => handleCategoryClick("Web3")}>
-              Web3
-            </li>
-            <li className="hover:text-amber-600" onClick={() => handleCategoryClick("Press Releases")}>
-              Press Releases
-            </li>
-          </ul>
-        )}
-
-
-      </nav>
-    </>
+      )}
+    </nav>
   );
 };
+
+const SocialIcons = () => (
+  <div className="flex space-x-4">
+    <SocialIcon href="https://www.linkedin.com/company/blocktourmedia" icon={FaLinkedin} />
+    <SocialIcon href="https://x.com/blocktourmedia" icon={FaXTwitter} />
+    <SocialIcon href="https://www.instagram.com/blocktourmedia/" icon={FaInstagram} />
+  </div>
+);
+
+const SocialIcon = ( {href, icon: Icon} : {href: string, icon: React.ElementType} ) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" className="text-white hover:text-amber-600">
+    <Icon className="w-6 h-6" />
+  </a>
+);
+
+const AuthButton = ( {user, router, onClick} : {user: any, router: any, onClick: () => void} ) => (
+  <button
+    className="text-amber-600 font-bold text-lg hover:text-amber-500"
+    onClick={() => {
+      router.push( user ? "/dashboard" : "/auth/user/login" );
+      if ( onClick ) onClick();
+    }}
+  >
+    {user ? "Dashboard" : "Sign in"}
+  </button>
+); 
 
 export default Navbar;

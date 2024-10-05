@@ -40,21 +40,21 @@ const Page = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen">
-        <div className=" w-[35rem] p-8 space-y-4 bg-[#0A090F] rounded-3xl shadow-md border border-[#2b2934]">
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <div className="w-full max-w-[35rem] p-4 sm:p-8 space-y-4 bg-[#0A090F] rounded-3xl shadow-md border border-[#2b2934]">
           <div className="text-center">
             <img
               src="/asset/Block-logo.svg"
               alt="Cluster Protocol"
-              className="mx-auto h-20 w-auto"
-              onClick={() => router.push("/")}
+              className="mx-auto h-16 sm:h-20 w-auto cursor-pointer"
+              onClick={() => router.push( "/" )}
             />
-            <h2 className="mt-6 text-2xl font-extrabold text-white">
+            <h2 className="mt-4 sm:mt-6 text-xl sm:text-2xl font-extrabold text-white">
               Login to Your Account!
             </h2>
           </div>
-          <form onSubmit={handleLogin} className="space-y-5">
-            <div className="rounded-md shadow-sm space-y-5">
+          <form onSubmit={handleLogin} className="space-y-4 sm:space-y-5">
+            <div className="rounded-md shadow-sm space-y-4 sm:space-y-5">
               <div>
                 <span className="text-sm text-neutral-400">Email Address</span>
                 <input
@@ -65,7 +65,7 @@ const Page = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none mt-1 rounded-md bg-[#0A090F] relative block w-full px-3 py-2.5 border border-[#46454a] placeholder-gray-500 rounded-t-md focus:outline-none sm:text-sm"
+                  className="appearance-none mt-1 rounded-md bg-[#0A090F] relative block w-full px-3 py-2 sm:py-2.5 border border-[#46454a] placeholder-gray-500 focus:outline-none text-sm"
                   placeholder="Enter your email address"
                 />
               </div>
@@ -80,28 +80,24 @@ const Page = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none mt-1 bg-[#0A090F] rounded-md relative block w-full px-3 py-2.5 border border-[#46454a] placeholder-gray-500 rounded-t-md focus:outline-none sm:text-sm"
+                  className="appearance-none mt-1 bg-[#0A090F] rounded-md relative block w-full px-3 py-2 sm:py-2.5 border border-[#46454a] placeholder-gray-500 focus:outline-none text-sm"
                   placeholder="Enter your password"
                 />
                 
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-3 top-7 flex items-center "
+                  className="absolute inset-y-0 right-3 top-7 flex items-center"
                   onClick={togglePasswordVisibility}
                 >
                   {showPassword ? (
-                    <FaEyeSlash className="h-5 w-5 text-[#7B7A7F]" />
+                    <FaEyeSlash className="h-4 w-4 sm:h-5 sm:w-5 text-[#7B7A7F]" />
                   ) : (
-                    <FaEye className="h-5 w-5 text-[#7B7A7F]" />
+                    <FaEye className="h-4 w-4 sm:h-5 sm:w-5 text-[#7B7A7F]" />
                   )}
-                </button>
-
-
-              </div>
-
-
+                </button> 
+              </div> 
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
               <div className="flex items-center">
                 <input
                   id="remember-me"
@@ -128,9 +124,8 @@ const Page = () => {
             <div>
               <button
                 type="submit"
-                className={`group relative w-full flex justify-center py-2 px-2 border border-transparent text-sm font-medium rounded-md text-neutral-800 bg-[#F6911D] ${
-                  loading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                className={`group relative w-full flex justify-center py-2 px-2 border border-transparent text-sm font-medium rounded-md text-neutral-800 bg-[#F6911D] ${loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                 disabled={loading}
               >
                 {loading ? "Logging In..." : "Log In"}
