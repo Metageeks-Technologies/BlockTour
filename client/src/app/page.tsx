@@ -11,12 +11,12 @@ import {useEffect, useMemo, useState} from "react";
 import {useAppDispatch, useAppSelector} from "./redux/hooks";
 import {getAllPosts} from "./redux/feature/posts/api";
 import {getAllCategories} from "./redux/feature/category/api";
-import BlogMarquee from "@/components/Marquee";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {formatDateTime} from "@/utils/DateFormat";
 import {useRouter} from "next/navigation";
+import BlogMarquee from "@/components/Home/Marquee";
 
 export default function Home () {
   const dispatch = useAppDispatch();
@@ -43,8 +43,8 @@ export default function Home () {
     slidesToScroll: 1,
     autoplay: true,
     arrows: true,
-    autoplaySpeed: 3000, 
-    className: "slider-container", 
+    autoplaySpeed: 3000,
+    className: "slider-container",
   };
 
   return (
@@ -57,7 +57,7 @@ export default function Home () {
 
         {
           loading || !trendingPosts.length ?
-            <div className="w-[95%] min-h-[650px] bg-gray-800 animate-pulse mx-auto"> 
+            <div className="w-[95%] min-h-[650px] bg-gray-800 animate-pulse mx-auto">
               <div className="w-full h-full flex flex-col justify-end p-16">
               </div>
             </div>
@@ -65,36 +65,32 @@ export default function Home () {
             trendingPosts.length > 0 && (
               <Slider {...sliderSettings} className="w-full slider-container">
                 {trendingPosts.map( ( post: any ) => (
-                  <div key={post._id} className="flex overflow-hidden relative items-center w-full min-h-[800px] max-md:px-5 max-md:max-w-full" >
-                    {/* Post Image */}
+                  <div key={post._id} className="relative w-full min-h-[50vh] md:min-h-[60vh] lg:min-h-[90vh] flex items-center px-4 md:px-8 lg:px-16">
                     <img
                       loading="lazy"
                       src={post.previewImageUrl}
-                      className="object-cover absolute inset-0 size-full"
+                      className="absolute inset-0 w-full h-full object-cover"
                       alt={post.title}
                     />
-
-                    {/* Post Content */}
-                    <div className="flex relative flex-col items-start max-w-full w-[1220px] px-4 lg:px-20 md:px-4 ">
-                      {/* Title and Post Info */}
-                      <div className="py-2 pt-96  max-w-full text-4xl font-medium text-white bg-white bg-opacity-0 leading-[53px] w-[763px] max-md:mt-10 max-md:max-w-full">
-                        <h1 className="line-clamp-2 cursor-pointer" onClick={() => router.push( `/article/${post.permaLink}` )}>{post.title}</h1>
-
-                        <div className="flex gap-2.5 mt-6 text-sm font-bold leading-none">
+                    {/* blur effect */}
+                    <div className="relative z-10 w-full max-w-4xl px-4 md:px-8 lg:px-16 mt-40 pt-52">
+                      <div className="bg-white bg-opacity-0 p-4 md:p-6 lg:p-8">
+                        <h1 className="text-2xl md:text-3xl lg:text-4xl font-medium text-white line-clamp-2 cursor-pointer" onClick={() => router.push( `/article/${post.permaLink}` )}>
+                          {post.title}
+                        </h1>
+                        <div className="flex flex-wrap gap-2.5 mt-4 text-sm font-bold">
                           <div className="px-1.5 py-1 bg-amber-600 text-stone-950">{post.category.join( ", " )}</div>
-                          <div className="my-auto text-white text-opacity-50">
+                          <div className="text-white text-opacity-50">
                             {formatDateTime( post?.createdAt )}
                           </div>
                         </div>
-
-                        <div className="mt-7 text-base font-medium leading-6 text-white text-opacity-50 max-md:max-w-full line-clamp-2">
-                          {post.description.replace( /<[^>]*>?/gm, '' )} {/* Removing HTML tags */}
+                        <div className="mt-4 text-sm md:text-base font-medium text-white text-opacity-50 line-clamp-2">
+                          {post.description.replace( /<[^>]*>?/gm, '' )}
                         </div>
                       </div>
                     </div>
                   </div>
                 ) )}
-
               </Slider>
             )}
 

@@ -1,33 +1,33 @@
 "use client";
-import { getCurrentAdmin, logout } from "@/app/redux/feature/admin/api";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import {getCurrentAdmin, logout} from "@/app/redux/feature/admin/api";
+import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
-import { FaUserCircle } from "react-icons/fa";
-import { IoMdNotificationsOutline } from "react-icons/io";
+import {useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
+import {BiLogInCircle, BiLogOutCircle} from "react-icons/bi";
+import {FaUserCircle} from "react-icons/fa";
+import {IoMdNotificationsOutline} from "react-icons/io";
 import AdminNotificationPopUp from "./AdminNotificationPopUp";
 
-export default function Header() {
+export default function Header () {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [isUserOpen, setIsUserOpen] = useState<boolean>(false);
+  const [isUserOpen, setIsUserOpen] = useState<boolean>( false );
   const [isPopupOpen, setIsPopupOpen] = useState( false );
-  const [noOfNotifications, setNoOfNotifications] = useState<number>( 0 ) 
+  const [noOfNotifications, setNoOfNotifications] = useState<number>( 0 );
   const togglePopup = () => {
-    setIsPopupOpen(!isPopupOpen);
-  }; 
-  const currentAdmin = useAppSelector((state: any) => state?.superAdmin?.admin);   
+    setIsPopupOpen( !isPopupOpen );
+  };
+  const currentAdmin = useAppSelector( ( state: any ) => state?.superAdmin?.admin );
   const handleLogout = async () => {
-    await logout(dispatch);
+    await logout( dispatch );
     // router.push("/auth/admin/login");
   };
-  
-  console.log( "current admin:-", currentAdmin )
+
+  console.log( "current admin:-", currentAdmin );
   const handleUserIconClick = () => {
-    setIsUserOpen(!isUserOpen);
-  }; 
+    setIsUserOpen( !isUserOpen );
+  };
 
   return (
     <header className="bg-[#0A090F] text-white sticky w-full z-50 top-0 flex items-center justify-between px-6 py-2">
@@ -45,7 +45,7 @@ export default function Header() {
       <div className="flex items-center space-x-5">
 
         <div>
-          <div  onClick={togglePopup} className="relative cursor-pointer">
+          <div onClick={togglePopup} className="relative cursor-pointer">
             <IoMdNotificationsOutline
               className="h-7 w-7 cursor-pointer"
             />
@@ -53,7 +53,7 @@ export default function Header() {
               {noOfNotifications}
             </span>
           </div>
-          <AdminNotificationPopUp isOpen={isPopupOpen} togglePopup={togglePopup} ids={currentAdmin?.notifications} setNoOfNotifications={setNoOfNotifications} /> 
+          <AdminNotificationPopUp isOpen={isPopupOpen} togglePopup={togglePopup} ids={currentAdmin?.notifications} setNoOfNotifications={setNoOfNotifications} />
         </div>
 
         <div className="relative">
@@ -64,7 +64,7 @@ export default function Header() {
           {isUserOpen && (
             <div className="absolute right-0 mt-2 w-fit whitespace-nowrap bg-black border border-gray-700 rounded shadow-xl z-50">
               {currentAdmin ? (
-                <>
+                <div>
                   <button
                     onClick={handleLogout}
                     className="flex items-center w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
@@ -74,15 +74,16 @@ export default function Header() {
                   </button>
                   <button
                     className="flex items-center w-full text-left px-4 py-2  text-gray-300 hover:bg-gray-700 hover:text-white"
-                    onClick={() => router.push("/admin/update-profile")}
+                    onClick={() => router.push( "/admin/update-profile" )}
                   >
                     <FaUserCircle className="w-5 h-5 mr-3" />
                     User Profile
                   </button>
-                </>
+                </div>
+
               ) : (
                 <button
-                  onClick={() => router.push("/auth/admin/login")}
+                  onClick={() => router.push( "/auth/admin/login" )}
                   className="flex items-center w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
                 >
                   <BiLogInCircle className="w-5 h-5 mr-3" />

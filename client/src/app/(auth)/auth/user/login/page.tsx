@@ -5,8 +5,8 @@ import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {useRouter} from "next/navigation";
 import instance from "@/utils/axios";
-import { FaEyeSlash } from "react-icons/fa";
-import { FaEye } from "react-icons/fa6";
+import {FaEyeSlash, FaEye, FaGoogle, FaFacebookF, FaInstagram} from "react-icons/fa";
+import {SiBlockchaindotcom} from "react-icons/si";
 import {useAppDispatch} from "@/app/redux/hooks";
 import {getCurrentUser} from "@/app/redux/feature/contributor/api";
 
@@ -15,11 +15,11 @@ const Page = () => {
   const [email, setEmail] = useState( "" );
   const [password, setPassword] = useState( "" );
   const [loading, setLoading] = useState( false );
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState( false );
   const dispatch = useAppDispatch();
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    setShowPassword( !showPassword );
   };
 
   const handleLogin = async ( event: React.FormEvent ) => {
@@ -29,9 +29,9 @@ const Page = () => {
     try {
       const response = await instance.post( "/auth/user/login", {email, password} );
       console.log( response.data );
-      getCurrentUser(dispatch);
+      getCurrentUser( dispatch );
       router.push( "/dashboard" );
-      toast.success( "Login successful!" ); 
+      toast.success( "Login successful!" );
     } catch ( error ) {
       toast.error( "Login failed. Please try again." );
       console.log( "error:-", error );
@@ -42,14 +42,14 @@ const Page = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="w-max-w-md p-8 space-y-4 bg-[#0A090F] rounded-3xl shadow-md border border-[#2b2934]">
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <div className="w-full max-w-md p-6 sm:p-8 space-y-4 bg-[#0A090F] rounded-3xl shadow-md border border-[#2b2934]">
           <div className="text-center">
             <img
               src="/asset/Block-logo.svg"
               alt="Block Tour Logo"
-              className="mx-auto h-20 w-auto"
-              onClick={()=>router.push("/")}
+              className="mx-auto h-20 w-auto cursor-pointer"
+              onClick={() => router.push( "/" )}
             />
             <h2 className="mt-6 text-2xl font-extrabold text-white">
               Login to Your Account!
@@ -85,7 +85,7 @@ const Page = () => {
                   className="appearance-none mt-1 bg-[#0A090F] rounded-md relative block w-full px-3 py-2.5 border border-[#46454a] placeholder-gray-500 rounded-t-md focus:outline-none sm:text-sm"
                   placeholder="Enter your password"
                 />
-                 <button
+                <button
                   type="button"
                   className="absolute inset-y-0 right-3 top-7 flex items-center "
                   onClick={togglePasswordVisibility}
@@ -96,9 +96,7 @@ const Page = () => {
                     <FaEye className="h-5 w-5 text-[#7B7A7F]" />
                   )}
                 </button>
-
               </div>
-
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
@@ -141,30 +139,22 @@ const Page = () => {
             <div className="flex-grow border-t border-gray-600"></div>
           </div>
           <div className="mt-6 px-5 text-center text-neutral-400">
-            <div className="flex justify-center gap-3 mt-2">
+            <div className="flex flex-wrap justify-center gap-3 mt-2">
               <button className="text-neutral-300 flex gap-1 items-center border border-neutral-500 px-2 py-1 rounded-md text-sm">
-                <img
-                  src="https://th.bing.com/th/id/R.7e557f1c0864829c54c300d15bee69f4?rik=fjZN1AYH30vXIw&riu=http%3a%2f%2fpngimg.com%2fuploads%2fgoogle%2fgoogle_PNG19635.png&ehk=ZmsumEtoeJQhKoUzQTZO2TEbYPBu0%2b7EFdjmJ3qljls%3d&risl=&pid=ImgRaw&r=0"
-                  alt="Google"
-                  className="w-6 h-6"
-                />
-                Google
+                <FaGoogle className="w-5 h-5" />
+                <span className="hidden sm:inline">Google</span>
               </button>
               <button className="text-neutral-300 text-sm flex gap-1 items-center border border-neutral-500 px-2 py-1 rounded-md">
-                <img src="/asset/Vector.svg" alt="Facebook" />
-                Facebook
+                <FaFacebookF className="w-5 h-5" />
+                <span className="hidden sm:inline">Facebook</span>
               </button>
               <button className="text-neutral-300 text-sm flex gap-1 items-center border border-neutral-500 px-2 py-1 rounded-md">
-                <img src="/asset/Instagram_1_.svg" alt="Instagram" />
-                Instagram
+                <FaInstagram className="w-5 h-5" />
+                <span className="hidden sm:inline">Instagram</span>
               </button>
               <button className="text-neutral-300 flex gap-1 items-center border border-neutral-500 px-2 py-1 rounded-md text-sm">
-                <img
-                  src="/asset/Group1.svg"
-                  alt="FAM Protocol"
-                  className="w-6 h-6"
-                />
-                FAM Protocol
+                <SiBlockchaindotcom className="w-5 h-5" />
+                <span className="hidden sm:inline">FAM Protocol</span>
               </button>
             </div>
           </div>

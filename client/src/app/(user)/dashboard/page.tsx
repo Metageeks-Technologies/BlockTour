@@ -98,7 +98,7 @@ const Dashboard = () => {
 
   if ( isUserLoading || isLoading ) {
     return (
-      <div className="flex h-screen justify-center items-center">
+      <div className="flex h-screen justify-center items-center mx-auto">
         <ClipLoader color="#DF841C" size={50} />
       </div>
     );
