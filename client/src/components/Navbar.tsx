@@ -37,12 +37,12 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <ul className="hidden lg:flex items-center space-x-6">
-          <li className="hover:text-amber-600" onClick={() => router.push( '/' )}>Home</li>
-          <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Crypto' )}>Crypto</li>
-          <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Blockchain' )}>Blockchain</li>
-          <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'NFT' )}>NFT</li>
-          <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Web3' )}>Web3</li>
-          <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Press Releases' )}>Press Releases</li>
+          <li className="hover:text-amber-600 cursor-pointer" onClick={() => router.push( '/' )}>Home</li>
+          <li className="hover:text-amber-600 cursor-pointer" onClick={() => handleCategoryClick( 'Crypto' )}>Crypto</li>
+          <li className="hover:text-amber-600 cursor-pointer" onClick={() => handleCategoryClick( 'Blockchain' )}>Blockchain</li>
+          <li className="hover:text-amber-600 cursor-pointer" onClick={() => handleCategoryClick( 'NFT' )}>NFT</li>
+          <li className="hover:text-amber-600 cursor-pointer" onClick={() => handleCategoryClick( 'Web3' )}>Web3</li>
+          <li className="hover:text-amber-600 cursor-pointer" onClick={() => handleCategoryClick( 'Press Releases' )}>Press Releases</li>
         </ul>
 
         {/* Desktop Social Icons and Sign In/Dashboard */}
@@ -64,12 +64,12 @@ const Navbar = () => {
             <IoClose className="h-8 w-8" />
           </button>
           <ul className="flex flex-col items-center space-y-6 text-xl">
-            <li className="hover:text-amber-600" onClick={() => {router.push( '/' ); toggleMenu();}}>Home</li>
-            <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Crypto' )}>Crypto</li>
-            <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Blockchain' )}>Blockchain</li>
-            <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'NFT' )}>NFT</li>
-            <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Web3' )}>Web3</li>
-            <li className="hover:text-amber-600" onClick={() => handleCategoryClick( 'Press Releases' )}>Press Releases</li>
+            <li className="hover:text-amber-600 cursor-pointer" onClick={() => {router.push( '/' ); toggleMenu();}}>Home</li>
+            <li className="hover:text-amber-600 cursor-pointer" onClick={() => handleCategoryClick( 'Crypto' )}>Crypto</li>
+            <li className="hover:text-amber-600 cursor-pointer" onClick={() => handleCategoryClick( 'Blockchain' )}>Blockchain</li>
+            <li className="hover:text-amber-600 cursor-pointer" onClick={() => handleCategoryClick( 'NFT' )}>NFT</li>
+            <li className="hover:text-amber-600 cursor-pointer" onClick={() => handleCategoryClick( 'Web3' )}>Web3</li>
+            <li className="hover:text-amber-600 cursor-pointer" onClick={() => handleCategoryClick( 'Press Releases' )}>Press Releases</li>
             <AuthButton user={user} router={router} onClick={toggleMenu} />
           </ul>
           <div className="mt-8">

@@ -1,14 +1,14 @@
 "use client";
-import { getAllCategories } from "@/app/redux/feature/category/api";
-import { getAllPosts } from "@/app/redux/feature/posts/api";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import {getAllCategories} from "@/app/redux/feature/category/api";
+import {getAllPosts} from "@/app/redux/feature/posts/api";
+import {useAppDispatch, useAppSelector} from "@/app/redux/hooks";
 import Footer from "@/components/Footer";
 import instance from "@/utils/axios";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { FaEye, FaFacebookSquare, FaLinkedin, FaRegClock } from "react-icons/fa";
-import { FaInstagram, FaXTwitter } from "react-icons/fa6";
-import { IoSearchOutline } from "react-icons/io5";
+import {useRouter, useSearchParams} from "next/navigation";
+import React, {Suspense, useEffect, useMemo, useRef, useState} from "react";
+import {FaEye, FaFacebookSquare, FaLinkedin, FaRegClock} from "react-icons/fa";
+import {FaInstagram, FaXTwitter} from "react-icons/fa6";
+import {IoSearchOutline} from "react-icons/io5";
 
 export interface Post {
   _id: string;
@@ -38,34 +38,34 @@ const ArticlePage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [isLoading, setIsLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [isTermsAndPrivacy, setIsTermsAndPrivacy] = useState(false);
-  const posts = useAppSelector((state) => state.post.posts);
-  const categories = useAppSelector((state) => state.category.categories);
-  const termsCheckboxRef = useRef<HTMLInputElement>(null);
+  const [isLoading, setIsLoading] = useState( true );
+  const [activeCategory, setActiveCategory] = useState( "All" );
+  const [email, setEmail] = useState( "" );
+  const [emailError, setEmailError] = useState( "" );
+  const [isTermsAndPrivacy, setIsTermsAndPrivacy] = useState( false );
+  const posts = useAppSelector( ( state ) => state.post.posts );
+  const categories = useAppSelector( ( state ) => state.category.categories );
+  const termsCheckboxRef = useRef<HTMLInputElement>( null );
 
-  const category = searchParams.get("category");
-  const categoryName = category?.replace(/-/g, " ");
+  const category = searchParams.get( "category" );
+  const categoryName = category?.replace( /-/g, " " );
 
-  useEffect(() => {
-    setActiveCategory(categoryName || "All");
-    if (categories.length === 0) {
-      getAllCategories(dispatch);
+  useEffect( () => {
+    setActiveCategory( categoryName || "All" );
+    if ( categories.length === 0 ) {
+      getAllCategories( dispatch );
     }
     const fetchPosts = async () => {
-      setIsLoading(true);
-      await getAllPosts(dispatch);
-      setIsLoading(false);
+      setIsLoading( true );
+      await getAllPosts( dispatch );
+      setIsLoading( false );
     };
     fetchPosts();
 
-    if (categoryName?.toLowerCase() === "all") {
-      router.replace("/article");
+    if ( categoryName?.toLowerCase() === "all" ) {
+      router.replace( "/article" );
     }
-  }, [dispatch, searchParams, router, categories.length, categoryName]);
+  }, [dispatch, searchParams, router, categories.length, categoryName] );
 
   const filteredPosts = activeCategory.toLowerCase() === "all" ? posts : posts.filter( ( post: any ) => post.category && post.status.toLowerCase() === "published" && post.category.some( ( cat: any ) => cat.toLowerCase().includes( activeCategory.toLowerCase() ) ) );
   // console.log( "filteredPosts", filteredPosts );
@@ -75,7 +75,7 @@ const ArticlePage = () => {
       router.replace( '/article' );
     } else {
       router.replace(
-        `/article?category=${category.toLowerCase().replace(/ /g, "-")}`
+        `/article?category=${category.toLowerCase().replace( / /g, "-" )}`
       );
     }
   };
@@ -93,16 +93,16 @@ const ArticlePage = () => {
 
   console.log( "trendingPosts", trendingPosts );
 
-  const validateEmail = (email: string) => {
+  const validateEmail = ( email: string ) => {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return re.test(email);
+    return re.test( email );
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
     const newEmail = e.target.value;
-    setEmail(newEmail);
-    if (newEmail && !validateEmail(newEmail)) {
-      setEmailError("Please enter a valid email address");
+    setEmail( newEmail );
+    if ( newEmail && !validateEmail( newEmail ) ) {
+      setEmailError( "Please enter a valid email address" );
     } else {
       setEmailError(
         termsCheckboxRef.current?.checked
@@ -113,28 +113,27 @@ const ArticlePage = () => {
   };
 
   const CreateSubscriber = async () => {
-    if (!isTermsAndPrivacy) {
-      alert("Please agree to the Terms and Conditions and Privacy Policy");
+    if ( !isTermsAndPrivacy ) {
+      alert( "Please agree to the Terms and Conditions and Privacy Policy" );
       termsCheckboxRef.current?.focus();
       return;
     }
 
     try {
-      const response = await instance.post("/subscriber/subscribers", {
+      const response = await instance.post( "/subscriber/subscribers", {
         email,
-      });
-      alert(`${response.data.message || "Subscribed Successfully"}`);
-      setEmail("");
-      setIsTermsAndPrivacy(false);
-    } catch (error: any) {
-      console.error(error);
+      } );
+      alert( `${response.data.message || "Subscribed Successfully"}` );
+      setEmail( "" );
+      setIsTermsAndPrivacy( false );
+    } catch ( error: any ) {
+      console.error( error );
       alert(
-        `${
-          error.response?.data?.message ||
-          "There is some error in creating subscriber"
+        `${error.response?.data?.message ||
+        "There is some error in creating subscriber"
         }`
       );
-      setEmailError("");
+      setEmailError( "" );
     }
   };
 
@@ -142,9 +141,9 @@ const ArticlePage = () => {
     <div className="animate-pulse">
       {/* Trending section skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
-        {[...Array(4)].map((_, index) => (
+        {[...Array( 4 )].map( ( _, index ) => (
           <div key={index} className="bg-gray-700 rounded-xl h-80"></div>
-        ))}
+        ) )}
       </div>
 
       {/* Newsletter skeleton */}
@@ -154,27 +153,27 @@ const ArticlePage = () => {
       <div className="mt-6">
         <div className="h-8 bg-gray-700 w-1/3 rounded"></div>
         <div className="flex gap-5 py-4 mt-4">
-          {[...Array(4)].map((_, index) => (
+          {[...Array( 4 )].map( ( _, index ) => (
             <div key={index} className="h-6 bg-gray-700 w-20 rounded"></div>
-          ))}
+          ) )}
         </div>
       </div>
 
       {/* Article list skeleton */}
-      {[...Array(3)].map((_, index) => (
+      {[...Array( 3 )].map( ( _, index ) => (
         <div key={index} className="bg-gray-700 h-40 rounded-lg mt-4"></div>
-      ))}
+      ) )}
     </div>
   );
 
   // set the date month and year
-  const formatDateTime = (dateString: string | Date) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+  const formatDateTime = ( dateString: string | Date ) => {
+    const date = new Date( dateString );
+    return date.toLocaleDateString( 'en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
-    });
+    } );
   };
 
   return (
@@ -220,7 +219,7 @@ const ArticlePage = () => {
                     boxShadow:
                       "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
                   }}
-                  onClick={() => router.push(`/article/${post.permaLink}`)}
+                  onClick={() => router.push( `/article/${post.permaLink}` )}
                 >
                   <img
                     loading="lazy"
@@ -238,7 +237,7 @@ const ArticlePage = () => {
 
                     <span className="text-[#767676]">
                       {post.createdAt
-                        ? formatDateTime(post.createdAt)
+                        ? formatDateTime( post.createdAt )
                         : "No date available"}
                     </span>
                   </div>
@@ -250,11 +249,11 @@ const ArticlePage = () => {
 
                     <div
                       className="text-sm text-[#B0AFAF] mt-2 mb-2 line-clamp-2"
-                      dangerouslySetInnerHTML={{ __html: post.description }}
+                      dangerouslySetInnerHTML={{__html: post.description}}
                     />
                   </div>
                 </div>
-              ))
+              ) )
             )}
           </div>
         )}
@@ -281,9 +280,8 @@ const ArticlePage = () => {
                     placeholder="Enter your email address"
                     value={email}
                     onChange={handleEmailChange}
-                    className={`bg-[#1F1C2C] border ${
-                      emailError ? "border-red-500" : "border-[#474457]"
-                    } text-white py-3.5 px-5 rounded-lg w-full focus:outline-none`}
+                    className={`bg-[#1F1C2C] border ${emailError ? "border-red-500" : "border-[#474457]"
+                      } text-white py-3.5 px-5 rounded-lg w-full focus:outline-none`}
                   />
                   {emailError && (
                     <p className="text-red-500 text-sm my-1 whitespace-nowrap absolute">
@@ -308,10 +306,10 @@ const ArticlePage = () => {
                   className="mr-2 focus:outline-1"
                   ref={termsCheckboxRef}
                   onChange={() => {
-                    setIsTermsAndPrivacy(!isTermsAndPrivacy);
-                    handleEmailChange({
-                      target: { value: email },
-                    } as React.ChangeEvent<HTMLInputElement>);
+                    setIsTermsAndPrivacy( !isTermsAndPrivacy );
+                    handleEmailChange( {
+                      target: {value: email},
+                    } as React.ChangeEvent<HTMLInputElement> );
                   }}
                 />
                 <label htmlFor="agree" className="text-gray-400 sm:text-sm text-xs">
@@ -340,8 +338,8 @@ const ArticlePage = () => {
               <p>View</p>
               <select
                 className="bg-[#0A090F] border border-neutral-600 text-[#7B7A7F] px-4 py-2 rounded"
-                // value={postsPerPage}
-                // onChange={( e ) => setPostsPerPage( Number( e.target.value ) )}
+              // value={postsPerPage}
+              // onChange={( e ) => setPostsPerPage( Number( e.target.value ) )}
               >
                 <option>Most Recent</option>
                 <option>Trending</option>
@@ -355,35 +353,28 @@ const ArticlePage = () => {
         <div className="sticky top-0 bg-black lg:block hidden ">
           <div className="flex  gap-5 py-4 border-b border-[#17161B]  text-[#999999] items-center">
             <p
-              className={`hover:text-white cursor-pointer ${
-                activeCategory.toLowerCase() === "all"
-                  ? "text-white font-semibold"
-                  : ""
-              }`}
-              onClick={() => handleCategoryClick("All")}
-            >
+              className={`hover:text-white cursor-pointer flex-shrink-0 ${activeCategory.toLowerCase() === "all" ? "text-white font-semibold" : ""}`} onClick={() => handleCategoryClick( "All" )}  >
               All
             </p>
-            {categories.map((category: any) => (
+            {categories.map( ( category: any ) => (
               <p
                 key={category._id}
-                className={`hover:text-white cursor-pointer ${
-                  activeCategory.toLowerCase() === category.name.toLowerCase()
-                    ? "text-white font-semibold"
-                    : ""
-                } bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded `}
+                className={`hover:text-white cursor-pointer flex-shrink-0 ${activeCategory.toLowerCase() === category.name.toLowerCase()
+                  ? "text-white font-semibold"
+                  : ""
+                  } bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded `}
                 onClick={() => {
                   router.push(
                     `/article?category=${category.name
                       .toLowerCase()
-                      .split(" ")
-                      .join("-")}`
+                      .split( " " )
+                      .join( "-" )}`
                   );
                 }}
               >
-                {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
+                {category.name.charAt( 0 ).toUpperCase() + category.name.slice( 1 )}
               </p>
-            ))}
+            ) )}
           </div>
         </div>
 
@@ -400,12 +391,12 @@ const ArticlePage = () => {
             </div>
           ) : (
             <>
-              {filteredPosts.map((post: any) => (
+              {filteredPosts.map( ( post: any ) => (
                 <div
                   key={post._id}
                   className="bg-[#0A090F] group w-full cursor-pointer sm:p-5 p-2  rounded-lg shadow-lg flex sm:space-x-5 space-x-3 mb-4 border border-[#17161B]"
                   onClick={() => {
-                    router.push(`/article/${post.permaLink}`);
+                    router.push( `/article/${post.permaLink}` );
                   }}
                 >
                   <img
@@ -425,39 +416,29 @@ const ArticlePage = () => {
                       className="sm:text-sm text-xs text-[#B0AFAF] sm:mb-3 mb-2 sm:line-clamp-2 line-clamp-1"
                       dangerouslySetInnerHTML={{__html: post.description}}
                     />
-                    <div className="flex items-center space-x-4 text-sm">
+                    <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm">
                       {post?.category && post.category.length > 0 && (
-                        <span className="bg-[#DF841C] text-[#000000] font-semibold px-2 sm:py-0.5 py-[1px] rounded">
-                       {/* Show only the first word in mobile */}
-                        <span className="block sm:hidden">
-                          {post.category[0].split(' ')[0]} 
+                        <span className="bg-[#DF841C] text-[#000000] font-semibold px-2 py-0.5 rounded">
+                          {post.category[0].split( ' ' )[0]}
                         </span>
-                        {/* Show full category on larger screens */}
-                        <span className="hidden sm:block">
-                          {post.category[0] ?? "No Category"} 
-                        </span>
-                      </span>
                       )}
-                      <span className="text-[#767676] text-sm">
+                      <span className="text-[#767676]">
                         {post?.createdAt
-                          ? formatDateTime(post.createdAt)
-                          : "No date available"}
+                          ? formatDateTime( post.createdAt )
+                          : "No date"}
                       </span>
-                      {/* here are views */}
-                      <div className="sm:block hidden">
-                      <span className="text-[#767676] flex items-center first-letter:">
+                      <span className="text-[#767676] flex items-center">
                         <FaEye className="mr-1" />
-                        {post?.views || 0} views
-                        </span> 
-                      </div>
+                        {post?.views || 0}
+                      </span>
                       <span className="text-[#767676] flex items-center">
                         <FaRegClock className="mr-1" />
-                        {post?.readingTime} min read
-                        </span>
+                        {post?.readingTime} min
+                      </span>
                     </div>
                   </div>
                 </div>
-              ))}
+              ) )}
             </>
           )}
         </div>
