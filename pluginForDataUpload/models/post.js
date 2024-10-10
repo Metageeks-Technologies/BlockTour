@@ -1,29 +1,8 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
-
-interface IPost extends Document {
-    title: string;
-    permaLink: string;
-    description: string;
-    publishedDate?: Date; 
-    visibility?: string; 
-    status: string;
-    category?: string[]; 
-    tags?: string[]; 
-    postSliderImageUrl?: string[]; 
-    postSettingImageUrl?: string; 
-    previewImageUrl?: string; 
-    authorId?: mongoose.Schema.Types.ObjectId;
-    authorName?: string;
-    creatorId?: mongoose.Schema.Types.ObjectId;
-    postType?: string; 
-    views?: number; 
-    bookmarkedBy?: mongoose.Schema.Types.ObjectId[];
-    readingTime?: number;
-    likes?: mongoose.Schema.Types.ObjectId[];
-}
+const mongoose = require( 'mongoose' )
+const { Schema } = mongoose;
 
 // Define the schema
-const PostSchema: Schema = new Schema( {
+const PostSchema = new Schema( {
     title: { type: String, required: true },
     permaLink: { type: String },
     description: { type: String, required: true },
@@ -47,11 +26,8 @@ const PostSchema: Schema = new Schema( {
 }, {
     timestamps: true,
     versionKey: false 
-});
+} );
 
-PostSchema.index({ title: 'text', description: 'text', tags: 'text', category: 'text' });
+const Post = mongoose.model('Post', PostSchema);
+module.exports = Post;
 
-// Create a model
-const Post: Model<IPost> = mongoose.model<IPost>('Post', PostSchema);
-
-export default Post;

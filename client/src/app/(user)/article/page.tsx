@@ -9,6 +9,7 @@ import React, {Suspense, useEffect, useMemo, useRef, useState} from "react";
 import {FaEye, FaFacebookSquare, FaLinkedin, FaRegClock} from "react-icons/fa";
 import {FaInstagram, FaXTwitter} from "react-icons/fa6";
 import {IoSearchOutline} from "react-icons/io5";
+import ReactPaginate from "react-paginate";
 
 export interface Post {
   _id: string;
@@ -19,6 +20,7 @@ export interface Post {
   previewImageUrl: string;
   status: string;
   createdAt: Date;
+  publishedDate: Date;
   visibility: string;
   updatedAt: string;
   category: string[];
@@ -46,6 +48,8 @@ const ArticlePage = () => {
   const posts = useAppSelector( ( state ) => state.post.posts );
   const categories = useAppSelector( ( state ) => state.category.categories );
   const termsCheckboxRef = useRef<HTMLInputElement>( null );
+  const [currentPage, setCurrentPage] = useState( 0 ); 
+  const postsPerPage = 10;  
 
   const category = searchParams.get( "category" );
   const categoryName = category?.replace( /-/g, " " );
@@ -68,7 +72,7 @@ const ArticlePage = () => {
   }, [dispatch, searchParams, router, categories.length, categoryName] );
 
   const filteredPosts = activeCategory.toLowerCase() === "all" ? posts : posts.filter( ( post: any ) => post.category && post.status.toLowerCase() === "published" && post.category.some( ( cat: any ) => cat.toLowerCase().includes( activeCategory.toLowerCase() ) ) );
-  // console.log( "filteredPosts", filteredPosts );
+  console.log( "filteredPosts", filteredPosts );
   const handleCategoryClick = ( category: string ) => {
     setActiveCategory( category );
     if ( category.toLowerCase() === 'all' ) {
@@ -79,7 +83,7 @@ const ArticlePage = () => {
       );
     }
   };
-
+  console.log( "poata:-", posts );
   // Sort posts by views and then filter by category;
   const trendingPosts = useMemo( () => {
     return posts
@@ -137,6 +141,23 @@ const ArticlePage = () => {
     }
   };
 
+  const truncateText = ( text: string, wordLimit: number ) => {
+    const words = text.split( ' ' );
+    return words.length > wordLimit ? words.slice( 0, wordLimit ).join( ' ' ) + '...' : text;
+  };
+
+  // Calculate the index of the last post on the current page
+  const lastPostIndex = ( currentPage + 1 ) * postsPerPage;
+  // Calculate the index of the first post on the current page
+  const firstPostIndex = lastPostIndex - postsPerPage;
+  // Get the current posts
+  const currentPosts = filteredPosts.slice( firstPostIndex, lastPostIndex );
+
+  // Handle page change
+  const handlePageChange = ( selectedPage: {selected: number;} ) => {
+    setCurrentPage( selectedPage.selected );
+  };
+
   const LoadingSkeleton = () => (
     <div className="animate-pulse">
       {/* Trending section skeleton */}
@@ -177,15 +198,13 @@ const ArticlePage = () => {
   };
 
   return (
-    <div className="lg:ml-52">
-      <div className="flex justify-between items-center p-4 ">
+    <div className="lg:ml-52 mx-auto max-w-[98rem] px-4">
+      <div className="flex justify-between items-center p-4">
         <h1 className="text-lg font-semibold">Article</h1>
         <div className="relative border border-[#28272D] rounded flex justify-between">
           <input
             type="text"
             placeholder="Search"
-            // value={searchQuery}
-            // onChange={( e ) => setSearchQuery( e.target.value )}
             className="bg-[#0A090F] text-[#7B7A7F] sm:w-80 w-40 px-4 py-2 rounded border-none focus:outline-none"
           />
           <button className="bg-[#DF841C] text-white px-3 py-1.5 rounded">
@@ -195,18 +214,17 @@ const ArticlePage = () => {
       </div>
 
       <div className="px-4">
-        <h1 className="text-lg font-semibold  text-[#999999]">Trending</h1>
+        <h1 className="text-lg font-semibold text-[#999999]">Trending</h1>
         {isLoading ? (
           <LoadingSkeleton />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6 mt-4 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
             {trendingPosts.length === 0 ? (
               <div className="bg-gray-700 rounded-xl h-80 flex justify-center items-center w-full col-span-4">
                 <div className="text-center text-gray-400 w-full">
                   <h1 className="text-2xl font-semibold">No posts found</h1>
                   <p className="text-sm text-gray-400">
-                    No posts found for "{activeCategory}". Please try again
-                    later.
+                    No posts found for "{activeCategory}". Please try again later.
                   </p>
                 </div>
               </div>
@@ -215,38 +233,27 @@ const ArticlePage = () => {
                 <div
                   key={post._id}
                   className="cursor-pointer group rounded-xl border border-[#17161B] overflow-hidden bg-[#0A090F] pb-4 shadow-lg hover:shadow-xl transition-shadow duration-300"
-                  style={{
-                    boxShadow:
-                      "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                  }}
                   onClick={() => router.push( `/article/${post.permaLink}` )}
                 >
                   <img
                     loading="lazy"
-                    src={post.previewImageUrl}
-                    alt={post.title}
+                    src="/asset/banner.jpg"
                     className="w-full h-44 object-cover rounded-t-md"
                   />
-
                   <div className="flex gap-2 items-center px-4 py-2 mt-2">
                     {post?.category && post.category.length > 0 && (
                       <span className="bg-[#DF841C] line-clamp-1 py-0.5 px-3 text-sm text-[#230E00] font-semibold">
-                        {post.category[0] ?? "No Category"}{" "}
+                        {post.category[0] ?? "No Category"}
                       </span>
                     )}
-
                     <span className="text-[#767676]">
-                      {post.createdAt
-                        ? formatDateTime( post.createdAt )
-                        : "No date available"}
+                      {post.publishedDate ? formatDateTime( post.publishedDate ) : "No date available"}
                     </span>
                   </div>
-
                   <div className="px-4">
                     <h1 className="text-lg font-semibold text-[#CCCCCC] line-clamp-2 leading-[1.4] group-hover:text-[#DF841C]">
-                      {post.title}
+                      {truncateText( post.title, 30 )}
                     </h1>
-
                     <div
                       className="text-sm text-[#B0AFAF] mt-2 mb-2 line-clamp-2"
                       dangerouslySetInnerHTML={{__html: post.description}}
@@ -256,7 +263,7 @@ const ArticlePage = () => {
               ) )
             )}
           </div>
-        )}
+        )} 
 
         <div className="bg-[#0A090F] text-white p-14 rounded-lg mt-5 border border-[#17161B]">
           <div className="flex lg:flex-row flex-col sm:justify-between justify-center gap-12 items-center">
@@ -350,26 +357,21 @@ const ArticlePage = () => {
           </div>
         </div>
 
-        <div className="sticky top-0 bg-black lg:block hidden ">
-          <div className="flex  gap-5 py-4 border-b border-[#17161B]  text-[#999999] items-center">
+        {/* Category Navigation */}
+        <div className="sticky top-0 px-8 bg-black lg:block hidden">
+          <div className="flex gap-5 py-4 border-b border-[#17161B] text-[#999999] items-center overflow-x-auto scrollbar-hide px-4 w-full">
             <p
-              className={`hover:text-white cursor-pointer flex-shrink-0 ${activeCategory.toLowerCase() === "all" ? "text-white font-semibold" : ""}`} onClick={() => handleCategoryClick( "All" )}  >
+              className={`hover:text-white cursor-pointer flex-shrink-0 ${activeCategory.toLowerCase() === "all" ? "text-white font-semibold" : ""}bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded transition duration-200 ease-in-out transform hover:scale-105`}
+              onClick={() => handleCategoryClick( "All" )}
+            >
               All
             </p>
             {categories.map( ( category: any ) => (
               <p
                 key={category._id}
-                className={`hover:text-white cursor-pointer flex-shrink-0 ${activeCategory.toLowerCase() === category.name.toLowerCase()
-                  ? "text-white font-semibold"
-                  : ""
-                  } bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded `}
+                className={`hover:text-white cursor-pointer flex-shrink-0 ${activeCategory.toLowerCase() === category.name.toLowerCase() ? "text-white font-semibold" : ""} bg-[#0A090F] py-1.5 px-4 border border-[#17161B] rounded transition duration-200 ease-in-out transform hover:scale-105`}
                 onClick={() => {
-                  router.push(
-                    `/article?category=${category.name
-                      .toLowerCase()
-                      .split( " " )
-                      .join( "-" )}`
-                  );
+                  router.push( `/article?category=${category.name.toLowerCase().split( " " ).join( "-" )}` );
                 }}
               >
                 {category.name.charAt( 0 ).toUpperCase() + category.name.slice( 1 )}
@@ -379,7 +381,7 @@ const ArticlePage = () => {
         </div>
 
         <div className="mx-auto mt-4">
-          {filteredPosts.length === 0 ? (
+          {currentPosts.length === 0 ? (
             <div className="bg-gray-700 rounded-xl h-80 flex justify-center items-center w-full col-span-4">
               <div className="text-center text-gray-400 w-full">
                 <h1 className="text-2xl font-semibold">No posts found</h1>
@@ -391,7 +393,7 @@ const ArticlePage = () => {
             </div>
           ) : (
             <>
-              {filteredPosts.map( ( post: any ) => (
+                {currentPosts.map( ( post: any ) => (
                 <div
                   key={post._id}
                   className="bg-[#0A090F] group w-full cursor-pointer sm:p-5 p-2  rounded-lg shadow-lg flex sm:space-x-5 space-x-3 mb-4 border border-[#17161B]"
@@ -400,7 +402,7 @@ const ArticlePage = () => {
                   }}
                 >
                   <img
-                    src={post.previewImageUrl}
+                    src={post.previewImageUrl || "/asset/banner.jpg"}
                     alt="Thumbnail"
                     className="sm:w-44 sm:h-32 w-32 h-24 object-cover"
                   />
@@ -414,8 +416,8 @@ const ArticlePage = () => {
                     </h3>
                     <div
                       className="sm:text-sm text-xs text-[#B0AFAF] sm:mb-3 mb-2 sm:line-clamp-2 line-clamp-1"
-                      dangerouslySetInnerHTML={{__html: post.description}}
-                    />
+                      dangerouslySetInnerHTML={{__html: truncateText( post.description, 30 )}}
+                       />
                     <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm">
                       {post?.category && post.category.length > 0 && (
                         <span className="bg-[#DF841C] text-[#000000] font-semibold px-2 py-0.5 rounded">
@@ -423,8 +425,8 @@ const ArticlePage = () => {
                         </span>
                       )}
                       <span className="text-[#767676]">
-                        {post?.createdAt
-                          ? formatDateTime( post.createdAt )
+                        {post?.publishedDate
+                          ? formatDateTime( post.publishedDate )
                           : "No date"}
                       </span>
                       <span className="text-[#767676] flex items-center">
@@ -441,6 +443,26 @@ const ArticlePage = () => {
               ) )}
             </>
           )}
+        </div>
+        {/* Pagination Component */}
+        <div className="flex justify-end mt-4">
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel={"..."}
+            pageCount={Math.ceil( filteredPosts.length / postsPerPage )} // Total pages
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageChange}
+            containerClassName={"flex space-x-2"}
+            pageClassName={"page-item"}
+            pageLinkClassName={"page-link bg-[#DF841C] text-white px-4 py-2 rounded hover:bg-[#BF6F1A] transition duration-200"}
+            previousClassName={"page-item"}
+            previousLinkClassName={"page-link bg-[#DF841C] text-white px-4 py-2 rounded hover:bg-[#BF6F1A] transition duration-200"}
+            nextClassName={"page-item"}
+            nextLinkClassName={"page-link bg-[#DF841C] text-white px-4 py-2 rounded hover:bg-[#BF6F1A] transition duration-200"}
+            activeClassName={"active bg-[#0A090F] text-[#fffff] font-bold text-3xl "} 
+          />
         </div>
       </div>
       <div className="bg-[#0A090F] w-full border-b border-[#1F1D24]">

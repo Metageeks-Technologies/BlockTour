@@ -81,7 +81,7 @@ export default function Home () {
                         <div className="flex flex-wrap gap-2.5 mt-4 text-sm font-bold">
                           <div className="px-1.5 py-1 bg-amber-600 text-stone-950">{post.category.join( ", " )}</div>
                           <div className="text-white text-opacity-50">
-                            {formatDateTime( post?.createdAt )}
+                            {formatDateTime( post?.publishedDate )}
                           </div>
                         </div>
                         <div className="mt-4 text-sm md:text-base font-medium text-white text-opacity-50 line-clamp-2">

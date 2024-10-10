@@ -23,7 +23,7 @@ interface Post {
   authorName: string;
   tags: string[];
   status: 'published' | 'draft' | 'trash';
-  createdAt: string;
+  createdAt: string; 
   publishedDate: string; // Add the 'publishedDate' property
 }
 
@@ -91,7 +91,7 @@ const PostsTable: React.FC = () => {
       const postA = a as Post;
       const postB = b as Post;
       if ( sortBy === 'date' ) {
-        return new Date( postB.createdAt ).getTime() - new Date( postA.createdAt ).getTime();
+        return new Date( postB.publishedDate ).getTime() - new Date( postA.publishedDate ).getTime();
       } else if ( sortBy === 'title' ) {
         return postA.title.localeCompare( postB.title );
       }

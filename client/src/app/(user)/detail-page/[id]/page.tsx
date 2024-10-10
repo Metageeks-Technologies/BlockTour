@@ -105,7 +105,7 @@ const CardDetails = () => {
                     </div>
 
                     <div className=" text-white text-opacity-50">
-                      {card?.authorName} | {formatDateTime( card?.createdAt )}
+                      {card?.authorName} | {formatDateTime( card?.publishedDate )}
                     </div>
                   </div>
                 </div>

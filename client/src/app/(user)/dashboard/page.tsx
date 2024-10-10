@@ -228,7 +228,7 @@ const Dashboard = () => {
                       {post.category.join( ", " )}
                     </button>
                     <p className="text-sm text-neutral-400 whitespace-nowrap">
-                      {formatDateTime( post.createdAt )}
+                      {formatDateTime( post.publishedDate )}
                     </p>
                   </div>
                   <div className="px-4">

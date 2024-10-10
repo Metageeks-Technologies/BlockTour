@@ -70,7 +70,7 @@ const Trending = () => {
                   <button className="bg-[#DF841C] py-0.5 px-3">
                     {card.category.join( ", " )}
                   </button>
-                  <p className="text-sm text-neutral-400">{formatDateTime( card.createdAt )}</p>
+                  <p className="text-sm text-neutral-400">{formatDateTime( card.publishedDate )}</p>
                   {/* views */}
                   <span className="text-neutral-400 text-sm flex items-center">
                     <FaEye className="mr-1 mt-0.5" />
@@ -128,7 +128,7 @@ const Trending = () => {
                       {card.title}
                     </p>
                     <p className="text-neutral-400 mt-3">
-                      {formatDateTime( card.createdAt )}
+                      {formatDateTime( card.publishedDate )}
                     </p>
                   </div>
                   <img
@@ -187,7 +187,7 @@ const Trending = () => {
                       {card.title}
                     </p>
                     <p className="text-neutral-400 mt-3">
-                      {formatDateTime( card.createdAt )}
+                      {formatDateTime( card.publishedDate )}
                     </p>
                   </div>
                   <img

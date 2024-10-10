@@ -29,10 +29,10 @@ const NFT = () => {
             <div className="py-3 rounded-xl bg-stone-950  ">
               <h1 className="text-xl font-medium leading-7 mb-3 group-hover:text-[#DF841C] line-clamp-2">{post.title}</h1>
               <div className="flex gap-3">
-                <button className="px-2 whitespace-nowrap bg-amber-600 text-stone-950">
-                  {post.category}
+                <button className="px-2 whitespace-nowrap bg-amber-600 text-stone-950 ">
+                  {post.category.join(", ")}
                 </button>
-                <p className="my-auto text-neutral-500">{formatDateTime( post.createdAt )}</p>
+                <p className="my-auto text-neutral-500">{formatDateTime( post.publishedDate )}</p>
                 <span className="text-neutral-400 text-sm flex items-center">
                   <FaEye className="mr-1 mt-0.5" />
                   {post.views || 0} views

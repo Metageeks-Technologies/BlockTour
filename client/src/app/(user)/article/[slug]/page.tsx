@@ -216,8 +216,8 @@ const CardDetails = () => {
                                                         </span>
                                                     )}
                                                     <span className="text-[#767676]">
-                                                        {post?.createdAt
-                                                            ? formatDateTime( post.createdAt )
+                                                        {post?.publishedDate
+                                                            ? formatDateTime( post.publishedDate )
                                                             : "No date available"}
                                                     </span>
                                                 </div>
@@ -244,7 +244,7 @@ const CardDetails = () => {
                                                         </div>
                                                     </div>
                                                     <div className="text-white text-opacity-50">
-                                                        {card?.authorName} | {formatDateTime( card?.createdAt )}
+                                                                {card?.authorName} | {formatDateTime( card?.publishedDate )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -378,7 +378,7 @@ const CardDetails = () => {
                                                             dangerouslySetInnerHTML={{__html: post.description}}
                                                         />
                                                         <div className="flex justify-between items-center text-sm text-[#767676]">
-                                                            <span>{formatDateTime( post.createdAt )}</span>
+                                                            <span>{formatDateTime( post.publishedDate )}</span>
                                                             <span>{post.readingTime} min read</span>
                                                         </div>
                                                     </div>
@@ -468,7 +468,7 @@ const CardDetails = () => {
                             className="h-20 w-20 rounded-full object-cover"
                         />
                         <div className="flex flex-col gap-3">
-                            <h2 className="text-xl font-semibold">Written by {author?.name || "Unknown"}</h2>
+                            <h2 className="text-xl font-semibold">Written by {author?.name || card.authorName}</h2>
                             <div className="flex flex-wrap gap-4 items-center">
                                 <p className="text-sm">{author?.posts?.length} Articles</p>
                                 <div className="flex gap-2">

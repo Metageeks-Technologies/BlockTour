@@ -143,3 +143,11 @@ input[type='checkbox']:checked::after {
 .slider-container .slick-dots li.slick-active button:before {
   opacity: 1;
 }
+
+ .scrollbar-hide::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+  }
+  .scrollbar-hide {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+  }

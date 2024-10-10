@@ -16,6 +16,7 @@ interface User {
   contributor: boolean;
   createdAt: string;
   updatedAt: string;
+  publishedDate: string;
   profileImage: string;
 }
 
@@ -62,7 +63,7 @@ const UserTable: React.FC = () => {
     // Apply sorting
     filtered.sort((a, b) => {
       if (sortBy === "date") {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        return new Date( b.publishedDate ).getTime() - new Date( a.publishedDate ).getTime();
       } else if (sortBy === "name") {
         return a.name.localeCompare(b.name);
       }

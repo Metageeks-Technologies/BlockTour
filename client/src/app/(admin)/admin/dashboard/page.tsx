@@ -17,6 +17,7 @@ interface Post {
   tags: string[];
   status: 'published' | 'draft' | 'trash';
   createdAt: string; // Changed from publishedDate to createdAt
+  publishedDate: string;
 }
 
 interface Contributor {
@@ -142,7 +143,7 @@ const AdminDashboard: React.FC = () => {
         const postA = a as Post;
         const postB = b as Post;
         if ( sortBy === 'date' ) {
-          return new Date( postB.createdAt ).getTime() - new Date( postA.createdAt ).getTime();
+          return new Date( postB.publishedDate ).getTime() - new Date( postA.publishedDate ).getTime();
         } else if ( sortBy === 'title' ) {
           return postA.title.localeCompare( postB.title );
         }
@@ -281,7 +282,7 @@ const AdminDashboard: React.FC = () => {
                       ) )}
                     </td>
                     <td className="py-3 px-4">{post.status}</td>
-                    <td className="py-3 px-4">{formatDateTime( post?.createdAt )}</td>
+                    <td className="py-3 px-4">{formatDateTime( post?.publishedDate )}</td>
                   </tr>
                 ) )
               )}

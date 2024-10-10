@@ -6,6 +6,7 @@ export const getAllPosts = async (dispatch:AppDispatch) => {
   dispatch(fetchPostsStart()); 
     try {
         const response = await instance.get( '/post/all-posts' );
+        console.log("response:-",response)
         dispatch(fetchPostsSuccess(response.data.posts.filter((post:any)=>post.status.toLowerCase()==="published")))
     } catch (error:any) {
         console.error( error );

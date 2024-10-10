@@ -6,7 +6,7 @@ import {FaEye} from "react-icons/fa";
 const Politics = () => {
   const router = useRouter();
   const posts = useAppSelector( ( state: any ) => state.post.posts );
-  const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Politics" ) || post.category.includes( "politics" ) ).reverse().slice( 0, 4 );
+  const publishedPosts = posts.filter( ( post: any ) => post.status.toLowerCase() === "published" && post.category.includes( "Politics" ) || post.category.includes( "politics" ) ).reverse().slice( 0, 3 );
 
   return (
     <div className="gap-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
@@ -29,9 +29,9 @@ const Politics = () => {
               <h1 className="text-xl font-medium leading-7 mb-3 group-hover:text-[#DF841C] line-clamp-2">{post.title}</h1>
               <div className="flex gap-3">
                 <button className="px-2 whitespace-nowrap bg-amber-600 text-stone-950">
-                  {post.category}
+                  {post.category.join(", ")}
                 </button>
-                <p className="my-auto text-neutral-500">{formatDateTime( post.createdAt )}</p>
+                <p className="my-auto text-neutral-500">{formatDateTime( post.publishedDate )}</p>
                 <span className="text-neutral-400 text-sm flex items-center">
                   {/* views */}
                   <FaEye className="mr-1 mt-0.5" />
